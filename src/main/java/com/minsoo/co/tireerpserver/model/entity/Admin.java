@@ -52,7 +52,10 @@ public class Admin {
     }
 
     public void update(AdminUpdateRequest updateRequest, Admin operator) {
-        this.userPw = updateRequest.getUserPw();
+        // 비밀번호가 null 인 경우 수정하지 않는다.
+        if (updateRequest.getUserPw() != null) {
+            this.userPw = updateRequest.getUserPw();
+        }
         this.name = updateRequest.getName();
         this.role = updateRequest.getRole();
         this.history = new AdminHistory(operator);

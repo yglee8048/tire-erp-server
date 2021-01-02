@@ -38,7 +38,7 @@ public class Warehouse {
         this.name = createRequest.getName();
         this.description = createRequest.getDescription();
         this.capacity = createRequest.getCapacity();
-        this.address = new Address(createRequest.getCity(), createRequest.getStreet(), createRequest.getDetail(), createRequest.getZipCode());
+        this.address = new Address(createRequest.getAddressCity(), createRequest.getAddressStreet(), createRequest.getAddressDetail(), createRequest.getZipCode());
         this.history = new AdminHistory(operator);
     }
 
@@ -50,7 +50,7 @@ public class Warehouse {
         this.name = updateRequest.getName();
         this.description = updateRequest.getDescription();
         this.capacity = updateRequest.getCapacity();
-        this.address = new Address(updateRequest.getCity(), updateRequest.getStreet(), updateRequest.getDetail(), updateRequest.getZipCode());
+        this.address = new Address(updateRequest.getAddressCity(), updateRequest.getAddressStreet(), updateRequest.getAddressDetail(), updateRequest.getZipCode());
         this.history = new AdminHistory(operator);
     }
 }

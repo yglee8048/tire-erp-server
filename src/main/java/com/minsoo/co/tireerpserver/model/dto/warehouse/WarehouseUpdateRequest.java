@@ -3,9 +3,12 @@ package com.minsoo.co.tireerpserver.model.dto.warehouse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+
 @Data
 public class WarehouseUpdateRequest {
 
+    @NotEmpty
     @JsonProperty("name")
     private String name;
 
@@ -15,16 +18,16 @@ public class WarehouseUpdateRequest {
     @JsonProperty("capacity")
     private Integer capacity;
 
-    @JsonProperty("city")
-    private String city;
+    @JsonProperty("address_city")
+    private String addressCity;
 
     // 도로명 주소
-    @JsonProperty("street_address")
-    private String street;
+    @JsonProperty("address_street")
+    private String addressStreet;
 
     // 상세 주소
-    @JsonProperty("detail_address")
-    private String detail;
+    @JsonProperty("address_detail")
+    private String addressDetail;
 
     // 우편번호
     @JsonProperty("zip_code")

@@ -1,0 +1,140 @@
+package com.minsoo.co.tireerpserver.api.v1.admin;
+
+import com.minsoo.co.tireerpserver.model.dto.ResponseDTO;
+import com.minsoo.co.tireerpserver.model.dto.brand.BrandCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.brand.BrandResponse;
+import com.minsoo.co.tireerpserver.model.dto.brand.BrandUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.vendor.VendorCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.vendor.VendorResponse;
+import com.minsoo.co.tireerpserver.model.dto.vendor.VendorUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseResponse;
+import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseUpdateRequest;
+import com.minsoo.co.tireerpserver.model.entity.Admin;
+import com.minsoo.co.tireerpserver.service.AdminService;
+import com.minsoo.co.tireerpserver.service.BrandService;
+import com.minsoo.co.tireerpserver.service.VendorService;
+import com.minsoo.co.tireerpserver.service.WarehouseService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Slf4j
+@RestController
+@RequestMapping(value = "/admin/api/v1")
+@RequiredArgsConstructor
+public class ManagementApiController {
+
+    private final AdminService adminService;
+    private final BrandService brandService;
+    private final VendorService vendorService;
+    private final WarehouseService warehouseService;
+
+    private Admin login() {
+        return adminService.findById(1L);
+    }
+
+    // BRAND
+    @GetMapping(value = "/brands")
+    public ResponseDTO<List<BrandResponse>> findAllBrands() {
+        List<BrandResponse> brandResponses = brandService.findAll().stream()
+                .map(BrandResponse::new)
+                .collect(Collectors.toList());
+        return new ResponseDTO<>(brandResponses);
+    }
+
+    @GetMapping(value = "/brands/{brandId}")
+    public ResponseDTO<BrandResponse> findBrandById(@PathVariable Long brandId) {
+        BrandResponse brandResponse = new BrandResponse(brandService.findById(brandId));
+        return new ResponseDTO<>(brandResponse);
+    }
+
+    @PostMapping(value = "/brands")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseDTO<BrandResponse> createBrand(@RequestBody @Valid BrandCreateRequest brandCreateRequest) {
+        BrandResponse brandResponse = new BrandResponse(brandService.create(brandCreateRequest, login()));
+        return new ResponseDTO<>(brandResponse);
+    }
+
+    @PutMapping(value = "/brands/{brandId}")
+    public ResponseDTO<BrandResponse> updateBrand(@PathVariable Long brandId, @RequestBody @Valid BrandUpdateRequest brandUpdateRequest) {
+        BrandResponse brandResponse = new BrandResponse(brandService.update(brandId, brandUpdateRequest, login()));
+        return new ResponseDTO<>(brandResponse);
+    }
+
+    @DeleteMapping(value = "/brands/{brandId}")
+    public void deleteBrand(@PathVariable Long brandId) {
+        brandService.remove(brandId);
+    }
+
+    // VENDOR
+    @GetMapping(value = "/vendors")
+    public ResponseDTO<List<VendorResponse>> findAllVendors() {
+        List<VendorResponse> vendorResponses = vendorService.findAll().stream()
+                .map(VendorResponse::new)
+                .collect(Collectors.toList());
+        return new ResponseDTO<>(vendorResponses);
+    }
+
+    @GetMapping(value = "/vendors/{vendorId}")
+    public ResponseDTO<VendorResponse> findVendorById(@PathVariable Long vendorId) {
+        VendorResponse vendorResponse = new VendorResponse(vendorService.findById(vendorId));
+        return new ResponseDTO<>(vendorResponse);
+    }
+
+    @PostMapping(value = "/vendors")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseDTO<VendorResponse> createVendor(@RequestBody @Valid VendorCreateRequest vendorCreateRequest) {
+        VendorResponse vendorResponse = new VendorResponse(vendorService.create(vendorCreateRequest, login()));
+        return new ResponseDTO<>(vendorResponse);
+    }
+
+    @PutMapping(value = "/vendors/{vendorId}")
+    public ResponseDTO<VendorResponse> updateVendor(@PathVariable Long vendorId, @RequestBody @Valid VendorUpdateRequest vendorUpdateRequest) {
+        VendorResponse vendorResponse = new VendorResponse(vendorService.update(vendorId, vendorUpdateRequest, login()));
+        return new ResponseDTO<>(vendorResponse);
+    }
+
+    @DeleteMapping(value = "/vendors/{vendorId}")
+    public void deleteVendor(@PathVariable Long vendorId) {
+        vendorService.remove(vendorId);
+    }
+
+    // WAREHOUSE
+    @GetMapping(value = "/warehouses")
+    public ResponseDTO<List<WarehouseResponse>> findAllWarehouses() {
+        List<WarehouseResponse> warehouseResponses = warehouseService.findAll().stream()
+                .map(WarehouseResponse::new)
+                .collect(Collectors.toList());
+        return new ResponseDTO<>(warehouseResponses);
+    }
+
+    @GetMapping(value = "/warehouses/{warehouseId}")
+    public ResponseDTO<WarehouseResponse> findWarehouseById(@PathVariable Long warehouseId) {
+        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouseService.findById(warehouseId));
+        return new ResponseDTO<>(warehouseResponse);
+    }
+
+    @PostMapping(value = "/warehouses")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseDTO<WarehouseResponse> createWarehouse(@RequestBody @Valid WarehouseCreateRequest warehouseCreateRequest) {
+        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouseService.create(warehouseCreateRequest, login()));
+        return new ResponseDTO<>(warehouseResponse);
+    }
+
+    @PutMapping(value = "/warehouses/{warehouseId}")
+    public ResponseDTO<WarehouseResponse> updateWarehouse(@PathVariable Long warehouseId, @RequestBody @Valid WarehouseUpdateRequest warehouseUpdateRequest) {
+        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouseService.update(warehouseId, warehouseUpdateRequest, login()));
+        return new ResponseDTO<>(warehouseResponse);
+    }
+
+    @DeleteMapping(value = "/warehouses/{warehouseId}")
+    public void deleteWarehouse(@PathVariable Long warehouseId) {
+        warehouseService.remove(warehouseId);
+    }
+}
