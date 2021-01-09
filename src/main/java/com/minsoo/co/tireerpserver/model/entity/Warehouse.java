@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseUpdateRequest;
+import com.minsoo.co.tireerpserver.model.entity.audit.BaseEntity;
 import com.minsoo.co.tireerpserver.model.entity.embedded.Address;
 import com.minsoo.co.tireerpserver.model.entity.embedded.AdminHistory;
 import lombok.*;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "warehouse", uniqueConstraints = {@UniqueConstraint(name = "warehouse_name_unique", columnNames = {"name"})})
-public class Warehouse {
+public class Warehouse extends BaseEntity {
 
     @Id
     @Column(name = "warehouse_id", length = 20)

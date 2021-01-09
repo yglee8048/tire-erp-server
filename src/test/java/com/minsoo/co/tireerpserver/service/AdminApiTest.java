@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
-import com.minsoo.co.tireerpserver.api.v1.admin.AdminApiController;
+import com.minsoo.co.tireerpserver.api.v1.admin.AdminApi;
 import com.minsoo.co.tireerpserver.model.code.AdminRole;
 import com.minsoo.co.tireerpserver.model.dto.ResponseDTO;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminCreateRequest;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.*;
 public class AdminApiTest {
 
     @Autowired
-    AdminApiController adminApiController;
+    AdminApi adminApi;
 
     @Autowired
     AdminService adminService;
@@ -34,7 +34,7 @@ public class AdminApiTest {
         createRequest.setRole(AdminRole.ADMIN);
 
         // when
-        ResponseDTO<AdminResponse> response = adminApiController.createAdmin(createRequest);
+        ResponseDTO<AdminResponse> response = adminApi.createAdmin(createRequest);
         Long id = response.getContents().getId();
 
         // then
@@ -56,9 +56,9 @@ public class AdminApiTest {
         createRequest.setRole(AdminRole.ADMIN);
 
         // when
-        adminApiController.createAdmin(createRequest);
+        adminApi.createAdmin(createRequest);
 
         // then
-        assertThatThrownBy(() -> adminApiController.createAdmin(createRequest)).isInstanceOf(AlreadyExistException.class);
+        assertThatThrownBy(() -> adminApi.createAdmin(createRequest)).isInstanceOf(AlreadyExistException.class);
     }
 }

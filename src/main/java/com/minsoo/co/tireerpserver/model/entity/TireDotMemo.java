@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
+import com.minsoo.co.tireerpserver.model.entity.audit.BaseEntity;
 import com.minsoo.co.tireerpserver.model.entity.embedded.AdminHistory;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "tire_dot_memo")
-public class TireDotMemo {
+public class TireDotMemo extends BaseEntity {
 
     @Id
     @Column(name = "tire_dot_memo_id", length = 20)

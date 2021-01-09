@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.dto.vendor.VendorCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.vendor.VendorUpdateRequest;
+import com.minsoo.co.tireerpserver.model.entity.audit.BaseEntity;
 import com.minsoo.co.tireerpserver.model.entity.embedded.AdminHistory;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "vendor", uniqueConstraints = {@UniqueConstraint(name = "vendor_name_unique", columnNames = {"name"})})
-public class Vendor {
+public class Vendor extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

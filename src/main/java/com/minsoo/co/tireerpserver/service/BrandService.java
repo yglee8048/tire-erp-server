@@ -39,8 +39,8 @@ public class BrandService {
     }
 
     @Transactional
-    public Brand update(Long id, BrandUpdateRequest updateRequest, Admin operator) {
-        Brand brand = this.findById(id);
+    public Brand update(BrandUpdateRequest updateRequest, Admin operator) {
+        Brand brand = this.findById(updateRequest.getId());
         if (!brand.getName().equals(updateRequest.getName()) && brandRepository.existsByName(updateRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");
         }

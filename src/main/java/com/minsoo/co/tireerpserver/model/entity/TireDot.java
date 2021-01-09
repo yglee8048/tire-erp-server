@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
+import com.minsoo.co.tireerpserver.model.entity.audit.BaseEntity;
 import com.minsoo.co.tireerpserver.model.entity.embedded.AdminHistory;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "tire_dot")
-public class TireDot {
+public class TireDot extends BaseEntity {
 
     @Id
     @Column(name = "tire_dot_id", length = 20)
@@ -30,6 +31,9 @@ public class TireDot {
 
     @Column(name = "price", nullable = false)
     private Integer price;
+
+    @OneToMany(mappedBy = "tireDot", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Stock> stocks = new ArrayList<>();
 
     @OneToMany(mappedBy = "tireDot", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TireDotMemo> tireDotMemos = new ArrayList<>();

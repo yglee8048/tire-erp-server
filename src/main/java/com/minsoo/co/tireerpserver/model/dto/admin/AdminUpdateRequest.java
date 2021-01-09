@@ -10,6 +10,10 @@ import javax.validation.constraints.NotEmpty;
 public class AdminUpdateRequest {
 
     @NotEmpty
+    @JsonProperty("id")
+    private Long id;
+
+    @NotEmpty
     @JsonProperty("user_id")
     private String userId;
 

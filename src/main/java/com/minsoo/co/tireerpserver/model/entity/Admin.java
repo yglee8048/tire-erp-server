@@ -4,6 +4,7 @@ import com.minsoo.co.tireerpserver.api.error.errors.ForbiddenException;
 import com.minsoo.co.tireerpserver.model.code.AdminRole;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminUpdateRequest;
+import com.minsoo.co.tireerpserver.model.entity.audit.BaseEntity;
 import com.minsoo.co.tireerpserver.model.entity.embedded.AdminHistory;
 import lombok.*;
 
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "admin", uniqueConstraints = {@UniqueConstraint(name = "user_id_unique", columnNames = {"user_id"})})
-public class Admin {
+public class Admin extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
