@@ -1,7 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.4.1'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.asciidoctor.convert' version '1.5.8'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10" // QUERY DSL
     id 'java'
 }
 
@@ -19,28 +20,41 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'javax.validation:validation-api'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'javax.validation:validation-api'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'com.querydsl:querydsl-jpa'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7' // 쿼리 로깅 : 로컬 및 개발 테스트용(운영 시 성능 감소)
 
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
+//	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
 test {
+    outputs.dir snippetsDir
     useJUnitPlatform()
 }
 
-//querydsl 추가 시작
+// SPRING REST DOC
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+// QUERY DSL
 def querydslDir = "$buildDir/generated/querydsl"
 querydsl {
     jpa = true
