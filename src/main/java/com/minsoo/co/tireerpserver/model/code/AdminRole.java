@@ -1,5 +1,5 @@
 package com.minsoo.co.tireerpserver.model.code;
 
 public enum AdminRole {
-    SUPER_ADMIN, ADMIN;
+    ROOT, SUPER_ADMIN, ADMIN;
 }
