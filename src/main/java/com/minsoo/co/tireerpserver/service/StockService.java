@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
+import com.minsoo.co.tireerpserver.model.dto.stock.TireStockParamResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.entity.Stock;
 import com.minsoo.co.tireerpserver.repository.StockRepository;
@@ -21,6 +22,13 @@ public class StockService {
 
     public List<TireStockResponse> findTireStocks(String size, String brandName, String pattern, String productId) {
         return stockRepository.findTireStocks(size, brandName, pattern, productId);
+    }
+
+    public TireStockParamResponse findTireStockParams() {
+        TireStockParamResponse paramResponse = new TireStockParamResponse();
+        stockRepository.findTireStockParams()
+                .forEach(paramResponse::addParams);
+        return paramResponse;
     }
 
     public List<Stock> findAllByTireId(Long tireId) {

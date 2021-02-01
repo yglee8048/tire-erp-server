@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/admin/api/v1")
+@RequestMapping(value = "/admin/api/v1/tires")
 @RequiredArgsConstructor
 public class TireApi {
 
     private final TireService tireService;
 
-    @GetMapping(value = "/tires")
+    @GetMapping
     public ResponseDTO<List<TireResponse>> findAllTires() {
         return new ResponseDTO<>(tireService.findAll()
                 .stream()
@@ -28,17 +28,17 @@ public class TireApi {
                 .collect(Collectors.toList()));
     }
 
-    @GetMapping(value = "/tires/{tireId}")
+    @GetMapping(value = "/{tireId}")
     public ResponseDTO<TireResponse> findTireById(@PathVariable Long tireId) {
         return new ResponseDTO<>(new TireResponse(tireService.findById(tireId)));
     }
 
-    @PostMapping(value = "/tires")
+    @PostMapping
     public ResponseDTO<TireResponse> createTire(@RequestBody TireCreateRequest createRequest) {
         return new ResponseDTO<>(new TireResponse(tireService.create(createRequest)));
     }
 
-    @PutMapping(value = "/tires")
+    @PutMapping
     public ResponseDTO<TireResponse> updateTire(@RequestBody TireUpdateRequest updateRequest) {
         return new ResponseDTO<>(new TireResponse(tireService.update(updateRequest)));
     }

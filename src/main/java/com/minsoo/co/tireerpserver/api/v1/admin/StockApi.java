@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.api.v1.admin;
 
 import com.minsoo.co.tireerpserver.model.dto.ResponseDTO;
 import com.minsoo.co.tireerpserver.model.dto.stock.StockResponse;
+import com.minsoo.co.tireerpserver.model.dto.stock.TireStockParamResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.service.StockService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,11 @@ public class StockApi {
                                                                 @RequestParam(value = "pattern", required = false) String pattern,
                                                                 @RequestParam(value = "product_id", required = false) String productId) {
         return new ResponseDTO<>(stockService.findTireStocks(size, brandName, pattern, productId));
+    }
+
+    @GetMapping(value = "/tires/params")
+    private ResponseDTO<TireStockParamResponse> findTireStockParams() {
+        return new ResponseDTO<>(stockService.findTireStockParams());
     }
 
     @GetMapping(value = "/tires/{tireId}/dots")

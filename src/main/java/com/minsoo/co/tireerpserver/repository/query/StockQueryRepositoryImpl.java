@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.repository.query;
 
 import com.minsoo.co.tireerpserver.model.dto.management.tire.TireResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
+import com.minsoo.co.tireerpserver.model.dto.stock.TireStockParams;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -55,6 +56,19 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
                 .leftJoin(tireDot.stocks, stock)
                 .where(tireSizeEq(size), brandNameEq(brandName), patternEq(pattern), productIdEq(productId))
                 .groupBy(tire.id)
+                .fetch();
+    }
+
+    @Override
+    public List<TireStockParams> findTireStockParams() {
+        return queryFactory
+                .select(Projections.fields(TireStockParams.class,
+                        tire.width.stringValue().concat(tire.flatnessRatio.stringValue()).concat(tire.inch.stringValue()).as("size"),
+                        brand.name.as("brandName"),
+                        tire.pattern.as("pattern"),
+                        tire.productId.as("productId")))
+                .from(tire)
+                .join(tire.brand, brand)
                 .fetch();
     }
 
