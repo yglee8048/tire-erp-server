@@ -16,7 +16,7 @@ import static lombok.AccessLevel.*;
 public class Stock {
 
     @Id
-    @Column(name = "warehouse_id", length = 20)
+    @Column(name = "stock_id", length = 20)
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 

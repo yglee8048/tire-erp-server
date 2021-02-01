@@ -3,8 +3,8 @@ package com.minsoo.co.tireerpserver.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
@@ -36,5 +36,8 @@ public class TireDot {
     private Integer price;
 
     @OneToMany(mappedBy = "tireDot", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private List<TireDotMemo> tireDotMemos = new ArrayList<>();
+    private Set<TireDotMemo> tireDotMemos = new HashSet<>();
+
+    @OneToMany(mappedBy = "tireDot", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private Set<Stock> stocks = new HashSet<>();
 }
