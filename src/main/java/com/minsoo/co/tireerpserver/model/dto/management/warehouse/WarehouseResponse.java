@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.dto.warehouse;
+package com.minsoo.co.tireerpserver.model.dto.management.warehouse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.entity.Warehouse;

@@ -1,15 +1,15 @@
 package com.minsoo.co.tireerpserver.api.v1.admin;
 
 import com.minsoo.co.tireerpserver.model.dto.ResponseDTO;
-import com.minsoo.co.tireerpserver.model.dto.brand.BrandCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.brand.BrandResponse;
-import com.minsoo.co.tireerpserver.model.dto.brand.BrandUpdateRequest;
-import com.minsoo.co.tireerpserver.model.dto.vendor.VendorCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.vendor.VendorResponse;
-import com.minsoo.co.tireerpserver.model.dto.vendor.VendorUpdateRequest;
-import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseResponse;
-import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
+import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseUpdateRequest;
 import com.minsoo.co.tireerpserver.service.BrandService;
 import com.minsoo.co.tireerpserver.service.VendorService;
 import com.minsoo.co.tireerpserver.service.WarehouseService;

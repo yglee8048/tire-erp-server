@@ -1,9 +1,8 @@
 package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireUpdateRequest;
-import com.minsoo.co.tireerpserver.model.entity.Admin;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.TireCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.TireUpdateRequest;
 import com.minsoo.co.tireerpserver.model.entity.Brand;
 import com.minsoo.co.tireerpserver.model.entity.Tire;
 import com.minsoo.co.tireerpserver.repository.TireRepository;

@@ -1,15 +1,25 @@
-package com.minsoo.co.tireerpserver.model.dto.tire;
+package com.minsoo.co.tireerpserver.model.dto.management.tire;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.TireOption;
-import com.minsoo.co.tireerpserver.model.dto.brand.BrandResponse;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import lombok.Data;
 
-@Data
-public class TireCreateRequest {
+import javax.validation.constraints.NotEmpty;
 
+@Data
+public class TireUpdateRequest {
+
+    @NotEmpty
+    @JsonProperty("id")
+    private Long id;
+
+    @NotEmpty
     @JsonProperty("brand")
     private BrandResponse brand;
+
+    @JsonProperty("product_id")
+    private String productId;
 
     @JsonProperty("label")
     private String label;

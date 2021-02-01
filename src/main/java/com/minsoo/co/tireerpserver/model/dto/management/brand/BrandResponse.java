@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.dto.brand;
+package com.minsoo.co.tireerpserver.model.dto.management.brand;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.entity.Brand;

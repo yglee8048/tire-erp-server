@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
-import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseUpdateRequest;
 import com.minsoo.co.tireerpserver.model.entity.embedded.Address;
 import lombok.*;
 

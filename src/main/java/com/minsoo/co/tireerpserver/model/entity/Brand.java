@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
-import com.minsoo.co.tireerpserver.model.dto.brand.BrandCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.brand.BrandUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandUpdateRequest;
 import lombok.*;
 
 import javax.persistence.*;

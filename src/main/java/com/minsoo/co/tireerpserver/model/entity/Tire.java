@@ -1,8 +1,8 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.code.TireOption;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.TireCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.TireUpdateRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -71,6 +71,7 @@ public class Tire {
 
     private Tire(TireCreateRequest createRequest, Brand brand) {
         this.brand = brand;
+        this.productId = createRequest.getProductId();
         this.label = createRequest.getLabel();
         this.width = createRequest.getWidth();
         this.flatnessRatio = createRequest.getFlatnessRatio();
@@ -90,6 +91,7 @@ public class Tire {
 
     public void update(TireUpdateRequest updateRequest, Brand brand) {
         this.brand = brand;
+        this.productId = updateRequest.getProductId();
         this.label = updateRequest.getLabel();
         this.width = updateRequest.getWidth();
         this.flatnessRatio = updateRequest.getFlatnessRatio();

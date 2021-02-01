@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
-import com.minsoo.co.tireerpserver.model.dto.vendor.VendorCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.vendor.VendorUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorUpdateRequest;
 import lombok.*;
 
 import javax.persistence.*;

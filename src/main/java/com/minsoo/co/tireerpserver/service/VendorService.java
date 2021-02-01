@@ -2,8 +2,8 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.vendor.VendorCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.vendor.VendorUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorUpdateRequest;
 import com.minsoo.co.tireerpserver.model.entity.Vendor;
 import com.minsoo.co.tireerpserver.repository.VendorRepository;
 import lombok.RequiredArgsConstructor;

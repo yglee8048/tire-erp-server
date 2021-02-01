@@ -2,8 +2,8 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.brand.BrandCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.brand.BrandUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandUpdateRequest;
 import com.minsoo.co.tireerpserver.model.entity.Brand;
 import com.minsoo.co.tireerpserver.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;

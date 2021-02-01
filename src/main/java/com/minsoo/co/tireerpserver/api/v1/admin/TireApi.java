@@ -1,9 +1,9 @@
 package com.minsoo.co.tireerpserver.api.v1.admin;
 
 import com.minsoo.co.tireerpserver.model.dto.ResponseDTO;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.TireCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.TireResponse;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.TireUpdateRequest;
 import com.minsoo.co.tireerpserver.service.TireService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -2,8 +2,8 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseUpdateRequest;
 import com.minsoo.co.tireerpserver.model.entity.Warehouse;
 import com.minsoo.co.tireerpserver.repository.WarehouseRepository;
 import lombok.RequiredArgsConstructor;

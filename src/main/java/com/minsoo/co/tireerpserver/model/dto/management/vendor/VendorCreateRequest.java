@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.dto.vendor;
+package com.minsoo.co.tireerpserver.model.dto.management.vendor;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
