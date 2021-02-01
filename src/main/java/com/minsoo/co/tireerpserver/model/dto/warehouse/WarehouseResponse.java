@@ -40,8 +40,8 @@ public class WarehouseResponse {
         this.description = warehouse.getDescription();
         this.capacity = warehouse.getCapacity();
         this.addressCity = warehouse.getAddress().getCity();
-        this.addressStreet = warehouse.getAddress().getStreet();
-        this.addressDetail = warehouse.getAddress().getDetail();
+        this.addressStreet = warehouse.getAddress().getStreetAddress();
+        this.addressDetail = warehouse.getAddress().getDetailAddress();
         this.zipCode = warehouse.getAddress().getZipCode();
     }
 }
