@@ -10,8 +10,6 @@ import com.minsoo.co.tireerpserver.model.dto.vendor.VendorUpdateRequest;
 import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseResponse;
 import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseUpdateRequest;
-import com.minsoo.co.tireerpserver.model.entity.Admin;
-import com.minsoo.co.tireerpserver.service.AdminService;
 import com.minsoo.co.tireerpserver.service.BrandService;
 import com.minsoo.co.tireerpserver.service.VendorService;
 import com.minsoo.co.tireerpserver.service.WarehouseService;
@@ -30,14 +28,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ManagementApiController {
 
-    private final AdminService adminService;
     private final BrandService brandService;
     private final VendorService vendorService;
     private final WarehouseService warehouseService;
-
-    private Admin login() {
-        return adminService.findById(1L);
-    }
 
     // BRAND
     @GetMapping(value = "/brands")
@@ -57,13 +50,13 @@ public class ManagementApiController {
     @PostMapping(value = "/brands")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDTO<BrandResponse> createBrand(@RequestBody @Valid BrandCreateRequest brandCreateRequest) {
-        BrandResponse brandResponse = new BrandResponse(brandService.create(brandCreateRequest, login()));
+        BrandResponse brandResponse = new BrandResponse(brandService.create(brandCreateRequest));
         return new ResponseDTO<>(brandResponse);
     }
 
     @PutMapping(value = "/brands/{brandId}")
     public ResponseDTO<BrandResponse> updateBrand(@PathVariable Long brandId, @RequestBody @Valid BrandUpdateRequest brandUpdateRequest) {
-        BrandResponse brandResponse = new BrandResponse(brandService.update(brandId, brandUpdateRequest, login()));
+        BrandResponse brandResponse = new BrandResponse(brandService.update(brandId, brandUpdateRequest));
         return new ResponseDTO<>(brandResponse);
     }
 
@@ -90,13 +83,13 @@ public class ManagementApiController {
     @PostMapping(value = "/vendors")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDTO<VendorResponse> createVendor(@RequestBody @Valid VendorCreateRequest vendorCreateRequest) {
-        VendorResponse vendorResponse = new VendorResponse(vendorService.create(vendorCreateRequest, login()));
+        VendorResponse vendorResponse = new VendorResponse(vendorService.create(vendorCreateRequest));
         return new ResponseDTO<>(vendorResponse);
     }
 
     @PutMapping(value = "/vendors/{vendorId}")
     public ResponseDTO<VendorResponse> updateVendor(@PathVariable Long vendorId, @RequestBody @Valid VendorUpdateRequest vendorUpdateRequest) {
-        VendorResponse vendorResponse = new VendorResponse(vendorService.update(vendorId, vendorUpdateRequest, login()));
+        VendorResponse vendorResponse = new VendorResponse(vendorService.update(vendorId, vendorUpdateRequest));
         return new ResponseDTO<>(vendorResponse);
     }
 
@@ -123,13 +116,13 @@ public class ManagementApiController {
     @PostMapping(value = "/warehouses")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDTO<WarehouseResponse> createWarehouse(@RequestBody @Valid WarehouseCreateRequest warehouseCreateRequest) {
-        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouseService.create(warehouseCreateRequest, login()));
+        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouseService.create(warehouseCreateRequest));
         return new ResponseDTO<>(warehouseResponse);
     }
 
     @PutMapping(value = "/warehouses/{warehouseId}")
     public ResponseDTO<WarehouseResponse> updateWarehouse(@PathVariable Long warehouseId, @RequestBody @Valid WarehouseUpdateRequest warehouseUpdateRequest) {
-        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouseService.update(warehouseId, warehouseUpdateRequest, login()));
+        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouseService.update(warehouseId, warehouseUpdateRequest));
         return new ResponseDTO<>(warehouseResponse);
     }
 

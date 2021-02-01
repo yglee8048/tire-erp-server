@@ -1,27 +1,34 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.code.TireOption;
-import com.minsoo.co.tireerpserver.model.entity.embedded.AdminHistory;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.EnumType.*;
+import static javax.persistence.FetchType.*;
+import static javax.persistence.GenerationType.*;
+import static lombok.AccessLevel.*;
+
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 @Entity
-@Table(name = "tire")
+@Table(name = "tire", uniqueConstraints = {@UniqueConstraint(name = "tire_product_id_unique", columnNames = {"product_id"})})
 public class Tire {
 
     @Id
     @Column(name = "tire_id", length = 20)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
+
+    @Column(name = "product_id", nullable = false)
+    private String productId;
 
     @Column(name = "label")
     private String label;
@@ -50,15 +57,13 @@ public class Tire {
     @Column(name = "run_flat")
     private boolean runFlat;
 
+    @Enumerated(STRING)
     @Column(name = "option")
     private TireOption option;
 
     @Column(name = "oe")
     private String oe;
 
-    @OneToMany(mappedBy = "tire", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "tire", fetch = LAZY)
     private List<TireDot> tireDots = new ArrayList<>();
-
-    @Embedded
-    private AdminHistory history;
 }

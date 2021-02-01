@@ -5,8 +5,10 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import static lombok.AccessLevel.*;
+
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
@@ -19,11 +21,11 @@ public class Address {
 
     // 도로명 주소
     @Column(name = "street_address")
-    private String street;
+    private String streetAddress;
 
     // 상세 주소
     @Column(name = "detail_address")
-    private String detail;
+    private String detailAddress;
 
     // 우편번호
     @Column(name = "zip_code")

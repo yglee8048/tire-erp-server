@@ -1,22 +1,25 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
-import com.minsoo.co.tireerpserver.model.entity.embedded.AdminHistory;
 import lombok.*;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.*;
+import static javax.persistence.GenerationType.*;
+import static lombok.AccessLevel.*;
+
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 @Entity
 @Table(name = "tire_dot_memo")
 public class TireDotMemo {
 
     @Id
     @Column(name = "tire_dot_memo_id", length = 20)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "tire_dot_id")
     private TireDot tireDot;
 
@@ -25,7 +28,4 @@ public class TireDotMemo {
 
     @Column(name = "open", nullable = false)
     private boolean open;
-
-    @Embedded
-    private AdminHistory history;
 }

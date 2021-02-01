@@ -4,7 +4,6 @@ import com.minsoo.co.tireerpserver.model.dto.ResponseDTO;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminResponse;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminUpdateRequest;
-import com.minsoo.co.tireerpserver.model.entity.Admin;
 import com.minsoo.co.tireerpserver.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +22,6 @@ public class AdminApiController {
 
     private final AdminService adminService;
 
-    private Admin login() {
-        return adminService.findById(1L);
-    }
-
     @GetMapping(value = "/admins")
     public List<AdminResponse> findAll() {
         return adminService.findAll().stream()
@@ -43,13 +38,13 @@ public class AdminApiController {
     @PostMapping(value = "/admins")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDTO<AdminResponse> createAdmin(@RequestBody @Valid AdminCreateRequest adminCreateRequest) {
-        AdminResponse adminResponse = new AdminResponse(adminService.create(adminCreateRequest, login()));
+        AdminResponse adminResponse = new AdminResponse(adminService.create(adminCreateRequest));
         return new ResponseDTO<>(adminResponse);
     }
 
     @PutMapping(value = "/admins/{adminId}")
     public ResponseDTO<AdminResponse> updateAdmin(@PathVariable Long adminId, @RequestBody @Valid AdminUpdateRequest adminUpdateRequest) {
-        AdminResponse adminResponse = new AdminResponse(adminService.update(adminId, adminUpdateRequest, login()));
+        AdminResponse adminResponse = new AdminResponse(adminService.update(adminId, adminUpdateRequest));
         return new ResponseDTO<>(adminResponse);
     }
 

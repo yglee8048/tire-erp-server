@@ -30,20 +30,20 @@ public class AdminService {
     }
 
     @Transactional
-    public Admin create(AdminCreateRequest createRequest, Admin operator) {
+    public Admin create(AdminCreateRequest createRequest) {
         if (adminRepository.existsByUserId(createRequest.getUserId())) {
             throw new AlreadyExistException("이미 존재하는 아이디입니다.");
         }
-        return adminRepository.save(Admin.create(createRequest, operator));
+        return adminRepository.save(Admin.of(createRequest));
     }
 
     @Transactional
-    public Admin update(Long id, AdminUpdateRequest updateRequest, Admin operator) {
+    public Admin update(Long id, AdminUpdateRequest updateRequest) {
         Admin admin = this.findById(id);
         if (!admin.getUserId().equals(updateRequest.getUserId()) && adminRepository.existsByUserId(updateRequest.getUserId())) {
             throw new AlreadyExistException("이미 존재하는 아이디입니다.");
         }
-        admin.update(updateRequest, operator);
+        admin.update(updateRequest);
         return admin;
     }
 

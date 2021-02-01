@@ -4,7 +4,6 @@ import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.vendor.VendorCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.vendor.VendorUpdateRequest;
-import com.minsoo.co.tireerpserver.model.entity.Admin;
 import com.minsoo.co.tireerpserver.model.entity.Vendor;
 import com.minsoo.co.tireerpserver.repository.VendorRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,20 +30,20 @@ public class VendorService {
     }
 
     @Transactional
-    public Vendor create(VendorCreateRequest createRequest, Admin operator) {
+    public Vendor create(VendorCreateRequest createRequest) {
         if (vendorRepository.existsByName(createRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");
         }
-        return vendorRepository.save(Vendor.create(createRequest, operator));
+        return vendorRepository.save(Vendor.of(createRequest));
     }
 
     @Transactional
-    public Vendor update(Long id, VendorUpdateRequest updateRequest, Admin operator) {
+    public Vendor update(Long id, VendorUpdateRequest updateRequest) {
         Vendor vendor = this.findById(id);
         if (!vendor.getName().equals(updateRequest.getName()) && vendorRepository.existsByName(updateRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");
         }
-        vendor.update(updateRequest, operator);
+        vendor.update(updateRequest);
         return vendor;
     }
 

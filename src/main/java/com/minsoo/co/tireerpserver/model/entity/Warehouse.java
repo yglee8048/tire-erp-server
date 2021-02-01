@@ -3,20 +3,22 @@ package com.minsoo.co.tireerpserver.model.entity;
 import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.warehouse.WarehouseUpdateRequest;
 import com.minsoo.co.tireerpserver.model.entity.embedded.Address;
-import com.minsoo.co.tireerpserver.model.entity.embedded.AdminHistory;
 import lombok.*;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.*;
+import static lombok.AccessLevel.*;
+
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 @Entity
 @Table(name = "warehouse", uniqueConstraints = {@UniqueConstraint(name = "warehouse_name_unique", columnNames = {"name"})})
 public class Warehouse {
 
     @Id
     @Column(name = "warehouse_id", length = 20)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column(name = "name", nullable = false)
@@ -31,26 +33,21 @@ public class Warehouse {
     @Embedded
     private Address address;
 
-    @Embedded
-    private AdminHistory history;
-
-    private Warehouse(WarehouseCreateRequest createRequest, Admin operator) {
+    private Warehouse(WarehouseCreateRequest createRequest) {
         this.name = createRequest.getName();
         this.description = createRequest.getDescription();
         this.capacity = createRequest.getCapacity();
         this.address = new Address(createRequest.getAddressCity(), createRequest.getAddressStreet(), createRequest.getAddressDetail(), createRequest.getZipCode());
-        this.history = new AdminHistory(operator);
     }
 
-    public static Warehouse create(WarehouseCreateRequest createRequest, Admin operator) {
-        return new Warehouse(createRequest, operator);
+    public static Warehouse of(WarehouseCreateRequest createRequest) {
+        return new Warehouse(createRequest);
     }
 
-    public void update(WarehouseUpdateRequest updateRequest, Admin operator) {
+    public void update(WarehouseUpdateRequest updateRequest) {
         this.name = updateRequest.getName();
         this.description = updateRequest.getDescription();
         this.capacity = updateRequest.getCapacity();
         this.address = new Address(updateRequest.getAddressCity(), updateRequest.getAddressStreet(), updateRequest.getAddressDetail(), updateRequest.getZipCode());
-        this.history = new AdminHistory(operator);
     }
 }

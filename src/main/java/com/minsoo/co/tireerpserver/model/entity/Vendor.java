@@ -2,19 +2,21 @@ package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.dto.vendor.VendorCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.vendor.VendorUpdateRequest;
-import com.minsoo.co.tireerpserver.model.entity.embedded.AdminHistory;
 import lombok.*;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.*;
+import static lombok.AccessLevel.*;
+
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 @Entity
 @Table(name = "vendor", uniqueConstraints = {@UniqueConstraint(name = "vendor_name_unique", columnNames = {"name"})})
 public class Vendor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "vendor_id", length = 20)
     private Long id;
 
@@ -24,22 +26,17 @@ public class Vendor {
     @Column(name = "description")
     private String description;
 
-    @Embedded
-    private AdminHistory history;
-
-    private Vendor(VendorCreateRequest createRequest, Admin operator) {
+    private Vendor(VendorCreateRequest createRequest) {
         this.name = createRequest.getName();
         this.description = createRequest.getDescription();
-        this.history = new AdminHistory(operator);
     }
 
-    public static Vendor create(VendorCreateRequest createRequest, Admin operator) {
-        return new Vendor(createRequest, operator);
+    public static Vendor of(VendorCreateRequest createRequest) {
+        return new Vendor(createRequest);
     }
 
-    public void update(VendorUpdateRequest updateRequest, Admin operator) {
+    public void update(VendorUpdateRequest updateRequest) {
         this.name = updateRequest.getName();
         this.description = updateRequest.getDescription();
-        this.history = new AdminHistory(operator);
     }
 }

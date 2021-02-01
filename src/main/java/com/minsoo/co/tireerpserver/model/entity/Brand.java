@@ -2,19 +2,21 @@ package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.dto.brand.BrandCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.brand.BrandUpdateRequest;
-import com.minsoo.co.tireerpserver.model.entity.embedded.AdminHistory;
 import lombok.*;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.*;
+import static lombok.AccessLevel.*;
+
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
 @Entity
 @Table(name = "brand", uniqueConstraints = {@UniqueConstraint(name = "brand_name_unique", columnNames = {"name"})})
 public class Brand {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "brand_id", length = 20)
     private Long id;
 
@@ -24,22 +26,17 @@ public class Brand {
     @Column(name = "description")
     private String description;
 
-    @Embedded
-    private AdminHistory history;
-
-    private Brand(BrandCreateRequest createRequest, Admin operator) {
+    private Brand(BrandCreateRequest createRequest) {
         this.name = createRequest.getName();
         this.description = createRequest.getDescription();
-        this.history = new AdminHistory(operator);
     }
 
-    public static Brand create(BrandCreateRequest createRequest, Admin operator) {
-        return new Brand(createRequest, operator);
+    public static Brand of(BrandCreateRequest createRequest) {
+        return new Brand(createRequest);
     }
 
-    public void update(BrandUpdateRequest updateRequest, Admin operator) {
+    public void update(BrandUpdateRequest updateRequest) {
         this.name = updateRequest.getName();
         this.description = updateRequest.getDescription();
-        this.history = new AdminHistory(operator);
     }
 }
