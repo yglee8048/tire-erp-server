@@ -22,7 +22,8 @@ public class TireApi {
 
     @GetMapping(value = "/tires")
     public ResponseDTO<List<TireResponse>> findAllTires() {
-        return new ResponseDTO<>(tireService.findAll().stream()
+        return new ResponseDTO<>(tireService.findAll()
+                .stream()
                 .map(TireResponse::new)
                 .collect(Collectors.toList()));
     }

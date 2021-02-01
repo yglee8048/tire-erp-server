@@ -24,28 +24,26 @@ public class AdminApi {
 
     @GetMapping
     public List<AdminResponse> findAllAdmins() {
-        return adminService.findAll().stream()
+        return adminService.findAll()
+                .stream()
                 .map(AdminResponse::new)
                 .collect(Collectors.toList());
     }
 
     @GetMapping(value = "/{adminId}")
     public ResponseDTO<AdminResponse> findAdminById(@PathVariable Long adminId) {
-        AdminResponse adminResponse = new AdminResponse(adminService.findById(adminId));
-        return new ResponseDTO<>(adminResponse);
+        return new ResponseDTO<>(new AdminResponse(adminService.findById(adminId)));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDTO<AdminResponse> createAdmin(@RequestBody @Valid AdminCreateRequest adminCreateRequest) {
-        AdminResponse adminResponse = new AdminResponse(adminService.create(adminCreateRequest));
-        return new ResponseDTO<>(adminResponse);
+        return new ResponseDTO<>(new AdminResponse(adminService.create(adminCreateRequest)));
     }
 
     @PutMapping
     public ResponseDTO<AdminResponse> updateAdmin(@RequestBody @Valid AdminUpdateRequest adminUpdateRequest) {
-        AdminResponse adminResponse = new AdminResponse(adminService.update(adminUpdateRequest));
-        return new ResponseDTO<>(adminResponse);
+        return new ResponseDTO<>(new AdminResponse(adminService.update(adminUpdateRequest)));
     }
 
     @DeleteMapping(value = "/{adminId}")

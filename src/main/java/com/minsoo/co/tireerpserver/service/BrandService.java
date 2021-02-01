@@ -25,6 +25,10 @@ public class BrandService {
         return brandRepository.findAll();
     }
 
+    public List<String> findAllBrandNames() {
+        return brandRepository.findAllBrandNames();
+    }
+
     public Brand findById(Long id) {
         return brandRepository.findById(id).orElseThrow(NotFoundException::new);
     }

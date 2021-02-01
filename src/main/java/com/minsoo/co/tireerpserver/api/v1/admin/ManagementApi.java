@@ -35,29 +35,31 @@ public class ManagementApi {
     // BRAND
     @GetMapping(value = "/brands")
     public ResponseDTO<List<BrandResponse>> findAllBrands() {
-        List<BrandResponse> brandResponses = brandService.findAll().stream()
+        return new ResponseDTO<>(brandService.findAll()
+                .stream()
                 .map(BrandResponse::new)
-                .collect(Collectors.toList());
-        return new ResponseDTO<>(brandResponses);
+                .collect(Collectors.toList()));
+    }
+
+    @GetMapping(value = "/brands/name")
+    public ResponseDTO<List<String>> findAllBrandNames() {
+        return new ResponseDTO<>(brandService.findAllBrandNames());
     }
 
     @GetMapping(value = "/brands/{brandId}")
     public ResponseDTO<BrandResponse> findBrandById(@PathVariable Long brandId) {
-        BrandResponse brandResponse = new BrandResponse(brandService.findById(brandId));
-        return new ResponseDTO<>(brandResponse);
+        return new ResponseDTO<>(new BrandResponse(brandService.findById(brandId)));
     }
 
     @PostMapping(value = "/brands")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDTO<BrandResponse> createBrand(@RequestBody @Valid BrandCreateRequest brandCreateRequest) {
-        BrandResponse brandResponse = new BrandResponse(brandService.create(brandCreateRequest));
-        return new ResponseDTO<>(brandResponse);
+        return new ResponseDTO<>(new BrandResponse(brandService.create(brandCreateRequest)));
     }
 
     @PutMapping(value = "/brands")
     public ResponseDTO<BrandResponse> updateBrand(@RequestBody @Valid BrandUpdateRequest brandUpdateRequest) {
-        BrandResponse brandResponse = new BrandResponse(brandService.update(brandUpdateRequest));
-        return new ResponseDTO<>(brandResponse);
+        return new ResponseDTO<>(new BrandResponse(brandService.update(brandUpdateRequest)));
     }
 
     @DeleteMapping(value = "/brands/{brandId}")
@@ -68,29 +70,31 @@ public class ManagementApi {
     // VENDOR
     @GetMapping(value = "/vendors")
     public ResponseDTO<List<VendorResponse>> findAllVendors() {
-        List<VendorResponse> vendorResponses = vendorService.findAll().stream()
+        return new ResponseDTO<>(vendorService.findAll()
+                .stream()
                 .map(VendorResponse::new)
-                .collect(Collectors.toList());
-        return new ResponseDTO<>(vendorResponses);
+                .collect(Collectors.toList()));
+    }
+
+    @GetMapping(value = "/vendors/name")
+    public ResponseDTO<List<String>> findAllVendorNames() {
+        return new ResponseDTO<>(vendorService.findAllVendorNames());
     }
 
     @GetMapping(value = "/vendors/{vendorId}")
     public ResponseDTO<VendorResponse> findVendorById(@PathVariable Long vendorId) {
-        VendorResponse vendorResponse = new VendorResponse(vendorService.findById(vendorId));
-        return new ResponseDTO<>(vendorResponse);
+        return new ResponseDTO<>(new VendorResponse(vendorService.findById(vendorId)));
     }
 
     @PostMapping(value = "/vendors")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDTO<VendorResponse> createVendor(@RequestBody @Valid VendorCreateRequest vendorCreateRequest) {
-        VendorResponse vendorResponse = new VendorResponse(vendorService.create(vendorCreateRequest));
-        return new ResponseDTO<>(vendorResponse);
+        return new ResponseDTO<>(new VendorResponse(vendorService.create(vendorCreateRequest)));
     }
 
     @PutMapping(value = "/vendors")
     public ResponseDTO<VendorResponse> updateVendor(@RequestBody @Valid VendorUpdateRequest vendorUpdateRequest) {
-        VendorResponse vendorResponse = new VendorResponse(vendorService.update(vendorUpdateRequest));
-        return new ResponseDTO<>(vendorResponse);
+        return new ResponseDTO<>(new VendorResponse(vendorService.update(vendorUpdateRequest)));
     }
 
     @DeleteMapping(value = "/vendors/{vendorId}")
@@ -101,29 +105,31 @@ public class ManagementApi {
     // WAREHOUSE
     @GetMapping(value = "/warehouses")
     public ResponseDTO<List<WarehouseResponse>> findAllWarehouses() {
-        List<WarehouseResponse> warehouseResponses = warehouseService.findAll().stream()
+        return new ResponseDTO<>(warehouseService.findAll()
+                .stream()
                 .map(WarehouseResponse::new)
-                .collect(Collectors.toList());
-        return new ResponseDTO<>(warehouseResponses);
+                .collect(Collectors.toList()));
+    }
+
+    @GetMapping(value = "/warehouses/name")
+    public ResponseDTO<List<String>> findAllWarehouseNames() {
+        return new ResponseDTO<>(warehouseService.findAllWarehouseNames());
     }
 
     @GetMapping(value = "/warehouses/{warehouseId}")
     public ResponseDTO<WarehouseResponse> findWarehouseById(@PathVariable Long warehouseId) {
-        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouseService.findById(warehouseId));
-        return new ResponseDTO<>(warehouseResponse);
+        return new ResponseDTO<>(new WarehouseResponse(warehouseService.findById(warehouseId)));
     }
 
     @PostMapping(value = "/warehouses")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDTO<WarehouseResponse> createWarehouse(@RequestBody @Valid WarehouseCreateRequest warehouseCreateRequest) {
-        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouseService.create(warehouseCreateRequest));
-        return new ResponseDTO<>(warehouseResponse);
+        return new ResponseDTO<>(new WarehouseResponse(warehouseService.create(warehouseCreateRequest)));
     }
 
     @PutMapping(value = "/warehouses")
     public ResponseDTO<WarehouseResponse> updateWarehouse(@RequestBody @Valid WarehouseUpdateRequest warehouseUpdateRequest) {
-        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouseService.update(warehouseUpdateRequest));
-        return new ResponseDTO<>(warehouseResponse);
+        return new ResponseDTO<>(new WarehouseResponse(warehouseService.update(warehouseUpdateRequest)));
     }
 
     @DeleteMapping(value = "/warehouses/{warehouseId}")

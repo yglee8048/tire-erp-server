@@ -25,6 +25,10 @@ public class VendorService {
         return vendorRepository.findAll();
     }
 
+    public List<String> findAllVendorNames() {
+        return vendorRepository.findAllVendorNames();
+    }
+
     public Vendor findById(Long id) {
         return vendorRepository.findById(id).orElseThrow(NotFoundException::new);
     }

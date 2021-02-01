@@ -25,6 +25,10 @@ public class WarehouseService {
         return warehouseRepository.findAll();
     }
 
+    public List<String> findAllWarehouseNames() {
+        return warehouseRepository.findAllWarehouseNames();
+    }
+
     public Warehouse findById(Long id) {
         return warehouseRepository.findById(id).orElseThrow(NotFoundException::new);
     }
