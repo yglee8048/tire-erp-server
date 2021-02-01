@@ -25,8 +25,8 @@ public class StockResponse {
     @JsonProperty("quantity")
     private Long quantity;
 
-    @JsonProperty("open")
-    private boolean open;
+    @JsonProperty("lock")
+    private boolean lock;
 
     public StockResponse(Stock stock) {
         StockId = stock.getId();
@@ -35,6 +35,6 @@ public class StockResponse {
         this.warehouseId = stock.getWarehouse().getId();
         this.warehouseName = stock.getWarehouse().getName();
         this.quantity = stock.getQuantity();
-        this.open = stock.isOpen();
+        this.lock = stock.isLock();
     }
 }

@@ -19,6 +19,6 @@ public class TireDotMemoUpdateRequest {
     @JsonProperty("memo")
     private String memo;
 
-    @JsonProperty("open")
-    private boolean open;
+    @JsonProperty("lock")
+    private boolean lock;
 }

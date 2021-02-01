@@ -34,4 +34,10 @@ public class StockApi {
                 .map(StockResponse::new)
                 .collect(Collectors.toList()));
     }
+
+    @PatchMapping(value = "/{stockId}/lock")
+    private ResponseDTO<StockResponse> patchStockLock(@PathVariable(value = "stockId") Long stockId,
+                                                      @RequestParam(value = "lock") boolean lock) {
+        return new ResponseDTO<>(new StockResponse(stockService.updateStockLock(stockId, lock)));
+    }
 }

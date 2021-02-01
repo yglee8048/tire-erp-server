@@ -26,6 +26,6 @@ public class TireDotMemo {
     @Column(name = "memo")
     private String memo;
 
-    @Column(name = "open", nullable = false)
-    private boolean open;
+    @Column(name = "lock", nullable = false)
+    private boolean lock;
 }

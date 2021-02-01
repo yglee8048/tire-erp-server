@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.service;
 
+import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.entity.Stock;
 import com.minsoo.co.tireerpserver.repository.StockRepository;
@@ -24,5 +25,12 @@ public class StockService {
 
     public List<Stock> findAllByTireId(Long tireId) {
         return stockRepository.findAllByTireId(tireId);
+    }
+
+    @Transactional
+    public Stock updateStockLock(Long stockId, boolean lock) {
+        Stock stock = stockRepository.findFetchDotAndWarehouseById(stockId).orElseThrow(NotFoundException::new);
+        stock.updateLock(lock);
+        return stock;
     }
 }

@@ -30,7 +30,11 @@ public class Stock {
 
     @Column(name = "quantity", nullable = false)
     private Long quantity;
-    
-    @Column(name = "open", nullable = false)
-    private boolean open;
+
+    @Column(name = "lock", nullable = false)
+    private boolean lock;
+
+    public void updateLock(boolean lock) {
+        this.lock = lock;
+    }
 }
