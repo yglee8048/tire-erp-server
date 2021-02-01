@@ -30,4 +30,7 @@ public class Stock {
 
     @Column(name = "quantity", nullable = false)
     private Long quantity;
+    
+    @Column(name = "open", nullable = false)
+    private boolean open;
 }

@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class VendorResponse {
 
-    @JsonProperty("id")
-    private Long id;
+    @JsonProperty("vendor_id")
+    private Long vendorId;
 
     @JsonProperty("name")
     private String name;
@@ -17,7 +17,7 @@ public class VendorResponse {
     private String description;
 
     public VendorResponse(Vendor vendor) {
-        this.id = vendor.getId();
+        this.vendorId = vendor.getId();
         this.name = vendor.getName();
         this.description = vendor.getDescription();
     }

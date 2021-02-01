@@ -32,14 +32,14 @@ public class TireService {
 
     @Transactional
     public Tire create(TireCreateRequest createRequest) {
-        Brand brand = brandService.findById(createRequest.getBrand().getId());
+        Brand brand = brandService.findById(createRequest.getBrandId());
         return tireRepository.save(Tire.of(createRequest, brand));
     }
 
     @Transactional
     public Tire update(TireUpdateRequest updateRequest) {
-        Brand brand = brandService.findById(updateRequest.getBrand().getId());
-        Tire tire = this.findById(updateRequest.getId());
+        Brand brand = brandService.findById(updateRequest.getBrandId());
+        Tire tire = this.findById(updateRequest.getTireId());
         tire.update(updateRequest, brand);
         return tire;
     }

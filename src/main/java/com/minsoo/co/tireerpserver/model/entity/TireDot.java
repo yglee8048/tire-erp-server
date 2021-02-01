@@ -29,12 +29,6 @@ public class TireDot {
     @Column(name = "dot", nullable = false)
     private String dot;
 
-    @Column(name = "open", nullable = false)
-    private boolean open;
-
-    @Column(name = "price", nullable = false)
-    private Integer price;
-
     @OneToMany(mappedBy = "tireDot", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private Set<TireDotMemo> tireDotMemos = new HashSet<>();
 

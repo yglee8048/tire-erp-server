@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class WarehouseResponse {
 
-    @JsonProperty("id")
-    private Long id;
+    @JsonProperty("warehouse_id")
+    private Long warehouseId;
 
     @JsonProperty("name")
     private String name;
@@ -35,7 +35,7 @@ public class WarehouseResponse {
     private Integer zipCode;
 
     public WarehouseResponse(Warehouse warehouse) {
-        this.id = warehouse.getId();
+        this.warehouseId = warehouse.getId();
         this.name = warehouse.getName();
         this.description = warehouse.getDescription();
         this.capacity = warehouse.getCapacity();

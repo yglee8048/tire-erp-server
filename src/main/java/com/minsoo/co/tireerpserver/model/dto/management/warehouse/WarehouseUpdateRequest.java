@@ -9,8 +9,8 @@ import javax.validation.constraints.NotEmpty;
 public class WarehouseUpdateRequest {
 
     @NotEmpty
-    @JsonProperty("id")
-    private Long id;
+    @JsonProperty("warehouse_id")
+    private Long warehouseId;
 
     @NotEmpty
     @JsonProperty("name")
