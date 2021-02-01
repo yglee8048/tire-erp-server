@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/admin/api/v1")
 @RequiredArgsConstructor
-public class ManagementApiController {
+public class ManagementApi {
 
     private final BrandService brandService;
     private final VendorService vendorService;
@@ -54,9 +54,9 @@ public class ManagementApiController {
         return new ResponseDTO<>(brandResponse);
     }
 
-    @PutMapping(value = "/brands/{brandId}")
-    public ResponseDTO<BrandResponse> updateBrand(@PathVariable Long brandId, @RequestBody @Valid BrandUpdateRequest brandUpdateRequest) {
-        BrandResponse brandResponse = new BrandResponse(brandService.update(brandId, brandUpdateRequest));
+    @PutMapping(value = "/brands")
+    public ResponseDTO<BrandResponse> updateBrand(@RequestBody @Valid BrandUpdateRequest brandUpdateRequest) {
+        BrandResponse brandResponse = new BrandResponse(brandService.update(brandUpdateRequest));
         return new ResponseDTO<>(brandResponse);
     }
 
@@ -87,9 +87,9 @@ public class ManagementApiController {
         return new ResponseDTO<>(vendorResponse);
     }
 
-    @PutMapping(value = "/vendors/{vendorId}")
-    public ResponseDTO<VendorResponse> updateVendor(@PathVariable Long vendorId, @RequestBody @Valid VendorUpdateRequest vendorUpdateRequest) {
-        VendorResponse vendorResponse = new VendorResponse(vendorService.update(vendorId, vendorUpdateRequest));
+    @PutMapping(value = "/vendors")
+    public ResponseDTO<VendorResponse> updateVendor(@RequestBody @Valid VendorUpdateRequest vendorUpdateRequest) {
+        VendorResponse vendorResponse = new VendorResponse(vendorService.update(vendorUpdateRequest));
         return new ResponseDTO<>(vendorResponse);
     }
 
@@ -120,9 +120,9 @@ public class ManagementApiController {
         return new ResponseDTO<>(warehouseResponse);
     }
 
-    @PutMapping(value = "/warehouses/{warehouseId}")
-    public ResponseDTO<WarehouseResponse> updateWarehouse(@PathVariable Long warehouseId, @RequestBody @Valid WarehouseUpdateRequest warehouseUpdateRequest) {
-        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouseService.update(warehouseId, warehouseUpdateRequest));
+    @PutMapping(value = "/warehouses")
+    public ResponseDTO<WarehouseResponse> updateWarehouse(@RequestBody @Valid WarehouseUpdateRequest warehouseUpdateRequest) {
+        WarehouseResponse warehouseResponse = new WarehouseResponse(warehouseService.update(warehouseUpdateRequest));
         return new ResponseDTO<>(warehouseResponse);
     }
 

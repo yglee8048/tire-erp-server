@@ -3,15 +3,18 @@ package com.minsoo.co.tireerpserver.model.dto.tire;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.TireOption;
 import com.minsoo.co.tireerpserver.model.dto.brand.BrandResponse;
-import com.minsoo.co.tireerpserver.model.entity.Tire;
 import lombok.Data;
 
-@Data
-public class TireResponse {
+import javax.validation.constraints.NotEmpty;
 
+@Data
+public class TireUpdateRequest {
+
+    @NotEmpty
     @JsonProperty("id")
     private Long id;
 
+    @NotEmpty
     @JsonProperty("brand")
     private BrandResponse brand;
 
@@ -47,20 +50,4 @@ public class TireResponse {
 
     @JsonProperty("oe")
     private String oe;
-
-    public TireResponse(Tire tire) {
-        this.id = tire.getId();
-        this.brand = new BrandResponse(tire.getBrand());
-        this.label = tire.getLabel();
-        this.width = tire.getWidth();
-        this.flatnessRatio = tire.getFlatnessRatio();
-        this.inch = tire.getInch();
-        this.loadIndex = tire.getLoadIndex();
-        this.speedIndex = tire.getSpeedIndex();
-        this.season = tire.getSeason();
-        this.price = tire.getPrice();
-        this.runFlat = tire.isRunFlat();
-        this.option = tire.getOption();
-        this.oe = tire.getOe();
-    }
 }

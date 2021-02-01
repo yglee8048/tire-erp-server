@@ -9,6 +9,10 @@ import javax.validation.constraints.NotEmpty;
 public class VendorUpdateRequest {
 
     @NotEmpty
+    @JsonProperty("id")
+    private Long id;
+
+    @NotEmpty
     @JsonProperty("name")
     private String name;
 

@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/admin/api/v1")
 @RequiredArgsConstructor
-public class AdminApiController {
+public class AdminApi {
 
     private final AdminService adminService;
 
     @GetMapping(value = "/admins")
-    public List<AdminResponse> findAll() {
+    public List<AdminResponse> findAllAdmins() {
         return adminService.findAll().stream()
                 .map(AdminResponse::new)
                 .collect(Collectors.toList());
@@ -42,9 +42,9 @@ public class AdminApiController {
         return new ResponseDTO<>(adminResponse);
     }
 
-    @PutMapping(value = "/admins/{adminId}")
-    public ResponseDTO<AdminResponse> updateAdmin(@PathVariable Long adminId, @RequestBody @Valid AdminUpdateRequest adminUpdateRequest) {
-        AdminResponse adminResponse = new AdminResponse(adminService.update(adminId, adminUpdateRequest));
+    @PutMapping(value = "/admins")
+    public ResponseDTO<AdminResponse> updateAdmin(@RequestBody @Valid AdminUpdateRequest adminUpdateRequest) {
+        AdminResponse adminResponse = new AdminResponse(adminService.update(adminUpdateRequest));
         return new ResponseDTO<>(adminResponse);
     }
 

@@ -1,6 +1,8 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.code.TireOption;
+import com.minsoo.co.tireerpserver.model.dto.tire.TireCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.TireUpdateRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -66,4 +68,38 @@ public class Tire {
 
     @OneToMany(mappedBy = "tire", fetch = LAZY)
     private List<TireDot> tireDots = new ArrayList<>();
+
+    private Tire(TireCreateRequest createRequest, Brand brand) {
+        this.brand = brand;
+        this.label = createRequest.getLabel();
+        this.width = createRequest.getWidth();
+        this.flatnessRatio = createRequest.getFlatnessRatio();
+        this.inch = createRequest.getInch();
+        this.loadIndex = createRequest.getLoadIndex();
+        this.speedIndex = createRequest.getSpeedIndex();
+        this.season = createRequest.getSeason();
+        this.price = createRequest.getPrice();
+        this.runFlat = createRequest.isRunFlat();
+        this.option = createRequest.getOption();
+        this.oe = createRequest.getOe();
+    }
+
+    public static Tire of(TireCreateRequest createRequest, Brand brand) {
+        return new Tire(createRequest, brand);
+    }
+
+    public void update(TireUpdateRequest updateRequest, Brand brand) {
+        this.brand = brand;
+        this.label = updateRequest.getLabel();
+        this.width = updateRequest.getWidth();
+        this.flatnessRatio = updateRequest.getFlatnessRatio();
+        this.inch = updateRequest.getInch();
+        this.loadIndex = updateRequest.getLoadIndex();
+        this.speedIndex = updateRequest.getSpeedIndex();
+        this.season = updateRequest.getSeason();
+        this.price = updateRequest.getPrice();
+        this.runFlat = updateRequest.isRunFlat();
+        this.option = updateRequest.getOption();
+        this.oe = updateRequest.getOe();
+    }
 }
