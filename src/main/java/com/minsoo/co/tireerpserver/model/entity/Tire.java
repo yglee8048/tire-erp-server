@@ -35,16 +35,16 @@ public class Tire {
     @Column(name = "label")
     private String label;
 
-    @Column(name = "width")
+    @Column(name = "width", nullable = false)
     private Integer width;
 
-    @Column(name = "flatness_ratio")
+    @Column(name = "flatness_ratio", nullable = false)
     private Integer flatnessRatio;
 
-    @Column(name = "inch")
+    @Column(name = "inch", nullable = false)
     private Integer inch;
 
-    @Column(name = "pattern")
+    @Column(name = "pattern", nullable = false)
     private String pattern;
 
     @Column(name = "load_index")

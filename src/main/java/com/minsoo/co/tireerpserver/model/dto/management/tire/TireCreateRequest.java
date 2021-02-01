@@ -13,21 +13,26 @@ public class TireCreateRequest {
     @JsonProperty("brand_id")
     private Long brandId;
 
+    @NotEmpty
     @JsonProperty("product_id")
     private String productId;
 
     @JsonProperty("label")
     private String label;
 
+    @NotEmpty
     @JsonProperty("width")
     private Integer width;
 
+    @NotEmpty
     @JsonProperty("flatness_ratio")
     private Integer flatnessRatio;
 
+    @NotEmpty
     @JsonProperty("inch")
     private Integer inch;
 
+    @NotEmpty
     @JsonProperty("pattern")
     private String pattern;
 
