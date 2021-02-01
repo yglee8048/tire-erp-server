@@ -16,39 +16,39 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/admin/api/v1")
+@RequestMapping(value = "/admin/api/v1/admins")
 @RequiredArgsConstructor
 public class AdminApi {
 
     private final AdminService adminService;
 
-    @GetMapping(value = "/admins")
+    @GetMapping
     public List<AdminResponse> findAllAdmins() {
         return adminService.findAll().stream()
                 .map(AdminResponse::new)
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(value = "/admins/{adminId}")
+    @GetMapping(value = "/{adminId}")
     public ResponseDTO<AdminResponse> findAdminById(@PathVariable Long adminId) {
         AdminResponse adminResponse = new AdminResponse(adminService.findById(adminId));
         return new ResponseDTO<>(adminResponse);
     }
 
-    @PostMapping(value = "/admins")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDTO<AdminResponse> createAdmin(@RequestBody @Valid AdminCreateRequest adminCreateRequest) {
         AdminResponse adminResponse = new AdminResponse(adminService.create(adminCreateRequest));
         return new ResponseDTO<>(adminResponse);
     }
 
-    @PutMapping(value = "/admins")
+    @PutMapping
     public ResponseDTO<AdminResponse> updateAdmin(@RequestBody @Valid AdminUpdateRequest adminUpdateRequest) {
         AdminResponse adminResponse = new AdminResponse(adminService.update(adminUpdateRequest));
         return new ResponseDTO<>(adminResponse);
     }
 
-    @DeleteMapping(value = "/admins/{adminId}")
+    @DeleteMapping(value = "/{adminId}")
     public void deleteAdmin(@PathVariable Long adminId) {
         adminService.remove(adminId);
     }

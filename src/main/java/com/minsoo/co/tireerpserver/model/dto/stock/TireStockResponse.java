@@ -14,8 +14,8 @@ public class TireStockResponse {
     private Long averageOfPurchasePrice;
 
     @JsonProperty("sum_of_stock")
-    private Integer sumOfStock;
+    private Long sumOfStock;
 
     @JsonProperty("number_of_dot")
-    private Integer numberOfDot;
+    private Long numberOfDot;
 }

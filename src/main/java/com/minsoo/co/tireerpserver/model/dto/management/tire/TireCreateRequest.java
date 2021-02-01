@@ -28,6 +28,9 @@ public class TireCreateRequest {
     @JsonProperty("inch")
     private Integer inch;
 
+    @JsonProperty("pattern")
+    private String pattern;
+
     @JsonProperty("load_index")
     private Integer loadIndex;
 

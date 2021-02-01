@@ -32,6 +32,9 @@ public class TireResponse {
     @JsonProperty("inch")
     private Integer inch;
 
+    @JsonProperty("pattern")
+    private String pattern;
+
     @JsonProperty("load_index")
     private Integer loadIndex;
 
@@ -61,6 +64,7 @@ public class TireResponse {
         this.label = tire.getLabel();
         this.width = tire.getWidth();
         this.flatnessRatio = tire.getFlatnessRatio();
+        this.pattern = tire.getPattern();
         this.inch = tire.getInch();
         this.loadIndex = tire.getLoadIndex();
         this.speedIndex = tire.getSpeedIndex();

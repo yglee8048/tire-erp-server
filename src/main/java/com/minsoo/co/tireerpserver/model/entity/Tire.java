@@ -44,6 +44,9 @@ public class Tire {
     @Column(name = "inch")
     private Integer inch;
 
+    @Column(name = "pattern")
+    private String pattern;
+
     @Column(name = "load_index")
     private Integer loadIndex;
 
@@ -76,6 +79,7 @@ public class Tire {
         this.width = createRequest.getWidth();
         this.flatnessRatio = createRequest.getFlatnessRatio();
         this.inch = createRequest.getInch();
+        this.pattern = createRequest.getPattern();
         this.loadIndex = createRequest.getLoadIndex();
         this.speedIndex = createRequest.getSpeedIndex();
         this.season = createRequest.getSeason();
@@ -96,6 +100,7 @@ public class Tire {
         this.width = updateRequest.getWidth();
         this.flatnessRatio = updateRequest.getFlatnessRatio();
         this.inch = updateRequest.getInch();
+        this.pattern = updateRequest.getPattern();
         this.loadIndex = updateRequest.getLoadIndex();
         this.speedIndex = updateRequest.getSpeedIndex();
         this.season = updateRequest.getSeason();

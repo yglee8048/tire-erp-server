@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.stock;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.minsoo.co.tireerpserver.model.entity.Stock;
 import lombok.Data;
 
 @Data
@@ -26,4 +27,14 @@ public class StockResponse {
 
     @JsonProperty("open")
     private boolean open;
+
+    public StockResponse(Stock stock) {
+        StockId = stock.getId();
+        this.tireDotId = stock.getTireDot().getId();
+        this.dot = stock.getTireDot().getDot();
+        this.warehouseId = stock.getWarehouse().getId();
+        this.warehouseName = stock.getWarehouse().getName();
+        this.quantity = stock.getQuantity();
+        this.open = stock.isOpen();
+    }
 }
