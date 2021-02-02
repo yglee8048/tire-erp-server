@@ -5,6 +5,8 @@ import com.minsoo.co.tireerpserver.model.code.TireOption;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Data
 public class TireUpdateRequest {
@@ -24,15 +26,18 @@ public class TireUpdateRequest {
     @JsonProperty("label")
     private String label;
 
-    @NotEmpty
+    @NotNull
+    @Positive
     @JsonProperty("width")
     private Integer width;
 
-    @NotEmpty
+    @NotNull
+    @Positive
     @JsonProperty("flatness_ratio")
     private Integer flatnessRatio;
 
-    @NotEmpty
+    @NotNull
+    @Positive
     @JsonProperty("inch")
     private Integer inch;
 
@@ -40,6 +45,7 @@ public class TireUpdateRequest {
     @JsonProperty("pattern")
     private String pattern;
 
+    @Positive
     @JsonProperty("load_index")
     private Integer loadIndex;
 
@@ -49,6 +55,7 @@ public class TireUpdateRequest {
     @JsonProperty("season")
     private String season;
 
+    @Positive
     @JsonProperty("price")
     private Integer price;
 

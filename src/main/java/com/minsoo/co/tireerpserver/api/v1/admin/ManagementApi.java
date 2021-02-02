@@ -157,12 +157,12 @@ public class ManagementApi {
     }
 
     @PostMapping(value = "/tires")
-    public ResponseDTO<TireResponse> createTire(@RequestBody TireCreateRequest createRequest) {
+    public ResponseDTO<TireResponse> createTire(@RequestBody @Valid TireCreateRequest createRequest) {
         return new ResponseDTO<>(new TireResponse(tireService.create(createRequest)));
     }
 
     @PutMapping(value = "/tires")
-    public ResponseDTO<TireResponse> updateTire(@RequestBody TireUpdateRequest updateRequest) {
+    public ResponseDTO<TireResponse> updateTire(@RequestBody @Valid TireUpdateRequest updateRequest) {
         return new ResponseDTO<>(new TireResponse(tireService.update(updateRequest)));
     }
 

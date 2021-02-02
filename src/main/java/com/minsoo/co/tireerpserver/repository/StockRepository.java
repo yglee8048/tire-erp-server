@@ -20,4 +20,11 @@ public interface StockRepository extends JpaRepository<Stock, Long>, StockQueryR
 
     @EntityGraph(attributePaths = {"tireDot", "warehouse"})
     Optional<Stock> findFetchDotAndWarehouseById(Long stockId);
+
+    @Query("select s from Stock s " +
+            "join s.warehouse w " +
+            "where s.tireDot.id = :tireDotId " +
+            "and w.name = :warehouseName")
+    Optional<Stock> findOneByTireDotIdAndWarehouseName(@Param("tireDotId") Long tireDotId,
+                                                       @Param("warehouseName") String warehouseName);
 }

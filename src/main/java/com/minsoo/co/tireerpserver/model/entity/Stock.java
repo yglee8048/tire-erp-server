@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
+import com.minsoo.co.tireerpserver.api.error.errors.NotEnoughStockException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,8 @@ import static lombok.AccessLevel.*;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-@Table(name = "stock")
+@Table(name = "stock",
+        uniqueConstraints = {@UniqueConstraint(name = "stock_u_idx", columnNames = {"tire_dot_id", "warehouse_id"})})
 public class Stock {
 
     @Id
@@ -36,5 +38,18 @@ public class Stock {
 
     public void updateLock(boolean lock) {
         this.lock = lock;
+    }
+
+    //== Business ==//
+    public void addQuantity(Long quantity) {
+        this.quantity += quantity;
+    }
+
+    public void reduceQuantity(Long quantity) {
+        if (this.quantity < quantity) {
+            throw new NotEnoughStockException();
+        } else {
+            this.quantity -= quantity;
+        }
     }
 }

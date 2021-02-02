@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 
 @Data
 public class WarehouseCreateRequest {
@@ -15,6 +16,7 @@ public class WarehouseCreateRequest {
     @JsonProperty("description")
     private String description;
 
+    @Positive
     @JsonProperty("capacity")
     private Integer capacity;
 
@@ -30,6 +32,7 @@ public class WarehouseCreateRequest {
     private String addressDetail;
 
     // 우편번호
+    @Positive
     @JsonProperty("zip_code")
     private Integer zipCode;
 }

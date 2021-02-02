@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.api.v1.admin;
 
 import com.minsoo.co.tireerpserver.model.dto.ResponseDTO;
+import com.minsoo.co.tireerpserver.model.dto.stock.MoveStockRequest;
 import com.minsoo.co.tireerpserver.model.dto.stock.StockResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockParamResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,9 +43,17 @@ public class StockApi {
                 .collect(Collectors.toList()));
     }
 
-    @PatchMapping(value = "/{stockId}/lock")
+    @PostMapping(value = "/{stockId}/lock")
     private ResponseDTO<StockResponse> patchStockLock(@PathVariable(value = "stockId") Long stockId,
                                                       @RequestParam(value = "lock") boolean lock) {
         return new ResponseDTO<>(new StockResponse(stockService.updateStockLock(stockId, lock)));
+    }
+
+    @PostMapping(value = "/move")
+    private ResponseDTO<List<StockResponse>> moveStock(@RequestBody @Valid MoveStockRequest moveStockRequest) {
+        return new ResponseDTO<>(stockService.moveStock(moveStockRequest)
+                .stream()
+                .map(StockResponse::new)
+                .collect(Collectors.toList()));
     }
 }
