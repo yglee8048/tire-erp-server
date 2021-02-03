@@ -44,8 +44,8 @@ public class StockApi {
     }
 
     @PostMapping(value = "/{stockId}/lock")
-    private ResponseDTO<StockResponse> patchStockLock(@PathVariable(value = "stockId") Long stockId,
-                                                      @RequestParam(value = "lock") boolean lock) {
+    private ResponseDTO<StockResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
+                                                       @RequestParam(value = "lock") boolean lock) {
         return new ResponseDTO<>(new StockResponse(stockService.updateStockLock(stockId, lock)));
     }
 

@@ -4,9 +4,6 @@ import com.minsoo.co.tireerpserver.model.dto.ResponseDTO;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandUpdateRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireResponse;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireUpdateRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorUpdateRequest;
@@ -14,7 +11,6 @@ import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseCreat
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseUpdateRequest;
 import com.minsoo.co.tireerpserver.service.BrandService;
-import com.minsoo.co.tireerpserver.service.TireService;
 import com.minsoo.co.tireerpserver.service.VendorService;
 import com.minsoo.co.tireerpserver.service.WarehouseService;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +31,6 @@ public class ManagementApi {
     private final BrandService brandService;
     private final VendorService vendorService;
     private final WarehouseService warehouseService;
-    private final TireService tireService;
 
     // BRAND
     @GetMapping(value = "/brands")
@@ -68,8 +63,9 @@ public class ManagementApi {
     }
 
     @DeleteMapping(value = "/brands/{brandId}")
-    public void deleteBrand(@PathVariable Long brandId) {
+    public ResponseDTO<Long> deleteBrand(@PathVariable Long brandId) {
         brandService.remove(brandId);
+        return new ResponseDTO<>(brandId);
     }
 
     // VENDOR
@@ -103,8 +99,9 @@ public class ManagementApi {
     }
 
     @DeleteMapping(value = "/vendors/{vendorId}")
-    public void deleteVendor(@PathVariable Long vendorId) {
+    public ResponseDTO<Long> deleteVendor(@PathVariable Long vendorId) {
         vendorService.remove(vendorId);
+        return new ResponseDTO<>(vendorId);
     }
 
     // WAREHOUSE
@@ -138,36 +135,8 @@ public class ManagementApi {
     }
 
     @DeleteMapping(value = "/warehouses/{warehouseId}")
-    public void deleteWarehouse(@PathVariable Long warehouseId) {
+    public ResponseDTO<Long> deleteWarehouse(@PathVariable Long warehouseId) {
         warehouseService.remove(warehouseId);
-    }
-
-    // TIRE
-    @GetMapping(value = "/tires")
-    public ResponseDTO<List<TireResponse>> findAllTires() {
-        return new ResponseDTO<>(tireService.findAll()
-                .stream()
-                .map(TireResponse::new)
-                .collect(Collectors.toList()));
-    }
-
-    @GetMapping(value = "/tires/{tireId}")
-    public ResponseDTO<TireResponse> findTireById(@PathVariable Long tireId) {
-        return new ResponseDTO<>(new TireResponse(tireService.findById(tireId)));
-    }
-
-    @PostMapping(value = "/tires")
-    public ResponseDTO<TireResponse> createTire(@RequestBody @Valid TireCreateRequest createRequest) {
-        return new ResponseDTO<>(new TireResponse(tireService.create(createRequest)));
-    }
-
-    @PutMapping(value = "/tires")
-    public ResponseDTO<TireResponse> updateTire(@RequestBody @Valid TireUpdateRequest updateRequest) {
-        return new ResponseDTO<>(new TireResponse(tireService.update(updateRequest)));
-    }
-
-    @DeleteMapping(value = "/tires/{tireId}")
-    public void deleteTire(@PathVariable Long tireId) {
-        tireService.remove(tireId);
+        return new ResponseDTO<>(warehouseId);
     }
 }

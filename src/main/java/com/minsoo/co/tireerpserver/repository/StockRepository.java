@@ -16,15 +16,19 @@ public interface StockRepository extends JpaRepository<Stock, Long>, StockQueryR
             "join fetch s.warehouse w " +
             "join fetch s.tireDot d " +
             "where d.tire.id = :tireId")
-    List<Stock> findAllByTireId(@Param("tireId") Long tireId);
+    List<Stock> findAllFetchByTireId(@Param("tireId") Long tireId);
 
     @EntityGraph(attributePaths = {"tireDot", "warehouse"})
     Optional<Stock> findFetchDotAndWarehouseById(Long stockId);
 
+    @EntityGraph(attributePaths = {"tireDot", "warehouse"})
+    Optional<Stock> findFetchById(Long stockId);
+
     @Query("select s from Stock s " +
-            "join s.warehouse w " +
-            "where s.tireDot.id = :tireDotId " +
+            "join fetch s.warehouse w " +
+            "join fetch s.tireDot d " +
+            "where d.id = :tireDotId " +
             "and w.name = :warehouseName")
-    Optional<Stock> findOneByTireDotIdAndWarehouseName(@Param("tireDotId") Long tireDotId,
-                                                       @Param("warehouseName") String warehouseName);
+    Optional<Stock> findOneFetchByTireDotIdAndWarehouseName(@Param("tireDotId") Long tireDotId,
+                                                            @Param("warehouseName") String warehouseName);
 }

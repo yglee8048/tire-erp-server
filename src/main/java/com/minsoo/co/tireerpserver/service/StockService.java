@@ -34,7 +34,7 @@ public class StockService {
     }
 
     public List<Stock> findAllByTireId(Long tireId) {
-        return stockRepository.findAllByTireId(tireId);
+        return stockRepository.findAllFetchByTireId(tireId);
     }
 
     @Transactional
@@ -46,10 +46,10 @@ public class StockService {
 
     @Transactional
     public List<Stock> moveStock(MoveStockRequest moveStockRequest) {
-        Stock fromStock = stockRepository.findById(moveStockRequest.getFromStockId()).orElseThrow(NotFoundException::new);
+        Stock fromStock = stockRepository.findFetchById(moveStockRequest.getFromStockId()).orElseThrow(NotFoundException::new);
         fromStock.reduceQuantity(moveStockRequest.getQuantity());
 
-        Stock toStock = stockRepository.findOneByTireDotIdAndWarehouseName(fromStock.getTireDot().getId(), moveStockRequest.getToWarehouseName()).orElseThrow(NotFoundException::new);
+        Stock toStock = stockRepository.findOneFetchByTireDotIdAndWarehouseName(fromStock.getTireDot().getId(), moveStockRequest.getToWarehouseName()).orElseThrow(NotFoundException::new);
         toStock.addQuantity(moveStockRequest.getQuantity());
 
         return Arrays.asList(fromStock, toStock);

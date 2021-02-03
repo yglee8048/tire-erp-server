@@ -26,6 +26,7 @@ public class Vendor {
     @Column(name = "description")
     private String description;
 
+    //== Business ==//
     private Vendor(VendorCreateRequest createRequest) {
         this.name = createRequest.getName();
         this.description = createRequest.getDescription();

@@ -36,11 +36,11 @@ public class Stock {
     @Column(name = "lock", nullable = false)
     private boolean lock;
 
+    //== Business ==//
     public void updateLock(boolean lock) {
         this.lock = lock;
     }
 
-    //== Business ==//
     public void addQuantity(Long quantity) {
         this.quantity += quantity;
     }

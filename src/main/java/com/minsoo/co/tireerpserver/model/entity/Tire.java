@@ -72,6 +72,7 @@ public class Tire {
     @OneToMany(mappedBy = "tire", fetch = LAZY)
     private List<TireDot> tireDots = new ArrayList<>();
 
+    //== Business ==//
     private Tire(TireCreateRequest createRequest, Brand brand) {
         this.brand = brand;
         this.productId = createRequest.getProductId();

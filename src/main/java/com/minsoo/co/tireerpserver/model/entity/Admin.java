@@ -35,6 +35,7 @@ public class Admin {
     @Column(name = "role", length = 11, nullable = false)
     private AdminRole role;
 
+    //== Business ==//
     private Admin(AdminCreateRequest createRequest) {
         this.userId = createRequest.getUserId();
         this.userPw = createRequest.getUserPw();

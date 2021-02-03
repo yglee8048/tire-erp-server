@@ -33,6 +33,7 @@ public class Warehouse {
     @Embedded
     private Address address;
 
+    //== Business ==//
     private Warehouse(WarehouseCreateRequest createRequest) {
         this.name = createRequest.getName();
         this.description = createRequest.getDescription();
