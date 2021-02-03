@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.api.v1.admin;
 
-import com.minsoo.co.tireerpserver.model.dto.ResponseDTO;
+import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseDTO;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminResponse;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminUpdateRequest;
@@ -26,28 +26,29 @@ public class AdminApi {
     public List<AdminResponse> findAllAdmins() {
         return adminService.findAll()
                 .stream()
-                .map(AdminResponse::new)
+                .map(AdminResponse::of)
                 .collect(Collectors.toList());
     }
 
     @GetMapping(value = "/{adminId}")
-    public ResponseDTO<AdminResponse> findAdminById(@PathVariable Long adminId) {
-        return new ResponseDTO<>(new AdminResponse(adminService.findById(adminId)));
+    public ApiResponseDTO<AdminResponse> findAdminById(@PathVariable Long adminId) {
+        return ApiResponseDTO.createOK(AdminResponse.of(adminService.findById(adminId)));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseDTO<AdminResponse> createAdmin(@RequestBody @Valid AdminCreateRequest adminCreateRequest) {
-        return new ResponseDTO<>(new AdminResponse(adminService.create(adminCreateRequest)));
+    public ApiResponseDTO<AdminResponse> createAdmin(@RequestBody @Valid AdminCreateRequest adminCreateRequest) {
+        return ApiResponseDTO.createOK(AdminResponse.of(adminService.create(adminCreateRequest)));
     }
 
     @PutMapping
-    public ResponseDTO<AdminResponse> updateAdmin(@RequestBody @Valid AdminUpdateRequest adminUpdateRequest) {
-        return new ResponseDTO<>(new AdminResponse(adminService.update(adminUpdateRequest)));
+    public ApiResponseDTO<AdminResponse> updateAdmin(@RequestBody @Valid AdminUpdateRequest adminUpdateRequest) {
+        return ApiResponseDTO.createOK(AdminResponse.of(adminService.update(adminUpdateRequest)));
     }
 
     @DeleteMapping(value = "/{adminId}")
-    public void deleteAdmin(@PathVariable Long adminId) {
+    public ApiResponseDTO<String> deleteAdmin(@PathVariable Long adminId) {
         adminService.remove(adminId);
+        return ApiResponseDTO.DEFAULT_OK;
     }
 }

@@ -20,10 +20,14 @@ public class AdminResponse {
     @JsonProperty("role")
     private AdminRole role;
 
-    public AdminResponse(Admin admin) {
+    private AdminResponse(Admin admin) {
         this.id = admin.getId();
         this.userId = admin.getUserId();
         this.name = admin.getName();
         this.role = admin.getRole();
+    }
+
+    public static AdminResponse of(Admin admin) {
+        return new AdminResponse(admin);
     }
 }

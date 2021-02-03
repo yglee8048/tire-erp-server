@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.service;
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.v1.admin.AdminApi;
 import com.minsoo.co.tireerpserver.model.code.AdminRole;
-import com.minsoo.co.tireerpserver.model.dto.ResponseDTO;
+import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseDTO;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminResponse;
 import com.minsoo.co.tireerpserver.model.entity.Admin;
@@ -34,7 +34,7 @@ public class AdminApiTest {
         createRequest.setRole(AdminRole.ADMIN);
 
         // when
-        ResponseDTO<AdminResponse> response = adminApi.createAdmin(createRequest);
+        ApiResponseDTO<AdminResponse> response = adminApi.createAdmin(createRequest);
         Long id = response.getContents().getId();
 
         // then

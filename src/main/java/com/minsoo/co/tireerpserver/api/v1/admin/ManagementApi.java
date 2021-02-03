@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.api.v1.admin;
 
-import com.minsoo.co.tireerpserver.model.dto.ResponseDTO;
+import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseDTO;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandUpdateRequest;
@@ -15,7 +15,6 @@ import com.minsoo.co.tireerpserver.service.VendorService;
 import com.minsoo.co.tireerpserver.service.WarehouseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,109 +33,106 @@ public class ManagementApi {
 
     // BRAND
     @GetMapping(value = "/brands")
-    public ResponseDTO<List<BrandResponse>> findAllBrands() {
-        return new ResponseDTO<>(brandService.findAll()
+    public ApiResponseDTO<List<BrandResponse>> findAllBrands() {
+        return ApiResponseDTO.createOK(brandService.findAll()
                 .stream()
-                .map(BrandResponse::new)
+                .map(BrandResponse::of)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/brands/name")
-    public ResponseDTO<List<String>> findAllBrandNames() {
-        return new ResponseDTO<>(brandService.findAllBrandNames());
+    public ApiResponseDTO<List<String>> findAllBrandNames() {
+        return ApiResponseDTO.createOK(brandService.findAllBrandNames());
     }
 
     @GetMapping(value = "/brands/{brandId}")
-    public ResponseDTO<BrandResponse> findBrandById(@PathVariable Long brandId) {
-        return new ResponseDTO<>(new BrandResponse(brandService.findById(brandId)));
+    public ApiResponseDTO<BrandResponse> findBrandById(@PathVariable Long brandId) {
+        return ApiResponseDTO.createOK(BrandResponse.of(brandService.findById(brandId)));
     }
 
     @PostMapping(value = "/brands")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseDTO<BrandResponse> createBrand(@RequestBody @Valid BrandCreateRequest brandCreateRequest) {
-        return new ResponseDTO<>(new BrandResponse(brandService.create(brandCreateRequest)));
+    public ApiResponseDTO<BrandResponse> createBrand(@RequestBody @Valid BrandCreateRequest brandCreateRequest) {
+        return ApiResponseDTO.createOK(BrandResponse.of(brandService.create(brandCreateRequest)));
     }
 
     @PutMapping(value = "/brands")
-    public ResponseDTO<BrandResponse> updateBrand(@RequestBody @Valid BrandUpdateRequest brandUpdateRequest) {
-        return new ResponseDTO<>(new BrandResponse(brandService.update(brandUpdateRequest)));
+    public ApiResponseDTO<BrandResponse> updateBrand(@RequestBody @Valid BrandUpdateRequest brandUpdateRequest) {
+        return ApiResponseDTO.createOK(BrandResponse.of(brandService.update(brandUpdateRequest)));
     }
 
     @DeleteMapping(value = "/brands/{brandId}")
-    public ResponseDTO<Long> deleteBrand(@PathVariable Long brandId) {
+    public ApiResponseDTO<String> deleteBrand(@PathVariable Long brandId) {
         brandService.remove(brandId);
-        return new ResponseDTO<>(brandId);
+        return ApiResponseDTO.DEFAULT_OK;
     }
 
     // VENDOR
     @GetMapping(value = "/vendors")
-    public ResponseDTO<List<VendorResponse>> findAllVendors() {
-        return new ResponseDTO<>(vendorService.findAll()
+    public ApiResponseDTO<List<VendorResponse>> findAllVendors() {
+        return ApiResponseDTO.createOK(vendorService.findAll()
                 .stream()
-                .map(VendorResponse::new)
+                .map(VendorResponse::of)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/vendors/name")
-    public ResponseDTO<List<String>> findAllVendorNames() {
-        return new ResponseDTO<>(vendorService.findAllVendorNames());
+    public ApiResponseDTO<List<String>> findAllVendorNames() {
+        return ApiResponseDTO.createOK(vendorService.findAllVendorNames());
     }
 
     @GetMapping(value = "/vendors/{vendorId}")
-    public ResponseDTO<VendorResponse> findVendorById(@PathVariable Long vendorId) {
-        return new ResponseDTO<>(new VendorResponse(vendorService.findById(vendorId)));
+    public ApiResponseDTO<VendorResponse> findVendorById(@PathVariable Long vendorId) {
+        return ApiResponseDTO.createOK(VendorResponse.of(vendorService.findById(vendorId)));
     }
 
     @PostMapping(value = "/vendors")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseDTO<VendorResponse> createVendor(@RequestBody @Valid VendorCreateRequest vendorCreateRequest) {
-        return new ResponseDTO<>(new VendorResponse(vendorService.create(vendorCreateRequest)));
+    public ApiResponseDTO<VendorResponse> createVendor(@RequestBody @Valid VendorCreateRequest vendorCreateRequest) {
+        return ApiResponseDTO.createOK(VendorResponse.of(vendorService.create(vendorCreateRequest)));
     }
 
     @PutMapping(value = "/vendors")
-    public ResponseDTO<VendorResponse> updateVendor(@RequestBody @Valid VendorUpdateRequest vendorUpdateRequest) {
-        return new ResponseDTO<>(new VendorResponse(vendorService.update(vendorUpdateRequest)));
+    public ApiResponseDTO<VendorResponse> updateVendor(@RequestBody @Valid VendorUpdateRequest vendorUpdateRequest) {
+        return ApiResponseDTO.createOK(VendorResponse.of(vendorService.update(vendorUpdateRequest)));
     }
 
     @DeleteMapping(value = "/vendors/{vendorId}")
-    public ResponseDTO<Long> deleteVendor(@PathVariable Long vendorId) {
+    public ApiResponseDTO<String> deleteVendor(@PathVariable Long vendorId) {
         vendorService.remove(vendorId);
-        return new ResponseDTO<>(vendorId);
+        return ApiResponseDTO.DEFAULT_OK;
     }
 
     // WAREHOUSE
     @GetMapping(value = "/warehouses")
-    public ResponseDTO<List<WarehouseResponse>> findAllWarehouses() {
-        return new ResponseDTO<>(warehouseService.findAll()
+    public ApiResponseDTO<List<WarehouseResponse>> findAllWarehouses() {
+        return ApiResponseDTO.createOK(warehouseService.findAll()
                 .stream()
-                .map(WarehouseResponse::new)
+                .map(WarehouseResponse::of)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/warehouses/name")
-    public ResponseDTO<List<String>> findAllWarehouseNames() {
-        return new ResponseDTO<>(warehouseService.findAllWarehouseNames());
+    public ApiResponseDTO<List<String>> findAllWarehouseNames() {
+        return ApiResponseDTO.createOK(warehouseService.findAllWarehouseNames());
     }
 
     @GetMapping(value = "/warehouses/{warehouseId}")
-    public ResponseDTO<WarehouseResponse> findWarehouseById(@PathVariable Long warehouseId) {
-        return new ResponseDTO<>(new WarehouseResponse(warehouseService.findById(warehouseId)));
+    public ApiResponseDTO<WarehouseResponse> findWarehouseById(@PathVariable Long warehouseId) {
+        return ApiResponseDTO.createOK(WarehouseResponse.of(warehouseService.findById(warehouseId)));
     }
 
     @PostMapping(value = "/warehouses")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseDTO<WarehouseResponse> createWarehouse(@RequestBody @Valid WarehouseCreateRequest warehouseCreateRequest) {
-        return new ResponseDTO<>(new WarehouseResponse(warehouseService.create(warehouseCreateRequest)));
+    public ApiResponseDTO<WarehouseResponse> createWarehouse(@RequestBody @Valid WarehouseCreateRequest warehouseCreateRequest) {
+        return ApiResponseDTO.createOK(WarehouseResponse.of(warehouseService.create(warehouseCreateRequest)));
     }
 
     @PutMapping(value = "/warehouses")
-    public ResponseDTO<WarehouseResponse> updateWarehouse(@RequestBody @Valid WarehouseUpdateRequest warehouseUpdateRequest) {
-        return new ResponseDTO<>(new WarehouseResponse(warehouseService.update(warehouseUpdateRequest)));
+    public ApiResponseDTO<WarehouseResponse> updateWarehouse(@RequestBody @Valid WarehouseUpdateRequest warehouseUpdateRequest) {
+        return ApiResponseDTO.createOK(WarehouseResponse.of(warehouseService.update(warehouseUpdateRequest)));
     }
 
     @DeleteMapping(value = "/warehouses/{warehouseId}")
-    public ResponseDTO<Long> deleteWarehouse(@PathVariable Long warehouseId) {
+    public ApiResponseDTO<String> deleteWarehouse(@PathVariable Long warehouseId) {
         warehouseService.remove(warehouseId);
-        return new ResponseDTO<>(warehouseId);
+        return ApiResponseDTO.DEFAULT_OK;
     }
 }

@@ -2,9 +2,13 @@ package com.minsoo.co.tireerpserver.model.dto.management.warehouse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.entity.Warehouse;
-import lombok.Data;
+import lombok.*;
 
-@Data
+import static lombok.AccessLevel.*;
+
+@Getter
+@ToString
+@NoArgsConstructor(access = PROTECTED)
 public class WarehouseResponse {
 
     @JsonProperty("warehouse_id")
@@ -34,7 +38,7 @@ public class WarehouseResponse {
     @JsonProperty("zip_code")
     private Integer zipCode;
 
-    public WarehouseResponse(Warehouse warehouse) {
+    private WarehouseResponse(Warehouse warehouse) {
         this.warehouseId = warehouse.getId();
         this.name = warehouse.getName();
         this.description = warehouse.getDescription();
@@ -43,5 +47,9 @@ public class WarehouseResponse {
         this.addressStreet = warehouse.getAddress().getStreetAddress();
         this.addressDetail = warehouse.getAddress().getDetailAddress();
         this.zipCode = warehouse.getAddress().getZipCode();
+    }
+
+    public static WarehouseResponse of(Warehouse warehouse) {
+        return new WarehouseResponse(warehouse);
     }
 }

@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.api.error.errors;
 
 import com.minsoo.co.tireerpserver.api.error.BaseError;
-import com.minsoo.co.tireerpserver.model.code.Message;
+import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class NotFoundException extends BaseError {
 
     public NotFoundException() {
-        super(Message.NOTFOUND.getMessage(), HttpStatus.NOT_FOUND);
+        super(ApiResponseCode.NOT_FOUND.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     public NotFoundException(String error) {

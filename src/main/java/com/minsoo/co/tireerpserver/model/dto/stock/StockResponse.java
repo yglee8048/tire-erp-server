@@ -2,9 +2,15 @@ package com.minsoo.co.tireerpserver.model.dto.stock;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.entity.Stock;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Data
+import static lombok.AccessLevel.PROTECTED;
+
+@Getter
+@ToString
+@NoArgsConstructor(access = PROTECTED)
 public class StockResponse {
 
     @JsonProperty("stock_id")
@@ -28,7 +34,7 @@ public class StockResponse {
     @JsonProperty("lock")
     private boolean lock;
 
-    public StockResponse(Stock stock) {
+    private StockResponse(Stock stock) {
         StockId = stock.getId();
         this.tireDotId = stock.getTireDot().getId();
         this.dot = stock.getTireDot().getDot();
@@ -36,5 +42,9 @@ public class StockResponse {
         this.warehouseName = stock.getWarehouse().getName();
         this.quantity = stock.getQuantity();
         this.lock = stock.isLock();
+    }
+
+    public static StockResponse of(Stock stock) {
+        return new StockResponse(stock);
     }
 }

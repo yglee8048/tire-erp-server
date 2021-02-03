@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.api.error.errors;
 
 import com.minsoo.co.tireerpserver.api.error.BaseError;
-import com.minsoo.co.tireerpserver.model.code.Message;
+import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -13,6 +13,6 @@ public class UnAuthorizedException extends BaseError {
     }
 
     public UnAuthorizedException() {
-        super(Message.UNAUTHORIZED.getMessage(), HttpStatus.UNAUTHORIZED);
+        super(ApiResponseCode.UNAUTHORIZED.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 }

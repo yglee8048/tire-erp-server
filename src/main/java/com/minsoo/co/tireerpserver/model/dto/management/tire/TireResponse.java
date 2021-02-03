@@ -3,9 +3,15 @@ package com.minsoo.co.tireerpserver.model.dto.management.tire;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.TireOption;
 import com.minsoo.co.tireerpserver.model.entity.Tire;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Data
+import static lombok.AccessLevel.PROTECTED;
+
+@Getter
+@ToString
+@NoArgsConstructor(access = PROTECTED)
 public class TireResponse {
 
     @JsonProperty("tire_id")
@@ -56,7 +62,7 @@ public class TireResponse {
     @JsonProperty("oe")
     private String oe;
 
-    public TireResponse(Tire tire) {
+    private TireResponse(Tire tire) {
         this.tireId = tire.getId();
         this.brandId = tire.getBrand().getId();
         this.brandName = tire.getBrand().getName();
@@ -73,5 +79,9 @@ public class TireResponse {
         this.runFlat = tire.isRunFlat();
         this.option = tire.getOption();
         this.oe = tire.getOe();
+    }
+
+    public static TireResponse of(Tire tire) {
+        return new TireResponse(tire);
     }
 }
