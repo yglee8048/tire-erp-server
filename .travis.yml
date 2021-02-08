@@ -18,7 +18,7 @@ before_install:
   - chmod +x gradlew
 
 before_deploy:
-  - zip -r tire-erp-server tire-erp-server
+  - zip -r tire-erp-server *
   - mkdir -p deploy
   - mv tire-erp-server.zip deploy/tire-erp-server.zip
 
