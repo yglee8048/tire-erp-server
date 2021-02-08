@@ -5,7 +5,8 @@ phases:
       java: corretto11
   build:
     commands:
-      - sudo ./gradlew bootJar
+      - chmod +x gradlew
+      - ./gradlew bootJar
   post_build:
     commands:
       - echo Build Completed.
