@@ -3,6 +3,7 @@ package com.minsoo.co.tireerpserver.model.dto.admin;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.AdminRole;
 import com.minsoo.co.tireerpserver.model.entity.Admin;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -19,6 +20,14 @@ public class AdminResponse {
 
     @JsonProperty("role")
     private AdminRole role;
+
+    @Builder
+    public AdminResponse(Long id, String userId, String name, AdminRole role) {
+        this.id = id;
+        this.userId = userId;
+        this.name = name;
+        this.role = role;
+    }
 
     private AdminResponse(Admin admin) {
         this.id = admin.getId();

@@ -1,15 +1,14 @@
 package com.minsoo.co.tireerpserver.model.dto.response;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @ToString
-@NoArgsConstructor
 public class ApiResponseDTO<T> {
 
     public static final ApiResponseDTO<String> DEFAULT_OK = new ApiResponseDTO<>(ApiResponseCode.OK);
+    public static final ApiResponseDTO<String> BAD_REQUEST = new ApiResponseDTO<>(ApiResponseCode.BAD_REQUEST);
     public static final ApiResponseDTO<String> DEFAULT_UNAUTHORIZED = new ApiResponseDTO<>(ApiResponseCode.UNAUTHORIZED);
 
     private ApiResponseCode code;

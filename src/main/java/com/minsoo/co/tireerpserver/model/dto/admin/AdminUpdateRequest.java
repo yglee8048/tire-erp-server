@@ -9,21 +9,21 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class AdminUpdateRequest {
 
-    @NotEmpty
+    @NotEmpty(message = "admin 객체의 id 가 필요합니다.")
     @JsonProperty("id")
     private Long id;
 
-    @NotEmpty
+    @NotEmpty(message = "유저 아이디는 필수 값입니다.")
     @JsonProperty("user_id")
     private String userId;
 
-    @JsonProperty("user_pw")
+    @NotEmpty(message = "유저 비밀번호는 필수 값입니다.")
     private String userPw;
 
     @JsonProperty("name")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "역할이 정상적으로 입력되지 않았습니다.")
     @JsonProperty("role")
     private AdminRole role;
 }
