@@ -13,15 +13,15 @@ public class ApiResponseDTO<T> {
 
     private ApiResponseCode code;
     private String message;
-    private T contents;
+    private T data;
 
     private ApiResponseDTO(ApiResponseCode status) {
         this.bindStatus(status);
     }
 
-    private ApiResponseDTO(ApiResponseCode status, T contents) {
+    private ApiResponseDTO(ApiResponseCode status, T data) {
         this.bindStatus(status);
-        this.contents = contents;
+        this.data = data;
     }
 
     private void bindStatus(ApiResponseCode status) {
