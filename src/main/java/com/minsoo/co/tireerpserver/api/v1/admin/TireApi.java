@@ -8,6 +8,8 @@ import com.minsoo.co.tireerpserver.model.dto.management.tire.TireResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.tire.TireUpdateRequest;
 import com.minsoo.co.tireerpserver.service.TireDotMemoService;
 import com.minsoo.co.tireerpserver.service.TireService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -82,6 +84,7 @@ public class TireApi {
     }
 
     @PostMapping(value = "/{tireId}/tire-dots/{tireDotId}/tire-dot-memos/{tireDotMemoId}/lock")
+    @ApiImplicitParams({@ApiImplicitParam(name = "lock", value = "잠금 여부(true = 잠금 / false = 공개)")})
     public ApiResponseDTO<TireDotMemoResponse> updateTireDotMemoLock(@PathVariable(value = "tireId") Long tireId,
                                                                      @PathVariable(value = "tireDotId") Long tireDotId,
                                                                      @PathVariable(value = "tireDotMemoId") Long tireDotMemoId,
@@ -90,6 +93,7 @@ public class TireApi {
     }
 
     @PatchMapping(value = "/{tireId}/tire-dots/{tireDotId}/tire-dot-memos/{tireDotMemoId}")
+    @ApiImplicitParams({@ApiImplicitParam(name = "memo", value = "메모 내용")})
     public ApiResponseDTO<TireDotMemoResponse> updateTireDotMemoMemo(@PathVariable(value = "tireId") Long tireId,
                                                                      @PathVariable(value = "tireDotId") Long tireDotId,
                                                                      @PathVariable(value = "tireDotMemoId") Long tireDotMemoId,
