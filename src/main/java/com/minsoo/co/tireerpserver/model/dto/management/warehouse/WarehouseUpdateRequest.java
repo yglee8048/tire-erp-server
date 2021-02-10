@@ -3,17 +3,17 @@ package com.minsoo.co.tireerpserver.model.dto.management.warehouse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Data
 public class WarehouseUpdateRequest {
 
-    @NotEmpty
+    @NotNull
     @JsonProperty("warehouse_id")
     private Long warehouseId;
 
-    @NotEmpty
+    @NotNull
     @JsonProperty("name")
     private String name;
 

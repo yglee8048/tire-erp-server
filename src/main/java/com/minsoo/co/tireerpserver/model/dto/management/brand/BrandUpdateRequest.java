@@ -3,16 +3,16 @@ package com.minsoo.co.tireerpserver.model.dto.management.brand;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class BrandUpdateRequest {
 
-    @NotEmpty
+    @NotNull
     @JsonProperty("brand_id")
     private Long brandId;
 
-    @NotEmpty
+    @NotNull
     @JsonProperty("name")
     private String name;
 

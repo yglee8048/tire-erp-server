@@ -3,18 +3,18 @@ package com.minsoo.co.tireerpserver.model.dto.stock;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Data
 public class MoveStockRequest {
 
-    @NotEmpty
+    @NotNull
     @JsonProperty("from_stock_id")
     private Long fromStockId;
 
-    @NotEmpty
+    @NotNull
     @JsonProperty("to_warehouse_name")
     private String toWarehouseName;
 

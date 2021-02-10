@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.TireOption;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Data
 public class TireCreateRequest {
 
-    @NotEmpty
+    @NotNull
     @JsonProperty("brand_id")
     private Long brandId;
 
-    @NotEmpty
+    @NotNull
     @JsonProperty("product_id")
     private String productId;
 
@@ -37,7 +37,7 @@ public class TireCreateRequest {
     @JsonProperty("inch")
     private Integer inch;
 
-    @NotEmpty
+    @NotNull
     @JsonProperty("pattern")
     private String pattern;
 
