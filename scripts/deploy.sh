@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 
 REPOSITORY=/home/ec2-user/app/step2
+PROJECT_NAME=tire-erp-server
 
 echo "> Build 파일 복사"
-BUILD_PATH=$(ls $REPOSITORY/zip/*.jar)
-JAR_NAME=$(basename $BUILD_PATH)
-echo "> build 파일명: $JAR_NAME"
-cp $REPOSITORY/zip/*.jar $REPOSITORY/$JAR_NAME
+cp $REPOSITORY/zip/*.jar $REPOSITORY/
 
 echo "> 현재 구동 중인 어플리케이션 pid 확인"
-CURRENT_PID=$(pgrep -fl $JAR_NAME | grep jar | awk '{print $1}')
+CURRENT_PID=$(pgrep -fl $PROJECT_NAME | awk '{print $1}')
 
 echo "> 현재 구동 중인 어플리케이션 pid: $CURRENT_PID"
 if [ -z "$CURRENT_PID" ]; then
