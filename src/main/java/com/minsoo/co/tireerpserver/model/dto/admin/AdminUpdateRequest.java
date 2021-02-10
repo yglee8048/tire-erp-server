@@ -17,7 +17,7 @@ public class AdminUpdateRequest {
     @JsonProperty("user_id")
     private String userId;
 
-    @NotNull(message = "유저 비밀번호는 필수 값입니다.")
+    @JsonProperty("user_pw")
     private String userPw;
 
     @JsonProperty("name")
