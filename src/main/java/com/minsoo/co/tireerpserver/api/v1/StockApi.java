@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.api.v1.admin;
+package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.api.error.errors.BadRequestException;
 import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseDTO;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/admin/api/v1/stocks")
+@RequestMapping(value = "/api/v1/stocks")
 @RequiredArgsConstructor
 public class StockApi {
 
