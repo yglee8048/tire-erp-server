@@ -28,10 +28,10 @@ public class StockApi {
 
     @GetMapping(value = "/tires")
     @ApiOperation(value = "타이어 재고 목록 조회", notes = "타이어 재고의 목록을 조회한다.")
-    @ApiImplicitParams({@ApiImplicitParam(name = "size", value = "사이즈 (단면폭/편평비/인치가 연결된 7자리 문자열)"),
-            @ApiImplicitParam(name = "brand_name", value = "브랜드 이름"),
-            @ApiImplicitParam(name = "pattern", value = "패턴"),
-            @ApiImplicitParam(name = "product_id", value = "상품 아이디")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "size", value = "사이즈 (단면폭/편평비/인치가 연결된 7자리 문자열)", example = "2454518"),
+            @ApiImplicitParam(name = "brand_name", value = "브랜드 이름", example = "피렐리"),
+            @ApiImplicitParam(name = "pattern", value = "패턴", example = "KL33"),
+            @ApiImplicitParam(name = "product_id", value = "상품 아이디", example = "P2454518Z")})
     private ApiResponseDTO<List<TireStockResponse>> findTireStocks(@RequestParam(value = "size", required = false) String size,
                                                                    @RequestParam(value = "brand_name", required = false) String brandName,
                                                                    @RequestParam(value = "pattern", required = false) String pattern,
@@ -63,7 +63,7 @@ public class StockApi {
     @ApiOperation(value = "타이어 DOT 재고 Lock 수정", notes = "타이어 DOT 재고의 공개 여부를 수정한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "lock", value = "잠금 여부(true = 잠금 / false = 공개)")})
     private ApiResponseDTO<StockResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
-                                                          @RequestParam(value = "lock") boolean lock) {
+                                                          @RequestBody boolean lock) {
         return ApiResponseDTO.createOK(StockResponse.of(stockService.updateStockLock(stockId, lock)));
     }
 

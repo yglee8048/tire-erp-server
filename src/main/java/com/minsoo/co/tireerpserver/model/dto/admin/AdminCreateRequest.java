@@ -5,7 +5,6 @@ import com.minsoo.co.tireerpserver.model.code.AdminRole;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -15,7 +14,7 @@ public class AdminCreateRequest {
     @JsonProperty("user_id")
     private String userId;
 
-    @NotEmpty(message = "유저 비밀번호는 필수 값입니다.")
+    @NotNull(message = "유저 비밀번호는 필수 값입니다.")
     @JsonProperty("user_pw")
     private String userPw;
 
