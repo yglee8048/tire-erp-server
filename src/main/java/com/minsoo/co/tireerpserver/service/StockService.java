@@ -2,10 +2,12 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.stock.MoveStockRequest;
-import com.minsoo.co.tireerpserver.model.dto.stock.TireStockParamResponse;
+import com.minsoo.co.tireerpserver.model.dto.stock.TireStockParams;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.entity.Stock;
+import com.minsoo.co.tireerpserver.repository.BrandRepository;
 import com.minsoo.co.tireerpserver.repository.StockRepository;
+import com.minsoo.co.tireerpserver.repository.TireRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,17 +22,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StockService {
 
+    private final BrandRepository brandRepository;
+    private final TireRepository tireRepository;
     private final StockRepository stockRepository;
 
     public List<TireStockResponse> findTireStocks(String size, String brandName, String pattern, String productId) {
         return stockRepository.findTireStocks(size, brandName, pattern, productId);
     }
 
-    public TireStockParamResponse findTireStockParams() {
-        TireStockParamResponse paramResponse = new TireStockParamResponse();
-        stockRepository.findTireStockParams()
-                .forEach(paramResponse::addParams);
-        return paramResponse;
+    public TireStockParams findTireStockParams() {
+        return new TireStockParams(
+                tireRepository.findAllSizes(),
+                brandRepository.findAllBrandNames(),
+                tireRepository.findAllPatterns(),
+                tireRepository.findAllProductIds());
     }
 
     public List<Stock> findAllByTireId(Long tireId) {

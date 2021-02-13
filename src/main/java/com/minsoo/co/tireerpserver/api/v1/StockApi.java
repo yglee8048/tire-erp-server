@@ -4,7 +4,7 @@ import com.minsoo.co.tireerpserver.api.error.errors.BadRequestException;
 import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseDTO;
 import com.minsoo.co.tireerpserver.model.dto.stock.MoveStockRequest;
 import com.minsoo.co.tireerpserver.model.dto.stock.StockResponse;
-import com.minsoo.co.tireerpserver.model.dto.stock.TireStockParamResponse;
+import com.minsoo.co.tireerpserver.model.dto.stock.TireStockParams;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.service.StockService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -46,7 +46,7 @@ public class StockApi {
 
     @GetMapping(value = "/tires/params")
     @ApiOperation(value = "타이어 재고 검색 대상 조회", notes = "타이어 재고를 검색할 수 있는 대상 목록을 조회한다.")
-    private ApiResponseDTO<TireStockParamResponse> findTireStockParams() {
+    private ApiResponseDTO<TireStockParams> findTireStockParams() {
         return ApiResponseDTO.createOK(stockService.findTireStockParams());
     }
 
