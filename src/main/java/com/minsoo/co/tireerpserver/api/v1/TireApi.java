@@ -1,12 +1,10 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
-import com.minsoo.co.tireerpserver.model.dto.dot.memo.TireMemoUpdateRequest;
 import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseDTO;
-import com.minsoo.co.tireerpserver.model.dto.dot.memo.TireMemoCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.dot.memo.TireMemoResponse;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.memo.TireMemoRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.memo.TireMemoResponse;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.TireRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.tire.TireResponse;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireUpdateRequest;
 import com.minsoo.co.tireerpserver.service.TireMemoService;
 import com.minsoo.co.tireerpserver.service.TireService;
 import lombok.RequiredArgsConstructor;
@@ -48,13 +46,14 @@ public class TireApi {
     }
 
     @PostMapping
-    public ApiResponseDTO<TireResponse> createTire(@RequestBody @Valid TireCreateRequest createRequest) {
+    public ApiResponseDTO<TireResponse> createTire(@RequestBody @Valid TireRequest createRequest) {
         return ApiResponseDTO.createOK(TireResponse.of(tireService.create(createRequest)));
     }
 
-    @PutMapping
-    public ApiResponseDTO<TireResponse> updateTire(@RequestBody @Valid TireUpdateRequest updateRequest) {
-        return ApiResponseDTO.createOK(TireResponse.of(tireService.update(updateRequest)));
+    @PutMapping(value = "/{tireId}")
+    public ApiResponseDTO<TireResponse> updateTire(@PathVariable Long tireId,
+                                                   @RequestBody @Valid TireRequest updateRequest) {
+        return ApiResponseDTO.createOK(TireResponse.of(tireService.update(tireId, updateRequest)));
     }
 
     @DeleteMapping(value = "/{tireId}")
@@ -80,14 +79,14 @@ public class TireApi {
 
     @PostMapping(value = "/{tireId}/tire-memos")
     public ApiResponseDTO<TireMemoResponse> createTireMemo(@PathVariable(value = "tireId") Long tireId,
-                                                           @RequestBody @Valid TireMemoCreateRequest createRequest) {
+                                                           @RequestBody @Valid TireMemoRequest createRequest) {
         return ApiResponseDTO.createOK(TireMemoResponse.of(tireMemoService.create(tireId, createRequest)));
     }
 
     @PutMapping(value = "/{tireId}/tire-memos/{tireMemoId}")
     public ApiResponseDTO<TireMemoResponse> updateTireMemo(@PathVariable(value = "tireId") Long tireId,
                                                            @PathVariable(value = "tireMemoId") Long tireMemoId,
-                                                           @RequestBody TireMemoUpdateRequest updateRequest) {
+                                                           @RequestBody TireMemoRequest updateRequest) {
         return ApiResponseDTO.createOK(TireMemoResponse.of(tireMemoService.updateTireMemo(tireMemoId, updateRequest)));
     }
 

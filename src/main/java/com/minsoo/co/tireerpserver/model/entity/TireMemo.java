@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
-import com.minsoo.co.tireerpserver.model.dto.dot.memo.TireMemoCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.dot.memo.TireMemoUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.memo.TireMemoRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,17 +31,17 @@ public class TireMemo {
     private boolean lock;
 
     //== Business ==//
-    public TireMemo(TireMemoCreateRequest createRequest, Tire tire) {
+    public TireMemo(TireMemoRequest createRequest, Tire tire) {
         this.tire = tire;
         this.memo = createRequest.getMemo();
         this.lock = createRequest.isLock();
     }
 
-    public static TireMemo of(TireMemoCreateRequest createRequest, Tire tire) {
+    public static TireMemo of(TireMemoRequest createRequest, Tire tire) {
         return new TireMemo(createRequest, tire);
     }
 
-    public void update(TireMemoUpdateRequest updateRequest) {
+    public void update(TireMemoRequest updateRequest) {
         this.memo = updateRequest.getMemo();
         this.lock = updateRequest.isLock();
     }

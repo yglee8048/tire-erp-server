@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
-import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRequest;
 import com.minsoo.co.tireerpserver.model.entity.embedded.Address;
 import lombok.*;
 
@@ -34,21 +33,21 @@ public class Warehouse {
     private Address address;
 
     //== Business ==//
-    private Warehouse(WarehouseCreateRequest createRequest) {
+    private Warehouse(WarehouseRequest createRequest) {
         this.name = createRequest.getName();
         this.description = createRequest.getDescription();
         this.capacity = createRequest.getCapacity();
-        this.address = Address.of(createRequest.getAddressCity(), createRequest.getAddressStreet(), createRequest.getAddressDetail(), createRequest.getZipCode());
+        this.address = Address.of(createRequest.getCity(), createRequest.getStreetAddress(), createRequest.getDetailAddress(), createRequest.getZipCode());
     }
 
-    public static Warehouse of(WarehouseCreateRequest createRequest) {
+    public static Warehouse of(WarehouseRequest createRequest) {
         return new Warehouse(createRequest);
     }
 
-    public void update(WarehouseUpdateRequest updateRequest) {
+    public void update(WarehouseRequest updateRequest) {
         this.name = updateRequest.getName();
         this.description = updateRequest.getDescription();
         this.capacity = updateRequest.getCapacity();
-        this.address = Address.of(updateRequest.getAddressCity(), updateRequest.getAddressStreet(), updateRequest.getAddressDetail(), updateRequest.getZipCode());
+        this.address = Address.of(updateRequest.getCity(), updateRequest.getStreetAddress(), updateRequest.getDetailAddress(), updateRequest.getZipCode());
     }
 }

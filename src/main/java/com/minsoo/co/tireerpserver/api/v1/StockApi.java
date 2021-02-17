@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,9 +61,9 @@ public class StockApi {
 
     @PatchMapping(value = "/{stockId}")
     @ApiOperation(value = "재고 Lock 수정", notes = "재고의 공개 여부를 수정한다.")
-    @ApiImplicitParams({@ApiImplicitParam(name = "lock", value = "잠금 여부(true = 잠금 / false = 공개)")})
+    @ApiImplicitParams({@ApiImplicitParam(name = "lock", value = "잠금 여부(true = 잠금 / false = 공개)", required = true)})
     private ApiResponseDTO<StockResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
-                                                          @PathParam(value = "lock") boolean lock) {
+                                                          @RequestParam(value = "lock") boolean lock) {
         return ApiResponseDTO.createOK(StockResponse.of(stockService.updateStockLock(stockId, lock)));
     }
 

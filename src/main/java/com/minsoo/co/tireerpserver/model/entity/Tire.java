@@ -1,8 +1,7 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.code.TireOption;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.TireRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -77,7 +76,7 @@ public class Tire {
     private Set<TireMemo> tireMemos = new HashSet<>();
 
     //== Business ==//
-    private Tire(TireCreateRequest createRequest, Brand brand) {
+    private Tire(TireRequest createRequest, Brand brand) {
         this.brand = brand;
         this.productId = createRequest.getProductId();
         this.label = createRequest.getLabel();
@@ -94,11 +93,11 @@ public class Tire {
         this.oe = createRequest.getOe();
     }
 
-    public static Tire of(TireCreateRequest createRequest, Brand brand) {
+    public static Tire of(TireRequest createRequest, Brand brand) {
         return new Tire(createRequest, brand);
     }
 
-    public void update(TireUpdateRequest updateRequest, Brand brand) {
+    public void update(TireRequest updateRequest, Brand brand) {
         this.brand = brand;
         this.productId = updateRequest.getProductId();
         this.label = updateRequest.getLabel();

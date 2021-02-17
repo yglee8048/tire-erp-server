@@ -1,7 +1,8 @@
-package com.minsoo.co.tireerpserver.model.dto.dot.memo;
+package com.minsoo.co.tireerpserver.model.dto.management.tire.memo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.entity.TireMemo;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -13,15 +14,19 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 public class TireMemoResponse {
 
+    @ApiModelProperty(value = "ID", example = "2991")
     @JsonProperty("tire_memo_id")
     private Long tireMemoId;
 
+    @ApiModelProperty(value = "타이어 ID", example = "2991")
     @JsonProperty("tire_id")
     private Long tireId;
 
+    @ApiModelProperty(value = "내용", example = "포르쉐에서 50EA 출고 요청")
     @JsonProperty("memo")
     private String memo;
 
+    @ApiModelProperty(value = "잠금 여부 (true=비공개/false=공개)", example = "true")
     @JsonProperty("lock")
     private boolean lock;
 

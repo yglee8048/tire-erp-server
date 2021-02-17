@@ -1,8 +1,7 @@
 package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.dot.memo.TireMemoCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.dot.memo.TireMemoUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.memo.TireMemoRequest;
 import com.minsoo.co.tireerpserver.model.entity.Tire;
 import com.minsoo.co.tireerpserver.model.entity.TireMemo;
 import com.minsoo.co.tireerpserver.repository.TireMemoRepository;
@@ -31,13 +30,13 @@ public class TireMemoService {
     }
 
     @Transactional
-    public TireMemo create(Long tireId, TireMemoCreateRequest createRequest) {
+    public TireMemo create(Long tireId, TireMemoRequest createRequest) {
         Tire tire = tireService.findById(tireId);
         return tireMemoRepository.save(TireMemo.of(createRequest, tire));
     }
 
     @Transactional
-    public TireMemo updateTireMemo(Long tireMemoId, TireMemoUpdateRequest updateRequest) {
+    public TireMemo updateTireMemo(Long tireMemoId, TireMemoRequest updateRequest) {
         TireMemo tireMemo = this.findById(tireMemoId);
         tireMemo.update(updateRequest);
         return tireMemo;

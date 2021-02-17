@@ -2,8 +2,7 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.model.entity.Brand;
 import com.minsoo.co.tireerpserver.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +33,7 @@ public class BrandService {
     }
 
     @Transactional
-    public Brand create(BrandCreateRequest createRequest) {
+    public Brand create(BrandRequest createRequest) {
         if (brandRepository.existsByName(createRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");
         }
@@ -42,7 +41,7 @@ public class BrandService {
     }
 
     @Transactional
-    public Brand update(Long brandId, BrandUpdateRequest updateRequest) {
+    public Brand update(Long brandId, BrandRequest updateRequest) {
         Brand brand = this.findById(brandId);
         if (!brand.getName().equals(updateRequest.getName()) && brandRepository.existsByName(updateRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");

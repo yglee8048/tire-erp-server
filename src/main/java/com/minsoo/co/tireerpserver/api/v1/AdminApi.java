@@ -1,9 +1,8 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseDTO;
-import com.minsoo.co.tireerpserver.model.dto.admin.AdminCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.admin.AdminRequest;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminResponse;
-import com.minsoo.co.tireerpserver.model.dto.admin.AdminUpdateRequest;
 import com.minsoo.co.tireerpserver.service.AdminService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -39,14 +38,15 @@ public class AdminApi {
 
     @ApiOperation(value = "관리자 생성", notes = "관리자를 추가한다.")
     @PostMapping
-    public ApiResponseDTO<AdminResponse> createAdmin(@RequestBody @Valid AdminCreateRequest adminCreateRequest) {
-        return ApiResponseDTO.createOK(AdminResponse.of(adminService.create(adminCreateRequest)));
+    public ApiResponseDTO<AdminResponse> createAdmin(@RequestBody @Valid AdminRequest adminRequest) {
+        return ApiResponseDTO.createOK(AdminResponse.of(adminService.create(adminRequest)));
     }
 
     @ApiOperation(value = "관리자 수정", notes = "관리자를 수정한다.")
-    @PutMapping
-    public ApiResponseDTO<AdminResponse> updateAdmin(@RequestBody @Valid AdminUpdateRequest adminUpdateRequest) {
-        return ApiResponseDTO.createOK(AdminResponse.of(adminService.update(adminUpdateRequest)));
+    @PutMapping(value = "/{adminId}")
+    public ApiResponseDTO<AdminResponse> updateAdmin(@PathVariable Long adminId,
+                                                     @RequestBody @Valid AdminRequest updateRequest) {
+        return ApiResponseDTO.createOK(AdminResponse.of(adminService.update(adminId, updateRequest)));
     }
 
     @ApiOperation(value = "관리자 삭제", notes = "관리자를 삭제한다.")

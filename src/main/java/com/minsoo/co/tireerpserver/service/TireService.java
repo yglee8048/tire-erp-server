@@ -1,8 +1,7 @@
 package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.tire.TireRequest;
 import com.minsoo.co.tireerpserver.model.entity.Brand;
 import com.minsoo.co.tireerpserver.model.entity.Tire;
 import com.minsoo.co.tireerpserver.repository.TireRepository;
@@ -31,15 +30,15 @@ public class TireService {
     }
 
     @Transactional
-    public Tire create(TireCreateRequest createRequest) {
+    public Tire create(TireRequest createRequest) {
         Brand brand = brandService.findById(createRequest.getBrandId());
         return tireRepository.save(Tire.of(createRequest, brand));
     }
 
     @Transactional
-    public Tire update(TireUpdateRequest updateRequest) {
+    public Tire update(Long tireId, TireRequest updateRequest) {
         Brand brand = brandService.findById(updateRequest.getBrandId());
-        Tire tire = this.findById(updateRequest.getTireId());
+        Tire tire = this.findById(tireId);
         tire.update(updateRequest, brand);
         return tire;
     }

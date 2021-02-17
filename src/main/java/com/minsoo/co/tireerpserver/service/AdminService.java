@@ -2,8 +2,7 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.admin.AdminCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.admin.AdminUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.admin.AdminRequest;
 import com.minsoo.co.tireerpserver.model.entity.Admin;
 import com.minsoo.co.tireerpserver.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,7 @@ public class AdminService {
     }
 
     @Transactional
-    public Admin create(AdminCreateRequest createRequest) {
+    public Admin create(AdminRequest createRequest) {
         if (adminRepository.existsByUserId(createRequest.getUserId())) {
             throw new AlreadyExistException("이미 존재하는 아이디입니다.");
         }
@@ -38,8 +37,8 @@ public class AdminService {
     }
 
     @Transactional
-    public Admin update(AdminUpdateRequest updateRequest) {
-        Admin admin = this.findById(updateRequest.getId());
+    public Admin update(Long adminId, AdminRequest updateRequest) {
+        Admin admin = this.findById(adminId);
         if (!admin.getUserId().equals(updateRequest.getUserId()) && adminRepository.existsByUserId(updateRequest.getUserId())) {
             throw new AlreadyExistException("이미 존재하는 아이디입니다.");
         }

@@ -1,15 +1,12 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseDTO;
-import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
-import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandUpdateRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
-import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorUpdateRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
-import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseUpdateRequest;
 import com.minsoo.co.tireerpserver.service.BrandService;
 import com.minsoo.co.tireerpserver.service.VendorService;
 import com.minsoo.co.tireerpserver.service.WarehouseService;
@@ -51,13 +48,13 @@ public class ManagementApi {
     }
 
     @PostMapping(value = "/brands")
-    public ApiResponseDTO<BrandResponse> createBrand(@RequestBody @Valid BrandCreateRequest brandCreateRequest) {
-        return ApiResponseDTO.createOK(BrandResponse.of(brandService.create(brandCreateRequest)));
+    public ApiResponseDTO<BrandResponse> createBrand(@RequestBody @Valid BrandRequest brandRequest) {
+        return ApiResponseDTO.createOK(BrandResponse.of(brandService.create(brandRequest)));
     }
 
     @PutMapping(value = "/brands/{brandId}")
     public ApiResponseDTO<BrandResponse> updateBrand(@PathVariable Long brandId,
-                                                     @RequestBody @Valid BrandUpdateRequest brandUpdateRequest) {
+                                                     @RequestBody @Valid BrandRequest brandUpdateRequest) {
         return ApiResponseDTO.createOK(BrandResponse.of(brandService.update(brandId, brandUpdateRequest)));
     }
 
@@ -87,13 +84,13 @@ public class ManagementApi {
     }
 
     @PostMapping(value = "/vendors")
-    public ApiResponseDTO<VendorResponse> createVendor(@RequestBody @Valid VendorCreateRequest vendorCreateRequest) {
-        return ApiResponseDTO.createOK(VendorResponse.of(vendorService.create(vendorCreateRequest)));
+    public ApiResponseDTO<VendorResponse> createVendor(@RequestBody @Valid VendorRequest vendorRequest) {
+        return ApiResponseDTO.createOK(VendorResponse.of(vendorService.create(vendorRequest)));
     }
 
     @PutMapping(value = "/vendors/{vendorId}")
     public ApiResponseDTO<VendorResponse> updateVendor(@PathVariable Long vendorId,
-                                                       @RequestBody @Valid VendorUpdateRequest vendorUpdateRequest) {
+                                                       @RequestBody @Valid VendorRequest vendorUpdateRequest) {
         return ApiResponseDTO.createOK(VendorResponse.of(vendorService.update(vendorId, vendorUpdateRequest)));
     }
 
@@ -123,13 +120,13 @@ public class ManagementApi {
     }
 
     @PostMapping(value = "/warehouses")
-    public ApiResponseDTO<WarehouseResponse> createWarehouse(@RequestBody @Valid WarehouseCreateRequest warehouseCreateRequest) {
-        return ApiResponseDTO.createOK(WarehouseResponse.of(warehouseService.create(warehouseCreateRequest)));
+    public ApiResponseDTO<WarehouseResponse> createWarehouse(@RequestBody @Valid WarehouseRequest warehouseRequest) {
+        return ApiResponseDTO.createOK(WarehouseResponse.of(warehouseService.create(warehouseRequest)));
     }
 
     @PutMapping(value = "/warehouses/{warehouseId}")
     public ApiResponseDTO<WarehouseResponse> updateWarehouse(@PathVariable Long warehouseId,
-                                                             @RequestBody @Valid WarehouseUpdateRequest warehouseUpdateRequest) {
+                                                             @RequestBody @Valid WarehouseRequest warehouseUpdateRequest) {
         return ApiResponseDTO.createOK(WarehouseResponse.of(warehouseService.update(warehouseId, warehouseUpdateRequest)));
     }
 

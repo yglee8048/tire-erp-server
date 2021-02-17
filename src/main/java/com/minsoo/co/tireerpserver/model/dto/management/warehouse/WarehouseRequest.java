@@ -1,22 +1,17 @@
 package com.minsoo.co.tireerpserver.model.dto.management.warehouse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.minsoo.co.tireerpserver.model.entity.Warehouse;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.Data;
 
-import static lombok.AccessLevel.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
-@Getter
-@ToString
-@NoArgsConstructor(access = PROTECTED)
-public class WarehouseResponse {
-
-    @ApiModelProperty(value = "ID", example = "2099")
-    @JsonProperty("warehouse_id")
-    private Long warehouseId;
+@Data
+public class WarehouseRequest {
 
     @ApiModelProperty(value = "이름", example = "왕십리 메인 창고")
+    @NotNull(message = "창고 이름은 필수 값입니다.")
     @JsonProperty("name")
     private String name;
 
@@ -25,6 +20,7 @@ public class WarehouseResponse {
     private String description;
 
     @ApiModelProperty(value = "이름", example = "왕십리 메인 창고")
+    @Positive(message = "창고 용량은 양수여야 합니다.")
     @JsonProperty("capacity")
     private Integer capacity;
 
@@ -41,21 +37,7 @@ public class WarehouseResponse {
     private String detailAddress;
 
     @ApiModelProperty(value = "우편번호", example = "03139")
+    @Positive(message = "우편번호는 양수여야 합니다.")
     @JsonProperty("zip_code")
     private Integer zipCode;
-
-    private WarehouseResponse(Warehouse warehouse) {
-        this.warehouseId = warehouse.getId();
-        this.name = warehouse.getName();
-        this.description = warehouse.getDescription();
-        this.capacity = warehouse.getCapacity();
-        this.city = warehouse.getAddress().getCity();
-        this.streetAddress = warehouse.getAddress().getStreetAddress();
-        this.detailAddress = warehouse.getAddress().getDetailAddress();
-        this.zipCode = warehouse.getAddress().getZipCode();
-    }
-
-    public static WarehouseResponse of(Warehouse warehouse) {
-        return new WarehouseResponse(warehouse);
-    }
 }

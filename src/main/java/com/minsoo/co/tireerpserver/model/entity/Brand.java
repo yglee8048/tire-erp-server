@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
-import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,16 +26,16 @@ public class Brand {
     private String description;
 
     //== Business ==//
-    private Brand(BrandCreateRequest createRequest) {
+    private Brand(BrandRequest createRequest) {
         this.name = createRequest.getName();
         this.description = createRequest.getDescription();
     }
 
-    public static Brand of(BrandCreateRequest createRequest) {
+    public static Brand of(BrandRequest createRequest) {
         return new Brand(createRequest);
     }
 
-    public void update(BrandUpdateRequest updateRequest) {
+    public void update(BrandRequest updateRequest) {
         this.name = updateRequest.getName();
         this.description = updateRequest.getDescription();
     }

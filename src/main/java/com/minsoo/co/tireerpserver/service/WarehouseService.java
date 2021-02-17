@@ -2,8 +2,7 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRequest;
 import com.minsoo.co.tireerpserver.model.entity.Warehouse;
 import com.minsoo.co.tireerpserver.repository.WarehouseRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +33,7 @@ public class WarehouseService {
     }
 
     @Transactional
-    public Warehouse create(WarehouseCreateRequest createRequest) {
+    public Warehouse create(WarehouseRequest createRequest) {
         if (warehouseRepository.existsByName(createRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");
         }
@@ -42,7 +41,7 @@ public class WarehouseService {
     }
 
     @Transactional
-    public Warehouse update(Long warehouseId, WarehouseUpdateRequest updateRequest) {
+    public Warehouse update(Long warehouseId, WarehouseRequest updateRequest) {
         Warehouse warehouse = this.findById(warehouseId);
         if (!warehouse.getName().equals(updateRequest.getName()) && warehouseRepository.existsByName(updateRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");

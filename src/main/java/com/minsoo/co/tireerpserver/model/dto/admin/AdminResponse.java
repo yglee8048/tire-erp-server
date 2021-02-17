@@ -3,31 +3,27 @@ package com.minsoo.co.tireerpserver.model.dto.admin;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.AdminRole;
 import com.minsoo.co.tireerpserver.model.entity.Admin;
-import lombok.Builder;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 public class AdminResponse {
 
+    @ApiModelProperty(value = "ID", example = "2937")
     @JsonProperty("id")
     private Long id;
 
+    @ApiModelProperty(value = "아이디", example = "user123")
     @JsonProperty("user_id")
     private String userId;
 
+    @ApiModelProperty(value = "이름", example = "김철수")
     @JsonProperty("name")
     private String name;
 
+    @ApiModelProperty(value = "역할", example = "SUPER_ADMIN")
     @JsonProperty("role")
     private AdminRole role;
-
-    @Builder
-    public AdminResponse(Long id, String userId, String name, AdminRole role) {
-        this.id = id;
-        this.userId = userId;
-        this.name = name;
-        this.role = role;
-    }
 
     private AdminResponse(Admin admin) {
         this.id = admin.getId();

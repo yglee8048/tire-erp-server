@@ -1,8 +1,7 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.code.AdminRole;
-import com.minsoo.co.tireerpserver.model.dto.admin.AdminCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.admin.AdminUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.admin.AdminRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,18 +35,18 @@ public class Admin {
     private AdminRole role;
 
     //== Business ==//
-    private Admin(AdminCreateRequest createRequest) {
+    private Admin(AdminRequest createRequest) {
         this.userId = createRequest.getUserId();
         this.userPw = createRequest.getUserPw();
         this.name = createRequest.getName();
         this.role = createRequest.getRole();
     }
 
-    public static Admin of(AdminCreateRequest createRequest) {
+    public static Admin of(AdminRequest createRequest) {
         return new Admin(createRequest);
     }
 
-    public void update(AdminUpdateRequest updateRequest) {
+    public void update(AdminRequest updateRequest) {
         // 비밀번호가 null 인 경우 수정하지 않는다.
         if (updateRequest.getUserPw() != null) {
             this.userPw = updateRequest.getUserPw();

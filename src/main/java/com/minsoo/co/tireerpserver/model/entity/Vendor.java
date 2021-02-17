@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
-import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorRequest;
 import com.minsoo.co.tireerpserver.model.entity.embedded.Address;
 import lombok.*;
 
@@ -33,9 +32,6 @@ public class Vendor {
     @Column(name = "business_type")
     private String businessType;
 
-    @Column(name = "company_name")
-    private String companyName;
-
     @Embedded
     private Address address;
 
@@ -58,12 +54,11 @@ public class Vendor {
     private String managerPhoneNumber;
 
     //== Business ==//
-    private Vendor(VendorCreateRequest createRequest) {
+    private Vendor(VendorRequest createRequest) {
         this.name = createRequest.getName();
         this.businessNumber = createRequest.getBusinessNumber();
         this.businessName = createRequest.getBusinessName();
         this.businessType = createRequest.getBusinessType();
-        this.companyName = createRequest.getCompanyName();
         this.address = Address.of(createRequest.getCity(), createRequest.getStreetAddress(), createRequest.getDetailAddress(), createRequest.getZipCode());
         this.fax = createRequest.getFax();
         this.emailAddress = createRequest.getEmailAddress();
@@ -73,16 +68,15 @@ public class Vendor {
         this.managerPhoneNumber = createRequest.getManagerPhoneNumber();
     }
 
-    public static Vendor of(VendorCreateRequest createRequest) {
+    public static Vendor of(VendorRequest createRequest) {
         return new Vendor(createRequest);
     }
 
-    public void update(VendorUpdateRequest updateRequest) {
+    public void update(VendorRequest updateRequest) {
         this.name = updateRequest.getName();
         this.businessNumber = updateRequest.getBusinessNumber();
         this.businessName = updateRequest.getBusinessName();
         this.businessType = updateRequest.getBusinessType();
-        this.companyName = updateRequest.getCompanyName();
         this.address = Address.of(updateRequest.getCity(), updateRequest.getStreetAddress(), updateRequest.getDetailAddress(), updateRequest.getZipCode());
         this.fax = updateRequest.getFax();
         this.emailAddress = updateRequest.getEmailAddress();
