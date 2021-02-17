@@ -42,8 +42,8 @@ public class WarehouseService {
     }
 
     @Transactional
-    public Warehouse update(WarehouseUpdateRequest updateRequest) {
-        Warehouse warehouse = this.findById(updateRequest.getWarehouseId());
+    public Warehouse update(Long warehouseId, WarehouseUpdateRequest updateRequest) {
+        Warehouse warehouse = this.findById(warehouseId);
         if (!warehouse.getName().equals(updateRequest.getName()) && warehouseRepository.existsByName(updateRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");
         }

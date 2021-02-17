@@ -6,9 +6,10 @@ import com.minsoo.co.tireerpserver.model.dto.management.tire.TireUpdateRequest;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
@@ -69,8 +70,11 @@ public class Tire {
     @Column(name = "oe")
     private String oe;
 
-    @OneToMany(mappedBy = "tire", fetch = LAZY)
-    private List<TireDot> tireDots = new ArrayList<>();
+    @OneToMany(mappedBy = "tire", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private Set<TireDot> tireDots = new HashSet<>();
+
+    @OneToMany(mappedBy = "tire", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private Set<TireMemo> tireMemos = new HashSet<>();
 
     //== Business ==//
     private Tire(TireCreateRequest createRequest, Brand brand) {

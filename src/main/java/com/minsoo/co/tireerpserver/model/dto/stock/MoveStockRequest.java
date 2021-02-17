@@ -11,10 +11,6 @@ import javax.validation.constraints.Positive;
 public class MoveStockRequest {
 
     @NotNull
-    @JsonProperty("from_stock_id")
-    private Long fromStockId;
-
-    @NotNull
     @JsonProperty("to_warehouse_name")
     private String toWarehouseName;
 

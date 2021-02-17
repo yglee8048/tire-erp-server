@@ -30,8 +30,5 @@ public class TireDot {
     private String dot;
 
     @OneToMany(mappedBy = "tireDot", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private Set<TireDotMemo> tireDotMemos = new HashSet<>();
-
-    @OneToMany(mappedBy = "tireDot", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private Set<Stock> stocks = new HashSet<>();
 }

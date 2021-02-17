@@ -38,7 +38,7 @@ public class Warehouse {
         this.name = createRequest.getName();
         this.description = createRequest.getDescription();
         this.capacity = createRequest.getCapacity();
-        this.address = new Address(createRequest.getAddressCity(), createRequest.getAddressStreet(), createRequest.getAddressDetail(), createRequest.getZipCode());
+        this.address = Address.of(createRequest.getAddressCity(), createRequest.getAddressStreet(), createRequest.getAddressDetail(), createRequest.getZipCode());
     }
 
     public static Warehouse of(WarehouseCreateRequest createRequest) {
@@ -49,6 +49,6 @@ public class Warehouse {
         this.name = updateRequest.getName();
         this.description = updateRequest.getDescription();
         this.capacity = updateRequest.getCapacity();
-        this.address = new Address(updateRequest.getAddressCity(), updateRequest.getAddressStreet(), updateRequest.getAddressDetail(), updateRequest.getZipCode());
+        this.address = Address.of(updateRequest.getAddressCity(), updateRequest.getAddressStreet(), updateRequest.getAddressDetail(), updateRequest.getZipCode());
     }
 }

@@ -9,10 +9,6 @@ import javax.validation.constraints.NotNull;
 public class BrandUpdateRequest {
 
     @NotNull
-    @JsonProperty("brand_id")
-    private Long brandId;
-
-    @NotNull
     @JsonProperty("name")
     private String name;
 

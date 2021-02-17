@@ -40,7 +40,7 @@ public class ManagementApi {
                 .collect(Collectors.toList()));
     }
 
-    @GetMapping(value = "/brands/name")
+    @GetMapping(value = "/brands/names")
     public ApiResponseDTO<List<String>> findAllBrandNames() {
         return ApiResponseDTO.createOK(brandService.findAllBrandNames());
     }
@@ -55,9 +55,10 @@ public class ManagementApi {
         return ApiResponseDTO.createOK(BrandResponse.of(brandService.create(brandCreateRequest)));
     }
 
-    @PutMapping(value = "/brands")
-    public ApiResponseDTO<BrandResponse> updateBrand(@RequestBody @Valid BrandUpdateRequest brandUpdateRequest) {
-        return ApiResponseDTO.createOK(BrandResponse.of(brandService.update(brandUpdateRequest)));
+    @PutMapping(value = "/brands/{brandId}")
+    public ApiResponseDTO<BrandResponse> updateBrand(@PathVariable Long brandId,
+                                                     @RequestBody @Valid BrandUpdateRequest brandUpdateRequest) {
+        return ApiResponseDTO.createOK(BrandResponse.of(brandService.update(brandId, brandUpdateRequest)));
     }
 
     @DeleteMapping(value = "/brands/{brandId}")
@@ -75,7 +76,7 @@ public class ManagementApi {
                 .collect(Collectors.toList()));
     }
 
-    @GetMapping(value = "/vendors/name")
+    @GetMapping(value = "/vendors/names")
     public ApiResponseDTO<List<String>> findAllVendorNames() {
         return ApiResponseDTO.createOK(vendorService.findAllVendorNames());
     }
@@ -90,9 +91,10 @@ public class ManagementApi {
         return ApiResponseDTO.createOK(VendorResponse.of(vendorService.create(vendorCreateRequest)));
     }
 
-    @PutMapping(value = "/vendors")
-    public ApiResponseDTO<VendorResponse> updateVendor(@RequestBody @Valid VendorUpdateRequest vendorUpdateRequest) {
-        return ApiResponseDTO.createOK(VendorResponse.of(vendorService.update(vendorUpdateRequest)));
+    @PutMapping(value = "/vendors/{vendorId}")
+    public ApiResponseDTO<VendorResponse> updateVendor(@PathVariable Long vendorId,
+                                                       @RequestBody @Valid VendorUpdateRequest vendorUpdateRequest) {
+        return ApiResponseDTO.createOK(VendorResponse.of(vendorService.update(vendorId, vendorUpdateRequest)));
     }
 
     @DeleteMapping(value = "/vendors/{vendorId}")
@@ -110,7 +112,7 @@ public class ManagementApi {
                 .collect(Collectors.toList()));
     }
 
-    @GetMapping(value = "/warehouses/name")
+    @GetMapping(value = "/warehouses/names")
     public ApiResponseDTO<List<String>> findAllWarehouseNames() {
         return ApiResponseDTO.createOK(warehouseService.findAllWarehouseNames());
     }
@@ -125,9 +127,10 @@ public class ManagementApi {
         return ApiResponseDTO.createOK(WarehouseResponse.of(warehouseService.create(warehouseCreateRequest)));
     }
 
-    @PutMapping(value = "/warehouses")
-    public ApiResponseDTO<WarehouseResponse> updateWarehouse(@RequestBody @Valid WarehouseUpdateRequest warehouseUpdateRequest) {
-        return ApiResponseDTO.createOK(WarehouseResponse.of(warehouseService.update(warehouseUpdateRequest)));
+    @PutMapping(value = "/warehouses/{warehouseId}")
+    public ApiResponseDTO<WarehouseResponse> updateWarehouse(@PathVariable Long warehouseId,
+                                                             @RequestBody @Valid WarehouseUpdateRequest warehouseUpdateRequest) {
+        return ApiResponseDTO.createOK(WarehouseResponse.of(warehouseService.update(warehouseId, warehouseUpdateRequest)));
     }
 
     @DeleteMapping(value = "/warehouses/{warehouseId}")

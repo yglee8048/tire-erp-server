@@ -6,15 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class TireDotMemoUpdateRequest {
-
-    @NotNull
-    @JsonProperty("tire_dot_memo_id")
-    private Long tireDotMemoId;
-
-    @NotNull
-    @JsonProperty("tire_dot_id")
-    private Long tireDotId;
+public class TireMemoUpdateRequest {
 
     @JsonProperty("memo")
     private String memo;

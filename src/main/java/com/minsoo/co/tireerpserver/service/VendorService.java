@@ -42,8 +42,8 @@ public class VendorService {
     }
 
     @Transactional
-    public Vendor update(VendorUpdateRequest updateRequest) {
-        Vendor vendor = this.findById(updateRequest.getVendorId());
+    public Vendor update(Long vendorId, VendorUpdateRequest updateRequest) {
+        Vendor vendor = this.findById(vendorId);
         if (!vendor.getName().equals(updateRequest.getName()) && vendorRepository.existsByName(updateRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");
         }

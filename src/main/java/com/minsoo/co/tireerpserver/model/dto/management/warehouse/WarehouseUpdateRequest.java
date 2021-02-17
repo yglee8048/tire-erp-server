@@ -10,10 +10,6 @@ import javax.validation.constraints.Positive;
 public class WarehouseUpdateRequest {
 
     @NotNull
-    @JsonProperty("warehouse_id")
-    private Long warehouseId;
-
-    @NotNull
     @JsonProperty("name")
     private String name;
 

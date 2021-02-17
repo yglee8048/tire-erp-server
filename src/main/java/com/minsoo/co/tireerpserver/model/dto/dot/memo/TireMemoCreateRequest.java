@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class TireDotMemoCreateRequest {
+public class TireMemoCreateRequest {
 
     @JsonProperty("memo")
     private String memo;

@@ -9,7 +9,6 @@ import static lombok.AccessLevel.*;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-@AllArgsConstructor
 @EqualsAndHashCode
 @ToString
 @Embeddable
@@ -30,4 +29,15 @@ public class Address {
     // 우편번호
     @Column(name = "zip_code")
     private Integer zipCode;
+
+    private Address(String city, String streetAddress, String detailAddress, Integer zipCode) {
+        this.city = city == null ? "" : city;   // embedded 타입의 경우, 모두 null 이면 에러 발생
+        this.streetAddress = streetAddress;
+        this.detailAddress = detailAddress;
+        this.zipCode = zipCode;
+    }
+
+    public static Address of(String city, String streetAddress, String detailAddress, Integer zipCode) {
+        return new Address(city, streetAddress, detailAddress, zipCode);
+    }
 }

@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ public class StockApi {
     }
 
     @GetMapping(value = "/tires/params")
-    @ApiOperation(value = "타이어 재고 검색 대상 조회", notes = "타이어 재고를 검색할 수 있는 대상 목록을 조회한다.")
+    @ApiOperation(value = "타이어 재고 검색 조건 조회", notes = "타이어 재고를 검색할 수 있는 조건 목록을 조회한다.")
     private ApiResponseDTO<TireStockParams> findTireStockParams() {
         return ApiResponseDTO.createOK(stockService.findTireStockParams());
     }
@@ -59,18 +60,19 @@ public class StockApi {
                 .collect(Collectors.toList()));
     }
 
-    @PostMapping(value = "/{stockId}/lock")
-    @ApiOperation(value = "타이어 DOT 재고 Lock 수정", notes = "타이어 DOT 재고의 공개 여부를 수정한다.")
+    @PatchMapping(value = "/{stockId}")
+    @ApiOperation(value = "재고 Lock 수정", notes = "재고의 공개 여부를 수정한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "lock", value = "잠금 여부(true = 잠금 / false = 공개)")})
     private ApiResponseDTO<StockResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
-                                                          @RequestBody boolean lock) {
+                                                          @PathParam(value = "lock") boolean lock) {
         return ApiResponseDTO.createOK(StockResponse.of(stockService.updateStockLock(stockId, lock)));
     }
 
-    @PostMapping(value = "/move")
+    @PostMapping(value = "/{stockId}/move")
     @ApiOperation(value = "재고 이동", notes = "타이어 DOT 재고를 이동한다.")
-    private ApiResponseDTO<List<StockResponse>> moveStock(@RequestBody @Valid MoveStockRequest moveStockRequest) {
-        return ApiResponseDTO.createOK(stockService.moveStock(moveStockRequest)
+    private ApiResponseDTO<List<StockResponse>> moveStock(@PathVariable(value = "stockId") Long stockId,
+                                                          @RequestBody @Valid MoveStockRequest moveStockRequest) {
+        return ApiResponseDTO.createOK(stockService.moveStock(stockId, moveStockRequest)
                 .stream()
                 .map(StockResponse::of)
                 .collect(Collectors.toList()));

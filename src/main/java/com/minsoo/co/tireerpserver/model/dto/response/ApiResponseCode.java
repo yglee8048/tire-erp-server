@@ -1,13 +1,12 @@
 package com.minsoo.co.tireerpserver.model.dto.response;
 
-import com.minsoo.co.tireerpserver.utils.EnumType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum ApiResponseCode implements EnumType {
+public enum ApiResponseCode {
 
     OK("요청이 성공하였습니다.", HttpStatus.OK),
     SERVER_ERROR("서버 에러입니다.", HttpStatus.INTERNAL_SERVER_ERROR),
@@ -22,14 +21,4 @@ public enum ApiResponseCode implements EnumType {
 
     private final String message;
     private final HttpStatus httpStatus;
-
-    @Override
-    public String getId() {
-        return name();
-    }
-
-    @Override
-    public String getText() {
-        return message;
-    }
 }

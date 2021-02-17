@@ -50,8 +50,8 @@ public class StockService {
     }
 
     @Transactional
-    public List<Stock> moveStock(MoveStockRequest moveStockRequest) {
-        Stock fromStock = stockRepository.findFetchById(moveStockRequest.getFromStockId()).orElseThrow(NotFoundException::new);
+    public List<Stock> moveStock(Long stockId, MoveStockRequest moveStockRequest) {
+        Stock fromStock = stockRepository.findFetchById(stockId).orElseThrow(NotFoundException::new);
         fromStock.reduceQuantity(moveStockRequest.getQuantity());
 
         Stock toStock = stockRepository.findOneFetchByTireDotIdAndWarehouseName(fromStock.getTireDot().getId(), moveStockRequest.getToWarehouseName()).orElseThrow(NotFoundException::new);
