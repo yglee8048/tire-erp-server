@@ -47,7 +47,7 @@ public class AdminService {
     }
 
     @Transactional
-    public void remove(Long id) {
+    public void removeById(Long id) {
         adminRepository.delete(this.findById(id));
     }
 }

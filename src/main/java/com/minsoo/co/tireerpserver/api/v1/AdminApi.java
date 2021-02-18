@@ -60,7 +60,7 @@ public class AdminApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "adminId", value = "관리자 ID", example = "201324", required = true)})
     public ApiResponse<String> deleteAdmin(@PathVariable Long adminId) {
-        adminService.remove(adminId);
+        adminService.removeById(adminId);
         return ApiResponse.DEFAULT_OK;
     }
 }

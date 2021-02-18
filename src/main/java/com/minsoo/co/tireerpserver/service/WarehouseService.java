@@ -51,7 +51,7 @@ public class WarehouseService {
     }
 
     @Transactional
-    public void remove(Long id) {
+    public void removeById(Long id) {
         warehouseRepository.delete(this.findById(id));
     }
 }

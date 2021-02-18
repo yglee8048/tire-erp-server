@@ -29,7 +29,10 @@ public class StockApi {
     @GetMapping
     @ApiOperation(value = "재고 전체 목록 조회", notes = "재고 전체 목록을 조회한다.")
     public ApiResponse<List<StockResponse>> findAllStocks() {
-        return ApiResponse.createOK(null);
+        return ApiResponse.createOK(stockService.findAll()
+                .stream()
+                .map(StockResponse::of)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/{stockId}")
@@ -37,7 +40,7 @@ public class StockApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "stockId", value = "재고 ID", example = "201324", required = true)})
     public ApiResponse<StockResponse> findStockById(@PathVariable(value = "stockId") Long stockId) {
-        return ApiResponse.createOK(null);
+        return ApiResponse.createOK(StockResponse.of(stockService.findById(stockId)));
     }
 
     @PostMapping(value = "/{stockId}/update-lock")

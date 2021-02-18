@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
+import com.minsoo.co.tireerpserver.model.dto.customer.CustomerRequest;
 import com.minsoo.co.tireerpserver.model.entity.embedded.BusinessInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,4 +36,26 @@ public class Customer {
 
     @Embedded
     private BusinessInfo businessInfo;
+
+    private Customer(CustomerRequest createRequest) {
+        this.userId = createRequest.getUserId();
+        this.userPw = createRequest.getUserPw();
+        this.name = createRequest.getName();
+        this.description = createRequest.getDescription();
+        this.businessInfo = BusinessInfo.of(createRequest.getBusinessInfo());
+    }
+
+    public static Customer of(CustomerRequest createRequest) {
+        return new Customer(createRequest);
+    }
+
+    public void update(CustomerRequest updateRequest) {
+        this.userId = updateRequest.getUserId();
+        if (userPw != null) {
+            this.userPw = updateRequest.getUserPw();
+        }
+        this.name = updateRequest.getName();
+        this.description = updateRequest.getDescription();
+        this.businessInfo = BusinessInfo.of(updateRequest.getBusinessInfo());
+    }
 }

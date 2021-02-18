@@ -51,7 +51,7 @@ public class BrandService {
     }
 
     @Transactional
-    public void remove(Long id) {
+    public void removeById(Long id) {
         brandRepository.delete(this.findById(id));
     }
 }

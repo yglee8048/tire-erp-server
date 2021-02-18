@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.customer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
+import com.minsoo.co.tireerpserver.model.entity.Customer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,4 +38,17 @@ public class CustomerResponse {
     @ApiModelProperty(value = "사업자 관련 정보")
     @JsonProperty("business_info")
     private BusinessInfoDTO businessInfo;
+
+    private CustomerResponse(Customer customer) {
+        this.customerId = customer.getId();
+        this.userId = customer.getUserId();
+        this.userPw = customer.getUserPw();
+        this.name = customer.getName();
+        this.description = customer.getDescription();
+        this.businessInfo = BusinessInfoDTO.of(customer.getBusinessInfo());
+    }
+
+    public static CustomerResponse of(Customer customer) {
+        return new CustomerResponse(customer);
+    }
 }

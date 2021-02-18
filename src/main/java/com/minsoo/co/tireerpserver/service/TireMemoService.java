@@ -48,7 +48,7 @@ public class TireMemoService {
     }
 
     @Transactional
-    public void remove(Long tireId, Long tireMemoId) {
+    public void removeById(Long tireId, Long tireMemoId) {
         TireMemo tireMemo = this.findById(tireId, tireMemoId);
         tireMemoRepository.delete(tireMemo);
     }

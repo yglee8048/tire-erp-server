@@ -51,7 +51,7 @@ public class VendorService {
     }
 
     @Transactional
-    public void remove(Long id) {
+    public void removeById(Long id) {
         vendorRepository.delete(this.findById(id));
     }
 }

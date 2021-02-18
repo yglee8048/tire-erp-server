@@ -26,6 +26,14 @@ public class StockService {
     private final TireRepository tireRepository;
     private final StockRepository stockRepository;
 
+    public List<Stock> findAll() {
+        return stockRepository.findAll();
+    }
+
+    public Stock findById(Long id) {
+        return stockRepository.findById(id).orElseThrow(NotFoundException::new);
+    }
+
     public List<TireStockResponse> findTireStocks(String size, String brandName, String pattern, String productId) {
         return stockRepository.findTireStocks(size, brandName, pattern, productId);
     }

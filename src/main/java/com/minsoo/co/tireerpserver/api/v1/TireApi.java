@@ -68,7 +68,7 @@ public class TireApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
     public ApiResponse<String> deleteTire(@PathVariable Long tireId) {
-        tireService.remove(tireId);
+        tireService.removeById(tireId);
         return ApiResponse.DEFAULT_OK;
     }
 
@@ -134,7 +134,7 @@ public class TireApi {
             @ApiImplicitParam(name = "tireMemoId", value = "타이어 메모 ID", example = "201324", required = true)})
     public ApiResponse<String> deleteTireMemo(@PathVariable(value = "tireId") Long tireId,
                                               @PathVariable(value = "tireMemoId") Long tireMemoId) {
-        tireMemoService.remove(tireId, tireMemoId);
+        tireMemoService.removeById(tireId, tireMemoId);
         return ApiResponse.DEFAULT_OK;
     }
 }

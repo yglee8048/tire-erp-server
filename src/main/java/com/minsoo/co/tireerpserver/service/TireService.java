@@ -44,7 +44,7 @@ public class TireService {
     }
 
     @Transactional
-    public void remove(Long id) {
+    public void removeById(Long id) {
         tireRepository.delete(this.findById(id));
     }
 }

@@ -3,6 +3,7 @@ package com.minsoo.co.tireerpserver.api.v1;
 import com.minsoo.co.tireerpserver.model.dto.customer.CustomerRequest;
 import com.minsoo.co.tireerpserver.model.dto.customer.CustomerResponse;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
+import com.minsoo.co.tireerpserver.service.CustomerService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -19,10 +21,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerApi {
 
+    private final CustomerService customerService;
+
     @GetMapping
     @ApiOperation(value = "거래처 목록 조회", notes = "거래처의 목록을 조회한다.")
     public ApiResponse<List<CustomerResponse>> findAllCustomers() {
-        return ApiResponse.createOK(null);
+        return ApiResponse.createOK(customerService.findAll()
+                .stream()
+                .map(CustomerResponse::of)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/{customerId}")
@@ -30,13 +37,13 @@ public class CustomerApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "customerId", value = "거래처 ID", example = "201324", required = true)})
     public ApiResponse<CustomerResponse> findCustomerById(@PathVariable(value = "customerId") Long customerId) {
-        return ApiResponse.createOK(null);
+        return ApiResponse.createOK(CustomerResponse.of(customerService.findById(customerId)));
     }
 
     @PostMapping
     @ApiOperation(value = "거래처 생성", notes = "거래처를 생성한다.")
     public ApiResponse<CustomerResponse> createCustomer(@RequestBody @Valid CustomerRequest createRequest) {
-        return ApiResponse.createOK(null);
+        return ApiResponse.createOK(CustomerResponse.of(customerService.create(createRequest)));
     }
 
     @PutMapping(value = "/{customerId}")
@@ -45,14 +52,15 @@ public class CustomerApi {
             @ApiImplicitParam(name = "customerId", value = "거래처 ID", example = "201324", required = true)})
     public ApiResponse<CustomerResponse> updateCustomer(@PathVariable(value = "customerId") Long customerId,
                                                         @RequestBody @Valid CustomerRequest updateRequest) {
-        return ApiResponse.createOK(null);
+        return ApiResponse.createOK(CustomerResponse.of(customerService.update(customerId, updateRequest)));
     }
 
     @DeleteMapping(value = "/{customerId}")
     @ApiOperation(value = "거래처 삭제", notes = "거래처를 삭제한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "customerId", value = "거래처 ID", example = "201324", required = true)})
-    public ApiResponse<CustomerResponse> deleteCustomer(@PathVariable(value = "customerId") Long customerId) {
-        return ApiResponse.createOK(null);
+    public ApiResponse<String> deleteCustomer(@PathVariable(value = "customerId") Long customerId) {
+        customerService.removeById(customerId);
+        return ApiResponse.DEFAULT_OK;
     }
 }

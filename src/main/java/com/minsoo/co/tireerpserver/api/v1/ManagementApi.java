@@ -75,7 +75,7 @@ public class ManagementApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "brandId", value = "브랜드 ID", example = "201324", required = true)})
     public ApiResponse<String> deleteBrand(@PathVariable Long brandId) {
-        brandService.remove(brandId);
+        brandService.removeById(brandId);
         return ApiResponse.DEFAULT_OK;
     }
 
@@ -123,7 +123,7 @@ public class ManagementApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "vendorId", value = "매입처 ID", example = "201324", required = true)})
     public ApiResponse<String> deleteVendor(@PathVariable Long vendorId) {
-        vendorService.remove(vendorId);
+        vendorService.removeById(vendorId);
         return ApiResponse.DEFAULT_OK;
     }
 
@@ -171,7 +171,7 @@ public class ManagementApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "warehouseId", value = "창고 ID", example = "201324", required = true)})
     public ApiResponse<String> deleteWarehouse(@PathVariable Long warehouseId) {
-        warehouseService.remove(warehouseId);
+        warehouseService.removeById(warehouseId);
         return ApiResponse.DEFAULT_OK;
     }
 }
