@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
-import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseDTO;
-import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
+import com.minsoo.co.tireerpserver.model.response.ApiResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
@@ -33,8 +33,8 @@ public class TireApi {
     // TIRE
     @GetMapping
     @ApiOperation(value = "타이어 목록 조회", notes = "타이어 목록을 조회한다.")
-    public ApiResponseDTO<List<TireResponse>> findAllTires() {
-        return ApiResponseDTO.createOK(tireService.findAll()
+    public ApiResponse<List<TireResponse>> findAllTires() {
+        return ApiResponse.createOK(tireService.findAll()
                 .stream()
                 .map(TireResponse::of)
                 .collect(Collectors.toList()));
@@ -44,32 +44,32 @@ public class TireApi {
     @ApiOperation(value = "타이어 상세 조회", notes = "타이어 상세 정보를 조회한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
-    public ApiResponseDTO<TireResponse> findTireById(@PathVariable Long tireId) {
-        return ApiResponseDTO.createOK(TireResponse.of(tireService.findById(tireId)));
+    public ApiResponse<TireResponse> findTireById(@PathVariable Long tireId) {
+        return ApiResponse.createOK(TireResponse.of(tireService.findById(tireId)));
     }
 
     @PostMapping
     @ApiOperation(value = "타이어 생성", notes = "타이어를 생성한다.")
-    public ApiResponseDTO<TireResponse> createTire(@RequestBody @Valid TireRequest createRequest) {
-        return ApiResponseDTO.createOK(TireResponse.of(tireService.create(createRequest)));
+    public ApiResponse<TireResponse> createTire(@RequestBody @Valid TireRequest createRequest) {
+        return ApiResponse.createOK(TireResponse.of(tireService.create(createRequest)));
     }
 
     @PutMapping(value = "/{tireId}")
     @ApiOperation(value = "타이어 수정", notes = "타이어를 수정한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
-    public ApiResponseDTO<TireResponse> updateTire(@PathVariable Long tireId,
-                                                   @RequestBody @Valid TireRequest updateRequest) {
-        return ApiResponseDTO.createOK(TireResponse.of(tireService.update(tireId, updateRequest)));
+    public ApiResponse<TireResponse> updateTire(@PathVariable Long tireId,
+                                                @RequestBody @Valid TireRequest updateRequest) {
+        return ApiResponse.createOK(TireResponse.of(tireService.update(tireId, updateRequest)));
     }
 
     @DeleteMapping(value = "/{tireId}")
     @ApiOperation(value = "타이어 삭제", notes = "타이어를 삭제한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
-    public ApiResponseDTO<String> deleteTire(@PathVariable Long tireId) {
+    public ApiResponse<String> deleteTire(@PathVariable Long tireId) {
         tireService.remove(tireId);
-        return ApiResponseDTO.DEFAULT_OK;
+        return ApiResponse.DEFAULT_OK;
     }
 
     // TIRE DOT
@@ -77,10 +77,10 @@ public class TireApi {
     @ApiOperation(value = "타이어 DOT 목록 조회", notes = "타이어 DOT 목록을 조회한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
-    public ApiResponseDTO<List<TireDotResponse>> findTireDots(@PathVariable Long tireId) {
-        return ApiResponseDTO.createOK(tireDotService.findAllByTireId(tireId)
+    public ApiResponse<List<TireDotSimpleResponse>> findTireDots(@PathVariable Long tireId) {
+        return ApiResponse.createOK(tireDotService.findAllByTireId(tireId)
                 .stream()
-                .map(TireDotResponse::of)
+                .map(TireDotSimpleResponse::of)
                 .collect(Collectors.toList()));
     }
 
@@ -90,8 +90,8 @@ public class TireApi {
     @ApiOperation(value = "타이어 메모 목록 조회", notes = "타이어 메모 목록을 조회한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
-    public ApiResponseDTO<List<TireMemoResponse>> findAllTireMemos(@PathVariable(value = "tireId") Long tireId) {
-        return ApiResponseDTO.createOK(tireMemoService.findAllByTireId(tireId)
+    public ApiResponse<List<TireMemoResponse>> findAllTireMemos(@PathVariable(value = "tireId") Long tireId) {
+        return ApiResponse.createOK(tireMemoService.findAllByTireId(tireId)
                 .stream()
                 .map(TireMemoResponse::of)
                 .collect(Collectors.toList()));
@@ -102,18 +102,18 @@ public class TireApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true),
             @ApiImplicitParam(name = "tireMemoId", value = "타이어 메모 ID", example = "201324", required = true)})
-    public ApiResponseDTO<TireMemoResponse> findTireMemoById(@PathVariable(value = "tireId") Long tireId,
-                                                             @PathVariable(value = "tireMemoId") Long tireMemoId) {
-        return ApiResponseDTO.createOK(TireMemoResponse.of(tireMemoService.findById(tireId, tireMemoId)));
+    public ApiResponse<TireMemoResponse> findTireMemoById(@PathVariable(value = "tireId") Long tireId,
+                                                          @PathVariable(value = "tireMemoId") Long tireMemoId) {
+        return ApiResponse.createOK(TireMemoResponse.of(tireMemoService.findById(tireId, tireMemoId)));
     }
 
     @PostMapping(value = "/{tireId}/tire-memos")
     @ApiOperation(value = "타이어 메모 생성", notes = "타이어 메모를 생성한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
-    public ApiResponseDTO<TireMemoResponse> createTireMemo(@PathVariable(value = "tireId") Long tireId,
-                                                           @RequestBody @Valid TireMemoRequest createRequest) {
-        return ApiResponseDTO.createOK(TireMemoResponse.of(tireMemoService.create(tireId, createRequest)));
+    public ApiResponse<TireMemoResponse> createTireMemo(@PathVariable(value = "tireId") Long tireId,
+                                                        @RequestBody @Valid TireMemoRequest createRequest) {
+        return ApiResponse.createOK(TireMemoResponse.of(tireMemoService.create(tireId, createRequest)));
     }
 
     @PutMapping(value = "/{tireId}/tire-memos/{tireMemoId}")
@@ -121,10 +121,10 @@ public class TireApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true),
             @ApiImplicitParam(name = "tireMemoId", value = "타이어 메모 ID", example = "201324", required = true)})
-    public ApiResponseDTO<TireMemoResponse> updateTireMemo(@PathVariable(value = "tireId") Long tireId,
-                                                           @PathVariable(value = "tireMemoId") Long tireMemoId,
-                                                           @RequestBody TireMemoRequest updateRequest) {
-        return ApiResponseDTO.createOK(TireMemoResponse.of(tireMemoService.updateTireMemo(tireId, tireMemoId, updateRequest)));
+    public ApiResponse<TireMemoResponse> updateTireMemo(@PathVariable(value = "tireId") Long tireId,
+                                                        @PathVariable(value = "tireMemoId") Long tireMemoId,
+                                                        @RequestBody TireMemoRequest updateRequest) {
+        return ApiResponse.createOK(TireMemoResponse.of(tireMemoService.updateTireMemo(tireId, tireMemoId, updateRequest)));
     }
 
     @DeleteMapping(value = "/{tireId}/tire-memos/{tireMemoId}")
@@ -132,9 +132,9 @@ public class TireApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true),
             @ApiImplicitParam(name = "tireMemoId", value = "타이어 메모 ID", example = "201324", required = true)})
-    public ApiResponseDTO<String> deleteTireMemo(@PathVariable(value = "tireId") Long tireId,
-                                                 @PathVariable(value = "tireMemoId") Long tireMemoId) {
+    public ApiResponse<String> deleteTireMemo(@PathVariable(value = "tireId") Long tireId,
+                                              @PathVariable(value = "tireMemoId") Long tireMemoId) {
         tireMemoService.remove(tireId, tireMemoId);
-        return ApiResponseDTO.DEFAULT_OK;
+        return ApiResponse.DEFAULT_OK;
     }
 }

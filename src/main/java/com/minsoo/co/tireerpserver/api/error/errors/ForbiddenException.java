@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.api.error.errors;
 
 import com.minsoo.co.tireerpserver.api.error.BaseError;
-import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseCode;
+import com.minsoo.co.tireerpserver.model.response.ApiResponseCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

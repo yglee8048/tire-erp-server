@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.dto.response;
+package com.minsoo.co.tireerpserver.model.response;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

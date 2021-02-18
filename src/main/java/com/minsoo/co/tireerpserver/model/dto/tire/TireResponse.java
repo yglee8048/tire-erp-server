@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.tire;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.TireOption;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Tire;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -15,17 +16,13 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 public class TireResponse {
 
-    @ApiModelProperty(value = "타이어 ID", example = "2991")
+    @ApiModelProperty(value = "ID", example = "2991")
     @JsonProperty("tire_id")
     private Long tireId;
 
-    @ApiModelProperty(value = "제조사 ID", example = "2991")
-    @JsonProperty("brand_id")
-    private Long brandId;
-
-    @ApiModelProperty(value = "제조사 이름", example = "금호타이어")
-    @JsonProperty("brand_name")
-    private String brandName;
+    @ApiModelProperty(value = "브랜드")
+    @JsonProperty("brand")
+    private BrandSimpleResponse brand;
 
     @ApiModelProperty(value = "상품 ID", example = "P2454518Z")
     @JsonProperty("product_id")
@@ -81,8 +78,10 @@ public class TireResponse {
 
     private TireResponse(Tire tire) {
         this.tireId = tire.getId();
-        this.brandId = tire.getBrand().getId();
-        this.brandName = tire.getBrand().getName();
+        this.brand = BrandSimpleResponse.builder()
+                .brandId(tire.getBrand().getId())
+                .name(tire.getBrand().getName())
+                .build();
         this.productId = tire.getProductId();
         this.label = tire.getLabel();
         this.width = tire.getWidth();

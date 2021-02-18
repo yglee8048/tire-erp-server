@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
@@ -26,12 +25,16 @@ public class Purchase {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "vendor_id", nullable = false)
+    private Vendor vendor;
+
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "tire_dot_id", nullable = false)
     private TireDot tireDot;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "vendor_id", nullable = false)
-    private Vendor vendor;
+    @JoinColumn(name = "warehouse_id", nullable = false)
+    private Warehouse warehouse;
 
     @Column(name = "price", nullable = false)
     private Integer price;

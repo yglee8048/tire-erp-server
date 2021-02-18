@@ -1,10 +1,17 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
+import com.minsoo.co.tireerpserver.model.dto.customer.CustomerRequest;
+import com.minsoo.co.tireerpserver.model.dto.customer.CustomerResponse;
+import com.minsoo.co.tireerpserver.model.response.ApiResponse;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -12,5 +19,40 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CustomerApi {
 
-    
+    @GetMapping
+    @ApiOperation(value = "거래처 목록 조회", notes = "거래처의 목록을 조회한다.")
+    public ApiResponse<List<CustomerResponse>> findAllCustomers() {
+        return ApiResponse.createOK(null);
+    }
+
+    @GetMapping(value = "/{customerId}")
+    @ApiOperation(value = "거래처 상세 조회", notes = "거래처의 상세 정보를 조회한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "customerId", value = "거래처 ID", example = "201324", required = true)})
+    public ApiResponse<CustomerResponse> findCustomerById(@PathVariable(value = "customerId") Long customerId) {
+        return ApiResponse.createOK(null);
+    }
+
+    @PostMapping
+    @ApiOperation(value = "거래처 생성", notes = "거래처를 생성한다.")
+    public ApiResponse<CustomerResponse> createCustomer(@RequestBody @Valid CustomerRequest createRequest) {
+        return ApiResponse.createOK(null);
+    }
+
+    @PutMapping(value = "/{customerId}")
+    @ApiOperation(value = "거래처 수정", notes = "거래처를 수정한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "customerId", value = "거래처 ID", example = "201324", required = true)})
+    public ApiResponse<CustomerResponse> updateCustomer(@PathVariable(value = "customerId") Long customerId,
+                                                        @RequestBody @Valid CustomerRequest updateRequest) {
+        return ApiResponse.createOK(null);
+    }
+
+    @DeleteMapping(value = "/{customerId}")
+    @ApiOperation(value = "거래처 삭제", notes = "거래처를 삭제한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "customerId", value = "거래처 ID", example = "201324", required = true)})
+    public ApiResponse<CustomerResponse> deleteCustomer(@PathVariable(value = "customerId") Long customerId) {
+        return ApiResponse.createOK(null);
+    }
 }

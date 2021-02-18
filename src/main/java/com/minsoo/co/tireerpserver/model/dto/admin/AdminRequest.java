@@ -3,12 +3,17 @@ package com.minsoo.co.tireerpserver.model.dto.admin;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.AdminRole;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 
-@Data
+import static lombok.AccessLevel.*;
+
+@Getter
+@ToString
+@NoArgsConstructor(access = PROTECTED)
 public class AdminRequest {
 
     @ApiModelProperty(value = "아이디", example = "user123")
@@ -29,12 +34,4 @@ public class AdminRequest {
     @NotNull(message = "관리자 역할이 정상적으로 입력되지 않았습니다.")
     @JsonProperty("role")
     private AdminRole role;
-
-    @Builder
-    public AdminRequest(String userId, String userPw, String name, AdminRole role) {
-        this.userId = userId;
-        this.userPw = userPw;
-        this.name = name;
-        this.role = role;
-    }
 }

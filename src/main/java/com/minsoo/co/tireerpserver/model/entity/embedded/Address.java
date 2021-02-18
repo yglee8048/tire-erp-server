@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity.embedded;
 
+import com.minsoo.co.tireerpserver.model.dto.general.AddressDTO;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -28,14 +29,14 @@ public class Address {
     @Column(name = "zip_code")
     private Integer zipCode;
 
-    private Address(String city, String streetAddress, String detailAddress, Integer zipCode) {
-        this.city = city == null ? "" : city;   // embedded 타입의 경우, 모두 null 이면 에러 발생
-        this.streetAddress = streetAddress;
-        this.detailAddress = detailAddress;
-        this.zipCode = zipCode;
+    private Address(AddressDTO addressDTO) {
+        this.city = addressDTO.getCity() == null ? "" : addressDTO.getCity();   // embedded 타입의 경우, 모두 null 이면 에러 발생
+        this.streetAddress = addressDTO.getStreetAddress();
+        this.detailAddress = addressDTO.getDetailAddress();
+        this.zipCode = addressDTO.getZipCode();
     }
 
-    public static Address of(String city, String streetAddress, String detailAddress, Integer zipCode) {
-        return new Address(city, streetAddress, detailAddress, zipCode);
+    public static Address of(AddressDTO addressDTO) {
+        return new Address(addressDTO);
     }
 }

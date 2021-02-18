@@ -22,7 +22,7 @@ public class BrandResponse {
     @JsonProperty("name")
     private String name;
 
-    @ApiModelProperty(value = "설명", example = "20년 5월부터 매입 시작")
+    @ApiModelProperty(value = "설명", example = "20년 5월부터 계약 시작")
     @JsonProperty("description")
     private String description;
 

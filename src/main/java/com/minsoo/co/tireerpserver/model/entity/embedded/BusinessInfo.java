@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity.embedded;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,9 +11,7 @@ import javax.persistence.Embedded;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
-@Builder
 @NoArgsConstructor(access = PROTECTED)
-@AllArgsConstructor
 @Embeddable
 public class BusinessInfo {
 
@@ -47,4 +44,21 @@ public class BusinessInfo {
 
     @Column(name = "manager_phone_number")
     private String managerPhoneNumber;
+
+    private BusinessInfo(BusinessInfoDTO businessInfoDTO) {
+        this.businessNumber = businessInfoDTO.getBusinessNumber();
+        this.businessName = businessInfoDTO.getBusinessName();
+        this.businessType = businessInfoDTO.getBusinessType();
+        this.address = Address.of(businessInfoDTO.getAddress());
+        this.fax = businessInfoDTO.getFax();
+        this.emailAddress = businessInfoDTO.getEmailAddress();
+        this.representative = businessInfoDTO.getRepresentative();
+        this.representativePhoneNumber = businessInfoDTO.getRepresentativePhoneNumber();
+        this.manager = businessInfoDTO.getManager();
+        this.managerPhoneNumber = businessInfoDTO.getManagerPhoneNumber();
+    }
+
+    public static BusinessInfo of(BusinessInfoDTO businessInfoDTO) {
+        return new BusinessInfo(businessInfoDTO);
+    }
 }
