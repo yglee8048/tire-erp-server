@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
-import com.minsoo.co.tireerpserver.model.entity.embedded.Address;
+import com.minsoo.co.tireerpserver.model.entity.embedded.BusinessInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,36 +23,6 @@ public class Customer {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "business_number")
-    private String businessNumber;
-
-    @Column(name = "business_name")
-    private String businessName;
-
-    @Column(name = "business_type")
-    private String businessType;
-
-    @Column(name = "company_name")
-    private String companyName;
-
     @Embedded
-    private Address address;
-
-    @Column(name = "fax")
-    private String fax;
-
-    @Column(name = "email_address")
-    private String emailAddress;
-
-    @Column(name = "representative")
-    private String representative;
-
-    @Column(name = "representative_phone_number")
-    private String representativePhoneNumber;
-
-    @Column(name = "manager")
-    private String manager;
-
-    @Column(name = "manager_phone_number")
-    private String managerPhoneNumber;
+    private BusinessInfo businessInfo;
 }

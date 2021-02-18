@@ -9,8 +9,6 @@ import static lombok.AccessLevel.*;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-@EqualsAndHashCode
-@ToString
 @Embeddable
 public class Address {
 
