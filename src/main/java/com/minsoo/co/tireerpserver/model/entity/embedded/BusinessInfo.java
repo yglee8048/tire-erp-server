@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity.embedded;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @Builder
 @NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
 @Embeddable
 public class BusinessInfo {
 

@@ -77,19 +77,19 @@ public class VendorResponse {
     private VendorResponse(Vendor vendor) {
         this.vendorId = vendor.getId();
         this.name = vendor.getName();
-        this.businessNumber = vendor.getBusinessNumber();
-        this.businessName = vendor.getBusinessName();
-        this.businessType = vendor.getBusinessType();
-        this.city = vendor.getAddress().getCity();
-        this.streetAddress = vendor.getAddress().getStreetAddress();
-        this.detailAddress = vendor.getAddress().getDetailAddress();
-        this.zipCode = vendor.getAddress().getZipCode();
-        this.fax = vendor.getFax();
-        this.emailAddress = vendor.getEmailAddress();
-        this.representative = vendor.getRepresentative();
-        this.representativePhoneNumber = vendor.getRepresentativePhoneNumber();
-        this.manager = vendor.getManager();
-        this.managerPhoneNumber = vendor.getManagerPhoneNumber();
+        this.businessNumber = vendor.getBusinessInfo().getBusinessNumber();
+        this.businessName = vendor.getBusinessInfo().getBusinessName();
+        this.businessType = vendor.getBusinessInfo().getBusinessType();
+        this.city = vendor.getBusinessInfo().getAddress().getCity();
+        this.streetAddress = vendor.getBusinessInfo().getAddress().getStreetAddress();
+        this.detailAddress = vendor.getBusinessInfo().getAddress().getDetailAddress();
+        this.zipCode = vendor.getBusinessInfo().getAddress().getZipCode();
+        this.fax = vendor.getBusinessInfo().getFax();
+        this.emailAddress = vendor.getBusinessInfo().getEmailAddress();
+        this.representative = vendor.getBusinessInfo().getRepresentative();
+        this.representativePhoneNumber = vendor.getBusinessInfo().getRepresentativePhoneNumber();
+        this.manager = vendor.getBusinessInfo().getManager();
+        this.managerPhoneNumber = vendor.getBusinessInfo().getManagerPhoneNumber();
     }
 
     public static VendorResponse of(Vendor vendor) {

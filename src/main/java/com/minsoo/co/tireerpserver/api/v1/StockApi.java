@@ -27,7 +27,7 @@ public class StockApi {
     private final StockService stockService;
 
     @GetMapping(value = "/tires")
-    @ApiOperation(value = "타이어 재고 목록 조회", notes = "타이어 재고의 목록을 조회한다.")
+    @ApiOperation(value = "타이어 기준 재고 목록 조회", notes = "타이어를 기준올 재고의 목록을 조회한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "size", value = "사이즈 (단면폭/편평비/인치가 연결된 7자리 문자열)", example = "2454518"),
             @ApiImplicitParam(name = "brand_name", value = "브랜드 이름", example = "피렐리"),
             @ApiImplicitParam(name = "pattern", value = "패턴", example = "KL33"),
@@ -45,13 +45,13 @@ public class StockApi {
     }
 
     @GetMapping(value = "/tires/params")
-    @ApiOperation(value = "타이어 재고 검색 조건 조회", notes = "타이어 재고를 검색할 수 있는 조건 목록을 조회한다.")
+    @ApiOperation(value = "타이어 기준 재고 필터 조건 조회", notes = "타이어를 기준으로 재고를 필터할 수 있는 조건 목록을 조회한다.")
     private ApiResponseDTO<TireStockParams> findTireStockParams() {
         return ApiResponseDTO.createOK(stockService.findTireStockParams());
     }
 
     @GetMapping(value = "/tires/{tireId}/dots")
-    @ApiOperation(value = "타이어 DOT 재고 목록 조회", notes = "타이어 DOT 의 재고 목록을 조회한다.")
+    @ApiOperation(value = "타이어 기준 DOT 재고 목록 조회", notes = "타이어를 기준으로 DOT 의 재고 목록을 조회한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
     private ApiResponseDTO<List<StockResponse>> findTireDotStocks(@PathVariable(value = "tireId") Long tireId) {
