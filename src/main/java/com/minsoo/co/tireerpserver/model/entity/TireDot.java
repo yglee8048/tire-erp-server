@@ -3,10 +3,7 @@ package com.minsoo.co.tireerpserver.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
-import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
@@ -15,7 +12,7 @@ import static lombok.AccessLevel.*;
 @NoArgsConstructor(access = PROTECTED)
 @Entity
 @Table(name = "tire_dot",
-        uniqueConstraints = {@UniqueConstraint(name = "tire_dot_dot_unique", columnNames = {"tire_id", "dot"})})
+        uniqueConstraints = {@UniqueConstraint(name = "tire_dot_unique_dot", columnNames = {"tire_id", "dot"})})
 public class TireDot {
 
     @Id
@@ -29,7 +26,4 @@ public class TireDot {
 
     @Column(name = "dot", nullable = false)
     private String dot;
-
-    @OneToMany(mappedBy = "tireDot", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private List<Stock> stocks = new ArrayList<>();
 }

@@ -12,7 +12,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-@Table(name = "customer")
+@Table(name = "customer",
+        uniqueConstraints = {@UniqueConstraint(name = "customer_unique_user_id", columnNames = {"user_id"})})
 public class Customer {
 
     @Id
@@ -20,7 +21,13 @@ public class Customer {
     @Column(name = "customer_id", length = 20, nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+
+    @Column(name = "user_pw", nullable = false)
+    private String userPw;
+
+    @Column(name = "name")
     private String name;
 
     @Embedded
