@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.code.TireOption;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
 import lombok.*;
 
 import javax.persistence.*;

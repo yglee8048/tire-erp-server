@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.dto.management.tire.memo;
+package com.minsoo.co.tireerpserver.model.dto.tire.memo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.entity.TireMemo;

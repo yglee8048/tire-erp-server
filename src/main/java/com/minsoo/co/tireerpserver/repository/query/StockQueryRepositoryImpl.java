@@ -1,10 +1,7 @@
 package com.minsoo.co.tireerpserver.repository.query;
 
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +9,6 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.minsoo.co.tireerpserver.model.entity.QBrand.*;
-import static com.minsoo.co.tireerpserver.model.entity.QStock.*;
 import static com.minsoo.co.tireerpserver.model.entity.QTire.*;
 
 @Repository

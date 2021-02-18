@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.dto.management.tire;
+package com.minsoo.co.tireerpserver.model.dto.tire;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.TireOption;
@@ -15,6 +15,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 public class TireResponse {
 
+    @ApiModelProperty(value = "타이어 ID", example = "2991")
     @JsonProperty("tire_id")
     private Long tireId;
 

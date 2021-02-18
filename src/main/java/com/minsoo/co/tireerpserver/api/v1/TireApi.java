@@ -1,10 +1,12 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.response.ApiResponseDTO;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.memo.TireMemoRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.memo.TireMemoResponse;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.tire.TireResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
+import com.minsoo.co.tireerpserver.service.TireDotService;
 import com.minsoo.co.tireerpserver.service.TireMemoService;
 import com.minsoo.co.tireerpserver.service.TireService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class TireApi {
 
     private final TireService tireService;
+    private final TireDotService tireDotService;
     private final TireMemoService tireMemoService;
 
     // TIRE
@@ -44,15 +46,6 @@ public class TireApi {
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
     public ApiResponseDTO<TireResponse> findTireById(@PathVariable Long tireId) {
         return ApiResponseDTO.createOK(TireResponse.of(tireService.findById(tireId)));
-    }
-
-    // TODO:
-    @GetMapping(value = "/{tireId}/tire-dots")
-    @ApiOperation(value = "타이어 DOT 목록 조회", notes = "해당 타이어에 존재하는 DOT 목록을 조회한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
-    public ApiResponseDTO<List<String>> findTireDots(@PathVariable Long tireId) {
-        return ApiResponseDTO.createOK(new ArrayList<>());
     }
 
     @PostMapping
@@ -78,6 +71,19 @@ public class TireApi {
         tireService.remove(tireId);
         return ApiResponseDTO.DEFAULT_OK;
     }
+
+    // TIRE DOT
+    @GetMapping(value = "/{tireId}/tire-dots")
+    @ApiOperation(value = "타이어 DOT 목록 조회", notes = "타이어 DOT 목록을 조회한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
+    public ApiResponseDTO<List<TireDotResponse>> findTireDots(@PathVariable Long tireId) {
+        return ApiResponseDTO.createOK(tireDotService.findAllByTireId(tireId)
+                .stream()
+                .map(TireDotResponse::of)
+                .collect(Collectors.toList()));
+    }
+
 
     // TIRE MEMO
     @GetMapping(value = "/{tireId}/tire-memos")

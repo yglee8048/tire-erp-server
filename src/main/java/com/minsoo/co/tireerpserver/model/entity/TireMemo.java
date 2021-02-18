@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
-import com.minsoo.co.tireerpserver.model.dto.management.tire.memo.TireMemoRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;
 import lombok.*;
 
 import javax.persistence.*;
