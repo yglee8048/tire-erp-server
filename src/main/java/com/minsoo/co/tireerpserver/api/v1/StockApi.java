@@ -52,6 +52,8 @@ public class StockApi {
 
     @GetMapping(value = "/tires/{tireId}/dots")
     @ApiOperation(value = "타이어 DOT 재고 목록 조회", notes = "타이어 DOT 의 재고 목록을 조회한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
     private ApiResponseDTO<List<StockResponse>> findTireDotStocks(@PathVariable(value = "tireId") Long tireId) {
         return ApiResponseDTO.createOK(stockService.findAllByTireId(tireId)
                 .stream()
@@ -61,7 +63,9 @@ public class StockApi {
 
     @PatchMapping(value = "/{stockId}")
     @ApiOperation(value = "재고 Lock 수정", notes = "재고의 공개 여부를 수정한다.")
-    @ApiImplicitParams({@ApiImplicitParam(name = "lock", value = "잠금 여부(true = 잠금 / false = 공개)", required = true)})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "stockId", value = "재고 ID", example = "201324", required = true),
+            @ApiImplicitParam(name = "lock", value = "잠금 여부(true = 잠금 / false = 공개)", required = true)})
     private ApiResponseDTO<StockResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
                                                           @RequestParam(value = "lock") boolean lock) {
         return ApiResponseDTO.createOK(StockResponse.of(stockService.updateStockLock(stockId, lock)));
@@ -69,6 +73,8 @@ public class StockApi {
 
     @PostMapping(value = "/{stockId}/move")
     @ApiOperation(value = "재고 이동", notes = "타이어 DOT 재고를 이동한다.")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "stockId", value = "재고 ID", example = "201324", required = true)})
     private ApiResponseDTO<List<StockResponse>> moveStock(@PathVariable(value = "stockId") Long stockId,
                                                           @RequestBody @Valid MoveStockRequest moveStockRequest) {
         return ApiResponseDTO.createOK(stockService.moveStock(stockId, moveStockRequest)
