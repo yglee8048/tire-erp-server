@@ -27,6 +27,10 @@ public class AdminResponse {
     @JsonProperty("name")
     private String name;
 
+    @ApiModelProperty(value = "설명", example = "21년 3월 신규 채용")
+    @JsonProperty("description")
+    private String description;
+
     @ApiModelProperty(value = "역할", example = "SUPER_ADMIN")
     @JsonProperty("role")
     private AdminRole role;

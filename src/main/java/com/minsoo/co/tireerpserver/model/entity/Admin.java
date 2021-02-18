@@ -30,6 +30,9 @@ public class Admin {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @Enumerated(STRING)
     @Column(name = "role", length = 11, nullable = false)
     private AdminRole role;
@@ -39,6 +42,7 @@ public class Admin {
         this.userId = createRequest.getUserId();
         this.userPw = createRequest.getUserPw();
         this.name = createRequest.getName();
+        this.description = createRequest.getDescription();
         this.role = createRequest.getRole();
     }
 
@@ -52,6 +56,7 @@ public class Admin {
             this.userPw = updateRequest.getUserPw();
         }
         this.name = updateRequest.getName();
+        this.description = updateRequest.getDescription();
         this.role = updateRequest.getRole();
     }
 }

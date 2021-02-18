@@ -30,6 +30,10 @@ public class AdminRequest {
     @JsonProperty("name")
     private String name;
 
+    @ApiModelProperty(value = "설명", example = "21년 3월 신규 채용")
+    @JsonProperty("description")
+    private String description;
+
     @ApiModelProperty(value = "역할", example = "SUPER_ADMIN")
     @NotNull(message = "관리자 역할이 정상적으로 입력되지 않았습니다.")
     @JsonProperty("role")

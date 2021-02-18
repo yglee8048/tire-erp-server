@@ -23,12 +23,16 @@ public class Vendor {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @Embedded
     private BusinessInfo businessInfo;
 
     //== Business ==//
     private Vendor(VendorRequest createRequest) {
         this.name = createRequest.getName();
+        this.description = createRequest.getDescription();
         this.businessInfo = BusinessInfo.of(createRequest.getBusinessInfo());
     }
 
@@ -38,6 +42,7 @@ public class Vendor {
 
     public void update(VendorRequest updateRequest) {
         this.name = updateRequest.getName();
+        this.description = updateRequest.getDescription();
         this.businessInfo = BusinessInfo.of(updateRequest.getBusinessInfo());
     }
 }
