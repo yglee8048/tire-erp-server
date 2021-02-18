@@ -62,7 +62,7 @@ public class StockService {
         Stock fromStock = stockRepository.findFetchById(stockId).orElseThrow(NotFoundException::new);
         fromStock.reduceQuantity(moveStockRequest.getQuantity());
 
-        Stock toStock = stockRepository.findOneFetchByTireDotIdAndWarehouseName(fromStock.getTireDot().getId(), moveStockRequest.getToWarehouseName()).orElseThrow(NotFoundException::new);
+        Stock toStock = stockRepository.findOneFetchByTireDotIdAndWarehouseId(fromStock.getTireDot().getId(), moveStockRequest.getToWarehouseId()).orElseThrow(NotFoundException::new);
         toStock.addQuantity(moveStockRequest.getQuantity());
 
         return Arrays.asList(fromStock, toStock);

@@ -26,4 +26,13 @@ public class TireDot {
 
     @Column(name = "dot", nullable = false)
     private String dot;
+
+    private TireDot(Tire tire, String dot) {
+        this.tire = tire;
+        this.dot = dot;
+    }
+
+    public static TireDot of(Tire tire, String dot) {
+        return new TireDot(tire, dot);
+    }
 }

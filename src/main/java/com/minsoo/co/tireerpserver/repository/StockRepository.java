@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.repository;
 
 import com.minsoo.co.tireerpserver.model.entity.Stock;
+import com.minsoo.co.tireerpserver.model.entity.Warehouse;
 import com.minsoo.co.tireerpserver.repository.query.StockQueryRepository;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,8 +14,8 @@ import java.util.Optional;
 public interface StockRepository extends JpaRepository<Stock, Long>, StockQueryRepository {
 
     @Query("select s from Stock s " +
-            "join fetch s.warehouse w " +
-            "join fetch s.tireDot d " +
+            "   join fetch s.warehouse w " +
+            "   join fetch s.tireDot d " +
             "where d.tire.id = :tireId")
     List<Stock> findAllFetchByTireId(@Param("tireId") Long tireId);
 
@@ -25,10 +26,10 @@ public interface StockRepository extends JpaRepository<Stock, Long>, StockQueryR
     Optional<Stock> findFetchById(Long stockId);
 
     @Query("select s from Stock s " +
-            "join fetch s.warehouse w " +
-            "join fetch s.tireDot d " +
+            "   join fetch s.warehouse w " +
+            "   join fetch s.tireDot d " +
             "where d.id = :tireDotId " +
-            "and w.name = :warehouseName")
-    Optional<Stock> findOneFetchByTireDotIdAndWarehouseName(@Param("tireDotId") Long tireDotId,
-                                                            @Param("warehouseName") String warehouseName);
+            "   and w.id = :warehouseId")
+    Optional<Stock> findOneFetchByTireDotIdAndWarehouseId(@Param("tireDotId") Long tireDotId,
+                                                          @Param("warehouseId") Long warehouseId);
 }

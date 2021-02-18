@@ -3,8 +3,10 @@ package com.minsoo.co.tireerpserver.service;
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Brand;
 import com.minsoo.co.tireerpserver.repository.BrandRepository;
+import com.minsoo.co.tireerpserver.repository.query.ManagementQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,13 +21,14 @@ import java.util.List;
 public class BrandService {
 
     private final BrandRepository brandRepository;
+    private final ManagementQueryRepository managementQueryRepository;
 
     public List<Brand> findAll() {
         return brandRepository.findAll();
     }
 
-    public List<String> findAllBrandNames() {
-        return brandRepository.findAllBrandNames();
+    public List<BrandSimpleResponse> findAllBrandNames() {
+        return managementQueryRepository.findAllBrandNames();
     }
 
     public Brand findById(Long id) {

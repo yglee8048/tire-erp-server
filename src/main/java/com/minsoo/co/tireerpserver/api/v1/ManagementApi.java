@@ -1,5 +1,8 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandSimpleResponse;
+import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorSimpleResponse;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
@@ -43,7 +46,7 @@ public class ManagementApi {
 
     @GetMapping(value = "/brands/names")
     @ApiOperation(value = "브랜드 이름 목록 조회", notes = "브랜드 이름의 목록을 조회한다.")
-    public ApiResponse<List<String>> findAllBrandNames() {
+    public ApiResponse<List<BrandSimpleResponse>> findAllBrandNames() {
         return ApiResponse.createOK(brandService.findAllBrandNames());
     }
 
@@ -91,7 +94,7 @@ public class ManagementApi {
 
     @GetMapping(value = "/vendors/names")
     @ApiOperation(value = "매입처 이름 목록 조회", notes = "매입처 이름의 목록을 조회한다.")
-    public ApiResponse<List<String>> findAllVendorNames() {
+    public ApiResponse<List<VendorSimpleResponse>> findAllVendorNames() {
         return ApiResponse.createOK(vendorService.findAllVendorNames());
     }
 
@@ -139,7 +142,7 @@ public class ManagementApi {
 
     @GetMapping(value = "/warehouses/names")
     @ApiOperation(value = "창고 이름 목록 조회", notes = "창고 이름의 목록을 조회한다.")
-    public ApiResponse<List<String>> findAllWarehouseNames() {
+    public ApiResponse<List<WarehouseSimpleResponse>> findAllWarehouseNames() {
         return ApiResponse.createOK(warehouseService.findAllWarehouseNames());
     }
 

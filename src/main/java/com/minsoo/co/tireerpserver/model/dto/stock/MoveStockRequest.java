@@ -16,10 +16,10 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 public class MoveStockRequest {
 
-    @ApiModelProperty(value = "이동할 창고 이름", example = "왕십리 창고")
-    @NotNull(message = "이동할 대상 창고의 이름은 필수 값입니다.")
-    @JsonProperty("to_warehouse_name")
-    private String toWarehouseName;
+    @ApiModelProperty(value = "이동할 창고 ID", example = "2091")
+    @NotNull(message = "이동할 창고의 ID는 필수 값입니다.")
+    @JsonProperty("to_warehouse_id")
+    private Long toWarehouseId;
 
     @ApiModelProperty(value = "이동할 수량", example = "20")
     @NotNull(message = "이동할 수량은 필수 값입니다.")

@@ -3,8 +3,10 @@ package com.minsoo.co.tireerpserver.service;
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Vendor;
 import com.minsoo.co.tireerpserver.repository.VendorRepository;
+import com.minsoo.co.tireerpserver.repository.query.ManagementQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,13 +21,14 @@ import java.util.List;
 public class VendorService {
 
     private final VendorRepository vendorRepository;
+    private final ManagementQueryRepository managementQueryRepository;
 
     public List<Vendor> findAll() {
         return vendorRepository.findAll();
     }
 
-    public List<String> findAllVendorNames() {
-        return vendorRepository.findAllVendorNames();
+    public List<VendorSimpleResponse> findAllVendorNames() {
+        return managementQueryRepository.findAllVendorNames();
     }
 
     public Vendor findById(Long id) {
