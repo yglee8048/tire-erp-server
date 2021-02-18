@@ -45,8 +45,8 @@ public class StockApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "stockId", value = "재고 ID", example = "201324", required = true),
             @ApiImplicitParam(name = "lock", value = "잠금 여부(true = 잠금 / false = 공개)", required = true)})
-    private ApiResponse<StockResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
-                                                       @RequestParam(value = "lock") boolean lock) {
+    public ApiResponse<StockResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
+                                                      @RequestParam(value = "lock") boolean lock) {
         return ApiResponse.createOK(StockResponse.of(stockService.updateStockLock(stockId, lock)));
     }
 
@@ -54,8 +54,8 @@ public class StockApi {
     @ApiOperation(value = "재고 이동", notes = "타이어 DOT 재고를 이동한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "stockId", value = "재고 ID", example = "201324", required = true)})
-    private ApiResponse<List<StockResponse>> moveStock(@PathVariable(value = "stockId") Long stockId,
-                                                       @RequestBody @Valid MoveStockRequest moveStockRequest) {
+    public ApiResponse<List<StockResponse>> moveStock(@PathVariable(value = "stockId") Long stockId,
+                                                      @RequestBody @Valid MoveStockRequest moveStockRequest) {
         return ApiResponse.createOK(stockService.moveStock(stockId, moveStockRequest)
                 .stream()
                 .map(StockResponse::of)
@@ -69,10 +69,10 @@ public class StockApi {
             @ApiImplicitParam(name = "brand_name", value = "브랜드 이름", example = "피렐리"),
             @ApiImplicitParam(name = "pattern", value = "패턴", example = "KL33"),
             @ApiImplicitParam(name = "product_id", value = "상품 아이디", example = "P2454518Z")})
-    private ApiResponse<List<TireStockResponse>> findTireStocks(@RequestParam(value = "size", required = false) String size,
-                                                                @RequestParam(value = "brand_name", required = false) String brandName,
-                                                                @RequestParam(value = "pattern", required = false) String pattern,
-                                                                @RequestParam(value = "product_id", required = false) String productId) {
+    public ApiResponse<List<TireStockResponse>> findTireStocks(@RequestParam(value = "size", required = false) String size,
+                                                               @RequestParam(value = "brand_name", required = false) String brandName,
+                                                               @RequestParam(value = "pattern", required = false) String pattern,
+                                                               @RequestParam(value = "product_id", required = false) String productId) {
         // validation
         if (size != null && size.length() != 7) {
             throw new BadRequestException("size 의 입력 형식이 잘못되었습니다.");
@@ -82,7 +82,7 @@ public class StockApi {
 
     @GetMapping(value = "/tires/params")
     @ApiOperation(value = "타이어 기준 재고 필터 조건 조회", notes = "타이어 기준 재고를 조회할 때 필터할 수 있는 조건 목록을 조회한다.")
-    private ApiResponse<TireStockParams> findTireStockParams() {
+    public ApiResponse<TireStockParams> findTireStockParams() {
         return ApiResponse.createOK(stockService.findTireStockParams());
     }
 
@@ -90,7 +90,7 @@ public class StockApi {
     @ApiOperation(value = "타이어 하위 재고 목록 조회", notes = "입력한 타이어에 해당하는 재고 목록을 조회한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
-    private ApiResponse<List<StockResponse>> findTireDotStocks(@PathVariable(value = "tireId") Long tireId) {
+    public ApiResponse<List<StockResponse>> findTireDotStocks(@PathVariable(value = "tireId") Long tireId) {
         return ApiResponse.createOK(stockService.findAllByTireId(tireId)
                 .stream()
                 .map(StockResponse::of)

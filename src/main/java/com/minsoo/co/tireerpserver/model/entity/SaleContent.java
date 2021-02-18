@@ -12,7 +12,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-@Table(name = "sale")
+@Table(name = "sale_content")
 public class SaleContent {
 
     @Id

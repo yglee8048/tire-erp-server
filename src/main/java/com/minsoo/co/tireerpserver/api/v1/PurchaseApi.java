@@ -22,7 +22,7 @@ public class PurchaseApi {
 
     @PostMapping
     @ApiOperation(value = "매입 생성", notes = "매입을 생성한다.")
-    private ApiResponse<PurchaseResponse> createPurchase(@RequestBody @Valid List<PurchaseRequest> createRequest) {
+    public ApiResponse<PurchaseResponse> createPurchase(@RequestBody @Valid List<PurchaseRequest> createRequest) {
         return ApiResponse.createOK(null);
     }
 }
