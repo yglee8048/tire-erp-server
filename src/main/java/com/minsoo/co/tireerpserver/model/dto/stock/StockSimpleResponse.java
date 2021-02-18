@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.stock;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseSimpleResponse;
-import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Stock;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @ToString
 @NoArgsConstructor(access = PROTECTED)
-public class StockResponse {
+public class StockSimpleResponse {
 
     @ApiModelProperty(value = "ID", example = "20039")
     @JsonProperty("stock_id")
@@ -22,7 +22,7 @@ public class StockResponse {
 
     @ApiModelProperty(value = "타이어 DOT")
     @JsonProperty("tire_dot")
-    private TireDotResponse tireDot;
+    private TireDotSimpleResponse tireDot;
 
     @ApiModelProperty(value = "창고")
     @JsonProperty("warehouse")
@@ -36,9 +36,9 @@ public class StockResponse {
     @JsonProperty("lock")
     private boolean lock;
 
-    private StockResponse(Stock stock) {
+    private StockSimpleResponse(Stock stock) {
         StockId = stock.getId();
-        this.tireDot = TireDotResponse.of(stock.getTireDot());
+        this.tireDot = TireDotSimpleResponse.of(stock.getTireDot());
         this.warehouse = WarehouseSimpleResponse.builder()
                 .warehouseId(stock.getWarehouse().getId())
                 .name(stock.getWarehouse().getName())
@@ -47,7 +47,7 @@ public class StockResponse {
         this.lock = stock.isLock();
     }
 
-    public static StockResponse of(Stock stock) {
-        return new StockResponse(stock);
+    public static StockSimpleResponse of(Stock stock) {
+        return new StockSimpleResponse(stock);
     }
 }

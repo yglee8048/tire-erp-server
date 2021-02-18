@@ -1,11 +1,8 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.api.error.errors.BadRequestException;
+import com.minsoo.co.tireerpserver.model.dto.stock.*;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
-import com.minsoo.co.tireerpserver.model.dto.stock.MoveStockRequest;
-import com.minsoo.co.tireerpserver.model.dto.stock.StockResponse;
-import com.minsoo.co.tireerpserver.model.dto.stock.TireStockParams;
-import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.service.StockService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -48,20 +45,20 @@ public class StockApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "stockId", value = "재고 ID", example = "201324", required = true),
             @ApiImplicitParam(name = "lock", value = "잠금 여부(true = 잠금 / false = 공개)", required = true)})
-    public ApiResponse<StockResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
-                                                      @RequestParam(value = "lock") boolean lock) {
-        return ApiResponse.createOK(StockResponse.of(stockService.updateStockLock(stockId, lock)));
+    public ApiResponse<StockSimpleResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
+                                                            @RequestParam(value = "lock") boolean lock) {
+        return ApiResponse.createOK(StockSimpleResponse.of(stockService.updateStockLock(stockId, lock)));
     }
 
     @PostMapping(value = "/{stockId}/move-stock")
     @ApiOperation(value = "재고 이동", notes = "타이어 DOT 재고를 이동한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "stockId", value = "재고 ID", example = "201324", required = true)})
-    public ApiResponse<List<StockResponse>> moveStock(@PathVariable(value = "stockId") Long stockId,
-                                                      @RequestBody @Valid MoveStockRequest moveStockRequest) {
+    public ApiResponse<List<StockSimpleResponse>> moveStock(@PathVariable(value = "stockId") Long stockId,
+                                                            @RequestBody @Valid MoveStockRequest moveStockRequest) {
         return ApiResponse.createOK(stockService.moveStock(stockId, moveStockRequest)
                 .stream()
-                .map(StockResponse::of)
+                .map(StockSimpleResponse::of)
                 .collect(Collectors.toList()));
     }
 
@@ -93,10 +90,10 @@ public class StockApi {
     @ApiOperation(value = "타이어 하위 재고 목록 조회", notes = "입력한 타이어에 해당하는 재고 목록을 조회한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
-    public ApiResponse<List<StockResponse>> findTireDotStocks(@PathVariable(value = "tireId") Long tireId) {
+    public ApiResponse<List<StockSimpleResponse>> findTireDotStocks(@PathVariable(value = "tireId") Long tireId) {
         return ApiResponse.createOK(stockService.findAllByTireId(tireId)
                 .stream()
-                .map(StockResponse::of)
+                .map(StockSimpleResponse::of)
                 .collect(Collectors.toList()));
     }
 }
