@@ -3,7 +3,6 @@ package com.minsoo.co.tireerpserver.model.dto.management.vendor;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

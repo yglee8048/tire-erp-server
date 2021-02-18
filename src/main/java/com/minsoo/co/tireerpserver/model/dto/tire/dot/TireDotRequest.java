@@ -2,7 +2,6 @@ package com.minsoo.co.tireerpserver.model.dto.tire.dot;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
