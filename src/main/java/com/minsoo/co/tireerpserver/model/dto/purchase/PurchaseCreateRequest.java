@@ -15,7 +15,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @ToString
 @NoArgsConstructor(access = PROTECTED)
-public class PurchaseRequest {
+public class PurchaseCreateRequest {
 
     @ApiModelProperty(value = "매입처 ID", example = "20019")
     @NotNull(message = "매입처 ID 는 필수 값입니다.")
@@ -29,6 +29,6 @@ public class PurchaseRequest {
 
     @ApiModelProperty(value = "매입 내용")
     @NotNull(message = "매입 내용은 필수 값입니다.")
-    @JsonProperty("purchased_date")
-    List<PurchaseRequestContent> contents;
+    @JsonProperty("contents")
+    List<PurchaseCreateRequestContent> contents;
 }

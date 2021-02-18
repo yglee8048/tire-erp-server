@@ -1,7 +1,8 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
-import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseRequestContent;
+import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseCreateRequestContent;
+import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseUpdateRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,7 +42,7 @@ public class Purchase {
     private Integer price;
 
     @Column(name = "quantity", nullable = false)
-    private Integer quantity;
+    private Long quantity;
 
     @Enumerated(STRING)
     @Column(name = "status", nullable = false)
@@ -50,7 +51,8 @@ public class Purchase {
     @Column(name = "purchased_date", nullable = false)
     private LocalDate purchasedDate;
 
-    private Purchase(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseRequestContent createRequest, LocalDate purchasedDate) {
+    //== Business ==//
+    private Purchase(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseCreateRequestContent createRequest, LocalDate purchasedDate) {
         this.vendor = vendor;
         this.tireDot = tireDot;
         this.warehouse = warehouse;
@@ -60,7 +62,20 @@ public class Purchase {
         this.purchasedDate = purchasedDate;
     }
 
-    public static Purchase of(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseRequestContent createRequest, LocalDate purchasedDate) {
+    public static Purchase of(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseCreateRequestContent createRequest, LocalDate purchasedDate) {
         return new Purchase(vendor, tireDot, warehouse, createRequest, purchasedDate);
+    }
+
+    public void update(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseUpdateRequest updateRequest) {
+        this.vendor = vendor;
+        this.tireDot = tireDot;
+        this.warehouse = warehouse;
+        this.price = updateRequest.getPrice();
+        this.quantity = updateRequest.getQuantity();
+        this.purchasedDate = updateRequest.getPurchasedDate();
+    }
+
+    public void confirm() {
+        this.status = PurchaseStatus.CONFIRMED;
     }
 }

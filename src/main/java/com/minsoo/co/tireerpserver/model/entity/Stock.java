@@ -37,6 +37,17 @@ public class Stock {
     private boolean lock;
 
     //== Business ==//
+    private Stock(TireDot tireDot, Warehouse warehouse, boolean lock) {
+        this.tireDot = tireDot;
+        this.warehouse = warehouse;
+        this.quantity = 0L;
+        this.lock = lock;
+    }
+
+    public static Stock of(TireDot tireDot, Warehouse warehouse, boolean lock) {
+        return new Stock(tireDot, warehouse, lock);
+    }
+
     public void updateLock(boolean lock) {
         this.lock = lock;
     }

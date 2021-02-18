@@ -42,7 +42,7 @@ public class PurchaseResponse {
 
     @ApiModelProperty(value = "매입 수량", example = "45")
     @JsonProperty("quantity")
-    private Integer quantity;
+    private Long quantity;
 
     @ApiModelProperty(value = "매입 상태", example = "CONFIRMED")
     @JsonProperty("status")

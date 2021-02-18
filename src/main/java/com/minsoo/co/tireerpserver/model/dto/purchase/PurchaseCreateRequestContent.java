@@ -14,7 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @ToString
 @NoArgsConstructor(access = PROTECTED)
-public class PurchaseRequestContent {
+public class PurchaseCreateRequestContent {
 
     @ApiModelProperty(value = "타이어 ID", example = "20019")
     @NotNull(message = "타이어 ID 는 필수 값입니다.")
@@ -41,5 +41,5 @@ public class PurchaseRequestContent {
     @NotNull(message = "매입 수량은 필수 값입니다.")
     @Positive(message = "매입 수량은 양수여야 합니다.")
     @JsonProperty("quantity")
-    private Integer quantity;
+    private Long quantity;
 }

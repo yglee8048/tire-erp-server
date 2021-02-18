@@ -5,6 +5,8 @@ import com.minsoo.co.tireerpserver.model.dto.stock.MoveStockRequest;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockParams;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.entity.Stock;
+import com.minsoo.co.tireerpserver.model.entity.TireDot;
+import com.minsoo.co.tireerpserver.model.entity.Warehouse;
 import com.minsoo.co.tireerpserver.repository.BrandRepository;
 import com.minsoo.co.tireerpserver.repository.StockRepository;
 import com.minsoo.co.tireerpserver.repository.TireRepository;
@@ -48,6 +50,11 @@ public class StockService {
 
     public List<Stock> findAllByTireId(Long tireId) {
         return stockRepository.findAllFetchByTireId(tireId);
+    }
+
+    @Transactional
+    public Stock create(TireDot tireDot, Warehouse warehouse, boolean lock) {
+        return stockRepository.save(Stock.of(tireDot, warehouse, lock));
     }
 
     @Transactional
