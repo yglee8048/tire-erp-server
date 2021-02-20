@@ -2,9 +2,6 @@ language: java
 jdk:
   - openjdk8
 
-addons:
-  mariadb: '10.4'
-
 branches:
   only:
     - development
@@ -19,7 +16,6 @@ script: "./gradlew clean build"
 
 before_install:
   - chmod +x gradlew
-  - sudo mysql -e 'CREATE DATABASE IF NOT EXISTS build_test;'
 
 before_deploy:
   - mkdir -p before-deploy # zip에 포함시킬 파일들을 담을 디렉토리 생성
