@@ -6,8 +6,16 @@ spring:
 # local 환경
 ---
 spring:
-  jpa:
-    show-sql: true
   config:
     activate:
       on-profile: local
+
+  jpa:
+    properties:
+      hibernate:
+        # show_sql: true
+        format_sql: true
+    open-in-view: false
+
+logging.level:
+  org.hibernate.SQL: debug

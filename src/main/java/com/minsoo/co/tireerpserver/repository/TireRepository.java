@@ -17,4 +17,6 @@ public interface TireRepository extends JpaRepository<Tire, Long> {
 
     @Query("select distinct t.pattern from Tire t")
     List<String> findAllPatterns();
+
+    boolean existsByProductId(String productId);
 }

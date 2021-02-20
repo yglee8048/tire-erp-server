@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.service;
 
+import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
 import com.minsoo.co.tireerpserver.model.code.TireOption;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
@@ -63,6 +64,28 @@ class TireServiceTest {
         TireResponse createdTire = tireService.create(tireCreateRequest);
         assertThat(tireService.findById(createdTire.getTireId())).isEqualTo(createdTire);
         log.info("타이어 생성 완료");
+
+        // 타이어 상품 ID 중복 생성
+        log.info("타이어 상품 ID 중복 생성 테스트");
+        TireRequest tireDuplicateCreateRequest = TireRequest.builder()
+                .brandId(createdBrand.getBrandId())
+                .label("어슐런스")
+                .width(165)
+                .flatnessRatio(60)
+                .inch(14)
+                .loadIndex(79)
+                .speedIndex("H")
+                .season("겨울")
+                .price(120000)
+                .runFlat(true)
+                .option(TireOption.SEAL)
+                .oe("AO")
+                .pattern("PZero")
+                .productId("20210220A")
+                .build();
+        assertThatThrownBy(() -> tireService.create(tireDuplicateCreateRequest))
+                .isInstanceOf(AlreadyExistException.class);
+        log.info("타이어 상품 ID 중복 생성 테스트 완료");
 
         // 타이어 수정
         log.info("타이어 수정 테스트");

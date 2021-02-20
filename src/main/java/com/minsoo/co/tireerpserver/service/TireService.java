@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.service;
 
+import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
@@ -37,6 +38,9 @@ public class TireService {
 
     @Transactional
     public TireResponse create(TireRequest createRequest) {
+        if (tireRepository.existsByProductId(createRequest.getProductId())) {
+            throw new AlreadyExistException("이미 존재하는 상품 ID 입니다.");
+        }
         Brand brand = brandRepository.findById(createRequest.getBrandId()).orElseThrow(NotFoundException::new);
         return TireResponse.of(tireRepository.save(Tire.of(createRequest, brand)));
     }
