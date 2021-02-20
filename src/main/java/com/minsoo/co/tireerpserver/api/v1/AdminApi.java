@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -26,10 +25,7 @@ public class AdminApi {
     @GetMapping
     @ApiOperation(value = "관리자 목록 조회", notes = "관리자의 목록을 조회한다.")
     public ApiResponse<List<AdminResponse>> findAllAdmins() {
-        return ApiResponse.createOK(adminService.findAll()
-                .stream()
-                .map(AdminResponse::of)
-                .collect(Collectors.toList()));
+        return ApiResponse.createOK(adminService.findAll());
     }
 
     @GetMapping(value = "/{adminId}")
@@ -37,13 +33,13 @@ public class AdminApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "adminId", value = "관리자 ID", example = "201324", required = true)})
     public ApiResponse<AdminResponse> findAdminById(@PathVariable Long adminId) {
-        return ApiResponse.createOK(AdminResponse.of(adminService.findById(adminId)));
+        return ApiResponse.createOK(adminService.findById(adminId));
     }
 
     @PostMapping
     @ApiOperation(value = "관리자 생성", notes = "관리자를 생성한다.")
     public ApiResponse<AdminResponse> createAdmin(@RequestBody @Valid AdminRequest adminRequest) {
-        return ApiResponse.createOK(AdminResponse.of(adminService.create(adminRequest)));
+        return ApiResponse.createOK(adminService.create(adminRequest));
     }
 
     @PutMapping(value = "/{adminId}")
@@ -52,7 +48,7 @@ public class AdminApi {
             @ApiImplicitParam(name = "adminId", value = "관리자 ID", example = "201324", required = true)})
     public ApiResponse<AdminResponse> updateAdmin(@PathVariable Long adminId,
                                                   @RequestBody @Valid AdminRequest updateRequest) {
-        return ApiResponse.createOK(AdminResponse.of(adminService.update(adminId, updateRequest)));
+        return ApiResponse.createOK(adminService.update(adminId, updateRequest));
     }
 
     @DeleteMapping(value = "/{adminId}")

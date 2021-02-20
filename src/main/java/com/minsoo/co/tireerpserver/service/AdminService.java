@@ -3,6 +3,7 @@ package com.minsoo.co.tireerpserver.service;
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.admin.AdminRequest;
+import com.minsoo.co.tireerpserver.model.dto.admin.AdminResponse;
 import com.minsoo.co.tireerpserver.model.entity.Admin;
 import com.minsoo.co.tireerpserver.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -20,34 +22,37 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
 
-    public List<Admin> findAll() {
-        return adminRepository.findAll();
+    public List<AdminResponse> findAll() {
+        return adminRepository.findAll()
+                .stream()
+                .map(AdminResponse::of)
+                .collect(Collectors.toList());
     }
 
-    public Admin findById(Long id) {
-        return adminRepository.findById(id).orElseThrow(NotFoundException::new);
+    public AdminResponse findById(Long id) {
+        return AdminResponse.of(adminRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 
     @Transactional
-    public Admin create(AdminRequest createRequest) {
+    public AdminResponse create(AdminRequest createRequest) {
         if (adminRepository.existsByUserId(createRequest.getUserId())) {
             throw new AlreadyExistException("이미 존재하는 아이디입니다.");
         }
-        return adminRepository.save(Admin.of(createRequest));
+        return AdminResponse.of(adminRepository.save(Admin.of(createRequest)));
     }
 
     @Transactional
-    public Admin update(Long adminId, AdminRequest updateRequest) {
-        Admin admin = this.findById(adminId);
+    public AdminResponse update(Long id, AdminRequest updateRequest) {
+        Admin admin = adminRepository.findById(id).orElseThrow(NotFoundException::new);
         if (!admin.getUserId().equals(updateRequest.getUserId()) && adminRepository.existsByUserId(updateRequest.getUserId())) {
             throw new AlreadyExistException("이미 존재하는 아이디입니다.");
         }
         admin.update(updateRequest);
-        return admin;
+        return AdminResponse.of(admin);
     }
 
     @Transactional
     public void removeById(Long id) {
-        adminRepository.delete(this.findById(id));
+        adminRepository.deleteById(id);
     }
 }

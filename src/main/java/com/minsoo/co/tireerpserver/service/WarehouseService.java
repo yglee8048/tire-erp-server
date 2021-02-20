@@ -3,6 +3,7 @@ package com.minsoo.co.tireerpserver.service;
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Warehouse;
 import com.minsoo.co.tireerpserver.repository.WarehouseRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -23,38 +25,41 @@ public class WarehouseService {
     private final WarehouseRepository warehouseRepository;
     private final ManagementQueryRepository managementQueryRepository;
 
-    public List<Warehouse> findAll() {
-        return warehouseRepository.findAll();
+    public List<WarehouseResponse> findAll() {
+        return warehouseRepository.findAll()
+                .stream()
+                .map(WarehouseResponse::of)
+                .collect(Collectors.toList());
     }
 
     public List<WarehouseSimpleResponse> findAllWarehouseNames() {
         return managementQueryRepository.findAllWarehouseNames();
     }
 
-    public Warehouse findById(Long id) {
-        return warehouseRepository.findById(id).orElseThrow(NotFoundException::new);
+    public WarehouseResponse findById(Long id) {
+        return WarehouseResponse.of(warehouseRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 
     @Transactional
-    public Warehouse create(WarehouseRequest createRequest) {
+    public WarehouseResponse create(WarehouseRequest createRequest) {
         if (warehouseRepository.existsByName(createRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");
         }
-        return warehouseRepository.save(Warehouse.of(createRequest));
+        return WarehouseResponse.of(warehouseRepository.save(Warehouse.of(createRequest)));
     }
 
     @Transactional
-    public Warehouse update(Long warehouseId, WarehouseRequest updateRequest) {
-        Warehouse warehouse = this.findById(warehouseId);
+    public WarehouseResponse update(Long id, WarehouseRequest updateRequest) {
+        Warehouse warehouse = warehouseRepository.findById(id).orElseThrow(NotFoundException::new);
         if (!warehouse.getName().equals(updateRequest.getName()) && warehouseRepository.existsByName(updateRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");
         }
         warehouse.update(updateRequest);
-        return warehouse;
+        return WarehouseResponse.of(warehouse);
     }
 
     @Transactional
     public void removeById(Long id) {
-        warehouseRepository.delete(this.findById(id));
+        warehouseRepository.deleteById(id);
     }
 }

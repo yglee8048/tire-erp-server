@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -38,10 +37,7 @@ public class ManagementApi {
     @GetMapping(value = "/brands")
     @ApiOperation(value = "브랜드 목록 조회", notes = "브랜드 목록을 조회한다.")
     public ApiResponse<List<BrandResponse>> findAllBrands() {
-        return ApiResponse.createOK(brandService.findAll()
-                .stream()
-                .map(BrandResponse::of)
-                .collect(Collectors.toList()));
+        return ApiResponse.createOK(brandService.findAll());
     }
 
     @GetMapping(value = "/brands/names")
@@ -55,13 +51,13 @@ public class ManagementApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "brandId", value = "브랜드 ID", example = "201324", required = true)})
     public ApiResponse<BrandResponse> findBrandById(@PathVariable Long brandId) {
-        return ApiResponse.createOK(BrandResponse.of(brandService.findById(brandId)));
+        return ApiResponse.createOK(brandService.findById(brandId));
     }
 
     @PostMapping(value = "/brands")
     @ApiOperation(value = "브랜드 생성", notes = "브랜드를 생성한다.")
     public ApiResponse<BrandResponse> createBrand(@RequestBody @Valid BrandRequest brandRequest) {
-        return ApiResponse.createOK(BrandResponse.of(brandService.create(brandRequest)));
+        return ApiResponse.createOK(brandService.create(brandRequest));
     }
 
     @PutMapping(value = "/brands/{brandId}")
@@ -70,7 +66,7 @@ public class ManagementApi {
             @ApiImplicitParam(name = "brandId", value = "브랜드 ID", example = "201324", required = true)})
     public ApiResponse<BrandResponse> updateBrand(@PathVariable Long brandId,
                                                   @RequestBody @Valid BrandRequest brandUpdateRequest) {
-        return ApiResponse.createOK(BrandResponse.of(brandService.update(brandId, brandUpdateRequest)));
+        return ApiResponse.createOK(brandService.update(brandId, brandUpdateRequest));
     }
 
     @DeleteMapping(value = "/brands/{brandId}")
@@ -86,10 +82,7 @@ public class ManagementApi {
     @GetMapping(value = "/vendors")
     @ApiOperation(value = "매입처 목록 조회", notes = "매입처 목록을 조회한다.")
     public ApiResponse<List<VendorResponse>> findAllVendors() {
-        return ApiResponse.createOK(vendorService.findAll()
-                .stream()
-                .map(VendorResponse::of)
-                .collect(Collectors.toList()));
+        return ApiResponse.createOK(vendorService.findAll());
     }
 
     @GetMapping(value = "/vendors/names")
@@ -103,13 +96,13 @@ public class ManagementApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "vendorId", value = "매입처 ID", example = "201324", required = true)})
     public ApiResponse<VendorResponse> findVendorById(@PathVariable Long vendorId) {
-        return ApiResponse.createOK(VendorResponse.of(vendorService.findById(vendorId)));
+        return ApiResponse.createOK(vendorService.findById(vendorId));
     }
 
     @PostMapping(value = "/vendors")
     @ApiOperation(value = "매입처 생성", notes = "매입처를 생성한다.")
     public ApiResponse<VendorResponse> createVendor(@RequestBody @Valid VendorRequest vendorRequest) {
-        return ApiResponse.createOK(VendorResponse.of(vendorService.create(vendorRequest)));
+        return ApiResponse.createOK(vendorService.create(vendorRequest));
     }
 
     @PutMapping(value = "/vendors/{vendorId}")
@@ -118,7 +111,7 @@ public class ManagementApi {
             @ApiImplicitParam(name = "vendorId", value = "매입처 ID", example = "201324", required = true)})
     public ApiResponse<VendorResponse> updateVendor(@PathVariable Long vendorId,
                                                     @RequestBody @Valid VendorRequest vendorUpdateRequest) {
-        return ApiResponse.createOK(VendorResponse.of(vendorService.update(vendorId, vendorUpdateRequest)));
+        return ApiResponse.createOK(vendorService.update(vendorId, vendorUpdateRequest));
     }
 
     @DeleteMapping(value = "/vendors/{vendorId}")
@@ -134,10 +127,7 @@ public class ManagementApi {
     @GetMapping(value = "/warehouses")
     @ApiOperation(value = "창고 목록 조회", notes = "창고 목록을 조회한다.")
     public ApiResponse<List<WarehouseResponse>> findAllWarehouses() {
-        return ApiResponse.createOK(warehouseService.findAll()
-                .stream()
-                .map(WarehouseResponse::of)
-                .collect(Collectors.toList()));
+        return ApiResponse.createOK(warehouseService.findAll());
     }
 
     @GetMapping(value = "/warehouses/names")
@@ -151,13 +141,13 @@ public class ManagementApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "warehouseId", value = "창고 ID", example = "201324", required = true)})
     public ApiResponse<WarehouseResponse> findWarehouseById(@PathVariable Long warehouseId) {
-        return ApiResponse.createOK(WarehouseResponse.of(warehouseService.findById(warehouseId)));
+        return ApiResponse.createOK(warehouseService.findById(warehouseId));
     }
 
     @PostMapping(value = "/warehouses")
     @ApiOperation(value = "창고 생성", notes = "창고를 생성한다.")
     public ApiResponse<WarehouseResponse> createWarehouse(@RequestBody @Valid WarehouseRequest warehouseRequest) {
-        return ApiResponse.createOK(WarehouseResponse.of(warehouseService.create(warehouseRequest)));
+        return ApiResponse.createOK(warehouseService.create(warehouseRequest));
     }
 
     @PutMapping(value = "/warehouses/{warehouseId}")
@@ -166,7 +156,7 @@ public class ManagementApi {
             @ApiImplicitParam(name = "warehouseId", value = "창고 ID", example = "201324", required = true)})
     public ApiResponse<WarehouseResponse> updateWarehouse(@PathVariable Long warehouseId,
                                                           @RequestBody @Valid WarehouseRequest warehouseUpdateRequest) {
-        return ApiResponse.createOK(WarehouseResponse.of(warehouseService.update(warehouseId, warehouseUpdateRequest)));
+        return ApiResponse.createOK(warehouseService.update(warehouseId, warehouseUpdateRequest));
     }
 
     @DeleteMapping(value = "/warehouses/{warehouseId}")

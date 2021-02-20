@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -26,10 +25,7 @@ public class StockApi {
     @GetMapping
     @ApiOperation(value = "재고 전체 목록 조회", notes = "재고 전체 목록을 조회한다.")
     public ApiResponse<List<StockResponse>> findAllStocks() {
-        return ApiResponse.createOK(stockService.findAll()
-                .stream()
-                .map(StockResponse::of)
-                .collect(Collectors.toList()));
+        return ApiResponse.createOK(stockService.findAll());
     }
 
     @GetMapping(value = "/{stockId}")
@@ -37,7 +33,7 @@ public class StockApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "stockId", value = "재고 ID", example = "201324", required = true)})
     public ApiResponse<StockResponse> findStockById(@PathVariable(value = "stockId") Long stockId) {
-        return ApiResponse.createOK(StockResponse.of(stockService.findById(stockId)));
+        return ApiResponse.createOK(stockService.findById(stockId));
     }
 
     @PostMapping(value = "/{stockId}/update-lock")
@@ -47,7 +43,7 @@ public class StockApi {
             @ApiImplicitParam(name = "lock", value = "잠금 여부(true = 잠금 / false = 공개)", required = true)})
     public ApiResponse<StockSimpleResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
                                                             @RequestParam(value = "lock") boolean lock) {
-        return ApiResponse.createOK(StockSimpleResponse.of(stockService.updateStockLock(stockId, lock)));
+        return ApiResponse.createOK(stockService.updateStockLock(stockId, lock));
     }
 
     @PostMapping(value = "/{stockId}/move-stock")
@@ -56,10 +52,7 @@ public class StockApi {
             @ApiImplicitParam(name = "stockId", value = "재고 ID", example = "201324", required = true)})
     public ApiResponse<List<StockSimpleResponse>> moveStock(@PathVariable(value = "stockId") Long stockId,
                                                             @RequestBody @Valid MoveStockRequest moveStockRequest) {
-        return ApiResponse.createOK(stockService.moveStock(stockId, moveStockRequest)
-                .stream()
-                .map(StockSimpleResponse::of)
-                .collect(Collectors.toList()));
+        return ApiResponse.createOK(stockService.moveStock(stockId, moveStockRequest));
     }
 
     // TIRE-STOCKS
@@ -91,9 +84,6 @@ public class StockApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
     public ApiResponse<List<StockSimpleResponse>> findTireDotStocks(@PathVariable(value = "tireId") Long tireId) {
-        return ApiResponse.createOK(stockService.findAllByTireId(tireId)
-                .stream()
-                .map(StockSimpleResponse::of)
-                .collect(Collectors.toList()));
+        return ApiResponse.createOK(stockService.findAllByTireId(tireId));
     }
 }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -27,19 +26,13 @@ public class PurchaseApi {
     @GetMapping
     @ApiOperation(value = "매입 내역 목록 조회", notes = "매입 내역의 목록을 조회한다.")
     public ApiResponse<List<PurchaseResponse>> findAllPurchases() {
-        return ApiResponse.createOK(purchaseService.findAll()
-                .stream()
-                .map(PurchaseResponse::of)
-                .collect(Collectors.toList()));
+        return ApiResponse.createOK(purchaseService.findAll());
     }
 
     @PostMapping
     @ApiOperation(value = "매입 생성", notes = "복수의 매입을 생성한다.")
     public ApiResponse<List<PurchaseResponse>> createPurchases(@RequestBody @Valid PurchaseCreateRequest createRequest) {
-        return ApiResponse.createOK(purchaseService.create(createRequest)
-                .stream()
-                .map(PurchaseResponse::of)
-                .collect(Collectors.toList()));
+        return ApiResponse.createOK(purchaseService.create(createRequest));
     }
 
     @PutMapping("/{purchaseId}")
@@ -48,7 +41,7 @@ public class PurchaseApi {
             @ApiImplicitParam(name = "purchaseId", value = "매입 ID", example = "201324", required = true)})
     public ApiResponse<PurchaseResponse> updatePurchase(@PathVariable(value = "purchaseId") Long purchaseId,
                                                         @RequestBody @Valid PurchaseUpdateRequest updateRequest) {
-        return ApiResponse.createOK(PurchaseResponse.of(purchaseService.update(purchaseId, updateRequest)));
+        return ApiResponse.createOK(purchaseService.update(purchaseId, updateRequest));
     }
 
     @PostMapping(value = "/{purchaseId}/confirm")
@@ -58,7 +51,7 @@ public class PurchaseApi {
             @ApiImplicitParam(name = "lock", value = "재고 잠금 여부(true=비공개/false=공개)", example = "true", required = true)})
     public ApiResponse<PurchaseResponse> confirmPurchaseById(@PathVariable(value = "purchaseId") Long purchaseId,
                                                              @RequestParam boolean lock) {
-        return ApiResponse.createOK(PurchaseResponse.of(purchaseService.confirm(purchaseId, lock)));
+        return ApiResponse.createOK(purchaseService.confirm(purchaseId, lock));
     }
 
     @DeleteMapping("/{purchaseId}")

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -26,10 +25,7 @@ public class CustomerApi {
     @GetMapping
     @ApiOperation(value = "거래처 목록 조회", notes = "거래처의 목록을 조회한다.")
     public ApiResponse<List<CustomerResponse>> findAllCustomers() {
-        return ApiResponse.createOK(customerService.findAll()
-                .stream()
-                .map(CustomerResponse::of)
-                .collect(Collectors.toList()));
+        return ApiResponse.createOK(customerService.findAll());
     }
 
     @GetMapping(value = "/{customerId}")
@@ -37,13 +33,13 @@ public class CustomerApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "customerId", value = "거래처 ID", example = "201324", required = true)})
     public ApiResponse<CustomerResponse> findCustomerById(@PathVariable(value = "customerId") Long customerId) {
-        return ApiResponse.createOK(CustomerResponse.of(customerService.findById(customerId)));
+        return ApiResponse.createOK(customerService.findById(customerId));
     }
 
     @PostMapping
     @ApiOperation(value = "거래처 생성", notes = "거래처를 생성한다.")
     public ApiResponse<CustomerResponse> createCustomer(@RequestBody @Valid CustomerRequest createRequest) {
-        return ApiResponse.createOK(CustomerResponse.of(customerService.create(createRequest)));
+        return ApiResponse.createOK(customerService.create(createRequest));
     }
 
     @PutMapping(value = "/{customerId}")
@@ -52,7 +48,7 @@ public class CustomerApi {
             @ApiImplicitParam(name = "customerId", value = "거래처 ID", example = "201324", required = true)})
     public ApiResponse<CustomerResponse> updateCustomer(@PathVariable(value = "customerId") Long customerId,
                                                         @RequestBody @Valid CustomerRequest updateRequest) {
-        return ApiResponse.createOK(CustomerResponse.of(customerService.update(customerId, updateRequest)));
+        return ApiResponse.createOK(customerService.update(customerId, updateRequest));
     }
 
     @DeleteMapping(value = "/{customerId}")
