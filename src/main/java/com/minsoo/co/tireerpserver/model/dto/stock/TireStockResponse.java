@@ -3,6 +3,7 @@ package com.minsoo.co.tireerpserver.model.dto.stock;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @ToString
+@EqualsAndHashCode
 @NoArgsConstructor(access = PROTECTED)
 public class TireStockResponse {
 
@@ -20,7 +22,7 @@ public class TireStockResponse {
 
     @ApiModelProperty(value = "매입 평균가", example = "288500")
     @JsonProperty("average_of_purchase_price")
-    private Long averageOfPurchasePrice;
+    private Double averageOfPurchasePrice;
 
     @ApiModelProperty(value = "수량", example = "207")
     @JsonProperty("sum_of_stock")

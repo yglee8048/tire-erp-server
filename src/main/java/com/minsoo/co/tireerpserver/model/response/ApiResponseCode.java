@@ -16,7 +16,7 @@ public enum ApiResponseCode {
     FORBIDDEN("해당 작업을 수행할 권한이 부족합니다.", HttpStatus.FORBIDDEN),
     NOT_ENOUGH_STOCK("재고가 부족합니다.", HttpStatus.BAD_REQUEST),
     ALREADY_CONFIRMED("이미 확정되어 수정할 수 없습니다.", HttpStatus.BAD_REQUEST),
-    NOT_EMPTY_STOCK("재고가 남아있는 창고/타이어는 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
+    CAN_NOT_DELETE("관련 데이터가 존재하여 삭제할 수 없습니다.", HttpStatus.BAD_REQUEST),
     ;
 
     private final String message;

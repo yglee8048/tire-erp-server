@@ -2,9 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.purchase;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
-import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
-import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseSimpleResponse;
-import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Purchase;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
@@ -20,23 +18,23 @@ import static lombok.AccessLevel.PROTECTED;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor(access = PROTECTED)
-public class PurchaseResponse {
+public class PurchaseSimpleResponse {
 
-    @ApiModelProperty(value = "ID", example = "20019")
+    @ApiModelProperty(value = "매입 ID", example = "20019")
     @JsonProperty("purchase_id")
     private Long purchaseId;
 
-    @ApiModelProperty(value = "매입처")
-    @JsonProperty("vendor")
-    private VendorResponse vendor;
+    @ApiModelProperty(value = "매입처 ID")
+    @JsonProperty("vendor_id")
+    private Long vendorId;
 
     @ApiModelProperty(value = "타이어 DOT")
     @JsonProperty("tire_dot")
-    private TireDotResponse tireDot;
+    private TireDotSimpleResponse tireDot;
 
-    @ApiModelProperty(value = "창고")
-    @JsonProperty("warehouse")
-    private WarehouseSimpleResponse warehouse;
+    @ApiModelProperty(value = "창고 ID")
+    @JsonProperty("warehouse_id")
+    private Long warehouseId;
 
     @ApiModelProperty(value = "매입 가격", example = "450000")
     @JsonProperty("price")
@@ -54,21 +52,18 @@ public class PurchaseResponse {
     @JsonProperty("purchased_date")
     private LocalDate purchasedDate;
 
-    public PurchaseResponse(Purchase purchase) {
+    private PurchaseSimpleResponse(Purchase purchase) {
         this.purchaseId = purchase.getId();
-        this.vendor = VendorResponse.of(purchase.getVendor());
-        this.tireDot = TireDotResponse.of(purchase.getTireDot());
-        this.warehouse = WarehouseSimpleResponse.builder()
-                .warehouseId(purchase.getWarehouse().getId())
-                .name(purchase.getWarehouse().getName())
-                .build();
+        this.vendorId = purchase.getVendor().getId();
+        this.tireDot = TireDotSimpleResponse.of(purchase.getTireDot());
+        this.warehouseId = purchase.getWarehouse().getId();
         this.price = purchase.getPrice();
         this.quantity = purchase.getQuantity();
         this.status = purchase.getStatus();
         this.purchasedDate = purchase.getPurchasedDate();
     }
 
-    public static PurchaseResponse of(Purchase purchase) {
-        return new PurchaseResponse(purchase);
+    public static PurchaseSimpleResponse of(Purchase purchase) {
+        return new PurchaseSimpleResponse(purchase);
     }
 }

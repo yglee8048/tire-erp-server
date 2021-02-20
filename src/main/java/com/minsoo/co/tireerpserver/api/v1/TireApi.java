@@ -77,7 +77,6 @@ public class TireApi {
         return ApiResponse.createOK(tireDotService.findAllByTireId(tireId));
     }
 
-
     // TIRE MEMO
     @GetMapping(value = "/{tireId}/tire-memos")
     @ApiOperation(value = "타이어 메모 목록 조회", notes = "타이어 메모 목록을 조회한다.")

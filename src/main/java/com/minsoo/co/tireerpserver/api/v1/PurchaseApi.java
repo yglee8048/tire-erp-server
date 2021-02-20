@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseResponse;
+import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseUpdateRequest;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import com.minsoo.co.tireerpserver.service.PurchaseService;
@@ -31,7 +32,7 @@ public class PurchaseApi {
 
     @PostMapping
     @ApiOperation(value = "매입 생성", notes = "복수의 매입을 생성한다.")
-    public ApiResponse<List<PurchaseResponse>> createPurchases(@RequestBody @Valid PurchaseCreateRequest createRequest) {
+    public ApiResponse<List<PurchaseSimpleResponse>> createPurchases(@RequestBody @Valid PurchaseCreateRequest createRequest) {
         return ApiResponse.createOK(purchaseService.create(createRequest));
     }
 
@@ -39,8 +40,8 @@ public class PurchaseApi {
     @ApiOperation(value = "매입 수정", notes = "매입 내용을 수정한다. (확정된 매입은 수정이 불가능하다.)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "purchaseId", value = "매입 ID", example = "201324", required = true)})
-    public ApiResponse<PurchaseResponse> updatePurchase(@PathVariable(value = "purchaseId") Long purchaseId,
-                                                        @RequestBody @Valid PurchaseUpdateRequest updateRequest) {
+    public ApiResponse<PurchaseSimpleResponse> updatePurchase(@PathVariable(value = "purchaseId") Long purchaseId,
+                                                              @RequestBody @Valid PurchaseUpdateRequest updateRequest) {
         return ApiResponse.createOK(purchaseService.update(purchaseId, updateRequest));
     }
 
@@ -49,7 +50,7 @@ public class PurchaseApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "purchaseId", value = "매입 ID", example = "201324", required = true),
             @ApiImplicitParam(name = "lock", value = "재고 잠금 여부(true=비공개/false=공개)", example = "true", required = true)})
-    public ApiResponse<PurchaseResponse> confirmPurchaseById(@PathVariable(value = "purchaseId") Long purchaseId,
+    public ApiResponse<PurchaseSimpleResponse> confirmPurchaseById(@PathVariable(value = "purchaseId") Long purchaseId,
                                                              @RequestParam boolean lock) {
         return ApiResponse.createOK(purchaseService.confirm(purchaseId, lock));
     }

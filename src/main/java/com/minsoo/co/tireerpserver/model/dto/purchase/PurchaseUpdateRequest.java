@@ -2,9 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.purchase;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -14,7 +12,9 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @ToString
+@Builder
 @NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
 public class PurchaseUpdateRequest {
 
     @ApiModelProperty(value = "매입처 ID", example = "20019")

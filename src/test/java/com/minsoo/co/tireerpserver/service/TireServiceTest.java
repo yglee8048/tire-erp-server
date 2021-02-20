@@ -2,10 +2,7 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
-import com.minsoo.co.tireerpserver.model.code.TireOption;
-import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.minsoo.co.tireerpserver.utils.RequestBuilder.*;
 import static org.assertj.core.api.Assertions.*;
 
 @Transactional
@@ -29,94 +27,36 @@ class TireServiceTest {
     @Autowired
     TireService tireService;
 
+    /**
+     * 기본적인 타이어 CUD 테스트 (브랜드 생성 포함)
+     * 타이어 상품 ID가 중복되는 경우, 예외가 발생해야 한다.
+     */
     @Test
     @DisplayName("타이어 생성 & 조회 & 수정 & 삭제")
     void tireTest() {
-        // 브랜드 생성
         log.info("브랜드 생성 테스트");
-        BrandRequest brandCreateRequest = BrandRequest.builder()
-                .name("테스트 브랜드")
-                .description("21-02-20 테스트")
-                .build();
-        BrandResponse createdBrand = brandService.create(brandCreateRequest);
+        BrandResponse createdBrand = brandService.create(BRAND("테스트 브랜드"));
 
         assertThat(brandService.findById(createdBrand.getBrandId())).isEqualTo(createdBrand);
-        log.info("브랜드 생성 완료");
 
-        // 타이어 생성
         log.info("타이어 생성 테스트");
-        TireRequest tireCreateRequest = TireRequest.builder()
-                .brandId(createdBrand.getBrandId())
-                .label("어슐런스")
-                .width(165)
-                .flatnessRatio(60)
-                .inch(14)
-                .loadIndex(79)
-                .speedIndex("H")
-                .season("겨울")
-                .price(120000)
-                .runFlat(true)
-                .option(TireOption.SEAL)
-                .oe("AO")
-                .pattern("PZero")
-                .productId("20210220A")
-                .build();
-        TireResponse createdTire = tireService.create(tireCreateRequest);
+        TireResponse createdTire = tireService.create(TIRE(createdBrand.getBrandId(), "PRODUCT_ID_01", "생성테스트"));
         assertThat(tireService.findById(createdTire.getTireId())).isEqualTo(createdTire);
-        log.info("타이어 생성 완료");
 
-        // 타이어 상품 ID 중복 생성
         log.info("타이어 상품 ID 중복 생성 테스트");
-        TireRequest tireDuplicateCreateRequest = TireRequest.builder()
-                .brandId(createdBrand.getBrandId())
-                .label("어슐런스")
-                .width(165)
-                .flatnessRatio(60)
-                .inch(14)
-                .loadIndex(79)
-                .speedIndex("H")
-                .season("겨울")
-                .price(120000)
-                .runFlat(true)
-                .option(TireOption.SEAL)
-                .oe("AO")
-                .pattern("PZero")
-                .productId("20210220A")
-                .build();
-        assertThatThrownBy(() -> tireService.create(tireDuplicateCreateRequest))
+        assertThatThrownBy(() -> tireService.create(TIRE(createdBrand.getBrandId(), "PRODUCT_ID_01", "중복테스트")))
                 .isInstanceOf(AlreadyExistException.class);
-        log.info("타이어 상품 ID 중복 생성 테스트 완료");
 
-        // 타이어 수정
         log.info("타이어 수정 테스트");
-        TireRequest tireUpdateRequest = TireRequest.builder()
-                .brandId(createdBrand.getBrandId())
-                .label("어슐런스")
-                .width(165)
-                .flatnessRatio(60)
-                .inch(14)
-                .loadIndex(80)  // 79 -> 80
-                .speedIndex("H")
-                .season("여름")   // 겨울 -> 여름
-                .price(120000)
-                .runFlat(true)
-                .option(TireOption.SEAL)
-                .oe("AO")
-                .pattern("PZero")
-                .productId("20210220A")
-                .build();
-        TireResponse updatedTire = tireService.update(createdTire.getTireId(), tireUpdateRequest);
-        assertThat(createdTire.getLoadIndex()).isEqualTo(79);
-        assertThat(updatedTire.getLoadIndex()).isEqualTo(80);
-        assertThat(createdTire.getSeason()).isEqualTo("겨울");
-        assertThat(updatedTire.getSeason()).isEqualTo("여름");
-        log.info("타이어 수정 테스트 완료");
+        TireResponse updatedTire = tireService.update(createdTire.getTireId(), TIRE(createdBrand.getBrandId(), "PRODUCT_ID_02", "수정테스트"));
+        assertThat(createdTire.getProductId()).isEqualTo("PRODUCT_ID_01");
+        assertThat(updatedTire.getProductId()).isEqualTo("PRODUCT_ID_02");
+        assertThat(createdTire.getLabel()).isEqualTo("생성테스트");
+        assertThat(updatedTire.getLabel()).isEqualTo("수정테스트");
 
-        // 타이어 삭제
         log.info("타이어 삭제 테스트");
         tireService.removeById(updatedTire.getTireId());
         assertThatThrownBy(() -> tireService.findById(updatedTire.getTireId()))
                 .isInstanceOf(NotFoundException.class);
-        log.info("타이어 삭제 테스트 완료");
     }
 }

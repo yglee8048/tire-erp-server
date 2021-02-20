@@ -3,9 +3,7 @@ package com.minsoo.co.tireerpserver.model.dto.management.warehouse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.dto.general.AddressDTO;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -14,7 +12,9 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @ToString
+@Builder
 @NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
 public class WarehouseRequest {
 
     @ApiModelProperty(value = "이름", example = "왕십리 메인 창고")

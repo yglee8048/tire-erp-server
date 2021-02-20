@@ -3,15 +3,15 @@ package com.minsoo.co.tireerpserver.model.dto.general;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.entity.embedded.BusinessInfo;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
+@Builder
 @ToString
 @NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
 public class BusinessInfoDTO {
 
     @ApiModelProperty(value = "사업자 번호", example = "107-20-59931")

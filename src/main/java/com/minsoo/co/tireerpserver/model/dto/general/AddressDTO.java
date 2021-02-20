@@ -11,7 +11,9 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @ToString
+@Builder
 @NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
 public class AddressDTO {
 
     @ApiModelProperty(value = "시/도", example = "서울특별시")

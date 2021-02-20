@@ -2,9 +2,11 @@ package com.minsoo.co.tireerpserver.repository.query;
 
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
+import com.minsoo.co.tireerpserver.model.entity.QTireDot;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +14,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.minsoo.co.tireerpserver.model.entity.QBrand.*;
+import static com.minsoo.co.tireerpserver.model.entity.QPurchase.*;
 import static com.minsoo.co.tireerpserver.model.entity.QStock.*;
 import static com.minsoo.co.tireerpserver.model.entity.QTire.*;
 import static com.minsoo.co.tireerpserver.model.entity.QTireDot.*;
@@ -27,6 +30,9 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
 
     @Override
     public List<TireStockResponse> findTireStocks(String size, String brandName, String pattern, String productId) {
+        // for sub query
+        QTireDot tireDotSub = new QTireDot("tireDotSub");
+        // query
         return queryFactory
                 .select(Projections.fields(TireStockResponse.class,
                         Projections.fields(TireResponse.class,
@@ -46,8 +52,10 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
                                 tire.option,
                                 tire.oe
                         ).as("tire"),
-                        // TODO: 서브쿼리로 한 번에 긁어오기
-                        Expressions.as(Expressions.constant(0L), "averageOfPurchasePrice"),
+                        ExpressionUtils.as(JPAExpressions.select(purchase.price.avg())
+                                .from(purchase)
+                                .join(purchase.tireDot, tireDotSub)
+                                .where(tireDotSub.tire.id.eq(tire.id)), "averageOfPurchasePrice"),
                         stock.quantity.sum().as("sumOfStock"),
                         tireDot.count().as("numberOfDot")))
                 .from(stock)

@@ -3,16 +3,26 @@ package com.minsoo.co.tireerpserver.model.dto.tire.dot;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.entity.TireDot;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @ToString
+@EqualsAndHashCode
+@NoArgsConstructor(access = PROTECTED)
 public class TireDotSimpleResponse {
 
     @ApiModelProperty(value = "타이어 DOT ID", example = "21")
     @JsonProperty("tire_dot_id")
     private Long tireDotId;
+
+    @ApiModelProperty(value = "타이어 ID", example = "21")
+    @JsonProperty("tire_id")
+    private Long tireId;
 
     @ApiModelProperty(value = "타이어 DOT", example = "4014")
     @JsonProperty("dot")
@@ -20,6 +30,7 @@ public class TireDotSimpleResponse {
 
     private TireDotSimpleResponse(TireDot tireDot) {
         this.tireDotId = tireDot.getId();
+        this.tireId = tireDot.getTire().getId();
         this.dot = tireDot.getDot();
     }
 

@@ -6,13 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class AlreadyConfirmedException extends BaseError {
+public class CanNotDeleteException extends BaseError {
 
-    public AlreadyConfirmedException() {
-        super(ApiResponseCode.ALREADY_CONFIRMED.getMessage(), HttpStatus.BAD_REQUEST);
+    public CanNotDeleteException() {
+        super(ApiResponseCode.CAN_NOT_DELETE.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    public AlreadyConfirmedException(String error) {
+    public CanNotDeleteException(String error) {
         super(error, HttpStatus.BAD_REQUEST);
     }
 }

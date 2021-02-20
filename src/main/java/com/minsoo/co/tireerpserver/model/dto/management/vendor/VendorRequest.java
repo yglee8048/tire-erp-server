@@ -3,9 +3,7 @@ package com.minsoo.co.tireerpserver.model.dto.management.vendor;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -13,7 +11,9 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @ToString
+@Builder
 @NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
 public class VendorRequest {
 
     @ApiModelProperty(value = "이름", example = "피렐리 코리아")

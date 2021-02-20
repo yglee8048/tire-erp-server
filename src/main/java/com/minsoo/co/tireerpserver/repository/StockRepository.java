@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.repository;
 
 import com.minsoo.co.tireerpserver.model.entity.Stock;
+import com.minsoo.co.tireerpserver.model.entity.TireDot;
 import com.minsoo.co.tireerpserver.model.entity.Warehouse;
 import com.minsoo.co.tireerpserver.repository.query.StockQueryRepository;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -32,4 +33,9 @@ public interface StockRepository extends JpaRepository<Stock, Long>, StockQueryR
             "   and w.id = :warehouseId")
     Optional<Stock> findOneFetchByTireDotIdAndWarehouseId(@Param("tireDotId") Long tireDotId,
                                                           @Param("warehouseId") Long warehouseId);
+
+    boolean existsByTireDotIn(@Param("tireDot") List<TireDot> tireDots);
+
+    @Query("select sum(s.quantity) from Stock s where s.tireDot in :tireDots")
+    Long sumQuantityByTireDots(@Param("tireDots") List<TireDot> tireDots);
 }
