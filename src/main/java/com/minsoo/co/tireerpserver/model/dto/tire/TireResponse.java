@@ -5,6 +5,7 @@ import com.minsoo.co.tireerpserver.model.code.TireOption;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Tire;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -13,6 +14,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @ToString
+@EqualsAndHashCode
 @NoArgsConstructor(access = PROTECTED)
 public class TireResponse {
 
@@ -78,10 +80,7 @@ public class TireResponse {
 
     private TireResponse(Tire tire) {
         this.tireId = tire.getId();
-        this.brand = BrandSimpleResponse.builder()
-                .brandId(tire.getBrand().getId())
-                .name(tire.getBrand().getName())
-                .build();
+        this.brand = BrandSimpleResponse.of(tire.getBrand());
         this.productId = tire.getProductId();
         this.label = tire.getLabel();
         this.width = tire.getWidth();

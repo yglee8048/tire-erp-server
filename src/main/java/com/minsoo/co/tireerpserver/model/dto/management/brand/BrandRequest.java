@@ -2,9 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.management.brand;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -12,7 +10,9 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @ToString
+@Builder
 @NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
 public class BrandRequest {
 
     @ApiModelProperty(value = "이름", example = "금호타이어")

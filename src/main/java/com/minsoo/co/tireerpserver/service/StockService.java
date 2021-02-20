@@ -58,11 +58,6 @@ public class StockService {
     }
 
     @Transactional
-    public StockSimpleResponse create(TireDot tireDot, Warehouse warehouse, boolean lock) {
-        return StockSimpleResponse.of(stockRepository.save(Stock.of(tireDot, warehouse, lock)));
-    }
-
-    @Transactional
     public StockSimpleResponse updateStockLock(Long stockId, boolean lock) {
         Stock stock = stockRepository.findFetchDotAndWarehouseById(stockId).orElseThrow(NotFoundException::new);
         stock.updateLock(lock);

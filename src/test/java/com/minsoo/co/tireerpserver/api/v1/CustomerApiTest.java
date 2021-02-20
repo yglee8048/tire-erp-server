@@ -1,38 +1,24 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
-import com.minsoo.co.tireerpserver.service.CustomerService;
+import com.minsoo.co.tireerpserver.api.ApiTestSupport;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
-@SpringBootTest
-class CustomerApiTest {
+class CustomerApiTest extends ApiTestSupport {
 
-    private MockMvc mvc;
+    @Autowired
+    private CustomerApi customerApi;
 
-    @MockBean
-    private CustomerService customerService;
-
-    @Test
-    void findAllCustomers() {
+    @Override
+    protected Object controller() {
+        return customerApi;
     }
 
     @Test
-    void findCustomerById() {
-    }
-
-    @Test
-    void createCustomer() {
-    }
-
-    @Test
-    void updateCustomer() {
-    }
-
-    @Test
-    void deleteCustomer() {
+    void findAllCustomers() throws Exception {
+        mockMvc.perform(get("/api/v1/customers"));
     }
 }

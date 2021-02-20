@@ -3,6 +3,7 @@ package com.minsoo.co.tireerpserver.model.dto.management.brand;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.entity.Brand;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @ToString
+@EqualsAndHashCode
 @NoArgsConstructor(access = PROTECTED)
 public class BrandResponse {
 
