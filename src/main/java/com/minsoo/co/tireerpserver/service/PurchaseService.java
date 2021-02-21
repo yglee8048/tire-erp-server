@@ -31,14 +31,14 @@ public class PurchaseService {
     private final PurchaseRepository purchaseRepository;
 
     public List<PurchaseResponse> findAll() {
-        return purchaseRepository.findAll()
+        return purchaseRepository.findAllFetchAll()
                 .stream()
                 .map(PurchaseResponse::of)
                 .collect(Collectors.toList());
     }
 
     public PurchaseResponse findById(Long id) {
-        return PurchaseResponse.of(purchaseRepository.findById(id).orElseThrow(NotFoundException::new));
+        return PurchaseResponse.of(purchaseRepository.findOneFetchAllById(id).orElseThrow(NotFoundException::new));
     }
 
     /**
@@ -84,8 +84,8 @@ public class PurchaseService {
      */
     @Transactional
     public PurchaseSimpleResponse confirm(Long id, boolean lock) {
-        Purchase purchase = purchaseRepository.findById(id).orElseThrow(NotFoundException::new);
-        Stock stock = stockRepository.findOneFetchByTireDotIdAndWarehouseId(purchase.getTireDot().getId(), purchase.getWarehouse().getId())
+        Purchase purchase = purchaseRepository.findOneFetchTireDotById(id).orElseThrow(NotFoundException::new);
+        Stock stock = stockRepository.findOneByTireDotAndWarehouse(purchase.getTireDot(), purchase.getWarehouse())
                 // 재고가 존재하지 않는다면, 재고를 새로 생성하여 반영한다.
                 .orElseGet(() -> stockRepository.save(Stock.of(purchase.getTireDot(), purchase.getWarehouse(), lock)));
         // 재고 반영

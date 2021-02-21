@@ -1,13 +1,17 @@
 package com.minsoo.co.tireerpserver.service;
 
+import com.minsoo.co.tireerpserver.api.error.errors.AlreadyConfirmedException;
+import com.minsoo.co.tireerpserver.api.error.errors.CanNotDeleteException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
+import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
-import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
+import com.minsoo.co.tireerpserver.model.dto.stock.StockSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -75,19 +79,18 @@ class PurchaseServiceTest {
         VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
         WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
         TireResponse tire = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", "테스트 타이어"));
-
         clear();
 
         log.info("1. 매입 생성 테스트");
         log.debug("매입이 이루어지기 전에는 dot 가 없다.");
         assertThat(tireDotService.findAllByTireId(tire.getTireId()).size()).isEqualTo(0);
-
         clear();
 
         log.debug("매입 생성 1");
         List<PurchaseSimpleResponse> purchaseList01 = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
                 CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 1L),
                 CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot02", warehouse.getWarehouseId(), 2L)));
+        clear();
 
         log.debug("매입 생성 검증");
         PurchaseSimpleResponse purchase01 = purchaseList01.get(0);
@@ -100,26 +103,24 @@ class PurchaseServiceTest {
 
         log.debug("매입이 일어난 후 dot 가 생성되어야 한다.");
         assertThat(tireDotService.findAllByTireId(tire.getTireId()).size()).isEqualTo(2);
-
         clear();
 
         log.debug("dot 생성 검증");
-        TireDotResponse dot01 = tireDotService.findById(purchase01.getTireDot().getTireDotId());
-        TireDotResponse dot02 = tireDotService.findById(purchase02.getTireDot().getTireDotId());
+        TireDotSimpleResponse dot01 = tireDotService.findById(purchase01.getTireDot().getTireDotId());
+        TireDotSimpleResponse dot02 = tireDotService.findById(purchase02.getTireDot().getTireDotId());
         assertThat(dot01.getDot()).isEqualTo("dot01");
         assertThat(dot02.getDot()).isEqualTo("dot02");
         assertThat(dot01.getTireDotId()).isNotEqualTo(dot02.getTireDotId());
-
         clear();
 
         log.debug("매입 생성 2");
         List<PurchaseSimpleResponse> purchaseList02 = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
                 CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 1L)));
+        clear();
 
         log.debug("dot 는 추가로 생성되지 않아야 한다.");
         assertThat(tireDotService.findAllByTireId(tire.getTireId()).size()).isEqualTo(2);
         assertThat(purchaseList02.get(0).getTireDot().getTireDotId()).isEqualTo(dot01.getTireDotId());
-
         clear();
 
         log.info("2. 매입 수정/삭제 테스트");
@@ -127,25 +128,23 @@ class PurchaseServiceTest {
         PurchaseSimpleResponse updatedPurchase01 = purchaseService.update(purchase01.getPurchaseId(), UPDATE_PURCHASE(vendor.getVendorId(), tire.getTireId(), "dot01", warehouse.getWarehouseId(), 50L));
         assertThat(updatedPurchase01.getPurchaseId()).isEqualTo(purchase01.getPurchaseId());
         assertThat(updatedPurchase01.getQuantity()).isEqualTo(50L);
-
         clear();
 
         log.debug("삭제 테스트");
         purchaseService.removeById(purchase01.getPurchaseId());
         assertThatThrownBy(() -> purchaseService.findById(purchase01.getPurchaseId()))
                 .isInstanceOf(NotFoundException.class);
-
         clear();
 
         log.info("3. 타이어 삭제 테스트");
         log.debug("매입이 확정되기 전에는 재고에 반영되지 않는다.");
         assertThat(stockService.findAll().size()).isEqualTo(0);
+        clear();
 
         log.debug("타이어 삭제");
         tireService.removeById(tire.getTireId());
         assertThatThrownBy(() -> tireService.findById(tire.getTireId()))
                 .isInstanceOf(NotFoundException.class);
-
         clear();
 
         log.debug("하위 dot 도 모두 삭제되어야 한다.");
@@ -153,11 +152,11 @@ class PurchaseServiceTest {
                 .isInstanceOf(NotFoundException.class);
         assertThatThrownBy(() -> tireDotService.findById(dot02.getTireDotId()))
                 .isInstanceOf(NotFoundException.class);
+        clear();
 
         log.debug("관련된 매입 내역도 모두 삭제되어야 한다.");
         assertThatThrownBy(() -> purchaseService.findById(purchase02.getPurchaseId()))
                 .isInstanceOf(NotFoundException.class);
-
         clear();
     }
 
@@ -169,8 +168,54 @@ class PurchaseServiceTest {
      * 2. 타이어 삭제 테스트
      * 2-1) 재고가 존재하는 경우 타이어를 삭제할 수 없다. -> 예외가 발생해야 한다.
      */
+    @Test
+    @DisplayName("매입 확정 테스트")
     public void purchaseConfirmTest() {
+        log.info("초기 데이터 생성");
+        BrandResponse brand = brandService.create(BRAND("테스트 브랜드"));
+        VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
+        WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
+        TireResponse tire = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", "테스트 타이어"));
+        List<PurchaseSimpleResponse> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
+                CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 1L),
+                CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 2L)));
+        clear();
 
+        log.info("매입 확정 테스트");
+        purchaseService.confirm(purchases.get(0).getPurchaseId(), false);
+        clear();
+
+        log.debug("매입의 상태가 확정으로 변경되어야 한다.");
+        assertThat(purchases.get(0).getStatus()).isEqualTo(PurchaseStatus.REQUESTED);
+        assertThat(purchaseService.findById(purchases.get(0).getPurchaseId()).getStatus()).isEqualTo(PurchaseStatus.CONFIRMED);
+        clear();
+
+        log.debug("매입이 확정되면 재고에 반영되어야 한다.");
+        List<StockSimpleResponse> stocks1 = stockService.findAllByTireId(tire.getTireId());
+        assertThat(stocks1.size()).isEqualTo(1);
+        assertThat(stocks1.get(0).getQuantity()).isEqualTo(1L);
+        clear();
+
+        log.debug("동일한 재고가 추가되면 수량만 변경된다.");
+        purchaseService.confirm(purchases.get(1).getPurchaseId(), false);
+        clear();
+
+        List<StockSimpleResponse> stocks2 = stockService.findAllByTireId(tire.getTireId());
+        assertThat(stocks2.size()).isEqualTo(1);
+        assertThat(stocks2.get(0).getQuantity()).isEqualTo(3L);
+        clear();
+
+        log.debug("매입이 확정되면 수정/삭제할 수 없다.");
+        assertThatThrownBy(() -> purchaseService.update(purchases.get(0).getPurchaseId(), UPDATE_PURCHASE(vendor.getVendorId(), tire.getTireId(), "dot01", warehouse.getWarehouseId(), 50L)))
+                .isInstanceOf(AlreadyConfirmedException.class);
+        assertThatThrownBy(() -> purchaseService.removeById(purchases.get(1).getPurchaseId()))
+                .isInstanceOf(AlreadyConfirmedException.class);
+        clear();
+
+        log.info("타이어 삭제 테스트");
+        log.debug("재고가 존재하는 경우 타이어를 삭제할 수 없다.");
+        assertThatThrownBy(() -> tireService.removeById(tire.getTireId()))
+                .isInstanceOf(CanNotDeleteException.class);
     }
 
     private void clear() {

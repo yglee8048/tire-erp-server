@@ -23,8 +23,8 @@ public class TireDotService {
     private final TireRepository tireRepository;
     private final TireDotRepository tireDotRepository;
 
-    public TireDotResponse findById(Long id) {
-        return TireDotResponse.of(tireDotRepository.findFetchById(id).orElseThrow(NotFoundException::new));
+    public TireDotSimpleResponse findById(Long id) {
+        return TireDotSimpleResponse.of(tireDotRepository.findFetchById(id).orElseThrow(NotFoundException::new));
     }
 
     public List<TireDotSimpleResponse> findAllByTireId(Long tireId) {

@@ -3,8 +3,10 @@ package com.minsoo.co.tireerpserver.model.dto.purchase;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
+import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Purchase;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
@@ -28,7 +30,7 @@ public class PurchaseResponse {
 
     @ApiModelProperty(value = "매입처")
     @JsonProperty("vendor")
-    private VendorResponse vendor;
+    private VendorSimpleResponse vendor;
 
     @ApiModelProperty(value = "타이어 DOT")
     @JsonProperty("tire_dot")
@@ -56,12 +58,9 @@ public class PurchaseResponse {
 
     public PurchaseResponse(Purchase purchase) {
         this.purchaseId = purchase.getId();
-        this.vendor = VendorResponse.of(purchase.getVendor());
+        this.vendor = VendorSimpleResponse.of(purchase.getVendor());
         this.tireDot = TireDotResponse.of(purchase.getTireDot());
-        this.warehouse = WarehouseSimpleResponse.builder()
-                .warehouseId(purchase.getWarehouse().getId())
-                .name(purchase.getWarehouse().getName())
-                .build();
+        this.warehouse = WarehouseSimpleResponse.of(purchase.getWarehouse());
         this.price = purchase.getPrice();
         this.quantity = purchase.getQuantity();
         this.status = purchase.getStatus();

@@ -39,10 +39,7 @@ public class StockSimpleResponse {
     private StockSimpleResponse(Stock stock) {
         StockId = stock.getId();
         this.tireDot = TireDotSimpleResponse.of(stock.getTireDot());
-        this.warehouse = WarehouseSimpleResponse.builder()
-                .warehouseId(stock.getWarehouse().getId())
-                .name(stock.getWarehouse().getName())
-                .build();
+        this.warehouse = WarehouseSimpleResponse.of(stock.getWarehouse());
         this.quantity = stock.getQuantity();
         this.lock = stock.isLock();
     }

@@ -33,14 +33,14 @@ public class TireService {
     private final StockRepository stockRepository;
 
     public List<TireResponse> findAll() {
-        return tireRepository.findAll()
+        return tireRepository.findAllFetchBrand()
                 .stream()
                 .map(TireResponse::of)
                 .collect(Collectors.toList());
     }
 
     public TireResponse findById(Long id) {
-        return TireResponse.of(tireRepository.findById(id).orElseThrow(NotFoundException::new));
+        return TireResponse.of(tireRepository.findOneFetchBrandById(id).orElseThrow(NotFoundException::new));
     }
 
     @Transactional
@@ -69,6 +69,8 @@ public class TireService {
         if (stockRepository.existsByTireDotIn(tireDots) && stockRepository.sumQuantityByTireDots(tireDots) > 0) {
             throw new CanNotDeleteException("해당 타이어에 대한 재고가 남아있어 삭제할 수 없습니다.");
         }
+        //TODO: 관련된 재고 내역을 삭제한다.
+
         // 관련된 매입 내역을 삭제한다.
         purchaseRepository.deleteAllByTireDotIn(tireDots);
         // 타이어 삭제

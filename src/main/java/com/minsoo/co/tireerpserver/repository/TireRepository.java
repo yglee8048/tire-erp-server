@@ -1,12 +1,20 @@
 package com.minsoo.co.tireerpserver.repository;
 
 import com.minsoo.co.tireerpserver.model.entity.Tire;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TireRepository extends JpaRepository<Tire, Long> {
+
+    @EntityGraph(attributePaths = {"brand"})
+    List<Tire> findAllFetchBrand();
+
+    @EntityGraph(attributePaths = {"brand"})
+    Optional<Tire> findOneFetchBrandById(Long id);
 
     @Query("select distinct concat(t.width, t.flatnessRatio, t.inch) from Tire t")
     List<String> findAllSizes();
