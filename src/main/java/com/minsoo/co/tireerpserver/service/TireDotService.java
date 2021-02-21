@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Tire;
 import com.minsoo.co.tireerpserver.repository.TireDotRepository;
@@ -24,7 +23,7 @@ public class TireDotService {
     private final TireDotRepository tireDotRepository;
 
     public TireDotSimpleResponse findById(Long id) {
-        return TireDotSimpleResponse.of(tireDotRepository.findFetchById(id).orElseThrow(NotFoundException::new));
+        return TireDotSimpleResponse.of(tireDotRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 
     public List<TireDotSimpleResponse> findAllByTireId(Long tireId) {

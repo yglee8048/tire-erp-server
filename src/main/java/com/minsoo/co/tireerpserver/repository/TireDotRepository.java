@@ -12,9 +12,6 @@ import java.util.Optional;
 
 public interface TireDotRepository extends JpaRepository<TireDot, Long> {
 
-    @Query("select d from TireDot d join fetch d.tire t join fetch t.brand b where d.id = :id")
-    Optional<TireDot> findFetchById(@Param("id") Long id);
-
     List<TireDot> findAllByTire(Tire tire);
 
     Optional<TireDot> findByTireAndDot(Tire tire, String dot);

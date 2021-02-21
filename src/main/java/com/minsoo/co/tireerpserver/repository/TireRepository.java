@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface TireRepository extends JpaRepository<Tire, Long> {
 
     @EntityGraph(attributePaths = {"brand"})
+    @Query("select t from Tire t")
     List<Tire> findAllFetchBrand();
 
     @EntityGraph(attributePaths = {"brand"})
