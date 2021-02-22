@@ -10,32 +10,18 @@ import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRespo
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.StockSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
-import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
 
 import static com.minsoo.co.tireerpserver.utils.RequestBuilder.*;
 import static org.assertj.core.api.Assertions.*;
 
-
-@Transactional
-@SpringBootTest
-class PurchaseServiceTest {
-
-    private static final Logger log = LoggerFactory.getLogger(PurchaseServiceTest.class);
-
-    @Autowired
-    EntityManager em;
+class PurchaseServiceTest extends ServiceTest {
 
     @Autowired
     BrandService brandService;
@@ -216,10 +202,5 @@ class PurchaseServiceTest {
         log.debug("재고가 존재하는 경우 타이어를 삭제할 수 없다.");
         assertThatThrownBy(() -> tireService.removeById(tire.getTireId()))
                 .isInstanceOf(CanNotDeleteException.class);
-    }
-
-    private void clear() {
-        em.flush();
-        em.clear();
     }
 }

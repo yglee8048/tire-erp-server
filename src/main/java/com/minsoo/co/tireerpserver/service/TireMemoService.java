@@ -25,7 +25,8 @@ public class TireMemoService {
     private final TireMemoRepository tireMemoRepository;
 
     public List<TireMemoResponse> findAllByTireId(Long tireId) {
-        return tireMemoRepository.findAllByTire_Id(tireId)
+        Tire tire = tireRepository.findById(tireId).orElseThrow(NotFoundException::new);
+        return tireMemoRepository.findAllByTire(tire)
                 .stream()
                 .map(TireMemoResponse::of)
                 .collect(Collectors.toList());

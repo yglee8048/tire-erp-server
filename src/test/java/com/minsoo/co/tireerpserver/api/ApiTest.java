@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @SpringBootTest
-public abstract class ApiTestSupport {
+public abstract class ApiTest {
 
     protected MockMvc mockMvc;
 

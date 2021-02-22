@@ -56,9 +56,4 @@ public interface StockRepository extends JpaRepository<Stock, Long>, StockQueryR
             "   and s.warehouse = :warehouse")
     Optional<Stock> findOneFetchWarehouseAndTireDotByWarehouseAndTireDot(@Param("warehouse") Warehouse warehouse,
                                                                          @Param("tireDot") TireDot tireDot);
-
-    boolean existsByTireDotIn(@Param("tireDot") List<TireDot> tireDots);
-
-    @Query("select sum(s.quantity) from Stock s where s.tireDot in :tireDots")
-    Long sumQuantityByTireDots(@Param("tireDots") List<TireDot> tireDots);
 }
