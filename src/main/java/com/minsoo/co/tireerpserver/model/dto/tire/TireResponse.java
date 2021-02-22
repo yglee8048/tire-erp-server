@@ -15,7 +15,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 public class TireResponse {
 
     @ApiModelProperty(value = "ID", example = "2991")

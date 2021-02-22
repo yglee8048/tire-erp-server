@@ -34,25 +34,25 @@ class TireServiceTest extends ServiceTest {
         clear();
 
         log.info("타이어 생성 테스트");
-        TireResponse createdTire = tireService.create(TIRE(createdBrand.getBrandId(), "PRODUCT_ID_01", "생성테스트"));
+        TireResponse createdTire = tireService.create(TIRE(createdBrand.getBrandId(), "PRODUCT_ID_01", 11, "생성테스트"));
         clear();
 
         assertThat(tireService.findById(createdTire.getTireId())).isEqualTo(createdTire);
         clear();
 
         log.info("타이어 상품 ID 중복 생성 테스트");
-        assertThatThrownBy(() -> tireService.create(TIRE(createdBrand.getBrandId(), "PRODUCT_ID_01", "중복테스트")))
+        assertThatThrownBy(() -> tireService.create(TIRE(createdBrand.getBrandId(), "PRODUCT_ID_01", 11, "중복테스트")))
                 .isInstanceOf(AlreadyExistException.class);
         clear();
 
         log.info("타이어 수정 테스트");
-        TireResponse updatedTire = tireService.update(createdTire.getTireId(), TIRE(createdBrand.getBrandId(), "PRODUCT_ID_02", "수정테스트"));
+        TireResponse updatedTire = tireService.update(createdTire.getTireId(), TIRE(createdBrand.getBrandId(), "PRODUCT_ID_02", 11, "수정테스트"));
         clear();
 
         assertThat(createdTire.getProductId()).isEqualTo("PRODUCT_ID_01");
         assertThat(updatedTire.getProductId()).isEqualTo("PRODUCT_ID_02");
-        assertThat(createdTire.getLabel()).isEqualTo("생성테스트");
-        assertThat(updatedTire.getLabel()).isEqualTo("수정테스트");
+        assertThat(createdTire.getPattern()).isEqualTo("생성테스트");
+        assertThat(updatedTire.getPattern()).isEqualTo("수정테스트");
 
         log.info("타이어 삭제 테스트");
         tireService.removeById(updatedTire.getTireId());

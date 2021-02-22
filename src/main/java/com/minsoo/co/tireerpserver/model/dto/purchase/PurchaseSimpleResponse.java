@@ -12,12 +12,10 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 public class PurchaseSimpleResponse {
 
     @ApiModelProperty(value = "매입 ID", example = "20019")

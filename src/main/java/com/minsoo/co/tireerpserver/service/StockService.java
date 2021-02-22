@@ -71,9 +71,11 @@ public class StockService {
         fromStock.reduceQuantity(moveStockRequest.getQuantity());
 
         Warehouse toWarehouse = warehouseRepository.findById(moveStockRequest.getToWarehouseId()).orElseThrow(NotFoundException::new);
-        Stock toStock = stockRepository.findOneFetchWarehouseAndTireDotByWarehouseAndTireDot(toWarehouse, fromStock.getTireDot()).orElseThrow(NotFoundException::new);
-        toStock.addQuantity(moveStockRequest.getQuantity());
+        Stock toStock = stockRepository.findOneFetchWarehouseAndTireDotByWarehouseAndTireDot(toWarehouse, fromStock.getTireDot())
+                // 대상 재고 객체가 존재하지 않으면, 생성하여 적용한다.
+                .orElseGet(() -> stockRepository.save(Stock.of(fromStock.getTireDot(), toWarehouse, fromStock.isLock())));
 
+        toStock.addQuantity(moveStockRequest.getQuantity());
         return Arrays.asList(StockSimpleResponse.of(fromStock), StockSimpleResponse.of(toStock));
     }
 }

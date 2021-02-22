@@ -2,11 +2,9 @@ package com.minsoo.co.tireerpserver.model.dto.purchase;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
-import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
-import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Purchase;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
@@ -16,12 +14,10 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 public class PurchaseResponse {
 
     @ApiModelProperty(value = "ID", example = "20019")

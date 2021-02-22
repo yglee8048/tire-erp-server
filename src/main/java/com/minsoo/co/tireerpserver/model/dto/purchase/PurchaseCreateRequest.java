@@ -8,12 +8,10 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class PurchaseCreateRequest {
 

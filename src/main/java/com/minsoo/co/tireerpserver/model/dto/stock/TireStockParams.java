@@ -2,17 +2,17 @@ package com.minsoo.co.tireerpserver.model.dto.stock;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.List;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
-@NoArgsConstructor(access = PROTECTED)
+@EqualsAndHashCode
+@NoArgsConstructor
 public class TireStockParams {
 
     @ApiModelProperty(value = "사이즈")

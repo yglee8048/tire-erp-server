@@ -5,15 +5,15 @@ import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseSimpl
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
 import com.minsoo.co.tireerpserver.model.entity.Stock;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
-@NoArgsConstructor(access = PROTECTED)
+@EqualsAndHashCode
+@NoArgsConstructor
 public class StockResponse {
 
     @ApiModelProperty(value = "ID", example = "20039")

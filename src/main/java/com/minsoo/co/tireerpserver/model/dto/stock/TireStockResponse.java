@@ -8,12 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 public class TireStockResponse {
 
     @ApiModelProperty(value = "타이어")

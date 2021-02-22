@@ -6,11 +6,10 @@ import com.minsoo.co.tireerpserver.model.entity.Warehouse;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import static lombok.AccessLevel.*;
-
 @Getter
 @ToString
-@NoArgsConstructor(access = PROTECTED)
+@EqualsAndHashCode
+@NoArgsConstructor
 public class WarehouseResponse {
 
     @ApiModelProperty(value = "ID", example = "2099")

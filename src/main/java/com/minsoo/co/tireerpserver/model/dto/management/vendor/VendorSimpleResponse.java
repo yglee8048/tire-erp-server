@@ -5,12 +5,10 @@ import com.minsoo.co.tireerpserver.model.entity.Vendor;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import static lombok.AccessLevel.*;
-
 @Getter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 public class VendorSimpleResponse {
 
     @ApiModelProperty(value = "매입처 ID", example = "2091")

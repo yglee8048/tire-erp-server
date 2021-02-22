@@ -6,12 +6,10 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class BrandRequest {
 

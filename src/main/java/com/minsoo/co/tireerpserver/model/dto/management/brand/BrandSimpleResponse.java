@@ -5,12 +5,10 @@ import com.minsoo.co.tireerpserver.model.entity.Brand;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 public class BrandSimpleResponse {
 
     @ApiModelProperty(value = "브랜드 ID", example = "2991")

@@ -48,11 +48,9 @@ public class PurchaseApi {
     @PostMapping(value = "/{purchaseId}/confirm")
     @ApiOperation(value = "매입 확정", notes = "매입을 확정한다. 매입을 확정한 시점에 매입 내용이 재고에 반영된다.")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "purchaseId", value = "매입 ID", example = "201324", required = true),
-            @ApiImplicitParam(name = "lock", value = "재고 잠금 여부(true=비공개/false=공개)", example = "true", required = true)})
-    public ApiResponse<PurchaseSimpleResponse> confirmPurchaseById(@PathVariable(value = "purchaseId") Long purchaseId,
-                                                             @RequestParam boolean lock) {
-        return ApiResponse.createOK(purchaseService.confirm(purchaseId, lock));
+            @ApiImplicitParam(name = "purchaseId", value = "매입 ID", example = "201324", required = true)})
+    public ApiResponse<PurchaseSimpleResponse> confirmPurchaseById(@PathVariable(value = "purchaseId") Long purchaseId) {
+        return ApiResponse.createOK(purchaseService.confirm(purchaseId));
     }
 
     @DeleteMapping("/{purchaseId}")

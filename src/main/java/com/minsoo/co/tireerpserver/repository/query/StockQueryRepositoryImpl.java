@@ -62,16 +62,14 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
                 .join(stock.tireDot, tireDot)
                 .join(tireDot.tire, tire)
                 .join(tire.brand, brand)
-                .where(tireSizeEq(size), brandNameContains(brandName), patternContains(pattern), productIdContains(productId))
+                .where(stock.quantity.gt(0L), tireSizeEq(size), brandNameContains(brandName), patternContains(pattern), productIdContains(productId))
                 .groupBy(tire.id)
                 .fetch();
     }
 
     private Predicate tireSizeEq(String size) {
         return size == null ? null :
-                tire.width.eq(Integer.valueOf(size.substring(0, 3)))    // width
-                        .and(tire.flatnessRatio.eq(Integer.valueOf(size.substring(3, 5))))  // flatnessRatio
-                        .and(tire.inch.eq(Integer.valueOf(size.substring(5, 7))));  // inch
+                tire.width.stringValue().concat(tire.flatnessRatio.stringValue()).concat(tire.inch.stringValue()).contains(size);
     }
 
     private Predicate brandNameContains(String brandName) {

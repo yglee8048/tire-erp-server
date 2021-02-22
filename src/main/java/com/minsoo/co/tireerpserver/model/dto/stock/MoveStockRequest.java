@@ -2,18 +2,16 @@ package com.minsoo.co.tireerpserver.model.dto.stock;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
-@NoArgsConstructor(access = PROTECTED)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MoveStockRequest {
 
     @ApiModelProperty(value = "이동할 창고 ID", example = "2091")

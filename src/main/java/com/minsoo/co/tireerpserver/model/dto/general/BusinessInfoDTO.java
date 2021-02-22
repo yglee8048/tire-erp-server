@@ -5,12 +5,10 @@ import com.minsoo.co.tireerpserver.model.entity.embedded.BusinessInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
-@Builder
 @ToString
-@NoArgsConstructor(access = PROTECTED)
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class BusinessInfoDTO {
 

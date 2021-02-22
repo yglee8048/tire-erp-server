@@ -9,6 +9,7 @@ import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseReque
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseCreateRequestContent;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.stock.MoveStockRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
 
 import java.time.LocalDate;
@@ -40,13 +41,13 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static TireRequest TIRE(Long brandId, String productId, String label) {
+    public static TireRequest TIRE(Long brandId, String productId, Integer inch, String pattern) {
         return TireRequest.builder()
                 .brandId(brandId)
-                .label(label)
+                .label("테스트 타이어")
                 .width(165)
                 .flatnessRatio(60)
-                .inch(14)
+                .inch(inch)
                 .loadIndex(79)
                 .speedIndex("H")
                 .season("겨울")
@@ -54,7 +55,7 @@ public class RequestBuilder {
                 .runFlat(true)
                 .option(TireOption.SEAL)
                 .oe("AO")
-                .pattern("PZero")
+                .pattern(pattern)
                 .productId(productId)
                 .build();
     }
@@ -85,6 +86,13 @@ public class RequestBuilder {
                 .dot(dot)
                 .warehouseId(warehouseId)
                 .price(20000)
+                .quantity(quantity)
+                .build();
+    }
+
+    public static MoveStockRequest MOVE_STOCK(Long toWarehouseId, Long quantity){
+        return MoveStockRequest.builder()
+                .toWarehouseId(toWarehouseId)
                 .quantity(quantity)
                 .build();
     }

@@ -64,7 +64,7 @@ class PurchaseServiceTest extends ServiceTest {
         BrandResponse brand = brandService.create(BRAND("테스트 브랜드"));
         VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
         WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
-        TireResponse tire = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", "테스트 타이어"));
+        TireResponse tire = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", 11, "테스트 타이어"));
         clear();
 
         log.info("1. 매입 생성 테스트");
@@ -161,14 +161,14 @@ class PurchaseServiceTest extends ServiceTest {
         BrandResponse brand = brandService.create(BRAND("테스트 브랜드"));
         VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
         WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
-        TireResponse tire = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", "테스트 타이어"));
+        TireResponse tire = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", 11, "테스트 타이어"));
         List<PurchaseSimpleResponse> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
                 CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 1L),
                 CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 2L)));
         clear();
 
         log.info("매입 확정 테스트");
-        purchaseService.confirm(purchases.get(0).getPurchaseId(), false);
+        purchaseService.confirm(purchases.get(0).getPurchaseId());
         clear();
 
         log.debug("매입의 상태가 확정으로 변경되어야 한다.");
@@ -183,7 +183,7 @@ class PurchaseServiceTest extends ServiceTest {
         clear();
 
         log.debug("동일한 재고가 추가되면 수량만 변경된다.");
-        purchaseService.confirm(purchases.get(1).getPurchaseId(), false);
+        purchaseService.confirm(purchases.get(1).getPurchaseId());
         clear();
 
         List<StockSimpleResponse> stocks2 = stockService.findAllByTireId(tire.getTireId());

@@ -3,18 +3,15 @@ package com.minsoo.co.tireerpserver.model.dto.customer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
-@NoArgsConstructor(access = PROTECTED)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomerRequest {
 
     @ApiModelProperty(value = "아이디", example = "user1234")

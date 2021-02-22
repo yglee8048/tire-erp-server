@@ -8,12 +8,10 @@ import lombok.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class TireRequest {
 

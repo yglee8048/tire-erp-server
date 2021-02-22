@@ -4,15 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
 import com.minsoo.co.tireerpserver.model.entity.Customer;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
-@NoArgsConstructor(access = PROTECTED)
+@EqualsAndHashCode
+@NoArgsConstructor
 public class CustomerResponse {
 
     @ApiModelProperty(value = "ID", example = "2937")

@@ -50,6 +50,7 @@ public class PurchaseService {
         Vendor vendor = vendorRepository.findById(createRequest.getVendorId()).orElseThrow(NotFoundException::new);
         return createRequest.getContents()
                 .stream()
+                .filter(content -> content.getQuantity() > 0)
                 .map(content -> {
                     Warehouse warehouse = warehouseRepository.findById(content.getWarehouseId()).orElseThrow(NotFoundException::new);
                     TireDot tireDot = findDotIfExistElseCreateByTireIdAndDot(content.getTireId(), content.getDot());
@@ -83,11 +84,11 @@ public class PurchaseService {
      * 재고가 존재하지 않는다면, 재고를 새로 생성하여 반영한다.
      */
     @Transactional
-    public PurchaseSimpleResponse confirm(Long id, boolean lock) {
+    public PurchaseSimpleResponse confirm(Long id) {
         Purchase purchase = purchaseRepository.findOneFetchTireDotById(id).orElseThrow(NotFoundException::new);
         Stock stock = stockRepository.findOneByTireDotAndWarehouse(purchase.getTireDot(), purchase.getWarehouse())
-                // 재고가 존재하지 않는다면, 재고를 새로 생성하여 반영한다.
-                .orElseGet(() -> stockRepository.save(Stock.of(purchase.getTireDot(), purchase.getWarehouse(), lock)));
+                // 재고가 존재하지 않는다면, 재고를 새로 생성하여 반영한다. (잠금 여부 = true 로 생성)
+                .orElseGet(() -> stockRepository.save(Stock.of(purchase.getTireDot(), purchase.getWarehouse(), true)));
         // 재고 반영
         stock.addQuantity(purchase.getQuantity());
         // 매입 확정

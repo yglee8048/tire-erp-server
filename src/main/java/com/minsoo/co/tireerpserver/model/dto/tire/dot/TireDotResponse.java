@@ -6,11 +6,10 @@ import com.minsoo.co.tireerpserver.model.entity.TireDot;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
-@NoArgsConstructor(access = PROTECTED)
+@EqualsAndHashCode
+@NoArgsConstructor
 public class TireDotResponse {
 
     @ApiModelProperty(value = "ID", example = "21")

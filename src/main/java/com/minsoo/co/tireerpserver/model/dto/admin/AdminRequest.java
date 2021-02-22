@@ -3,17 +3,15 @@ package com.minsoo.co.tireerpserver.model.dto.admin;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.AdminRole;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
-import static lombok.AccessLevel.*;
-
 @Getter
 @ToString
-@NoArgsConstructor(access = PROTECTED)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AdminRequest {
 
     @ApiModelProperty(value = "아이디", example = "user123")
