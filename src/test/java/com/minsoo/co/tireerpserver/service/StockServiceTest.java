@@ -110,7 +110,7 @@ class StockServiceTest extends ServiceTest {
         List<StockResponse> stocks = stockService.findAll();
 
         log.info("재고 Lock 수정 테스트");
-        stockService.updateStockLock(stocks.get(0).getStockId(), false);
+        stockService.updateStockLock(stocks.get(0).getStockId(), UPDATE_STOCK_LOCK(false));
         assertThat(stocks.get(0).isLock()).isEqualTo(true);
         assertThat(stockService.findById(stocks.get(0).getStockId()).isLock()).isEqualTo(false);
         clear();

@@ -39,11 +39,10 @@ public class StockApi {
     @PostMapping(value = "/{stockId}/update-lock")
     @ApiOperation(value = "재고 Lock 수정", notes = "재고의 공개 여부를 수정한다.")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "stockId", value = "재고 ID", example = "201324", required = true),
-            @ApiImplicitParam(name = "lock", value = "잠금 여부(true = 잠금 / false = 공개)", required = true)})
+            @ApiImplicitParam(name = "stockId", value = "재고 ID", example = "201324", required = true)})
     public ApiResponse<StockSimpleResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
-                                                            @RequestParam(value = "lock") boolean lock) {
-        return ApiResponse.createOK(stockService.updateStockLock(stockId, lock));
+                                                            @RequestBody @Valid StockUpdateLockRequest updateLockRequest) {
+        return ApiResponse.createOK(stockService.updateStockLock(stockId, updateLockRequest));
     }
 
     @PostMapping(value = "/{stockId}/move-stock")

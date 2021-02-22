@@ -10,6 +10,7 @@ import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseCreateRequestContent;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseUpdateRequest;
 import com.minsoo.co.tireerpserver.model.dto.stock.MoveStockRequest;
+import com.minsoo.co.tireerpserver.model.dto.stock.StockUpdateLockRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
 
 import java.time.LocalDate;
@@ -90,10 +91,16 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static MoveStockRequest MOVE_STOCK(Long toWarehouseId, Long quantity){
+    public static MoveStockRequest MOVE_STOCK(Long toWarehouseId, Long quantity) {
         return MoveStockRequest.builder()
                 .toWarehouseId(toWarehouseId)
                 .quantity(quantity)
+                .build();
+    }
+
+    public static StockUpdateLockRequest UPDATE_STOCK_LOCK(boolean lock) {
+        return StockUpdateLockRequest.builder()
+                .lock(lock)
                 .build();
     }
 

@@ -59,9 +59,9 @@ public class StockService {
     }
 
     @Transactional
-    public StockSimpleResponse updateStockLock(Long stockId, boolean lock) {
+    public StockSimpleResponse updateStockLock(Long stockId, StockUpdateLockRequest updateLockRequest) {
         Stock stock = stockRepository.findOneFetchWarehouseAndTireDotById(stockId).orElseThrow(NotFoundException::new);
-        stock.updateLock(lock);
+        stock.updateLock(updateLockRequest.isLock());
         return StockSimpleResponse.of(stock);
     }
 
