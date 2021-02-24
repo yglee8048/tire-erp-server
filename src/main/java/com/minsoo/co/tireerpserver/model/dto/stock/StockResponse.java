@@ -18,7 +18,7 @@ public class StockResponse {
 
     @ApiModelProperty(value = "ID", example = "20039")
     @JsonProperty("stock_id")
-    private Long StockId;
+    private Long stockId;
 
     @ApiModelProperty(value = "타이어 DOT")
     @JsonProperty("tire_dot")
@@ -37,7 +37,7 @@ public class StockResponse {
     private boolean lock;
 
     private StockResponse(Stock stock) {
-        StockId = stock.getId();
+        this.stockId = stock.getId();
         this.tireDot = TireDotResponse.of(stock.getTireDot());
         this.warehouse = WarehouseSimpleResponse.of(stock.getWarehouse());
         this.quantity = stock.getQuantity();
