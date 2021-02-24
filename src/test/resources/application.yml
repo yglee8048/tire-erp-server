@@ -18,6 +18,7 @@ spring:
         # show_sql: true
         format_sql: true
         default_batch_fetch_size: 500
+        globally_quoted_identifiers: true
     open-in-view: false
 
 logging.level:

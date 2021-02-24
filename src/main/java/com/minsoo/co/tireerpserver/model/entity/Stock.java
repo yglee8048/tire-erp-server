@@ -33,7 +33,7 @@ public class Stock {
     @Column(name = "quantity", nullable = false)
     private Long quantity;
 
-    @Column(name = "lock", nullable = false)
+    @Column(name = "is_lock", nullable = false)
     private boolean lock;
 
     //== Business ==//

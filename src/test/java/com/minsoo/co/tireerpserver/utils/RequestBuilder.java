@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.utils;
 
 import com.minsoo.co.tireerpserver.model.code.TireOption;
+import com.minsoo.co.tireerpserver.model.dto.customer.CustomerRequest;
 import com.minsoo.co.tireerpserver.model.dto.general.AddressDTO;
 import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
@@ -101,6 +102,16 @@ public class RequestBuilder {
     public static StockUpdateLockRequest UPDATE_STOCK_LOCK(boolean lock) {
         return StockUpdateLockRequest.builder()
                 .lock(lock)
+                .build();
+    }
+
+    public static CustomerRequest CUSTOMER(String userId) {
+        return CustomerRequest.builder()
+                .name("거래처 이름")
+                .description("설명")
+                .userId(userId)
+                .userPw("password")
+                .businessInfo(BUSINESS_INFO())
                 .build();
     }
 

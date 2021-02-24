@@ -27,7 +27,7 @@ public class TireMemo {
     @Column(name = "memo")
     private String memo;
 
-    @Column(name = "lock", nullable = false)
+    @Column(name = "is_lock", nullable = false)
     private boolean lock;
 
     //== Business ==//
