@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.repository.query;
 
+import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
 import com.minsoo.co.tireerpserver.model.entity.QTireDot;
@@ -36,14 +37,16 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
         return queryFactory
                 .select(Projections.fields(TireStockResponse.class,
                         Projections.fields(TireResponse.class,
-                                tire.id.as("tire_id"),
-                                brand.id.as("brand_id"),
-                                brand.name.as("brand_name"),
+                                tire.id.as("tireId"),
+                                Projections.fields(BrandSimpleResponse.class,
+                                        brand.id.as("brandId"),
+                                        brand.name.as("name")).as("brand"),
                                 tire.productId,
                                 tire.label,
                                 tire.width,
                                 tire.flatnessRatio,
                                 tire.inch,
+                                tire.pattern,
                                 tire.loadIndex,
                                 tire.speedIndex,
                                 tire.season,
