@@ -23,4 +23,10 @@ public class SaleMemo {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "sale_id", nullable = false)
     private Sale sale;
+
+    @Column(name = "memo")
+    private String memo;
+
+    @Column(name = "is_lock")
+    private boolean lock;
 }

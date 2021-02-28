@@ -1,8 +1,7 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.code.SaleSource;
-import com.minsoo.co.tireerpserver.model.entity.embedded.Address;
-import com.minsoo.co.tireerpserver.model.entity.embedded.Recipient;
+import com.minsoo.co.tireerpserver.model.code.SaleStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,6 +34,14 @@ public class Sale {
     @Enumerated(STRING)
     @Column(name = "source", nullable = false)
     private SaleSource source;
+
+    @Enumerated(STRING)
+    @Column(name = "status", nullable = false)
+    private SaleStatus status;
+
+    @OneToOne(fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
 
     @OneToMany(mappedBy = "sale", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private Set<SaleContent> saleContents = new HashSet<>();

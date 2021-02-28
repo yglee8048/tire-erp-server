@@ -29,6 +29,7 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+    // TODO: 타이어 기준 레프트 조인으로 변경(재고가 없어도, 타이어가 목록에서 조회되어야 함)
     @Override
     public List<TireStockResponse> findTireStocks(String size, String brandName, String pattern, String productId) {
         // for sub query
@@ -58,14 +59,14 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
                         ExpressionUtils.as(JPAExpressions.select(purchase.price.avg())
                                 .from(purchase)
                                 .join(purchase.tireDot, tireDotSub)
-                                .where(tireDotSub.tire.id.eq(tire.id)), "averageOfPurchasePrice"),
-                        stock.quantity.sum().as("sumOfStock"),
-                        tireDot.count().as("numberOfDot")))
+                                .where(tireDotSub.tire.id.eq(tire.id)), "averageOfPurchasePrice"),  //TODO: 없으면 null
+                        stock.quantity.sum().as("sumOfStock"),  //TODO: 없으면 0
+                        tireDot.count().as("numberOfDot"))) //TODO: 없으면 0
                 .from(stock)
                 .join(stock.tireDot, tireDot)
                 .join(tireDot.tire, tire)
                 .join(tire.brand, brand)
-                .where(stock.quantity.gt(0L), tireSizeEq(size), brandNameContains(brandName), patternContains(pattern), productIdContains(productId))
+                .where(tireSizeEq(size), brandNameContains(brandName), patternContains(pattern), productIdContains(productId))
                 .groupBy(tire.id)
                 .fetch();
     }

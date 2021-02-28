@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -19,6 +20,9 @@ public class Delivery {
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "delivery_id", length = 20, nullable = false)
     private Long id;
+
+    @OneToOne(mappedBy = "delivery", fetch = LAZY)
+    private Sale sale;
 
     @Embedded
     private Recipient recipient;

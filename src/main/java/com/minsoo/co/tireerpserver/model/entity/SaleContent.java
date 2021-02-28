@@ -23,4 +23,14 @@ public class SaleContent {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "sale_id", nullable = false)
     private Sale sale;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "tire_dot_id", nullable = false)
+    private TireDot tireDot;
+
+    @Column(name = "quantity", nullable = false)
+    private Long quantity;
+
+    @Column(name = "price", nullable = false)
+    private Long price;
 }

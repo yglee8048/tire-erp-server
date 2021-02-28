@@ -58,7 +58,6 @@ class StockServiceTest extends ServiceTest {
      * 1. 재고 목록 조회 테스트
      * 1-1) 목록이 정상 조회되어야 한다.
      * 1-2) 검색 조건이 포함된 목록만 조회되어야 한다.
-     * 1-3) 재고가 0개면 조회되지 않아야 한다. //TODO: 매출 개발 후 테스트
      */
     @Test
     @DisplayName("타이어 재고 목록 조회 테스트")
@@ -91,9 +90,6 @@ class StockServiceTest extends ServiceTest {
         assertThat(brandNameTest.size()).isEqualTo(1);
         assertThat(brandNameTest.get(0).getTire().getProductId()).isEqualTo("PRODUCT_ID_02");
         clear();
-
-        //TODO: 매출 개발 후 테스트
-        log.debug("재고가 0개면 조회되지 않아야 한다.");
     }
 
     /**
