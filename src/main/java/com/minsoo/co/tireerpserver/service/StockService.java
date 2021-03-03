@@ -40,7 +40,7 @@ public class StockService {
     }
 
     public List<TireStockResponse> findTireStocks(String size, String brandName, String pattern, String productId) {
-        return stockRepository.findTireStocks(size, brandName, pattern, productId);
+        return stockRepository.findTireStocksByParams(size, brandName, pattern, productId);
     }
 
     public TireStockParams findTireStockParams() {
@@ -49,6 +49,10 @@ public class StockService {
                 brandRepository.findAllBrandNames(),
                 tireRepository.findAllPatterns(),
                 tireRepository.findAllProductIds());
+    }
+
+    public TireStockResponse findTireStockByTireId(Long tireId) {
+        return stockRepository.findTireStocksByTireId(tireId).orElseThrow(NotFoundException::new);
     }
 
     public List<StockSimpleResponse> findAllByTireId(Long tireId) {

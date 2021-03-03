@@ -78,13 +78,12 @@ public class StockApi {
         return ApiResponse.createOK(stockService.findTireStockParams());
     }
 
-    // TODO: 타이어 기준 재고 상세조회
     @GetMapping(value = "/tires/{tireId}")
     @ApiOperation(value = "타이어 기준 재고 상세 조회", notes = "재고를 타이어 기준으로 group by 한 상세 정보를 조회한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
     public ApiResponse<TireStockResponse> findTireStockByTireId(@PathVariable(value = "tireId") Long tireId) {
-
+        return ApiResponse.createOK(stockService.findTireStockByTireId(tireId));
     }
 
     @GetMapping(value = "/tires/{tireId}/dots")

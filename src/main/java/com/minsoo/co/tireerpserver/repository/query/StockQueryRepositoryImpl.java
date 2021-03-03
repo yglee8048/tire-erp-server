@@ -8,11 +8,13 @@ import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static com.minsoo.co.tireerpserver.model.entity.QBrand.*;
 import static com.minsoo.co.tireerpserver.model.entity.QPurchase.*;
@@ -29,12 +31,8 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    // TODO: 타이어 기준 레프트 조인으로 변경(재고가 없어도, 타이어가 목록에서 조회되어야 함)
-    @Override
-    public List<TireStockResponse> findTireStocks(String size, String brandName, String pattern, String productId) {
-        // for sub query
-        QTireDot tireDotSub = new QTireDot("tireDotSub");
-        // query
+    private JPAQuery<TireStockResponse> createTireStockQuery() {
+        QTireDot tireDotSub = new QTireDot("tireDotSub");   // for sub query
         return queryFactory
                 .select(Projections.fields(TireStockResponse.class,
                         Projections.fields(TireResponse.class,
@@ -59,16 +57,29 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
                         ExpressionUtils.as(JPAExpressions.select(purchase.price.avg())
                                 .from(purchase)
                                 .join(purchase.tireDot, tireDotSub)
-                                .where(tireDotSub.tire.id.eq(tire.id)), "averageOfPurchasePrice"),  //TODO: 없으면 null
-                        stock.quantity.sum().as("sumOfStock"),  //TODO: 없으면 0
-                        tireDot.count().as("numberOfDot"))) //TODO: 없으면 0
-                .from(stock)
-                .join(stock.tireDot, tireDot)
-                .join(tireDot.tire, tire)
+                                .where(tireDotSub.tire.id.eq(tire.id)), "averageOfPurchasePrice"),  // 없으면 null
+                        stock.quantity.sum().coalesce(0L).as("sumOfStock"), // 없으면 0
+                        tireDot.count().coalesce(0L).as("numberOfDot")))    // 없으면 0
+                .from(tire)
                 .join(tire.brand, brand)
+                .leftJoin(tire.tireDots, tireDot)
+                .leftJoin(stock).on(tireDot.id.eq(stock.tireDot.id))
+                .groupBy(tire.id);
+    }
+
+    @Override
+    public List<TireStockResponse> findTireStocksByParams(String size, String brandName, String pattern, String productId) {
+        return createTireStockQuery()
                 .where(tireSizeEq(size), brandNameContains(brandName), patternContains(pattern), productIdContains(productId))
-                .groupBy(tire.id)
                 .fetch();
+    }
+
+    @Override
+    public Optional<TireStockResponse> findTireStocksByTireId(Long tireId) {
+        return Optional.ofNullable(
+                createTireStockQuery()
+                        .where(tire.id.eq(tireId))
+                        .fetchOne());
     }
 
     private Predicate tireSizeEq(String size) {
