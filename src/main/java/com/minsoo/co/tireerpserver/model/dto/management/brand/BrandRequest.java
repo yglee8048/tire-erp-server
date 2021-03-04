@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @ToString
@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class BrandRequest {
 
-    @ApiModelProperty(value = "이름", example = "금호타이어")
-    @NotNull(message = "브랜드 이름은 필수 값입니다.")
+    @ApiModelProperty(value = "이름", example = "금호타이어", required = true)
+    @NotEmpty(message = "브랜드 이름은 필수 값입니다.")
     @JsonProperty("name")
     private String name;
 

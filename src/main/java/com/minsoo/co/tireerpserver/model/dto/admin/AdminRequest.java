@@ -5,6 +5,7 @@ import com.minsoo.co.tireerpserver.model.code.AdminRole;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -14,13 +15,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class AdminRequest {
 
-    @ApiModelProperty(value = "아이디", example = "user123")
-    @NotNull(message = "관리자 계정  아이디는 필수 값입니다.")
+    @ApiModelProperty(value = "아이디", example = "user123", required = true)
+    @NotEmpty(message = "관리자 계정  아이디는 필수 값입니다.")
     @JsonProperty("user_id")
     private String userId;
 
-    @ApiModelProperty(value = "비밀번호", example = "password1234*")
-    @NotNull(message = "관리자 비밀번호는 필수 값입니다.")
+    @ApiModelProperty(value = "비밀번호", example = "password1234*", required = true)
+    @NotEmpty(message = "관리자 비밀번호는 필수 값입니다.")
     @JsonProperty("user_pw")
     private String userPw;
 
@@ -32,7 +33,7 @@ public class AdminRequest {
     @JsonProperty("description")
     private String description;
 
-    @ApiModelProperty(value = "역할", example = "SUPER_ADMIN")
+    @ApiModelProperty(value = "역할", example = "SUPER_ADMIN", required = true)
     @NotNull(message = "관리자 역할이 정상적으로 입력되지 않았습니다.")
     @JsonProperty("role")
     private AdminRole role;

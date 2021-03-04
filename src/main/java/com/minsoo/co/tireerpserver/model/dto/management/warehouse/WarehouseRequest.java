@@ -5,7 +5,7 @@ import com.minsoo.co.tireerpserver.model.dto.general.AddressDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 
 @Getter
@@ -15,8 +15,8 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class WarehouseRequest {
 
-    @ApiModelProperty(value = "이름", example = "왕십리 메인 창고")
-    @NotNull(message = "창고 이름은 필수 값입니다.")
+    @ApiModelProperty(value = "이름", example = "왕십리 메인 창고", required = true)
+    @NotEmpty(message = "창고 이름은 필수 값입니다.")
     @JsonProperty("name")
     private String name;
 

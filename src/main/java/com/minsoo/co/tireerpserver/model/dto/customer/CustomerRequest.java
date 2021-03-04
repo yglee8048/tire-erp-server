@@ -5,7 +5,7 @@ import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @ToString
@@ -14,13 +14,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class CustomerRequest {
 
-    @ApiModelProperty(value = "아이디", example = "user1234")
-    @NotNull(message = "아이디는 필수 값입니다.")
+    @ApiModelProperty(value = "아이디", example = "user1234", required = true)
+    @NotEmpty(message = "아이디는 필수 값입니다.")
     @JsonProperty("user_id")
     private String userId;
 
-    @ApiModelProperty(value = "비밀번호", example = "password1234*")
-    @NotNull(message = "비밀번호는 필수 값입니다.")
+    @ApiModelProperty(value = "비밀번호", example = "password1234*", required = true)
+    @NotEmpty(message = "비밀번호는 필수 값입니다.")
     @JsonProperty("user_pw")
     private String userPw;
 

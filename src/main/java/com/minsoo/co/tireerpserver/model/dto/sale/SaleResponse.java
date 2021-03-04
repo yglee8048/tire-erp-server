@@ -33,6 +33,6 @@ public class SaleResponse {
     @JsonProperty("delivery_id")
     private Long deliveryId;
 
-    @JsonProperty("sale_id")
+    @JsonProperty("sale_contents")
     private List<SaleContentResponse> saleContents;
 }

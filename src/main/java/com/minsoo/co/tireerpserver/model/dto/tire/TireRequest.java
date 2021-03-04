@@ -5,6 +5,7 @@ import com.minsoo.co.tireerpserver.model.code.TireOption;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
@@ -15,13 +16,13 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class TireRequest {
 
-    @ApiModelProperty(value = "브랜드 ID", example = "2991")
+    @ApiModelProperty(value = "브랜드 ID", example = "2991", required = true)
     @NotNull(message = "브랜드 ID는 필수 값입니다.")
     @JsonProperty("brand_id")
     private Long brandId;
 
-    @ApiModelProperty(value = "상품 ID", example = "P2454518Z")
-    @NotNull(message = "상품 ID는 필수 값입니다.")
+    @ApiModelProperty(value = "상품 ID", example = "P2454518Z", required = true)
+    @NotEmpty(message = "상품 ID는 필수 값입니다.")
     @JsonProperty("product_id")
     private String productId;
 
@@ -29,26 +30,26 @@ public class TireRequest {
     @JsonProperty("label")
     private String label;
 
-    @ApiModelProperty(value = "단면폭", example = "165")
+    @ApiModelProperty(value = "단면폭", example = "165", required = true)
     @NotNull(message = "단면폭은 필수 값입니다.")
     @Positive(message = "단면폭은 양수여야 합니다.")
     @JsonProperty("width")
     private Integer width;
 
-    @ApiModelProperty(value = "편평비", example = "60")
+    @ApiModelProperty(value = "편평비", example = "60", required = true)
     @NotNull(message = "편평비는 필수 값입니다.")
     @Positive(message = "편평비는 양수여야 합니다.")
     @JsonProperty("flatness_ratio")
     private Integer flatnessRatio;
 
-    @ApiModelProperty(value = "인치", example = "14")
+    @ApiModelProperty(value = "인치", example = "14", required = true)
     @NotNull(message = "인치는 필수 값입니다.")
     @Positive(message = "인치는 양수여야 합니다.")
     @JsonProperty("inch")
     private Integer inch;
 
-    @ApiModelProperty(value = "패턴", example = "Pzero")
-    @NotNull(message = "패턴은 필수 값입니다.")
+    @ApiModelProperty(value = "패턴", example = "Pzero", required = true)
+    @NotEmpty(message = "패턴은 필수 값입니다.")
     @JsonProperty("pattern")
     private String pattern;
 
