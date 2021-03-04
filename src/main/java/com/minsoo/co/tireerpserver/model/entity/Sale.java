@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,9 +44,25 @@ public class Sale {
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
+    @Column(name = "sale_date", nullable = false)
+    private LocalDate saleDate;
+
     @OneToMany(mappedBy = "sale", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private Set<SaleContent> saleContents = new HashSet<>();
 
     @OneToMany(mappedBy = "sale", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private Set<SaleMemo> saleMemos = new HashSet<>();
+
+    //== Business ==//
+    public Sale(Customer customer, LocalDate saleDate) {
+        this.customer = customer;
+        this.source = SaleSource.MANUAL;
+        this.status = SaleStatus.REQUESTED;
+        this.delivery = null;
+        this.saleDate = saleDate;
+    }
+
+    public static Sale of(Customer customer, LocalDate saleDate) {
+        return new Sale(customer, saleDate);
+    }
 }

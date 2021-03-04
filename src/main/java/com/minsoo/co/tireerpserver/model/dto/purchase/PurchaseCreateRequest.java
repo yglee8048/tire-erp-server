@@ -22,8 +22,8 @@ public class PurchaseCreateRequest {
 
     @ApiModelProperty(value = "매입 일자", example = "2021-02-18", required = true)
     @NotNull(message = "매입 일자는 필수 값입니다.")
-    @JsonProperty("purchased_date")
-    private LocalDate purchasedDate;
+    @JsonProperty("purchase_date")
+    private LocalDate purchaseDate;
 
     @ApiModelProperty(value = "매입 내용", required = true)
     @NotNull(message = "매입 내용은 필수 값입니다.")

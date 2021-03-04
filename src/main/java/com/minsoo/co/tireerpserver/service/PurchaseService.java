@@ -54,7 +54,7 @@ public class PurchaseService {
                 .map(content -> {
                     Warehouse warehouse = warehouseRepository.findById(content.getWarehouseId()).orElseThrow(NotFoundException::new);
                     TireDot tireDot = findDotIfExistElseCreateByTireIdAndDot(content.getTireId(), content.getDot());
-                    return PurchaseSimpleResponse.of(purchaseRepository.save(Purchase.of(vendor, tireDot, warehouse, content, createRequest.getPurchasedDate())));
+                    return PurchaseSimpleResponse.of(purchaseRepository.save(Purchase.of(vendor, tireDot, warehouse, content, createRequest.getPurchaseDate())));
                 })
                 .collect(Collectors.toList());
     }
@@ -110,8 +110,6 @@ public class PurchaseService {
         Tire tire = tireRepository.findById(tireId).orElseThrow(NotFoundException::new);
         return tireDotRepository.findByTireAndDot(tire, dot)
                 // 존재하지 않는 DOT 가 요청되었다면, DOT 를 새로 생성하여 리턴한다
-                .orElseGet(() -> {
-                    return tireDotRepository.save(TireDot.of(tire, dot));
-                });
+                .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, dot)));
     }
 }

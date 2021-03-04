@@ -47,8 +47,8 @@ public class PurchaseSimpleResponse {
     private PurchaseStatus status;
 
     @ApiModelProperty(value = "매입 일자", example = "2021-02-18")
-    @JsonProperty("purchased_date")
-    private LocalDate purchasedDate;
+    @JsonProperty("purchase_date")
+    private LocalDate purchaseDate;
 
     private PurchaseSimpleResponse(Purchase purchase) {
         this.purchaseId = purchase.getId();
@@ -58,7 +58,7 @@ public class PurchaseSimpleResponse {
         this.price = purchase.getPrice();
         this.quantity = purchase.getQuantity();
         this.status = purchase.getStatus();
-        this.purchasedDate = purchase.getPurchasedDate();
+        this.purchaseDate = purchase.getPurchaseDate();
     }
 
     public static PurchaseSimpleResponse of(Purchase purchase) {

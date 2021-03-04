@@ -48,22 +48,22 @@ public class Purchase {
     @Column(name = "status", nullable = false)
     private PurchaseStatus status;
 
-    @Column(name = "purchased_date", nullable = false)
-    private LocalDate purchasedDate;
+    @Column(name = "purchase_date", nullable = false)
+    private LocalDate purchaseDate;
 
     //== Business ==//
-    private Purchase(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseCreateRequestContent createRequest, LocalDate purchasedDate) {
+    private Purchase(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseCreateRequestContent createRequest, LocalDate purchaseDate) {
         this.vendor = vendor;
         this.tireDot = tireDot;
         this.warehouse = warehouse;
         this.price = createRequest.getPrice();
         this.quantity = createRequest.getQuantity();
         this.status = PurchaseStatus.REQUESTED;
-        this.purchasedDate = purchasedDate;
+        this.purchaseDate = purchaseDate;
     }
 
-    public static Purchase of(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseCreateRequestContent createRequest, LocalDate purchasedDate) {
-        return new Purchase(vendor, tireDot, warehouse, createRequest, purchasedDate);
+    public static Purchase of(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseCreateRequestContent createRequest, LocalDate purchaseDate) {
+        return new Purchase(vendor, tireDot, warehouse, createRequest, purchaseDate);
     }
 
     public void update(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseUpdateRequest updateRequest) {
@@ -72,7 +72,7 @@ public class Purchase {
         this.warehouse = warehouse;
         this.price = updateRequest.getPrice();
         this.quantity = updateRequest.getQuantity();
-        this.purchasedDate = updateRequest.getPurchasedDate();
+        this.purchaseDate = updateRequest.getPurchaseDate();
     }
 
     public void confirm() {

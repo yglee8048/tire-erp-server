@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.sale.content;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
+import com.minsoo.co.tireerpserver.model.entity.SaleContent;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -32,5 +33,17 @@ public class SaleContentResponse {
 
     @ApiModelProperty(value = "금액", example = "240000")
     @JsonProperty("price")
-    private Long price;
+    private Integer price;
+
+    public SaleContentResponse(SaleContent saleContent) {
+        this.saleContentId = saleContent.getId();
+        this.saleId = saleContent.getSale().getId();
+        this.tireDot = TireDotResponse.of(saleContent.getTireDot());
+        this.quantity = saleContent.getQuantity();
+        this.price = saleContent.getPrice();
+    }
+
+    public static SaleContentResponse of(SaleContent saleContent) {
+        return new SaleContentResponse(saleContent);
+    }
 }

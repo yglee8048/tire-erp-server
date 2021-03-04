@@ -32,5 +32,18 @@ public class SaleContent {
     private Long quantity;
 
     @Column(name = "price", nullable = false)
-    private Long price;
+    private Integer price;
+
+    //== Business ==//
+    private SaleContent(Sale sale, TireDot tireDot, Long quantity, Integer price) {
+        this.sale = sale;
+        sale.getSaleContents().add(this);
+        this.tireDot = tireDot;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    public static SaleContent of(Sale sale, TireDot tireDot, Long quantity, Integer price) {
+        return new SaleContent(sale, tireDot, quantity, price);
+    }
 }

@@ -74,7 +74,7 @@ public class RequestBuilder {
 
     public static PurchaseCreateRequest CREATE_PURCHASE(Long vendorId, PurchaseCreateRequestContent... contents) {
         return PurchaseCreateRequest.builder()
-                .purchasedDate(LocalDate.now())
+                .purchaseDate(LocalDate.now())
                 .vendorId(vendorId)
                 .contents(Arrays.asList(contents))
                 .build();
@@ -83,7 +83,7 @@ public class RequestBuilder {
     public static PurchaseUpdateRequest UPDATE_PURCHASE(Long vendorId, Long tireId, String dot, Long warehouseId, Long quantity) {
         return PurchaseUpdateRequest.builder()
                 .vendorId(vendorId)
-                .purchasedDate(LocalDate.now())
+                .purchaseDate(LocalDate.now())
                 .tireId(tireId)
                 .dot(dot)
                 .warehouseId(warehouseId)

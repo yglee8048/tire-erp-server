@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
+import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleResponse;
 import com.minsoo.co.tireerpserver.model.dto.sale.content.SaleContentResponse;
 import com.minsoo.co.tireerpserver.model.dto.sale.memo.SaleMemoResponse;
@@ -9,11 +10,9 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -33,6 +32,12 @@ public class SaleApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "saleId", value = "매출 ID", example = "201324", required = true)})
     public ApiResponse<SaleResponse> findSaleById(@PathVariable(value = "saleId") Long saleId) {
+        return null;
+    }
+
+    @PostMapping
+    @ApiOperation(value = "매출 생성", notes = "매출을 생성한다.")
+    public ApiResponse<SaleResponse> createSale(@RequestBody @Valid SaleCreateRequest createRequest) {
         return null;
     }
 

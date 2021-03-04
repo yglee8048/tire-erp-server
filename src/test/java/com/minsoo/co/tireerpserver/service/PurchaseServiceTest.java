@@ -85,7 +85,7 @@ class PurchaseServiceTest extends ServiceTest {
         assertThat(purchaseList01.size()).isEqualTo(2);
         assertThat(purchase01.getVendorId()).isEqualTo(vendor.getVendorId());
         assertThat(purchase01.getWarehouseId()).isEqualTo(warehouse.getWarehouseId());
-        assertThat(purchase01.getPurchasedDate()).isEqualTo(LocalDate.now());
+        assertThat(purchase01.getPurchaseDate()).isEqualTo(LocalDate.now());
 
         log.debug("매입이 일어난 후 dot 가 생성되어야 한다.");
         assertThat(tireDotService.findAllByTireId(tire.getTireId()).size()).isEqualTo(2);
