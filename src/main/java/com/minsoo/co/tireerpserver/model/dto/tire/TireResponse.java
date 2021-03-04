@@ -18,7 +18,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor
 public class TireResponse {
 
-    @ApiModelProperty(value = "ID", example = "2991")
+    @ApiModelProperty(value = "타이어 ID", example = "2991")
     @JsonProperty("tire_id")
     private Long tireId;
 

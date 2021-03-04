@@ -14,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class TireMemoResponse {
 
-    @ApiModelProperty(value = "ID", example = "2991")
+    @ApiModelProperty(value = "타이어 메모 ID", example = "2991")
     @JsonProperty("tire_memo_id")
     private Long tireMemoId;
 
