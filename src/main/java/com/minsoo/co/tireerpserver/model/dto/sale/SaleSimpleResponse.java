@@ -49,7 +49,7 @@ public class SaleSimpleResponse {
         this.customerId = sale.getCustomer().getId();
         this.source = sale.getSource();
         this.status = sale.getStatus();
-        this.deliveryId = sale.getDelivery().getId();
+        this.deliveryId = sale.getDelivery() == null ? null : sale.getDelivery().getId();
         this.saleContents = sale.getSaleContents()
                 .stream()
                 .map(SaleSimpleContentResponse::of)

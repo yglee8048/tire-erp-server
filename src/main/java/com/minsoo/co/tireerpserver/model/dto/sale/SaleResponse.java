@@ -50,7 +50,7 @@ public class SaleResponse {
         this.customer = CustomerResponse.of(sale.getCustomer());
         this.source = sale.getSource();
         this.status = sale.getStatus();
-        this.deliveryId = sale.getDelivery().getId();
+        this.deliveryId = sale.getDelivery() == null ? null : sale.getDelivery().getId();
         this.saleContents = sale.getSaleContents()
                 .stream()
                 .map(SaleContentResponse::of)

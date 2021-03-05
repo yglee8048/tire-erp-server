@@ -10,6 +10,8 @@ import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseReque
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseCreateRequestContent;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseUpdateRequest;
+import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequest;
+import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequestContent;
 import com.minsoo.co.tireerpserver.model.dto.stock.MoveStockRequest;
 import com.minsoo.co.tireerpserver.model.dto.stock.StockUpdateLockRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
@@ -112,6 +114,22 @@ public class RequestBuilder {
                 .userId(userId)
                 .userPw("password")
                 .businessInfo(BUSINESS_INFO())
+                .build();
+    }
+
+    public static SaleCreateRequest SALE_CREATE(Long customerId, SaleCreateRequestContent... contents) {
+        return SaleCreateRequest.builder()
+                .saleDate(LocalDate.now())
+                .customerId(customerId)
+                .contents(Arrays.asList(contents))
+                .build();
+    }
+
+    public static SaleCreateRequestContent SALE_CREATE_CONTENT(Long stockId, Long quantity) {
+        return SaleCreateRequestContent.builder()
+                .stockId(stockId)
+                .price(240000)
+                .quantity(quantity)
                 .build();
     }
 
