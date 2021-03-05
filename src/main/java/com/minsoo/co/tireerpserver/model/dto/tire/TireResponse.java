@@ -10,8 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import static lombok.AccessLevel.PROTECTED;
-
 @Getter
 @ToString
 @EqualsAndHashCode
@@ -68,7 +66,7 @@ public class TireResponse {
 
     @ApiModelProperty(value = "런플렛", example = "true")
     @JsonProperty("run_flat")
-    private boolean runFlat;
+    private Boolean runFlat;
 
     @ApiModelProperty(value = "옵션", example = "SPONGE")
     @JsonProperty("option")
@@ -91,7 +89,7 @@ public class TireResponse {
         this.speedIndex = tire.getSpeedIndex();
         this.season = tire.getSeason();
         this.price = tire.getPrice();
-        this.runFlat = tire.isRunFlat();
+        this.runFlat = tire.getRunFlat();
         this.option = tire.getOption();
         this.oe = tire.getOe();
     }

@@ -60,7 +60,7 @@ public class Tire {
     private Integer price;
 
     @Column(name = "run_flat")
-    private boolean runFlat;
+    private Boolean runFlat;
 
     @Enumerated(STRING)
     @Column(name = "option")
@@ -88,7 +88,7 @@ public class Tire {
         this.speedIndex = createRequest.getSpeedIndex();
         this.season = createRequest.getSeason();
         this.price = createRequest.getPrice();
-        this.runFlat = createRequest.isRunFlat();
+        this.runFlat = createRequest.getRunFlat();
         this.option = createRequest.getOption();
         this.oe = createRequest.getOe();
     }
@@ -109,7 +109,7 @@ public class Tire {
         this.speedIndex = updateRequest.getSpeedIndex();
         this.season = updateRequest.getSeason();
         this.price = updateRequest.getPrice();
-        this.runFlat = updateRequest.isRunFlat();
+        this.runFlat = updateRequest.getRunFlat();
         this.option = updateRequest.getOption();
         this.oe = updateRequest.getOe();
     }
