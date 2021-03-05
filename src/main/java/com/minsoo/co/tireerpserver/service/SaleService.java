@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.sale.SaleResponse;
+import com.minsoo.co.tireerpserver.model.dto.sale.SaleSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Sale;
 import com.minsoo.co.tireerpserver.model.entity.SaleContent;
 import com.minsoo.co.tireerpserver.repository.CustomerRepository;
@@ -26,7 +26,7 @@ public class SaleService {
     private final StockRepository stockRepository;
 
     @Transactional
-    public SaleResponse create(SaleCreateRequest createRequest) {
+    public SaleSimpleResponse create(SaleCreateRequest createRequest) {
         Sale sale = saleRepository.save(
                 Sale.of(customerRepository.findById(createRequest.getCustomerId()).orElseThrow(NotFoundException::new),
                         createRequest.getSaleDate()));
@@ -36,6 +36,6 @@ public class SaleService {
                                 stockRepository.findById(content.getStockId()).orElseThrow(NotFoundException::new).getTireDot(),
                                 content.getQuantity(),
                                 content.getPrice())));
-        return SaleResponse.of(sale);
+        return SaleSimpleResponse.of(sale);
     }
 }

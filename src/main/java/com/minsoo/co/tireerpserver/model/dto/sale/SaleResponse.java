@@ -5,7 +5,6 @@ import com.minsoo.co.tireerpserver.model.code.SaleSource;
 import com.minsoo.co.tireerpserver.model.code.SaleStatus;
 import com.minsoo.co.tireerpserver.model.dto.customer.CustomerResponse;
 import com.minsoo.co.tireerpserver.model.dto.sale.content.SaleContentResponse;
-import com.minsoo.co.tireerpserver.model.entity.Delivery;
 import com.minsoo.co.tireerpserver.model.entity.Sale;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
@@ -38,9 +37,9 @@ public class SaleResponse {
     @JsonProperty("status")
     private SaleStatus status;
 
-    @ApiModelProperty(value = "배달")
-    @JsonProperty("delivery")
-    private Delivery delivery;
+    @ApiModelProperty(value = "배달 ID", example = "2991")
+    @JsonProperty("delivery_id")
+    private Long deliveryId;
 
     @ApiModelProperty(value = "매출 항목")
     @JsonProperty("sale_contents")
@@ -51,7 +50,7 @@ public class SaleResponse {
         this.customer = CustomerResponse.of(sale.getCustomer());
         this.source = sale.getSource();
         this.status = sale.getStatus();
-        this.delivery = sale.getDelivery();
+        this.deliveryId = sale.getDelivery().getId();
         this.saleContents = sale.getSaleContents()
                 .stream()
                 .map(SaleContentResponse::of)

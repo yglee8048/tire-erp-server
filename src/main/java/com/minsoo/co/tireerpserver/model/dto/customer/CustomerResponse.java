@@ -23,10 +23,6 @@ public class CustomerResponse {
     @JsonProperty("user_id")
     private String userId;
 
-    @ApiModelProperty(value = "비밀번호", example = "password1234*")
-    @JsonProperty("user_pw")
-    private String userPw;
-
     @ApiModelProperty(value = "이름", example = "피렐리 코리아")
     @JsonProperty("name")
     private String name;
@@ -42,7 +38,6 @@ public class CustomerResponse {
     private CustomerResponse(Customer customer) {
         this.customerId = customer.getId();
         this.userId = customer.getUserId();
-        this.userPw = customer.getUserPw();
         this.name = customer.getName();
         this.description = customer.getDescription();
         this.businessInfo = BusinessInfoDTO.of(customer.getBusinessInfo());
