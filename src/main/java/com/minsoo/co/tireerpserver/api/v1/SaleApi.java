@@ -29,7 +29,7 @@ public class SaleApi {
     @GetMapping
     @ApiOperation(value = "매출 내역 목록 조회", notes = "매출 내역의 목록을 조회한다.")
     public ApiResponse<List<SaleResponse>> findAllSales() {
-        return null;
+        return ApiResponse.createOK(saleService.findAll());
     }
 
     @GetMapping("/{saleId}")
@@ -37,7 +37,7 @@ public class SaleApi {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "saleId", value = "매출 ID", example = "201324", required = true)})
     public ApiResponse<SaleResponse> findSaleById(@PathVariable(value = "saleId") Long saleId) {
-        return null;
+        return ApiResponse.createOK(saleService.findById(saleId));
     }
 
     @PostMapping
