@@ -64,7 +64,8 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
                 .join(tire.brand, brand)
                 .leftJoin(tire.tireDots, tireDot)
                 .leftJoin(stock).on(tireDot.id.eq(stock.tireDot.id))
-                .groupBy(tire.id);
+                .groupBy(tire.id)
+                .orderBy(stock.quantity.sum().coalesce(0L).desc(), tire.productId.asc());
     }
 
     @Override

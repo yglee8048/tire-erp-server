@@ -65,10 +65,6 @@ public class StockApi {
                                                                @RequestParam(value = "brand_name", required = false) String brandName,
                                                                @RequestParam(value = "pattern", required = false) String pattern,
                                                                @RequestParam(value = "product_id", required = false) String productId) {
-        // validation
-        if (size != null && size.length() != 7) {
-            throw new BadRequestException("size 의 입력 형식이 잘못되었습니다.");
-        }
         return ApiResponse.createOK(stockService.findTireStocks(size, brandName, pattern, productId));
     }
 

@@ -30,7 +30,7 @@ public class SaleService {
     private final StockRepository stockRepository;
 
     public List<SaleFlatResponse> findAll() {
-        return saleContentRepository.findAllOrderBySaleId()
+        return saleContentRepository.findAllOrderBySaleIdDesc()
                 .stream()
                 .map(saleContent -> SaleFlatResponse.of(saleContent.getSale(), saleContent))
                 .collect(Collectors.toList());
@@ -38,7 +38,7 @@ public class SaleService {
 
     public List<SaleFlatResponse> findById(Long id) {
         Sale sale = saleRepository.findById(id).orElseThrow(NotFoundException::new);
-        return saleContentRepository.findAllBySaleOrderBySale(sale)
+        return saleContentRepository.findAllBySaleOrderBySaleDesc(sale)
                 .stream()
                 .map(saleContent -> SaleFlatResponse.of(saleContent.getSale(), saleContent))
                 .collect(Collectors.toList());

@@ -11,9 +11,9 @@ import java.util.List;
 public interface SaleContentRepository extends JpaRepository<SaleContent, Long> {
 
     @EntityGraph(attributePaths = {"sale", "tireDot"})
-    @Query("select content from SaleContent content order by content.sale.id")
-    List<SaleContent> findAllOrderBySaleId();
+    @Query("select content from SaleContent content order by content.sale.id desc")
+    List<SaleContent> findAllOrderBySaleIdDesc();
 
     @EntityGraph(attributePaths = {"sale", "tireDot"})
-    List<SaleContent> findAllBySaleOrderBySale(Sale sale);
+    List<SaleContent> findAllBySaleOrderBySaleDesc(Sale sale);
 }

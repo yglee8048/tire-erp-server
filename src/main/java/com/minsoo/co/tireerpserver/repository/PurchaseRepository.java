@@ -16,7 +16,8 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
             "join fetch p.vendor v " +
             "join fetch p.tireDot d " +
             "join fetch d.tire t " +
-            "join fetch t.brand b")
+            "join fetch t.brand b " +
+            "order by p.id desc")
     List<Purchase> findAllFetchAll();
 
     @Query("select p from Purchase p " +
