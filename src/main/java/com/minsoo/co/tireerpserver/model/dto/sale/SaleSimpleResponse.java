@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,10 @@ public class SaleSimpleResponse {
     @ApiModelProperty(value = "고객 ID", example = "2991")
     @JsonProperty("customer_id")
     private Long customerId;
+
+    @ApiModelProperty(value = "매출 일자", example = "2021-02-18")
+    @JsonProperty("sale_date")
+    private LocalDate saleDate;
 
     @ApiModelProperty(value = "생성 방식", example = "AUTO")
     @JsonProperty("source")
@@ -47,6 +52,7 @@ public class SaleSimpleResponse {
     public SaleSimpleResponse(Sale sale) {
         this.saleId = sale.getId();
         this.customerId = sale.getCustomer().getId();
+        this.saleDate = sale.getSaleDate();
         this.source = sale.getSource();
         this.status = sale.getStatus();
         this.deliveryId = sale.getDelivery() == null ? null : sale.getDelivery().getId();
