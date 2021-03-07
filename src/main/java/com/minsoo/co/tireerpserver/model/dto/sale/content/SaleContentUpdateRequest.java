@@ -19,15 +19,15 @@ public class SaleContentUpdateRequest {
     @JsonProperty("tire_dot_id")
     private Long tireDotId;
 
-    @ApiModelProperty(value = "수량", example = "20", required = true)
-    @NotNull(message = "수량은 필수 값입니다.")
-    @Positive(message = "수량은 양수여야 합니다.")
+    @ApiModelProperty(value = "매출 수량", example = "20", required = true)
+    @NotNull(message = "매출 수량은 필수 값입니다.")
+    @Positive(message = "매출 수량은 양수여야 합니다.")
     @JsonProperty("quantity")
     private Long quantity;
 
-    @ApiModelProperty(value = "금액", example = "240000", required = true)
-    @NotNull(message = "금액은 필수 값입니다.")
-    @Positive(message = "금액은 양수여야 합니다.")
+    @ApiModelProperty(value = "매출 금액", example = "240000", required = true)
+    @NotNull(message = "매출 금액은 필수 값입니다.")
+    @Positive(message = "매출 금액은 양수여야 합니다.")
     @JsonProperty("price")
     private Integer price;
 }

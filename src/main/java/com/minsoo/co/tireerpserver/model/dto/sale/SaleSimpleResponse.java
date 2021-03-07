@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.model.dto.sale;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.code.SaleSource;
 import com.minsoo.co.tireerpserver.model.code.SaleStatus;
-import com.minsoo.co.tireerpserver.model.dto.sale.content.SaleSimpleContentResponse;
+import com.minsoo.co.tireerpserver.model.dto.sale.content.SaleContentSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Sale;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
@@ -37,7 +37,7 @@ public class SaleSimpleResponse {
     @JsonProperty("source")
     private SaleSource source;
 
-    @ApiModelProperty(value = "상태", example = "ACCEPTED")
+    @ApiModelProperty(value = "매출 상태", example = "ACCEPTED")
     @JsonProperty("status")
     private SaleStatus status;
 
@@ -47,7 +47,7 @@ public class SaleSimpleResponse {
 
     @ApiModelProperty(value = "매출 항목")
     @JsonProperty("sale_contents")
-    private List<SaleSimpleContentResponse> saleContents;
+    private List<SaleContentSimpleResponse> saleContents;
 
     public SaleSimpleResponse(Sale sale) {
         this.saleId = sale.getId();
@@ -58,7 +58,7 @@ public class SaleSimpleResponse {
         this.deliveryId = sale.getDelivery() == null ? null : sale.getDelivery().getId();
         this.saleContents = sale.getSaleContents()
                 .stream()
-                .map(SaleSimpleContentResponse::of)
+                .map(SaleContentSimpleResponse::of)
                 .collect(Collectors.toList());
     }
 

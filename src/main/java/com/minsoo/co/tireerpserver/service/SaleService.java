@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.sale.SaleResponse;
+import com.minsoo.co.tireerpserver.model.dto.sale.SaleFlatResponse;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Sale;
 import com.minsoo.co.tireerpserver.model.entity.SaleContent;
@@ -29,15 +29,19 @@ public class SaleService {
     private final CustomerRepository customerRepository;
     private final StockRepository stockRepository;
 
-    public List<SaleResponse> findAll() {
-        return saleRepository.findAll()
+    public List<SaleFlatResponse> findAll() {
+        return saleContentRepository.findAllOrderBySaleId()
                 .stream()
-                .map(SaleResponse::of)
+                .map(saleContent -> SaleFlatResponse.of(saleContent.getSale(), saleContent))
                 .collect(Collectors.toList());
     }
 
-    public SaleResponse findById(Long id) {
-        return SaleResponse.of(saleRepository.findById(id).orElseThrow(NotFoundException::new));
+    public List<SaleFlatResponse> findById(Long id) {
+        Sale sale = saleRepository.findById(id).orElseThrow(NotFoundException::new);
+        return saleContentRepository.findAllBySaleOrderBySale(sale)
+                .stream()
+                .map(saleContent -> SaleFlatResponse.of(saleContent.getSale(), saleContent))
+                .collect(Collectors.toList());
     }
 
     @Transactional

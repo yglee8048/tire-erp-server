@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-public class SaleSimpleContentResponse {
+public class SaleContentSimpleResponse {
 
     @ApiModelProperty(value = "매출 항목 ID", example = "2991")
     @JsonProperty("sale_content_id")
@@ -24,25 +24,25 @@ public class SaleSimpleContentResponse {
 
     @ApiModelProperty(value = "타이어 DOT ID", example = "2991")
     @JsonProperty("tire_dot_id")
-    private Long tireDotId;
+    private Long tireDotID;
 
-    @ApiModelProperty(value = "수량", example = "20")
+    @ApiModelProperty(value = "매출 수량", example = "20")
     @JsonProperty("quantity")
     private Long quantity;
 
-    @ApiModelProperty(value = "금액", example = "240000")
+    @ApiModelProperty(value = "매출 금액", example = "240000")
     @JsonProperty("price")
     private Integer price;
 
-    public SaleSimpleContentResponse(SaleContent saleContent) {
+    public SaleContentSimpleResponse(SaleContent saleContent) {
         this.saleContentId = saleContent.getId();
         this.saleId = saleContent.getSale().getId();
-        this.tireDotId = saleContent.getTireDot().getId();
+        this.tireDotID = saleContent.getTireDot().getId();
         this.quantity = saleContent.getQuantity();
         this.price = saleContent.getPrice();
     }
 
-    public static SaleSimpleContentResponse of(SaleContent saleContent) {
-        return new SaleSimpleContentResponse(saleContent);
+    public static SaleContentSimpleResponse of(SaleContent saleContent) {
+        return new SaleContentSimpleResponse(saleContent);
     }
 }

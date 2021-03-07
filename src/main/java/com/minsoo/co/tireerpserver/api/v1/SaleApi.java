@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.sale.SaleResponse;
+import com.minsoo.co.tireerpserver.model.dto.sale.SaleFlatResponse;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.sale.content.SaleContentResponse;
 import com.minsoo.co.tireerpserver.model.dto.sale.content.SaleContentUpdateRequest;
@@ -28,7 +28,7 @@ public class SaleApi {
 
     @GetMapping
     @ApiOperation(value = "매출 내역 목록 조회", notes = "매출 내역의 목록을 조회한다.")
-    public ApiResponse<List<SaleResponse>> findAllSales() {
+    public ApiResponse<List<SaleFlatResponse>> findAllSales() {
         return ApiResponse.createOK(saleService.findAll());
     }
 
@@ -36,7 +36,7 @@ public class SaleApi {
     @ApiOperation(value = "매출 내역 상세 조회", notes = "매출 내역의 상세 정보를 조회한다.")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "saleId", value = "매출 ID", example = "201324", required = true)})
-    public ApiResponse<SaleResponse> findSaleById(@PathVariable(value = "saleId") Long saleId) {
+    public ApiResponse<List<SaleFlatResponse>> findSaleById(@PathVariable(value = "saleId") Long saleId) {
         return ApiResponse.createOK(saleService.findById(saleId));
     }
 

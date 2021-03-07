@@ -27,11 +27,11 @@ public class SaleContentResponse {
     @JsonProperty("tire_dot")
     private TireDotResponse tireDot;
 
-    @ApiModelProperty(value = "수량", example = "20")
+    @ApiModelProperty(value = "매출 수량", example = "20")
     @JsonProperty("quantity")
     private Long quantity;
 
-    @ApiModelProperty(value = "금액", example = "240000")
+    @ApiModelProperty(value = "매출 금액", example = "240000")
     @JsonProperty("price")
     private Integer price;
 
