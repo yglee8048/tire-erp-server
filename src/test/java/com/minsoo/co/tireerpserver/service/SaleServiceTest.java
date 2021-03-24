@@ -55,8 +55,8 @@ class SaleServiceTest extends ServiceTest {
         BrandResponse brand = brandService.create(BRAND("테스트 브랜드"));
         VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
         WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
-        TireResponse tire01 = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", 11, "패턴01"));    // size: 1656011
-        TireResponse tire02 = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_02", 12, "패턴02"));    // size: 1656012
+        TireResponse tire01 = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", "1656011", "패턴01"));    // size: 1656011
+        TireResponse tire02 = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_02", "1656012", "패턴02"));    // size: 1656012
         List<PurchaseSimpleResponse> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
                 CREATE_PURCHASE_CONTENT(tire01.getTireId(), "dot01", warehouse.getWarehouseId(), 1L),
                 CREATE_PURCHASE_CONTENT(tire02.getTireId(), "dot02", warehouse.getWarehouseId(), 2L)));

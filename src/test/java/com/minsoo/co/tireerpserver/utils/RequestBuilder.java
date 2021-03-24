@@ -45,13 +45,11 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static TireRequest TIRE(Long brandId, String productId, Integer inch, String pattern) {
+    public static TireRequest TIRE(Long brandId, String productId, String size, String pattern) {
         return TireRequest.builder()
                 .brandId(brandId)
                 .label("테스트 타이어")
-                .width(165)
-                .flatnessRatio(60)
-                .inch(inch)
+                .size(size)
                 .loadIndex(79)
                 .speedIndex("H")
                 .season("겨울")

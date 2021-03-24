@@ -56,6 +56,7 @@ class PurchaseServiceTest extends ServiceTest {
      * 3-2) 재고가 없으면 타이어를 삭제할 수 있다.
      * 3-3) 타이어가 삭제되면 하위의 dot 도 함께 모두 삭제된다.
      * 3-4) 타이어가 삭제되면 관련된 매입 내역도 모두 삭제된다.
+     * 3-5) 타이어가 삭제되면 관련된 매출 내역도 모두 삭제된다.   // TODO
      */
     @Test
     @DisplayName("매입 생성 & 수정 & 삭제 테스트")
@@ -64,7 +65,7 @@ class PurchaseServiceTest extends ServiceTest {
         BrandResponse brand = brandService.create(BRAND("테스트 브랜드"));
         VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
         WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
-        TireResponse tire = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", 11, "테스트 타이어"));
+        TireResponse tire = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", "1656011", "테스트 타이어"));
         clear();
 
         log.info("1. 매입 생성 테스트");
@@ -161,7 +162,7 @@ class PurchaseServiceTest extends ServiceTest {
         BrandResponse brand = brandService.create(BRAND("테스트 브랜드"));
         VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
         WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
-        TireResponse tire = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", 11, "테스트 타이어"));
+        TireResponse tire = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", "1656011", "테스트 타이어"));
         List<PurchaseSimpleResponse> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
                 CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 1L),
                 CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 2L)));
