@@ -35,6 +35,15 @@ public class Tire {
     @Column(name = "label")
     private String label;
 
+    @Column(name = "width", nullable = false)
+    private Integer width;
+
+    @Column(name = "flatness_ratio", nullable = false)
+    private Integer flatnessRatio;
+
+    @Column(name = "inch", nullable = false)
+    private Integer inch;
+
     @Column(name = "size", nullable = false)
     private String size;
 
@@ -74,7 +83,10 @@ public class Tire {
         this.brand = brand;
         this.productId = createRequest.getProductId();
         this.label = createRequest.getLabel();
-        this.size = createRequest.getSize();
+        this.width = createRequest.getWidth();
+        this.flatnessRatio = createRequest.getFlatnessRatio();
+        this.inch = createRequest.getInch();
+        this.size = "" + createRequest.getWidth() + createRequest.getFlatnessRatio() + createRequest.getInch();
         this.pattern = createRequest.getPattern();
         this.loadIndex = createRequest.getLoadIndex();
         this.speedIndex = createRequest.getSpeedIndex();
@@ -93,7 +105,10 @@ public class Tire {
         this.brand = brand;
         this.productId = updateRequest.getProductId();
         this.label = updateRequest.getLabel();
-        this.size = updateRequest.getSize();
+        this.width = updateRequest.getWidth();
+        this.flatnessRatio = updateRequest.getFlatnessRatio();
+        this.inch = updateRequest.getInch();
+        this.size = "" + updateRequest.getWidth() + updateRequest.getFlatnessRatio() + updateRequest.getInch();
         this.pattern = updateRequest.getPattern();
         this.loadIndex = updateRequest.getLoadIndex();
         this.speedIndex = updateRequest.getSpeedIndex();

@@ -45,8 +45,8 @@ class StockServiceTest extends ServiceTest {
         BrandResponse brand = brandService.create(BRAND("테스트 브랜드"));
         VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
         WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
-        TireResponse tire01 = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", "1656011", "패턴01"));    // size: 1656011
-        TireResponse tire02 = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_02", "1656012", "패턴02"));    // size: 1656012
+        TireResponse tire01 = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", 11, "패턴01"));    // size: 1656011
+        TireResponse tire02 = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_02", 12, "패턴02"));    // size: 1656012
         List<PurchaseSimpleResponse> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
                 CREATE_PURCHASE_CONTENT(tire01.getTireId(), "dot01", warehouse.getWarehouseId(), 1L),
                 CREATE_PURCHASE_CONTENT(tire02.getTireId(), "dot02", warehouse.getWarehouseId(), 2L)));
@@ -58,7 +58,7 @@ class StockServiceTest extends ServiceTest {
      * 1. 재고 목록 조회 테스트
      * 1-1) 목록이 정상 조회되어야 한다.
      * 1-2) 검색 조건이 포함된 목록만 조회되어야 한다.
-     * 1-3) DOT 의 개수를 보여줄 때, 재고가 0개 이상인 DOT 의 개수만 보여줘야 한다.
+     * 1-3) DOT 의 개수를 보여줄 때, 재고가 0개 이상인 DOT 의 개수만 보여줘야 한다.  //TODO
      */
     @Test
     @DisplayName("타이어 재고 목록 조회 테스트")

@@ -27,7 +27,16 @@ public class TireResponse {
     @ApiModelProperty(value = "레이블", example = "어슐런스 듀라플러스")
     private String label;
 
-    @ApiModelProperty(value = "사이즈", example = "1656014", required = true)
+    @ApiModelProperty(value = "단면폭", example = "165", required = true)
+    private Integer width;
+
+    @ApiModelProperty(value = "편평비", example = "60", required = true)
+    private Integer flatnessRatio;
+
+    @ApiModelProperty(value = "인치", example = "14", required = true)
+    private Integer inch;
+
+    @ApiModelProperty(value = "사이즈", example = "'1656014'", required = true)
     private String size;
 
     @ApiModelProperty(value = "패턴", example = "Pzero")
@@ -59,6 +68,9 @@ public class TireResponse {
         this.brand = BrandSimpleResponse.of(tire.getBrand());
         this.productId = tire.getProductId();
         this.label = tire.getLabel();
+        this.width = tire.getWidth();
+        this.flatnessRatio = tire.getFlatnessRatio();
+        this.inch = tire.getInch();
         this.size = tire.getSize();
         this.pattern = tire.getPattern();
         this.loadIndex = tire.getLoadIndex();
