@@ -1,6 +1,5 @@
 package com.minsoo.co.tireerpserver.model.dto.purchase;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
@@ -17,16 +16,13 @@ public class PurchaseCreateRequest {
 
     @ApiModelProperty(value = "매입처 ID", example = "20019", required = true)
     @NotNull(message = "매입처 ID 는 필수 값입니다.")
-    @JsonProperty("vendor_id")
     private Long vendorId;
 
     @ApiModelProperty(value = "매입 일자", example = "2021-02-18", required = true)
     @NotNull(message = "매입 일자는 필수 값입니다.")
-    @JsonProperty("purchase_date")
     private LocalDate purchaseDate;
 
     @ApiModelProperty(value = "매입 내용", required = true)
     @NotNull(message = "매입 내용은 필수 값입니다.")
-    @JsonProperty("contents")
     List<PurchaseCreateRequestContent> contents;
 }

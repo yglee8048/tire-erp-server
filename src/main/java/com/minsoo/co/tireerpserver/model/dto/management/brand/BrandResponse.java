@@ -1,6 +1,5 @@
 package com.minsoo.co.tireerpserver.model.dto.management.brand;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minsoo.co.tireerpserver.model.entity.Brand;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
@@ -15,15 +14,12 @@ import lombok.ToString;
 public class BrandResponse {
 
     @ApiModelProperty(value = "ID", example = "2991")
-    @JsonProperty("brand_id")
     private Long brandId;
 
     @ApiModelProperty(value = "이름", example = "금호타이어")
-    @JsonProperty("name")
     private String name;
 
     @ApiModelProperty(value = "설명", example = "20년 5월부터 계약 시작")
-    @JsonProperty("description")
     private String description;
 
     private BrandResponse(Brand brand) {

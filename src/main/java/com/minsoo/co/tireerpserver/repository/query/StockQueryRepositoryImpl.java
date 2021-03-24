@@ -42,9 +42,7 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
                                         brand.name.as("name")).as("brand"),
                                 tire.productId,
                                 tire.label,
-                                tire.width,
-                                tire.flatnessRatio,
-                                tire.inch,
+                                tire.size,
                                 tire.pattern,
                                 tire.loadIndex,
                                 tire.speedIndex,
@@ -84,8 +82,7 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     }
 
     private Predicate tireSizeEq(String size) {
-        return size == null ? null :
-                tire.width.stringValue().concat(tire.flatnessRatio.stringValue()).concat(tire.inch.stringValue()).contains(size);
+        return size == null ? null : tire.size.contains(size);
     }
 
     private Predicate brandNameContains(String brandName) {

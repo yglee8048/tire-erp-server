@@ -21,6 +21,9 @@ spring:
         globally_quoted_identifiers: true
     open-in-view: false
 
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
 logging.level:
   org.hibernate.SQL: debug
   com.minsoo.co.tireerpserver: debug

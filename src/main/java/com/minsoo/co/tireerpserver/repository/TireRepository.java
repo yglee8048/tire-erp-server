@@ -18,7 +18,7 @@ public interface TireRepository extends JpaRepository<Tire, Long>, TireQueryRepo
     @EntityGraph(attributePaths = {"brand"})
     Optional<Tire> findOneFetchBrandById(Long id);
 
-    @Query("select distinct concat(t.width, t.flatnessRatio, t.inch) from Tire t")
+    @Query("select distinct t.size from Tire t")
     List<String> findAllSizes();
 
     @Query("select t.productId from Tire t")
