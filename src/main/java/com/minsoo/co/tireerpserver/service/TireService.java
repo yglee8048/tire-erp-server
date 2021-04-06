@@ -52,11 +52,4 @@ public class TireService {
         tire.update(updateRequest, brand);
         return TireResponse.of(tire);
     }
-
-    @Transactional
-    public void removeById(Long id) {
-        Tire tire = tireRepository.findById(id).orElseThrow(NotFoundException::new);
-        // 검증 및 삭제
-        tireRepository.deleteTire(tire);
-    }
 }

@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.errors.AlreadyConfirmedException;
-import com.minsoo.co.tireerpserver.api.error.errors.CanNotDeleteException;
 import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
@@ -51,12 +50,6 @@ class PurchaseServiceTest extends ServiceTest {
      * 2. 매입 수정/삭제 테스트
      * 2-1) 매입이 확정되기 전에는 매입 내용을 수정할 수 있다.
      * 2-2) 매입이 확정되기 전에는 매입 내용을 삭제할 수 있다.
-     * 3. 타이어 삭제 테스트
-     * 3-1) 매입이 확정되기 전에는 재고에 반영되지 않는다.
-     * 3-2) 재고가 없으면 타이어를 삭제할 수 있다.
-     * 3-3) 타이어가 삭제되면 하위의 dot 도 함께 모두 삭제된다.
-     * 3-4) 타이어가 삭제되면 관련된 매입 내역도 모두 삭제된다.
-     * 3-5) 타이어가 삭제되면 관련된 매출 내역도 모두 삭제된다.   // TODO
      */
     @Test
     @DisplayName("매입 생성 & 수정 & 삭제 테스트")
@@ -122,38 +115,13 @@ class PurchaseServiceTest extends ServiceTest {
         assertThatThrownBy(() -> purchaseService.findById(purchase01.getPurchaseId()))
                 .isInstanceOf(NotFoundException.class);
         clear();
-
-        log.info("3. 타이어 삭제 테스트");
-        log.debug("매입이 확정되기 전에는 재고에 반영되지 않는다.");
-        assertThat(stockService.findAll().size()).isEqualTo(0);
-        clear();
-
-        log.debug("타이어 삭제");
-        tireService.removeById(tire.getTireId());
-        assertThatThrownBy(() -> tireService.findById(tire.getTireId()))
-                .isInstanceOf(NotFoundException.class);
-        clear();
-
-        log.debug("하위 dot 도 모두 삭제되어야 한다.");
-        assertThatThrownBy(() -> tireDotService.findById(dot01.getTireDotId()))
-                .isInstanceOf(NotFoundException.class);
-        assertThatThrownBy(() -> tireDotService.findById(dot02.getTireDotId()))
-                .isInstanceOf(NotFoundException.class);
-        clear();
-
-        log.debug("관련된 매입 내역도 모두 삭제되어야 한다.");
-        assertThatThrownBy(() -> purchaseService.findById(purchase02.getPurchaseId()))
-                .isInstanceOf(NotFoundException.class);
-        clear();
     }
 
     /**
      * 1. 매입 확정 테스트
      * 1-1) 매입의 상태가 확정으로 변경되어야 한다.
      * 1-2) 매입이 확정되면 수정/삭제할 수 없다. -> 예외가 발생해야 한다.
-     * 1-3) 매입이 확정되면 해당 내용이 재고에 반영되어야 한다.
-     * 2. 타이어 삭제 테스트
-     * 2-1) 재고가 존재하는 경우 타이어를 삭제할 수 없다. -> 예외가 발생해야 한다.
+     * 1-3) 매입이 확정되면 해당 내용이 재고에 반영되어야 한다. -> 재고 객체가 없으면 신규 생성, 있으면 수량만 수정
      */
     @Test
     @DisplayName("매입 확정 테스트")
@@ -177,13 +145,13 @@ class PurchaseServiceTest extends ServiceTest {
         assertThat(purchaseService.findById(purchases.get(0).getPurchaseId()).getStatus()).isEqualTo(PurchaseStatus.CONFIRMED);
         clear();
 
-        log.debug("매입이 확정되면 재고에 반영되어야 한다.");
+        log.debug("매입이 확정되면 재고에 반영되어야 한다. -> 재고 객체 신규 생성");
         List<StockSimpleResponse> stocks1 = stockService.findAllByTireId(tire.getTireId());
         assertThat(stocks1.size()).isEqualTo(1);
         assertThat(stocks1.get(0).getQuantity()).isEqualTo(1L);
         clear();
 
-        log.debug("동일한 재고가 추가되면 수량만 변경된다.");
+        log.debug("동일한 재고가 추가되면 수량만 변경된다. -> 기존 재고 객체에 수량만 추가");
         purchaseService.confirm(purchases.get(1).getPurchaseId());
         clear();
 
@@ -198,10 +166,5 @@ class PurchaseServiceTest extends ServiceTest {
         assertThatThrownBy(() -> purchaseService.removeById(purchases.get(1).getPurchaseId()))
                 .isInstanceOf(AlreadyConfirmedException.class);
         clear();
-
-        log.info("타이어 삭제 테스트");
-        log.debug("재고가 존재하는 경우 타이어를 삭제할 수 없다.");
-        assertThatThrownBy(() -> tireService.removeById(tire.getTireId()))
-                .isInstanceOf(CanNotDeleteException.class);
     }
 }

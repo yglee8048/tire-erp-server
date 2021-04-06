@@ -1,11 +1,9 @@
 package com.minsoo.co.tireerpserver.service;
 
-import com.minsoo.co.tireerpserver.api.error.errors.NotEnoughStockException;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
-import com.minsoo.co.tireerpserver.model.dto.stock.StockResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -104,37 +102,5 @@ class StockServiceTest extends ServiceTest {
     @Test
     @DisplayName("재고 수정 테스트")
     void stockUpdateTest() {
-        List<StockResponse> stocks = stockService.findAll();
-
-        log.info("재고 Lock 수정 테스트");
-        stockService.updateStockLock(stocks.get(0).getStockId(), UPDATE_STOCK_LOCK(false));
-        assertThat(stocks.get(0).isLock()).isEqualTo(true);
-        assertThat(stockService.findById(stocks.get(0).getStockId()).isLock()).isEqualTo(false);
-        clear();
-
-        log.info("재고 이동 테스트");
-        WarehouseResponse toWarehouse = warehouseService.create(WAREHOUSE("이동 대상 창고"));
-
-        log.debug("재고가 부족하면 예외가 발생해야 한다.");
-        assertThatThrownBy(() -> stockService.moveStock(stocks.get(0).getStockId(), MOVE_STOCK(toWarehouse.getWarehouseId(), 3L)))
-                .isInstanceOf(NotEnoughStockException.class);
-        clear();
-
-        log.debug("이동하려는 목표 대상의 재고 객체가 없으면, 재고 객체를 생성해서 반영해야 한다.");
-        stockService.moveStock(stocks.get(1).getStockId(), MOVE_STOCK(toWarehouse.getWarehouseId(), 1L));
-        assertThat(stocks.size()).isEqualTo(2);
-        assertThat(stockService.findAll().size()).isEqualTo(3);
-        clear();
-
-        log.debug("이동하는 목표 대상의 재고 객체가 있으면, 해당 재고 객체에 반영해야 한다.");
-        stockService.moveStock(stocks.get(1).getStockId(), MOVE_STOCK(toWarehouse.getWarehouseId(), 1L));
-        assertThat(stockService.findAll().size()).isEqualTo(3);
-        clear();
-
-        log.debug("양쪽 재고에 이동 갯수가 정상적을 적용되어야 한다.");
-        List<StockResponse> afterStocks = stockService.findAll();
-        assertThat(stockService.findById(afterStocks.get(1).getStockId()).getQuantity()).isEqualTo(0L);
-        assertThat(stockService.findById(afterStocks.get(2).getStockId()).getQuantity()).isEqualTo(2L);
-        clear();
     }
 }

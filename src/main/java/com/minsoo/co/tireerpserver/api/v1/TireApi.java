@@ -59,15 +59,6 @@ public class TireApi {
         return ApiResponse.createOK(tireService.update(tireId, updateRequest));
     }
 
-    @DeleteMapping(value = "/{tireId}")
-    @ApiOperation(value = "타이어 삭제", notes = "타이어를 삭제한다.")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "tireId", value = "타이어 ID", example = "201324", required = true)})
-    public ApiResponse<String> deleteTire(@PathVariable Long tireId) {
-        tireService.removeById(tireId);
-        return ApiResponse.DEFAULT_OK;
-    }
-
     // TIRE DOT
     @GetMapping(value = "/{tireId}/tire-dots")
     @ApiOperation(value = "타이어 DOT 목록 조회", notes = "타이어 DOT 목록을 조회한다.")

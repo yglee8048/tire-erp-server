@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.repository;
 
 import com.minsoo.co.tireerpserver.model.entity.Tire;
-import com.minsoo.co.tireerpserver.repository.query.TireQueryRepository;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface TireRepository extends JpaRepository<Tire, Long>, TireQueryRepository {
+public interface TireRepository extends JpaRepository<Tire, Long> {
 
     @EntityGraph(attributePaths = {"brand"})
     @Query("select t from Tire t")
