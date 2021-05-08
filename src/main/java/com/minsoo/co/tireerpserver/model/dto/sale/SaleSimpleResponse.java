@@ -4,7 +4,7 @@ import com.minsoo.co.tireerpserver.model.code.SaleSource;
 import com.minsoo.co.tireerpserver.model.code.SaleStatus;
 import com.minsoo.co.tireerpserver.model.dto.sale.content.SaleContentSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Sale;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,25 +20,25 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class SaleSimpleResponse {
 
-    @ApiModelProperty(value = "매출 ID", example = "2991")
+    @Schema(name = "매출 ID", example = "2991")
     private Long saleId;
 
-    @ApiModelProperty(value = "고객 ID", example = "2991")
+    @Schema(name = "고객 ID", example = "2991")
     private Long customerId;
 
-    @ApiModelProperty(value = "매출 일자", example = "2021-02-18")
+    @Schema(name = "매출 일자", example = "2021-02-18")
     private LocalDate saleDate;
 
-    @ApiModelProperty(value = "생성 방식", example = "AUTO")
+    @Schema(name = "생성 방식", example = "AUTO")
     private SaleSource source;
 
-    @ApiModelProperty(value = "매출 상태", example = "ACCEPTED")
+    @Schema(name = "매출 상태", example = "ACCEPTED")
     private SaleStatus status;
 
-    @ApiModelProperty(value = "배달 ID", example = "2991")
+    @Schema(name = "배달 ID", example = "2991")
     private Long deliveryId;
 
-    @ApiModelProperty(value = "매출 항목")
+    @Schema(name = "매출 항목")
     private List<SaleContentSimpleResponse> saleContents;
 
     public SaleSimpleResponse(Sale sale) {

@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.model.dto.purchase;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Purchase;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,28 +17,28 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PurchaseSimpleResponse {
 
-    @ApiModelProperty(value = "매입 ID", example = "20019")
+    @Schema(name = "매입 ID", example = "20019")
     private Long purchaseId;
 
-    @ApiModelProperty(value = "매입처 ID")
+    @Schema(name = "매입처 ID")
     private Long vendorId;
 
-    @ApiModelProperty(value = "타이어 DOT")
+    @Schema(name = "타이어 DOT")
     private TireDotSimpleResponse tireDot;
 
-    @ApiModelProperty(value = "창고 ID")
+    @Schema(name = "창고 ID")
     private Long warehouseId;
 
-    @ApiModelProperty(value = "매입 가격", example = "450000")
+    @Schema(name = "매입 가격", example = "450000")
     private Integer price;
 
-    @ApiModelProperty(value = "매입 수량", example = "45")
+    @Schema(name = "매입 수량", example = "45")
     private Long quantity;
 
-    @ApiModelProperty(value = "매입 상태", example = "CONFIRMED")
+    @Schema(name = "매입 상태", example = "CONFIRMED")
     private PurchaseStatus status;
 
-    @ApiModelProperty(value = "매입 일자", example = "2021-02-18")
+    @Schema(name = "매입 일자", example = "2021-02-18")
     private LocalDate purchaseDate;
 
     private PurchaseSimpleResponse(Purchase purchase) {

@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.management.brand;
 
 import com.minsoo.co.tireerpserver.model.entity.Brand;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +13,13 @@ import lombok.ToString;
 @NoArgsConstructor
 public class BrandResponse {
 
-    @ApiModelProperty(value = "ID", example = "2991")
+    @Schema(name = "ID", example = "2991")
     private Long brandId;
 
-    @ApiModelProperty(value = "이름", example = "금호타이어")
+    @Schema(name = "이름", example = "금호타이어")
     private String name;
 
-    @ApiModelProperty(value = "설명", example = "20년 5월부터 계약 시작")
+    @Schema(name = "설명", example = "20년 5월부터 계약 시작")
     private String description;
 
     private BrandResponse(Brand brand) {

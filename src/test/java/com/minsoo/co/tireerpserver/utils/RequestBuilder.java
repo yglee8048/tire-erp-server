@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.utils;
 
 import com.minsoo.co.tireerpserver.model.code.TireOption;
+import com.minsoo.co.tireerpserver.model.dto.account.AccountRequest;
 import com.minsoo.co.tireerpserver.model.dto.customer.CustomerRequest;
 import com.minsoo.co.tireerpserver.model.dto.general.AddressDTO;
 import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
@@ -20,6 +21,13 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 public class RequestBuilder {
+
+    public static AccountRequest ACOCUNT(String userId, String userPw) {
+        return AccountRequest.builder()
+                .userId(userId)
+                .userPw(userPw)
+                .build();
+    }
 
     public static BrandRequest BRAND(String name) {
         return BrandRequest.builder()

@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.response;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
@@ -9,16 +9,16 @@ import org.springframework.http.HttpStatus;
 @ToString
 public class ApiResponse<T> {
 
-    @ApiModelProperty(value = "상태 코드", example = "OK")
+    @Schema(name = "상태 코드", example = "OK")
     private final HttpStatus status;
 
-    @ApiModelProperty(value = "메세지", example = "요청이 성공하였습니다.")
+    @Schema(name = "메세지", example = "요청이 성공하였습니다.")
     private final String message;
 
-    @ApiModelProperty(value = "상세 정보", example = "아이디는 필수 값입니다.")
+    @Schema(name = "상세 정보", example = "아이디는 필수 값입니다.")
     private String detail;
 
-    @ApiModelProperty(value = "데이터")
+    @Schema(name = "데이터")
     private T data;
 
     private ApiResponse(HttpStatus status, String message) {

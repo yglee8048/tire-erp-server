@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.customer;
 
 import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
 import com.minsoo.co.tireerpserver.model.entity.Customer;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,19 +14,19 @@ import lombok.ToString;
 @NoArgsConstructor
 public class CustomerResponse {
 
-    @ApiModelProperty(value = "ID", example = "2937")
+    @Schema(name = "ID", example = "2937")
     private Long customerId;
 
-    @ApiModelProperty(value = "아이디", example = "user1234")
+    @Schema(name = "아이디", example = "user1234")
     private String userId;
 
-    @ApiModelProperty(value = "이름", example = "피렐리 코리아")
+    @Schema(name = "이름", example = "피렐리 코리아")
     private String name;
 
-    @ApiModelProperty(value = "설명", example = "20년 5월부터 계약 시작")
+    @Schema(name = "설명", example = "20년 5월부터 계약 시작")
     private String description;
 
-    @ApiModelProperty(value = "사업자 관련 정보")
+    @Schema(name = "사업자 관련 정보")
     private BusinessInfoDTO businessInfo;
 
     private CustomerResponse(Customer customer) {

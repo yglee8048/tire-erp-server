@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.tire.dot;
 
 import com.minsoo.co.tireerpserver.model.entity.TireDot;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +13,13 @@ import lombok.ToString;
 @NoArgsConstructor
 public class TireDotSimpleResponse {
 
-    @ApiModelProperty(value = "타이어 DOT ID", example = "21")
+    @Schema(name = "타이어 DOT ID", example = "21")
     private Long tireDotId;
 
-    @ApiModelProperty(value = "타이어 ID", example = "21")
+    @Schema(name = "타이어 ID", example = "21")
     private Long tireId;
 
-    @ApiModelProperty(value = "타이어 DOT", example = "4014")
+    @Schema(name = "타이어 DOT", example = "4014")
     private String dot;
 
     private TireDotSimpleResponse(TireDot tireDot) {

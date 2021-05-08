@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.sale.content;
 
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
 import com.minsoo.co.tireerpserver.model.entity.SaleContent;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,19 +14,19 @@ import lombok.ToString;
 @NoArgsConstructor
 public class SaleContentResponse {
 
-    @ApiModelProperty(value = "매출 항목 ID", example = "2991")
+    @Schema(name = "매출 항목 ID", example = "2991")
     private Long saleContentId;
 
-    @ApiModelProperty(value = "매출 ID", example = "2991")
+    @Schema(name = "매출 ID", example = "2991")
     private Long saleId;
 
-    @ApiModelProperty(value = "타이어 DOT")
+    @Schema(name = "타이어 DOT")
     private TireDotResponse tireDot;
 
-    @ApiModelProperty(value = "매출 수량", example = "20")
+    @Schema(name = "매출 수량", example = "20")
     private Long quantity;
 
-    @ApiModelProperty(value = "매출 금액", example = "240000")
+    @Schema(name = "매출 금액", example = "240000")
     private Integer price;
 
     public SaleContentResponse(SaleContent saleContent) {

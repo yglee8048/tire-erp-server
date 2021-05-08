@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.admin;
 
 import com.minsoo.co.tireerpserver.model.code.AdminRole;
 import com.minsoo.co.tireerpserver.model.entity.Admin;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @Getter
@@ -11,19 +11,19 @@ import lombok.*;
 @NoArgsConstructor
 public class AdminResponse {
 
-    @ApiModelProperty(value = "ID", example = "2937")
+    @Schema(name = "ID", example = "2937")
     private Long adminId;
 
-    @ApiModelProperty(value = "아이디", example = "user123")
+    @Schema(name = "아이디", example = "user123")
     private String userId;
 
-    @ApiModelProperty(value = "이름", example = "김철수")
+    @Schema(name = "이름", example = "김철수")
     private String name;
 
-    @ApiModelProperty(value = "설명", example = "21년 3월 신규 채용")
+    @Schema(name = "설명", example = "21년 3월 신규 채용")
     private String description;
 
-    @ApiModelProperty(value = "역할", example = "SUPER_ADMIN")
+    @Schema(name = "역할", example = "SUPER_ADMIN")
     private AdminRole role;
 
     private AdminResponse(Admin admin) {

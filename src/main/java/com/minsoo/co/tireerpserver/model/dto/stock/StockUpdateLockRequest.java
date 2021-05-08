@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.dto.stock;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class StockUpdateLockRequest {
 
-    @ApiModelProperty(value = "잠금 여부(true=비공개/false=공개)", example = "true", required = true)
+    @Schema(name = "잠금 여부(true=비공개/false=공개)", example = "true", required = true)
     @NotNull(message = "잠금 여부는 필수 값입니다.")
     private boolean lock;
 }

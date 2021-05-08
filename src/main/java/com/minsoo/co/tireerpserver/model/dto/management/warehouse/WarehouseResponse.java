@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.management.warehouse;
 
 import com.minsoo.co.tireerpserver.model.dto.general.AddressDTO;
 import com.minsoo.co.tireerpserver.model.entity.Warehouse;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @Getter
@@ -11,19 +11,19 @@ import lombok.*;
 @NoArgsConstructor
 public class WarehouseResponse {
 
-    @ApiModelProperty(value = "ID", example = "2099")
+    @Schema(name = "ID", example = "2099")
     private Long warehouseId;
 
-    @ApiModelProperty(value = "이름", example = "왕십리 메인 창고")
+    @Schema(name = "이름", example = "왕십리 메인 창고")
     private String name;
 
-    @ApiModelProperty(value = "설명", example = "메인 판매 타이어 보관")
+    @Schema(name = "설명", example = "메인 판매 타이어 보관")
     private String description;
 
-    @ApiModelProperty(value = "용량", example = "20000")
+    @Schema(name = "용량", example = "20000")
     private Integer capacity;
 
-    @ApiModelProperty(value = "address")
+    @Schema(name = "address")
     private AddressDTO address;
 
     private WarehouseResponse(Warehouse warehouse) {

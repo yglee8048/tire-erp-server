@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.general;
 
 import com.minsoo.co.tireerpserver.model.entity.embedded.Address;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.Positive;
@@ -13,16 +13,16 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class AddressDTO {
 
-    @ApiModelProperty(value = "시/도", example = "서울특별시")
+    @Schema(name = "시/도", example = "서울특별시")
     private String city;
 
-    @ApiModelProperty(value = "도로명 주소", example = "서울특별시 종로구 세종대로 209")
+    @Schema(name = "도로명 주소", example = "서울특별시 종로구 세종대로 209")
     private String streetAddress;
 
-    @ApiModelProperty(value = "상세 주소", example = "1403호")
+    @Schema(name = "상세 주소", example = "1403호")
     private String detailAddress;
 
-    @ApiModelProperty(value = "우편번호", example = "03139")
+    @Schema(name = "우편번호", example = "03139")
     @Positive(message = "우편번호는 양수여야 합니다.")
     private Integer zipCode;
 
