@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.service;
 
-import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
+import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorRequest;
@@ -25,10 +25,13 @@ public class ManagementServiceTest extends ServiceTest {
     @Autowired
     WarehouseService warehouseService;
 
+    /**
+     * 1. 브랜드의 이름은 중복될 수 없다.
+     */
     @Test
     @DisplayName("브랜드 생성 테스트")
     void brandCreateTest() {
-        log.info("브랜드 생성 테스트");
+        log.debug("브랜드 생성 테스트");
         BrandRequest brandRequest = BRAND("브랜드 테스트");
         BrandResponse brandResponse = brandService.create(brandRequest);
         assertThat(brandResponse.getName()).isEqualTo("브랜드 테스트");
@@ -39,10 +42,13 @@ public class ManagementServiceTest extends ServiceTest {
                 .isInstanceOf(AlreadyExistException.class);
     }
 
+    /**
+     * 매입처의 이름은 중복될 수 없다.
+     */
     @Test
     @DisplayName("매입처 생성 테스트")
     void vendorCreateTest() {
-        log.info("매입처 생성 테스트");
+        log.debug("매입처 생성 테스트");
         VendorRequest vendorRequest = VENDOR("매입처 테스트");
         VendorResponse vendorResponse = vendorService.create(vendorRequest);
         assertThat(vendorResponse.getName()).isEqualTo("매입처 테스트");
@@ -53,10 +59,13 @@ public class ManagementServiceTest extends ServiceTest {
                 .isInstanceOf(AlreadyExistException.class);
     }
 
+    /**
+     * 창고의 이름은 중복될 수 없다.
+     */
     @Test
     @DisplayName("창고 생성 테스트")
     void warehouseCreateTest() {
-        log.info("창고 생성 테스트");
+        log.debug("창고 생성 테스트");
         WarehouseRequest warehouseRequest = WAREHOUSE("창고 테스트");
         WarehouseResponse warehouseResponse = warehouseService.create(warehouseRequest);
         assertThat(warehouseResponse.getName()).isEqualTo("창고 테스트");

@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity;
 
-import com.minsoo.co.tireerpserver.api.error.errors.NotEnoughStockException;
+import com.minsoo.co.tireerpserver.api.error.exceptions.NotEnoughStockException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,13 +14,16 @@ import static lombok.AccessLevel.*;
 @NoArgsConstructor(access = PROTECTED)
 @Entity
 @Table(name = "stock",
-        uniqueConstraints = {@UniqueConstraint(name = "stock_unique_dot_warehouse", columnNames = {"tire_dot_id", "warehouse_id"})})
+        uniqueConstraints = {@UniqueConstraint(name = "stock_unique_dot_warehouse", columnNames = {"nickname", "tire_dot_id", "warehouse_id"})})
 public class Stock {
 
     @Id
     @Column(name = "stock_id", length = 20)
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
+    @Column(name = "nickname")
+    private String nickname;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "tire_dot_id", nullable = false)
@@ -34,17 +37,17 @@ public class Stock {
     private Long quantity;
 
     @Column(name = "is_lock", nullable = false)
-    private boolean lock;
+    private Boolean lock;
 
     //== Business ==//
-    private Stock(TireDot tireDot, Warehouse warehouse, boolean lock) {
+    private Stock(TireDot tireDot, Warehouse warehouse, Boolean lock) {
         this.tireDot = tireDot;
         this.warehouse = warehouse;
         this.quantity = 0L;
         this.lock = lock;
     }
 
-    public static Stock of(TireDot tireDot, Warehouse warehouse, boolean lock) {
+    public static Stock of(TireDot tireDot, Warehouse warehouse, Boolean lock) {
         return new Stock(tireDot, warehouse, lock);
     }
 

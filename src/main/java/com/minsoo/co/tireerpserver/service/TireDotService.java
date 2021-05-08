@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.service;
 
-import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
+import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.Tire;
 import com.minsoo.co.tireerpserver.repository.TireDotRepository;

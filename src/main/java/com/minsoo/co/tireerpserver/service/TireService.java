@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.service;
 
-import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
-import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
+import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
+import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
 import com.minsoo.co.tireerpserver.model.entity.Brand;

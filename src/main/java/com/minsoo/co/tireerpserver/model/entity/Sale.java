@@ -48,10 +48,10 @@ public class Sale {
     private LocalDate saleDate;
 
     @OneToMany(mappedBy = "sale", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private Set<SaleContent> saleContents = new HashSet<>();
+    private final Set<SaleContent> saleContents = new HashSet<>();
 
     @OneToMany(mappedBy = "sale", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private Set<SaleMemo> saleMemos = new HashSet<>();
+    private final Set<SaleMemo> saleMemos = new HashSet<>();
 
     //== Business ==//
     public Sale(Customer customer, LocalDate saleDate) {

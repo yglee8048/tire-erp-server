@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.service;
 
-import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
+import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.stock.*;
 import com.minsoo.co.tireerpserver.model.entity.Stock;
 import com.minsoo.co.tireerpserver.model.entity.Warehouse;

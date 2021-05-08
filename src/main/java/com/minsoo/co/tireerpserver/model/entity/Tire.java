@@ -73,10 +73,10 @@ public class Tire {
     private String oe;
 
     @OneToMany(mappedBy = "tire", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private Set<TireDot> tireDots = new HashSet<>();
+    private final Set<TireDot> tireDots = new HashSet<>();
 
     @OneToMany(mappedBy = "tire", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private Set<TireMemo> tireMemos = new HashSet<>();
+    private final Set<TireMemo> tireMemos = new HashSet<>();
 
     //== Business ==//
     private Tire(TireRequest createRequest, Brand brand) {

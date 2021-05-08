@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.service;
 
-import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
-import com.minsoo.co.tireerpserver.api.error.errors.NotFoundException;
+import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +19,7 @@ class TireServiceTest extends ServiceTest {
     TireService tireService;
 
     /**
-     * 기본적인 타이어 CUD 테스트 (브랜드 생성 포함)
+     * 기본적인 타이어 CU 테스트 (브랜드 생성 포함)
      * 타이어 상품 ID가 중복되는 경우, 예외가 발생해야 한다.
      */
     @Test
@@ -53,12 +52,5 @@ class TireServiceTest extends ServiceTest {
         assertThat(updatedTire.getProductId()).isEqualTo("PRODUCT_ID_02");
         assertThat(createdTire.getPattern()).isEqualTo("생성테스트");
         assertThat(updatedTire.getPattern()).isEqualTo("수정테스트");
-
-        log.info("타이어 삭제 테스트");
-        tireService.removeById(updatedTire.getTireId());
-        clear();
-
-        assertThatThrownBy(() -> tireService.findById(updatedTire.getTireId()))
-                .isInstanceOf(NotFoundException.class);
     }
 }

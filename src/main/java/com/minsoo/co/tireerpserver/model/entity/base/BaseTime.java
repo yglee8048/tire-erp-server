@@ -20,6 +20,6 @@ public class BaseTime {
     private LocalDateTime created;
 
     @LastModifiedDate
-    @Column(name = "lastModified")
+    @Column(name = "last_modified")
     private LocalDateTime lastModified;
 }

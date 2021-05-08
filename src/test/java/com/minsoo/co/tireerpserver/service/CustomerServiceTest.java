@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.service;
 
-import com.minsoo.co.tireerpserver.api.error.errors.AlreadyExistException;
+import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.model.dto.customer.CustomerRequest;
 import com.minsoo.co.tireerpserver.model.dto.customer.CustomerResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +15,9 @@ class CustomerServiceTest extends ServiceTest {
     @Autowired
     CustomerService customerService;
 
+    /**
+     * 1. 거래처의 userId는 중복될 수 없다.
+     */
     @Test
     @DisplayName("거래처 생성 테스트")
     void createCustomer() {
