@@ -28,5 +28,5 @@ public class SaleMemo {
     private String memo;
 
     @Column(name = "is_lock")
-    private Boolean lock;
+    private boolean lock;
 }

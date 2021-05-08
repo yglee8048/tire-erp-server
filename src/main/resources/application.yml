@@ -10,16 +10,12 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        # show_sql: true
         format_sql: true
         default_batch_fetch_size: 500
     open-in-view: false
 
   jackson:
     property-naming-strategy: SNAKE_CASE
-
-  profiles:
-    include: oauth
 
 logging.level:
   org.hibernate.SQL: debug

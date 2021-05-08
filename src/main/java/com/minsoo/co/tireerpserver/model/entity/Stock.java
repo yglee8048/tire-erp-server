@@ -22,7 +22,7 @@ public class Stock {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(name = "nickname")
+    @Column(name = "nickname", nullable = false)
     private String nickname;
 
     @ManyToOne(fetch = LAZY)
@@ -37,17 +37,17 @@ public class Stock {
     private Long quantity;
 
     @Column(name = "is_lock", nullable = false)
-    private Boolean lock;
+    private boolean lock;
 
     //== Business ==//
-    private Stock(TireDot tireDot, Warehouse warehouse, Boolean lock) {
+    private Stock(TireDot tireDot, Warehouse warehouse, boolean lock) {
         this.tireDot = tireDot;
         this.warehouse = warehouse;
         this.quantity = 0L;
         this.lock = lock;
     }
 
-    public static Stock of(TireDot tireDot, Warehouse warehouse, Boolean lock) {
+    public static Stock of(TireDot tireDot, Warehouse warehouse, boolean lock) {
         return new Stock(tireDot, warehouse, lock);
     }
 
