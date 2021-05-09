@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.dto.account;
 
+import com.minsoo.co.tireerpserver.model.entity.Account;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,4 +21,10 @@ public class AccountResponse {
 
     @Schema(name = "계정 비밀번호", example = "password1234*", required = true)
     private String userPw;
+
+    public AccountResponse(Account account) {
+        this.accountId = account.getId();
+        this.userId = account.getUserId();
+        this.userPw = account.getUserPw();
+    }
 }

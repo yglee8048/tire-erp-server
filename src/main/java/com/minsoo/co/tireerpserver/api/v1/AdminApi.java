@@ -25,20 +25,20 @@ public class AdminApi {
     @GetMapping
     @Operation(summary = "관리자 목록 조회", description = "관리자의 목록을 조회한다.")
     public ApiResponse<List<AdminResponse>> findAllAdmins() {
-        return ApiResponse.createOK(adminService.findAll());
+        return ApiResponse.OK(adminService.findAll());
     }
 
     @GetMapping(value = "/{adminId}")
     @Operation(summary = "관리자 상세 조회", description = "관리자의 상세 내용을 조회한다.")
     @Parameters({@Parameter(name = "adminId", description = "관리자 ID", example = "201324", required = true)})
     public ApiResponse<AdminResponse> findAdminById(@PathVariable Long adminId) {
-        return ApiResponse.createOK(adminService.findById(adminId));
+        return ApiResponse.OK(adminService.findById(adminId));
     }
 
     @PostMapping
     @Operation(summary = "관리자 생성", description = "관리자를 생성한다.")
     public ApiResponse<AdminResponse> createAdmin(@RequestBody @Valid AdminRequest adminRequest) {
-        return ApiResponse.createOK(adminService.create(adminRequest));
+        return ApiResponse.OK(adminService.create(adminRequest));
     }
 
     @PutMapping(value = "/{adminId}")
@@ -46,7 +46,7 @@ public class AdminApi {
     @Parameters({@Parameter(name = "adminId", description = "관리자 ID", example = "201324", required = true)})
     public ApiResponse<AdminResponse> updateAdmin(@PathVariable Long adminId,
                                                   @RequestBody @Valid AdminRequest updateRequest) {
-        return ApiResponse.createOK(adminService.update(adminId, updateRequest));
+        return ApiResponse.OK(adminService.update(adminId, updateRequest));
     }
 
     @DeleteMapping(value = "/{adminId}")
@@ -54,6 +54,6 @@ public class AdminApi {
     @Parameters({@Parameter(name = "adminId", description = "관리자 ID", example = "201324", required = true)})
     public ApiResponse<String> deleteAdmin(@PathVariable Long adminId) {
         adminService.removeById(adminId);
-        return ApiResponse.DEFAULT_OK;
+        return ApiResponse.OK;
     }
 }

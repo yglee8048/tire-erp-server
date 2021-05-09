@@ -29,20 +29,20 @@ public class SaleApi {
     @GetMapping
     @Tag(name = "매출 내역 목록 조회", description = "매출 내역의 목록을 조회한다.")
     public ApiResponse<List<SaleFlatResponse>> findAllSales() {
-        return ApiResponse.createOK(saleService.findAll());
+        return ApiResponse.OK(saleService.findAll());
     }
 
     @GetMapping("/{saleId}")
     @Tag(name = "매출 내역 상세 조회", description = "매출 내역의 상세 정보를 조회한다.")
     @Parameters({@Parameter(name = "saleId", description = "매출 ID", example = "201324", required = true)})
     public ApiResponse<List<SaleFlatResponse>> findSaleById(@PathVariable(value = "saleId") Long saleId) {
-        return ApiResponse.createOK(saleService.findById(saleId));
+        return ApiResponse.OK(saleService.findById(saleId));
     }
 
     @PostMapping
     @Tag(name = "매출 생성", description = "매출을 생성한다.")
     public ApiResponse<SaleSimpleResponse> createSale(@RequestBody @Valid SaleCreateRequest createRequest) {
-        return ApiResponse.createOK(saleService.create(createRequest));
+        return ApiResponse.OK(saleService.create(createRequest));
     }
 
     // sale contents

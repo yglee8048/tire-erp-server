@@ -27,13 +27,13 @@ public class PurchaseApi {
     @GetMapping
     @Tag(name = "매입 내역 목록 조회", description = "매입 내역의 목록을 조회한다.")
     public ApiResponse<List<PurchaseResponse>> findAllPurchases() {
-        return ApiResponse.createOK(purchaseService.findAll());
+        return ApiResponse.OK(purchaseService.findAll());
     }
 
     @PostMapping
     @Tag(name = "매입 생성", description = "복수의 매입을 생성한다.")
     public ApiResponse<List<PurchaseSimpleResponse>> createPurchases(@RequestBody @Valid PurchaseCreateRequest createRequest) {
-        return ApiResponse.createOK(purchaseService.create(createRequest));
+        return ApiResponse.OK(purchaseService.create(createRequest));
     }
 
     @PutMapping("/{purchaseId}")
@@ -41,14 +41,14 @@ public class PurchaseApi {
     @Parameters({@Parameter(name = "purchaseId", description = "매입 ID", example = "201324", required = true)})
     public ApiResponse<PurchaseSimpleResponse> updatePurchase(@PathVariable(value = "purchaseId") Long purchaseId,
                                                               @RequestBody @Valid PurchaseUpdateRequest updateRequest) {
-        return ApiResponse.createOK(purchaseService.update(purchaseId, updateRequest));
+        return ApiResponse.OK(purchaseService.update(purchaseId, updateRequest));
     }
 
     @PostMapping(value = "/{purchaseId}/confirm")
     @Tag(name = "매입 확정", description = "매입을 확정한다. 매입을 확정한 시점에 매입 내용이 재고에 반영된다.")
     @Parameters({@Parameter(name = "purchaseId", description = "매입 ID", example = "201324", required = true)})
     public ApiResponse<PurchaseSimpleResponse> confirmPurchaseById(@PathVariable(value = "purchaseId") Long purchaseId) {
-        return ApiResponse.createOK(purchaseService.confirm(purchaseId));
+        return ApiResponse.OK(purchaseService.confirm(purchaseId));
     }
 
     @DeleteMapping("/{purchaseId}")
@@ -56,6 +56,6 @@ public class PurchaseApi {
     @Parameters({@Parameter(name = "purchaseId", description = "매입 ID", example = "201324", required = true)})
     public ApiResponse<String> deletePurchase(@PathVariable(value = "purchaseId") Long purchaseId) {
         purchaseService.removeById(purchaseId);
-        return ApiResponse.DEFAULT_OK;
+        return ApiResponse.OK;
     }
 }

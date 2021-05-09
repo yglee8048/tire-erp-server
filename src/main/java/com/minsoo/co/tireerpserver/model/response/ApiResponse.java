@@ -38,10 +38,14 @@ public class ApiResponse<T> {
         this.data = data;
     }
 
-    public static final ApiResponse<String> DEFAULT_OK = new ApiResponse<>(HttpStatus.OK, "요청이 성공하였습니다.");
+    public static final ApiResponse<String> OK = new ApiResponse<>(HttpStatus.OK, "요청이 성공하였습니다.");
 
-    public static <T> ApiResponse<T> createOK(T data) {
+    public static <T> ApiResponse<T> OK(T data) {
         return new ApiResponse<>(HttpStatus.OK, "요청이 성공하였습니다.", data);
+    }
+
+    public static <T> ApiResponse<T> CREATED(T data) {
+        return new ApiResponse<>(HttpStatus.CREATED, "자원이 생성되었습니다.", data);
     }
 
     public static <T> ApiResponse<T> of(HttpStatus status, String message, T data) {

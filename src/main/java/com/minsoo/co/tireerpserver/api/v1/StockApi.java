@@ -24,14 +24,14 @@ public class StockApi {
     @GetMapping
     @Tag(name = "재고 전체 목록 조회", description = "재고 전체 목록을 조회한다.")
     public ApiResponse<List<StockResponse>> findAllStocks() {
-        return ApiResponse.createOK(stockService.findAll());
+        return ApiResponse.OK(stockService.findAll());
     }
 
     @GetMapping(value = "/{stockId}")
     @Tag(name = "재고 상세 조회", description = "재고의 상세 정보를 조회한다.")
     @Parameters({@Parameter(name = "stockId", description = "재고 ID", example = "201324", required = true)})
     public ApiResponse<StockResponse> findStockById(@PathVariable(value = "stockId") Long stockId) {
-        return ApiResponse.createOK(stockService.findById(stockId));
+        return ApiResponse.OK(stockService.findById(stockId));
     }
 
     @PostMapping(value = "/{stockId}/update-lock")
@@ -39,7 +39,7 @@ public class StockApi {
     @Parameters({@Parameter(name = "stockId", description = "재고 ID", example = "201324", required = true)})
     public ApiResponse<StockSimpleResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
                                                             @RequestBody @Valid StockUpdateLockRequest updateLockRequest) {
-        return ApiResponse.createOK(stockService.updateStockLock(stockId, updateLockRequest));
+        return ApiResponse.OK(stockService.updateStockLock(stockId, updateLockRequest));
     }
 
     @PostMapping(value = "/{stockId}/move-stock")
@@ -47,7 +47,7 @@ public class StockApi {
     @Parameters({@Parameter(name = "stockId", description = "재고 ID", example = "201324", required = true)})
     public ApiResponse<List<StockSimpleResponse>> moveStock(@PathVariable(value = "stockId") Long stockId,
                                                             @RequestBody @Valid MoveStockRequest moveStockRequest) {
-        return ApiResponse.createOK(stockService.moveStock(stockId, moveStockRequest));
+        return ApiResponse.OK(stockService.moveStock(stockId, moveStockRequest));
     }
 
     // TIRE-STOCKS
@@ -62,26 +62,26 @@ public class StockApi {
                                                                @RequestParam(value = "brand_name", required = false) String brandName,
                                                                @RequestParam(value = "pattern", required = false) String pattern,
                                                                @RequestParam(value = "product_id", required = false) String productId) {
-        return ApiResponse.createOK(stockService.findTireStocks(size, brandName, pattern, productId));
+        return ApiResponse.OK(stockService.findTireStocks(size, brandName, pattern, productId));
     }
 
     @GetMapping(value = "/tires/params")
     @Tag(name = "타이어 기준 재고 필터 조건 조회", description = "타이어 기준 재고를 조회할 때 필터할 수 있는 조건 목록을 조회한다.")
     public ApiResponse<TireStockParams> findTireStockParams() {
-        return ApiResponse.createOK(stockService.findTireStockParams());
+        return ApiResponse.OK(stockService.findTireStockParams());
     }
 
     @GetMapping(value = "/tires/{tireId}")
     @Tag(name = "타이어 기준 재고 상세 조회", description = "재고를 타이어 기준으로 group by 한 상세 정보를 조회한다.")
     @Parameters({@Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true)})
     public ApiResponse<TireStockResponse> findTireStockByTireId(@PathVariable(value = "tireId") Long tireId) {
-        return ApiResponse.createOK(stockService.findTireStockByTireId(tireId));
+        return ApiResponse.OK(stockService.findTireStockByTireId(tireId));
     }
 
     @GetMapping(value = "/tires/{tireId}/dots")
     @Tag(name = "타이어 하위 재고 목록 조회", description = "입력한 타이어에 해당하는 재고 목록을 조회한다.")
     @Parameters({@Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true)})
     public ApiResponse<List<StockSimpleResponse>> findTireDotStocks(@PathVariable(value = "tireId") Long tireId) {
-        return ApiResponse.createOK(stockService.findAllByTireId(tireId));
+        return ApiResponse.OK(stockService.findAllByTireId(tireId));
     }
 }

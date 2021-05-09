@@ -25,20 +25,20 @@ public class CustomerApi {
     @GetMapping
     @Operation(summary = "거래처 목록 조회", description = "거래처의 목록을 조회한다.")
     public ApiResponse<List<CustomerResponse>> findAllCustomers() {
-        return ApiResponse.createOK(customerService.findAll());
+        return ApiResponse.OK(customerService.findAll());
     }
 
     @GetMapping(value = "/{customerId}")
     @Operation(summary = "거래처 상세 조회", description = "거래처의 상세 정보를 조회한다.")
     @Parameters({@Parameter(name = "customerId", description = "거래처 ID", example = "201324", required = true)})
     public ApiResponse<CustomerResponse> findCustomerById(@PathVariable(value = "customerId") Long customerId) {
-        return ApiResponse.createOK(customerService.findById(customerId));
+        return ApiResponse.OK(customerService.findById(customerId));
     }
 
     @PostMapping
     @Operation(summary = "거래처 생성", description = "거래처를 생성한다.")
     public ApiResponse<CustomerResponse> createCustomer(@RequestBody @Valid CustomerRequest createRequest) {
-        return ApiResponse.createOK(customerService.create(createRequest));
+        return ApiResponse.OK(customerService.create(createRequest));
     }
 
     @PutMapping(value = "/{customerId}")
@@ -46,7 +46,7 @@ public class CustomerApi {
     @Parameters({@Parameter(name = "customerId", description = "거래처 ID", example = "201324", required = true)})
     public ApiResponse<CustomerResponse> updateCustomer(@PathVariable(value = "customerId") Long customerId,
                                                         @RequestBody @Valid CustomerRequest updateRequest) {
-        return ApiResponse.createOK(customerService.update(customerId, updateRequest));
+        return ApiResponse.OK(customerService.update(customerId, updateRequest));
     }
 
     @DeleteMapping(value = "/{customerId}")
@@ -54,6 +54,6 @@ public class CustomerApi {
     @Parameters({@Parameter(name = "customerId", description = "거래처 ID", example = "201324", required = true)})
     public ApiResponse<String> deleteCustomer(@PathVariable(value = "customerId") Long customerId) {
         customerService.removeById(customerId);
-        return ApiResponse.DEFAULT_OK;
+        return ApiResponse.OK;
     }
 }

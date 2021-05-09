@@ -6,8 +6,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -16,6 +18,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
+@Table(name = "account")
 public class Account {
 
     @Id
@@ -30,6 +33,16 @@ public class Account {
     private String userPw;
 
     @Enumerated(STRING)
-    @ElementCollection(fetch = EAGER)
-    private Set<AccountRole> roles;
+    @OneToMany(mappedBy = "account", fetch = EAGER, cascade = ALL)
+    private final Set<Authority> authorities = new HashSet<>();
+
+    public Account(String userId, String userPw) {
+        this.userId = userId;
+        this.userPw = userPw;
+        this.authorities.add(Authority.of(this, AccountRole.GUEST));
+    }
+
+    public static Account of(String userId, String userPw) {
+        return new Account(userId, userPw);
+    }
 }
