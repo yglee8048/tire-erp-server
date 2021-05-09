@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -33,16 +32,43 @@ public class Account {
     private String userPw;
 
     @Enumerated(STRING)
-    @OneToMany(mappedBy = "account", fetch = EAGER, cascade = ALL)
-    private final Set<Authority> authorities = new HashSet<>();
+    @ElementCollection(fetch = EAGER)
+    @CollectionTable(name = "authority", joinColumns = @JoinColumn(name = "account_id"))
+    @Column(name = "role")
+    private Set<AccountRole> roles = new HashSet<>();
 
-    public Account(String userId, String userPw) {
+    private Account(String userId, String encodedPw) {
         this.userId = userId;
-        this.userPw = userPw;
-        this.authorities.add(Authority.of(this, AccountRole.GUEST));
+        this.userPw = encodedPw;
+        this.roles = Set.of(AccountRole.GUEST);
     }
 
-    public static Account of(String userId, String userPw) {
-        return new Account(userId, userPw);
+    public static Account of(String userId, String encodedPw) {
+        return new Account(userId, encodedPw);
+    }
+
+    public Account updatePw(String encodedPw) {
+        this.userPw = encodedPw;
+        return this;
+    }
+
+    public Account updateRole(AccountRole role) {
+        switch (role) {
+            case GUEST:
+                this.roles = Set.of(AccountRole.GUEST);
+                break;
+            case CUSTOMER:
+                this.roles = Set.of(AccountRole.GUEST, AccountRole.CUSTOMER);
+                break;
+            case ADMIN:
+                this.roles = Set.of(AccountRole.GUEST, AccountRole.CUSTOMER, AccountRole.ADMIN);
+                break;
+            case SUPER_ADMIN:
+                this.roles = Set.of(AccountRole.GUEST, AccountRole.CUSTOMER, AccountRole.ADMIN, AccountRole.SUPER_ADMIN);
+                break;
+            default:
+                break;
+        }
+        return this;
     }
 }

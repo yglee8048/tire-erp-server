@@ -1,10 +1,10 @@
 package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
+import com.minsoo.co.tireerpserver.model.code.AccountRole;
 import com.minsoo.co.tireerpserver.model.dto.account.AccountRequest;
 import com.minsoo.co.tireerpserver.model.dto.account.AccountResponse;
 import com.minsoo.co.tireerpserver.model.entity.Account;
-import com.minsoo.co.tireerpserver.model.entity.Authority;
 import com.minsoo.co.tireerpserver.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,12 +33,11 @@ public class AccountService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountRepository.findByUserId(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
-        return new User(account.getUserId(), account.getUserPw(), authorities(account.getAuthorities()));
+        return new User(account.getUserId(), account.getUserPw(), authorities(account.getRoles()));
     }
 
-    private Collection<? extends GrantedAuthority> authorities(Set<Authority> authorities) {
-        return authorities.stream()
-                .map(Authority::getRole)
+    private Collection<? extends GrantedAuthority> authorities(Set<AccountRole> roles) {
+        return roles.stream()
                 .map(accountRole -> new SimpleGrantedAuthority("ROLE_" + accountRole.name()))
                 .collect(Collectors.toSet());
     }
