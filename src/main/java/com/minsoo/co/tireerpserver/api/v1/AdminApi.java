@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,6 +27,9 @@ public class AdminApi {
     @GetMapping
     @Operation(summary = "관리자 목록 조회", description = "관리자의 목록을 조회한다.")
     public ApiResponse<List<AdminResponse>> findAllAdmins() {
+
+        WebMvcLinkBuilder.linkTo(AdminApi.class).withSelfRel().toUri();
+
         return ApiResponse.OK(adminService.findAll());
     }
 

@@ -4,13 +4,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.net.URI;
 
 @Getter
 @ToString
 public class ApiResponse<T> {
-
-    @Schema(name = "상태 코드", example = "OK")
-    private final HttpStatus status;
 
     @Schema(name = "메세지", example = "요청이 성공하였습니다.")
     private final String message;
@@ -21,38 +21,40 @@ public class ApiResponse<T> {
     @Schema(name = "데이터")
     private T data;
 
-    private ApiResponse(HttpStatus status, String message) {
-        this.status = status;
+    private ApiResponse(String message) {
         this.message = message;
     }
 
-    private ApiResponse(HttpStatus status, String message, String detail) {
-        this.status = status;
+    private ApiResponse(String message, String detail) {
         this.message = message;
         this.detail = detail;
     }
 
-    public ApiResponse(HttpStatus status, String message, T data) {
-        this.status = status;
+    public ApiResponse(String message, T data) {
         this.message = message;
         this.data = data;
     }
 
-    public static final ApiResponse<String> OK = new ApiResponse<>(HttpStatus.OK, "요청이 성공하였습니다.");
+    public static final ResponseEntity<ApiResponse<String>> OK = ResponseEntity.ok(new ApiResponse<>("요청이 성공하였습니다."));
 
-    public static <T> ApiResponse<T> OK(T data) {
-        return new ApiResponse<>(HttpStatus.OK, "요청이 성공하였습니다.", data);
+    public static <T> ResponseEntity<ApiResponse<T>> OK(T data) {
+        return ResponseEntity.ok(new ApiResponse<>("요청이 성공하였습니다.", data));
     }
 
-    public static <T> ApiResponse<T> CREATED(T data) {
-        return new ApiResponse<>(HttpStatus.CREATED, "자원이 생성되었습니다.", data);
+    public static <T> ResponseEntity<ApiResponse<T>> CREATED(URI uri) {
+        return ResponseEntity.created(uri)
+                .body(new ApiResponse<>("자원이 생성되었습니다."));
     }
 
-    public static <T> ApiResponse<T> of(HttpStatus status, String message, T data) {
-        return new ApiResponse<>(status, message, data);
+    public static <T> ResponseEntity<ApiResponse<T>> of(HttpStatus status, String message, T data) {
+        return ResponseEntity
+                .status(status)
+                .body(new ApiResponse<>(message, data));
     }
 
-    public static <T> ApiResponse<T> of(HttpStatus status, String message, String detail) {
-        return new ApiResponse<>(status, message, detail);
+    public static <T> ResponseEntity<ApiResponse<T>> of(HttpStatus status, String message, String detail) {
+        return ResponseEntity
+                .status(status)
+                .body(new ApiResponse<>(message, detail));
     }
 }

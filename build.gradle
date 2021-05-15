@@ -23,10 +23,10 @@ dependencies {
     // web
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 
     // data
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     implementation 'com.querydsl:querydsl-jpa'
 //    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7' // 쿼리 로깅 : 로컬 및 개발 테스트용(운영 시 성능 감소)
@@ -40,7 +40,6 @@ dependencies {
 
     // swagger
     implementation 'org.springdoc:springdoc-openapi-ui:1.5.8'
-    implementation 'javax.validation:validation-api'
 
     // tools
     compileOnly 'org.projectlombok:lombok'
@@ -48,6 +47,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     // test
+    testRuntimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }

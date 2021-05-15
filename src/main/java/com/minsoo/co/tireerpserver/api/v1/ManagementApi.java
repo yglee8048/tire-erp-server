@@ -18,10 +18,15 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Slf4j
 @RestController
@@ -36,41 +41,46 @@ public class ManagementApi {
     // BRAND
     @GetMapping(value = "/brands")
     @Operation(summary = "브랜드 목록 조회", description = "브랜드 목록을 조회한다.")
-    public ApiResponse<List<BrandResponse>> findAllBrands() {
-        return ApiResponse.OK(brandService.findAll());
-    }
-
-    @GetMapping(value = "/brands/names")
-    @Operation(summary = "브랜드 이름 목록 조회", description = "브랜드 이름의 목록을 조회한다.")
-    public ApiResponse<List<BrandSimpleResponse>> findAllBrandNames() {
-        return ApiResponse.OK(brandService.findAllBrandNames());
+    public ResponseEntity<ApiResponse<List<BrandResponse>>> findAllBrands() {
+        return ApiResponse.OK(brandService.findAll()
+                .stream()
+                .map(BrandResponse::of)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/brands/{brandId}")
     @Operation(summary = "브랜드 상세 조회", description = "브랜드의 상세 정보를 조회한다.")
     @Parameters({@Parameter(name = "brandId", description = "브랜드 ID", example = "201324", required = true)})
-    public ApiResponse<BrandResponse> findBrandById(@PathVariable Long brandId) {
-        return ApiResponse.OK(brandService.findById(brandId));
+    public ResponseEntity<ApiResponse<BrandResponse>> findBrandById(@PathVariable Long brandId) {
+        return ApiResponse.OK(BrandResponse.of(brandService.findById(brandId)));
+    }
+
+    @GetMapping(value = "/brands/names")
+    @Operation(summary = "브랜드 이름 목록 조회", description = "브랜드 이름의 목록을 조회한다.")
+    public ResponseEntity<ApiResponse<List<BrandSimpleResponse>>> findAllBrandNames() {
+        return ApiResponse.OK(brandService.findAllBrandNames());
     }
 
     @PostMapping(value = "/brands")
     @Operation(summary = "브랜드 생성", description = "브랜드를 생성한다.")
-    public ApiResponse<BrandResponse> createBrand(@RequestBody @Valid BrandRequest brandRequest) {
-        return ApiResponse.OK(brandService.create(brandRequest));
+    public ResponseEntity<ApiResponse<BrandResponse>> createBrand(@RequestBody @Valid BrandRequest brandRequest) {
+        return ApiResponse.CREATED(
+                linkTo(methodOn(ManagementApi.class, findBrandById(brandService.create(brandRequest)))).toUri());
     }
 
     @PutMapping(value = "/brands/{brandId}")
     @Operation(summary = "브랜드 수정", description = "브랜드를 수정한다.")
     @Parameters({@Parameter(name = "brandId", description = "브랜드 ID", example = "201324", required = true)})
-    public ApiResponse<BrandResponse> updateBrand(@PathVariable Long brandId,
-                                                  @RequestBody @Valid BrandRequest brandUpdateRequest) {
-        return ApiResponse.OK(brandService.update(brandId, brandUpdateRequest));
+    public ResponseEntity<ApiResponse<String>> updateBrand(@PathVariable Long brandId,
+                                                           @RequestBody @Valid BrandRequest brandUpdateRequest) {
+        brandService.update(brandId, brandUpdateRequest);
+        return ApiResponse.OK;
     }
 
     @DeleteMapping(value = "/brands/{brandId}")
     @Operation(summary = "브랜드 삭제", description = "브랜드를 삭제한다.")
     @Parameters({@Parameter(name = "brandId", description = "브랜드 ID", example = "201324", required = true)})
-    public ApiResponse<String> deleteBrand(@PathVariable Long brandId) {
+    public ResponseEntity<ApiResponse<String>> deleteBrand(@PathVariable Long brandId) {
         brandService.removeById(brandId);
         return ApiResponse.OK;
     }
@@ -78,41 +88,41 @@ public class ManagementApi {
     // VENDOR
     @GetMapping(value = "/vendors")
     @Operation(summary = "매입처 목록 조회", description = "매입처 목록을 조회한다.")
-    public ApiResponse<List<VendorResponse>> findAllVendors() {
+    public ResponseEntity<ApiResponse<List<VendorResponse>>> findAllVendors() {
         return ApiResponse.OK(vendorService.findAll());
     }
 
     @GetMapping(value = "/vendors/names")
     @Operation(summary = "매입처 이름 목록 조회", description = "매입처 이름의 목록을 조회한다.")
-    public ApiResponse<List<VendorSimpleResponse>> findAllVendorNames() {
+    public ResponseEntity<ApiResponse<List<VendorSimpleResponse>>> findAllVendorNames() {
         return ApiResponse.OK(vendorService.findAllVendorNames());
     }
 
     @GetMapping(value = "/vendors/{vendorId}")
     @Operation(summary = "매입처 상세 조회", description = "매입처의 상세 정보를 조회한다.")
     @Parameters({@Parameter(name = "vendorId", description = "매입처 ID", example = "201324", required = true)})
-    public ApiResponse<VendorResponse> findVendorById(@PathVariable Long vendorId) {
+    public ResponseEntity<ApiResponse<VendorResponse>> findVendorById(@PathVariable Long vendorId) {
         return ApiResponse.OK(vendorService.findById(vendorId));
     }
 
     @PostMapping(value = "/vendors")
     @Operation(summary = "매입처 생성", description = "매입처를 생성한다.")
-    public ApiResponse<VendorResponse> createVendor(@RequestBody @Valid VendorRequest vendorRequest) {
+    public ResponseEntity<ApiResponse<VendorResponse>> createVendor(@RequestBody @Valid VendorRequest vendorRequest) {
         return ApiResponse.OK(vendorService.create(vendorRequest));
     }
 
     @PutMapping(value = "/vendors/{vendorId}")
     @Operation(summary = "매입처 수정", description = "매입처를 수정한다.")
     @Parameters({@Parameter(name = "vendorId", description = "매입처 ID", example = "201324", required = true)})
-    public ApiResponse<VendorResponse> updateVendor(@PathVariable Long vendorId,
-                                                    @RequestBody @Valid VendorRequest vendorUpdateRequest) {
+    public ResponseEntity<ApiResponse<VendorResponse>> updateVendor(@PathVariable Long vendorId,
+                                                                    @RequestBody @Valid VendorRequest vendorUpdateRequest) {
         return ApiResponse.OK(vendorService.update(vendorId, vendorUpdateRequest));
     }
 
     @DeleteMapping(value = "/vendors/{vendorId}")
     @Operation(summary = "매입처 삭제", description = "매입처를 삭제한다.")
     @Parameters({@Parameter(name = "vendorId", description = "매입처 ID", example = "201324", required = true)})
-    public ApiResponse<String> deleteVendor(@PathVariable Long vendorId) {
+    public ResponseEntity<ApiResponse<String>> deleteVendor(@PathVariable Long vendorId) {
         vendorService.removeById(vendorId);
         return ApiResponse.OK;
     }
@@ -120,41 +130,41 @@ public class ManagementApi {
     // WAREHOUSE
     @GetMapping(value = "/warehouses")
     @Operation(summary = "창고 목록 조회", description = "창고 목록을 조회한다.")
-    public ApiResponse<List<WarehouseResponse>> findAllWarehouses() {
+    public ResponseEntity<ApiResponse<List<WarehouseResponse>>> findAllWarehouses() {
         return ApiResponse.OK(warehouseService.findAll());
     }
 
     @GetMapping(value = "/warehouses/names")
     @Operation(summary = "창고 이름 목록 조회", description = "창고 이름의 목록을 조회한다.")
-    public ApiResponse<List<WarehouseSimpleResponse>> findAllWarehouseNames() {
+    public ResponseEntity<ApiResponse<List<WarehouseSimpleResponse>>> findAllWarehouseNames() {
         return ApiResponse.OK(warehouseService.findAllWarehouseNames());
     }
 
     @GetMapping(value = "/warehouses/{warehouseId}")
     @Operation(summary = "창고 상세 조회", description = "창고의 상세 정보를 조회한다.")
     @Parameters({@Parameter(name = "warehouseId", description = "창고 ID", example = "201324", required = true)})
-    public ApiResponse<WarehouseResponse> findWarehouseById(@PathVariable Long warehouseId) {
+    public ResponseEntity<ApiResponse<WarehouseResponse>> findWarehouseById(@PathVariable Long warehouseId) {
         return ApiResponse.OK(warehouseService.findById(warehouseId));
     }
 
     @PostMapping(value = "/warehouses")
     @Operation(summary = "창고 생성", description = "창고를 생성한다.")
-    public ApiResponse<WarehouseResponse> createWarehouse(@RequestBody @Valid WarehouseRequest warehouseRequest) {
+    public ResponseEntity<ApiResponse<WarehouseResponse>> createWarehouse(@RequestBody @Valid WarehouseRequest warehouseRequest) {
         return ApiResponse.OK(warehouseService.create(warehouseRequest));
     }
 
     @PutMapping(value = "/warehouses/{warehouseId}")
     @Operation(summary = "창고 수정", description = "창고를 수정한다.")
     @Parameters({@Parameter(name = "warehouseId", description = "창고 ID", example = "201324", required = true)})
-    public ApiResponse<WarehouseResponse> updateWarehouse(@PathVariable Long warehouseId,
-                                                          @RequestBody @Valid WarehouseRequest warehouseUpdateRequest) {
+    public ResponseEntity<ApiResponse<WarehouseResponse>> updateWarehouse(@PathVariable Long warehouseId,
+                                                                          @RequestBody @Valid WarehouseRequest warehouseUpdateRequest) {
         return ApiResponse.OK(warehouseService.update(warehouseId, warehouseUpdateRequest));
     }
 
     @DeleteMapping(value = "/warehouses/{warehouseId}")
     @Operation(summary = "창고 삭제", description = "창고를 삭제한다.")
     @Parameters({@Parameter(name = "warehouseId", description = "창고 ID", example = "201324", required = true)})
-    public ApiResponse<String> deleteWarehouse(@PathVariable Long warehouseId) {
+    public ResponseEntity<ApiResponse<String>> deleteWarehouse(@PathVariable Long warehouseId) {
         warehouseService.removeById(warehouseId);
         return ApiResponse.OK;
     }
