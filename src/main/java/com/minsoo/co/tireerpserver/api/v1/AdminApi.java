@@ -1,9 +1,9 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
-import com.minsoo.co.tireerpserver.model.dto.admin.AdminRequest;
-import com.minsoo.co.tireerpserver.model.dto.admin.AdminResponse;
-import com.minsoo.co.tireerpserver.service.AdminService;
+import com.minsoo.co.tireerpserver.model.dto.account.admin.AdminRequest;
+import com.minsoo.co.tireerpserver.model.dto.account.admin.AdminResponse;
+import com.minsoo.co.tireerpserver.service.account.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

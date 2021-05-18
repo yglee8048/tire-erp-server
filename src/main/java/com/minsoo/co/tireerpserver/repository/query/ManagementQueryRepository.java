@@ -5,9 +5,9 @@ import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorSimpleRespo
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseSimpleResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.minsoo.co.tireerpserver.model.entity.QBrand.*;
@@ -15,13 +15,10 @@ import static com.minsoo.co.tireerpserver.model.entity.QVendor.*;
 import static com.minsoo.co.tireerpserver.model.entity.QWarehouse.*;
 
 @Repository
+@RequiredArgsConstructor
 public class ManagementQueryRepository {
 
     private final JPAQueryFactory queryFactory;
-
-    public ManagementQueryRepository(EntityManager em) {
-        this.queryFactory = new JPAQueryFactory(em);
-    }
 
     public List<BrandSimpleResponse> findAllBrandNames() {
         return queryFactory

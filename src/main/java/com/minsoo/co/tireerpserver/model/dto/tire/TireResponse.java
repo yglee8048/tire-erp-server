@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.tire;
 
 import com.minsoo.co.tireerpserver.model.code.TireOption;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandSimpleResponse;
-import com.minsoo.co.tireerpserver.model.entity.Tire;
+import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

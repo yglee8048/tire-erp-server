@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.management.vendor;
 
 import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
-import com.minsoo.co.tireerpserver.model.entity.Vendor;
+import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

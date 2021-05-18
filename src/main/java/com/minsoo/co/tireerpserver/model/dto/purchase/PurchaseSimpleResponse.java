@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.purchase;
 
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
-import com.minsoo.co.tireerpserver.model.entity.Purchase;
+import com.minsoo.co.tireerpserver.model.entity.entities.purchase.Purchase;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

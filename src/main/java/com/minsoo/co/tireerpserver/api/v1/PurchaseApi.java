@@ -5,7 +5,7 @@ import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseUpdateRequest;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
-import com.minsoo.co.tireerpserver.service.PurchaseService;
+import com.minsoo.co.tireerpserver.service.purchase.PurchaseService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;

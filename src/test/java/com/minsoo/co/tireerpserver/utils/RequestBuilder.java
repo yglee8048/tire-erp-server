@@ -1,8 +1,8 @@
 package com.minsoo.co.tireerpserver.utils;
 
 import com.minsoo.co.tireerpserver.model.code.TireOption;
-import com.minsoo.co.tireerpserver.model.dto.account.AccountRequest;
-import com.minsoo.co.tireerpserver.model.dto.customer.CustomerRequest;
+import com.minsoo.co.tireerpserver.model.dto.account.account.AccountRequest;
+import com.minsoo.co.tireerpserver.model.dto.account.customer.CustomerRequest;
 import com.minsoo.co.tireerpserver.model.dto.general.AddressDTO;
 import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;

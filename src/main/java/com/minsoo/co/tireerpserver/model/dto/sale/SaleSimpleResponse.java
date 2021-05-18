@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.model.dto.sale;
 import com.minsoo.co.tireerpserver.model.code.SaleSource;
 import com.minsoo.co.tireerpserver.model.code.SaleStatus;
 import com.minsoo.co.tireerpserver.model.dto.sale.content.SaleContentSimpleResponse;
-import com.minsoo.co.tireerpserver.model.entity.Sale;
+import com.minsoo.co.tireerpserver.model.entity.entities.sale.Sale;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

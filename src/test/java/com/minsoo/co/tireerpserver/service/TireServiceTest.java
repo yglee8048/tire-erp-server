@@ -2,7 +2,9 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
-import com.minsoo.co.tireerpserver.model.entity.Brand;
+import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
+import com.minsoo.co.tireerpserver.service.management.BrandService;
+import com.minsoo.co.tireerpserver.service.tire.TireService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

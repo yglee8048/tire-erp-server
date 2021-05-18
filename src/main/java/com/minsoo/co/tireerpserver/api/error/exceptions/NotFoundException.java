@@ -13,4 +13,8 @@ public class NotFoundException extends RuntimeException {
     public NotFoundException(String error) {
         super(error);
     }
+
+    public NotFoundException(String resource, Long id) {
+        super(String.format("존재하지 않는 %s 입니다. (id: %d)", resource, id));
+    }
 }

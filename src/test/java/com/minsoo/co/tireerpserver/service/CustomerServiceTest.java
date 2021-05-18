@@ -1,8 +1,9 @@
 package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
-import com.minsoo.co.tireerpserver.model.dto.customer.CustomerRequest;
-import com.minsoo.co.tireerpserver.model.dto.customer.CustomerResponse;
+import com.minsoo.co.tireerpserver.model.dto.account.customer.CustomerRequest;
+import com.minsoo.co.tireerpserver.model.dto.account.customer.CustomerResponse;
+import com.minsoo.co.tireerpserver.service.account.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

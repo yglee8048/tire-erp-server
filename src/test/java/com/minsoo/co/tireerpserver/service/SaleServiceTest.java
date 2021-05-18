@@ -1,13 +1,21 @@
 package com.minsoo.co.tireerpserver.service;
 
-import com.minsoo.co.tireerpserver.model.dto.customer.CustomerResponse;
+import com.minsoo.co.tireerpserver.model.dto.account.customer.CustomerResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.StockResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
-import com.minsoo.co.tireerpserver.model.entity.Brand;
+import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
+import com.minsoo.co.tireerpserver.service.account.CustomerService;
+import com.minsoo.co.tireerpserver.service.management.BrandService;
+import com.minsoo.co.tireerpserver.service.purchase.PurchaseService;
+import com.minsoo.co.tireerpserver.service.sale.SaleService;
+import com.minsoo.co.tireerpserver.service.stock.StockService;
+import com.minsoo.co.tireerpserver.service.tire.TireService;
+import com.minsoo.co.tireerpserver.service.management.VendorService;
+import com.minsoo.co.tireerpserver.service.management.WarehouseService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

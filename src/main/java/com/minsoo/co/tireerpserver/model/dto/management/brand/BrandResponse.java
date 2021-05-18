@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.dto.management.brand;
 
-import com.minsoo.co.tireerpserver.model.entity.Brand;
+import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

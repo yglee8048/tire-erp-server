@@ -4,7 +4,7 @@ import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
-import com.minsoo.co.tireerpserver.model.entity.Purchase;
+import com.minsoo.co.tireerpserver.model.entity.entities.purchase.Purchase;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

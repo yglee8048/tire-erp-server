@@ -6,7 +6,7 @@ import com.minsoo.co.tireerpserver.model.dto.sale.content.SaleContentResponse;
 import com.minsoo.co.tireerpserver.model.dto.sale.content.SaleContentUpdateRequest;
 import com.minsoo.co.tireerpserver.model.dto.sale.memo.SaleMemoResponse;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
-import com.minsoo.co.tireerpserver.service.SaleService;
+import com.minsoo.co.tireerpserver.service.sale.SaleService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;

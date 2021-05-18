@@ -2,10 +2,10 @@ package com.minsoo.co.tireerpserver.model.dto.sale;
 
 import com.minsoo.co.tireerpserver.model.code.SaleSource;
 import com.minsoo.co.tireerpserver.model.code.SaleStatus;
-import com.minsoo.co.tireerpserver.model.dto.customer.CustomerResponse;
+import com.minsoo.co.tireerpserver.model.dto.account.customer.CustomerResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
-import com.minsoo.co.tireerpserver.model.entity.Sale;
-import com.minsoo.co.tireerpserver.model.entity.SaleContent;
+import com.minsoo.co.tireerpserver.model.entity.entities.sale.Sale;
+import com.minsoo.co.tireerpserver.model.entity.entities.sale.SaleContent;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

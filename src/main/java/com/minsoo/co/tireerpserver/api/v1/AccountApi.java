@@ -2,8 +2,8 @@ package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.auth.JwtFilter;
 import com.minsoo.co.tireerpserver.auth.TokenProvider;
-import com.minsoo.co.tireerpserver.model.dto.account.AccountRequest;
-import com.minsoo.co.tireerpserver.model.dto.account.TokenResponse;
+import com.minsoo.co.tireerpserver.model.dto.account.account.AccountRequest;
+import com.minsoo.co.tireerpserver.model.dto.account.account.TokenResponse;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

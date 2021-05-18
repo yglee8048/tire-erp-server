@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.stock.*;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
-import com.minsoo.co.tireerpserver.service.StockService;
+import com.minsoo.co.tireerpserver.service.stock.StockService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
