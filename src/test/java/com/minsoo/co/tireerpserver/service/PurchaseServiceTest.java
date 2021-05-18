@@ -3,13 +3,13 @@ package com.minsoo.co.tireerpserver.service;
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyConfirmedException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
-import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.StockSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
+import com.minsoo.co.tireerpserver.model.entity.Brand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +55,10 @@ class PurchaseServiceTest extends ServiceTest {
     @DisplayName("매입 생성 & 수정 & 삭제 테스트")
     void purchaseTest() {
         log.info("초기 데이터 생성");
-        BrandResponse brand = brandService.create(BRAND("테스트 브랜드"));
+        Brand brand = brandService.create(BRAND("테스트 브랜드"));
         VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
         WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
-        TireResponse tire = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", 11, "테스트 타이어"));
+        TireResponse tire = tireService.create(TIRE(brand.getId(), "PRODUCT_ID_01", 11, "테스트 타이어"));
         clear();
 
         log.info("1. 매입 생성 테스트");
@@ -127,10 +127,10 @@ class PurchaseServiceTest extends ServiceTest {
     @DisplayName("매입 확정 테스트")
     public void purchaseConfirmTest() {
         log.info("초기 데이터 생성");
-        BrandResponse brand = brandService.create(BRAND("테스트 브랜드"));
+        Brand brand = brandService.create(BRAND("테스트 브랜드"));
         VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
         WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
-        TireResponse tire = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", 11, "테스트 타이어"));
+        TireResponse tire = tireService.create(TIRE(brand.getId(), "PRODUCT_ID_01", 11, "테스트 타이어"));
         List<PurchaseSimpleResponse> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
                 CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 1L),
                 CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 2L)));

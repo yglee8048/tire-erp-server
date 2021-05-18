@@ -63,7 +63,7 @@ public class SaleFlatResponse {
         this.price = saleContent.getPrice();
     }
 
-    public static SaleFlatResponse of(Sale sale, SaleContent saleContent) {
-        return new SaleFlatResponse(sale, saleContent);
+    public static SaleFlatResponse of(SaleContent saleContent) {
+        return new SaleFlatResponse(saleContent.getSale(), saleContent);
     }
 }

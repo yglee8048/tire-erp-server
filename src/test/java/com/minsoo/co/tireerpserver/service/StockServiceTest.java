@@ -1,11 +1,11 @@
 package com.minsoo.co.tireerpserver.service;
 
-import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
+import com.minsoo.co.tireerpserver.model.entity.Brand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,11 +40,11 @@ class StockServiceTest extends ServiceTest {
     @BeforeEach
     void setUp() {
         log.info("초기 데이터 생성");
-        BrandResponse brand = brandService.create(BRAND("테스트 브랜드"));
+        Brand brand = brandService.create(BRAND("테스트 브랜드"));
         VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
         WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
-        TireResponse tire01 = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_01", 11, "패턴01"));    // size: 1656011
-        TireResponse tire02 = tireService.create(TIRE(brand.getBrandId(), "PRODUCT_ID_02", 12, "패턴02"));    // size: 1656012
+        TireResponse tire01 = tireService.create(TIRE(brand.getId(), "PRODUCT_ID_01", 11, "패턴01"));    // size: 1656011
+        TireResponse tire02 = tireService.create(TIRE(brand.getId(), "PRODUCT_ID_02", 12, "패턴02"));    // size: 1656012
         List<PurchaseSimpleResponse> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
                 CREATE_PURCHASE_CONTENT(tire01.getTireId(), "dot01", warehouse.getWarehouseId(), 1L),
                 CREATE_PURCHASE_CONTENT(tire02.getTireId(), "dot02", warehouse.getWarehouseId(), 2L)));

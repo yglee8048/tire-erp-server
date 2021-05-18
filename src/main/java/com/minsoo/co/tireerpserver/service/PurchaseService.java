@@ -4,8 +4,6 @@ import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyConfirmedExceptio
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseCreateRequest;
-import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseResponse;
-import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseUpdateRequest;
 import com.minsoo.co.tireerpserver.model.entity.*;
 import com.minsoo.co.tireerpserver.repository.*;
@@ -30,15 +28,12 @@ public class PurchaseService {
     private final StockRepository stockRepository;
     private final PurchaseRepository purchaseRepository;
 
-    public List<PurchaseResponse> findAll() {
-        return purchaseRepository.findAllFetchAll()
-                .stream()
-                .map(PurchaseResponse::of)
-                .collect(Collectors.toList());
+    public List<Purchase> findAll() {
+        return purchaseRepository.findAllFetchAll();
     }
 
-    public PurchaseResponse findById(Long id) {
-        return PurchaseResponse.of(purchaseRepository.findOneFetchAllById(id).orElseThrow(NotFoundException::new));
+    public Purchase findById(Long id) {
+        return purchaseRepository.findOneFetchAllById(id).orElseThrow(NotFoundException::new);
     }
 
     /**
@@ -46,7 +41,7 @@ public class PurchaseService {
      * 존재하지 않는 DOT 가 요청되었다면, DOT 를 새로 생성하여 맵핑한다.
      */
     @Transactional
-    public List<PurchaseSimpleResponse> create(PurchaseCreateRequest createRequest) {
+    public List<Purchase> create(PurchaseCreateRequest createRequest) {
         Vendor vendor = vendorRepository.findById(createRequest.getVendorId()).orElseThrow(NotFoundException::new);
         return createRequest.getContents()
                 .stream()
@@ -54,13 +49,13 @@ public class PurchaseService {
                 .map(content -> {
                     Warehouse warehouse = warehouseRepository.findById(content.getWarehouseId()).orElseThrow(NotFoundException::new);
                     TireDot tireDot = findDotIfExistElseCreateByTireIdAndDot(content.getTireId(), content.getDot());
-                    return PurchaseSimpleResponse.of(purchaseRepository.save(Purchase.of(vendor, tireDot, warehouse, content, createRequest.getPurchaseDate())));
+                    return purchaseRepository.save(Purchase.of(vendor, tireDot, warehouse, content, createRequest.getPurchaseDate()));
                 })
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public PurchaseSimpleResponse update(Long id, PurchaseUpdateRequest updateRequest) {
+    public void update(Long id, PurchaseUpdateRequest updateRequest) {
         Purchase purchase = purchaseRepository.findById(id).orElseThrow(NotFoundException::new);
         // 이미 확정된 매입 건은 수정할 수 없다.
         if (purchase.getStatus().equals(PurchaseStatus.CONFIRMED)) {
@@ -76,7 +71,6 @@ public class PurchaseService {
                 ? purchase.getTireDot() : findDotIfExistElseCreateByTireIdAndDot(updateRequest.getTireId(), updateRequest.getDot());
 
         purchase.update(vendor, tireDot, warehouse, updateRequest);
-        return PurchaseSimpleResponse.of(purchase);
     }
 
     /**
@@ -84,7 +78,7 @@ public class PurchaseService {
      * 재고가 존재하지 않는다면, 재고를 새로 생성하여 반영한다.
      */
     @Transactional
-    public PurchaseSimpleResponse confirm(Long id) {
+    public void confirm(Long id) {
         Purchase purchase = purchaseRepository.findOneFetchTireDotById(id).orElseThrow(NotFoundException::new);
         Stock stock = stockRepository.findOneByTireDotAndWarehouse(purchase.getTireDot(), purchase.getWarehouse())
                 // 재고가 존재하지 않는다면, 재고를 새로 생성하여 반영한다. (잠금 여부 = true 로 생성)
@@ -93,7 +87,6 @@ public class PurchaseService {
         stock.addQuantity(purchase.getQuantity());
         // 매입 확정
         purchase.confirm();
-        return PurchaseSimpleResponse.of(purchase);
     }
 
     @Transactional

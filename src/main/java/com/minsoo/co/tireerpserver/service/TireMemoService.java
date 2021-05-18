@@ -2,8 +2,6 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;
-import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoResponse;
-import com.minsoo.co.tireerpserver.model.entity.Tire;
 import com.minsoo.co.tireerpserver.model.entity.TireMemo;
 import com.minsoo.co.tireerpserver.repository.TireMemoRepository;
 import com.minsoo.co.tireerpserver.repository.TireRepository;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -24,30 +21,24 @@ public class TireMemoService {
     private final TireRepository tireRepository;
     private final TireMemoRepository tireMemoRepository;
 
-    public List<TireMemoResponse> findAllByTireId(Long tireId) {
-        Tire tire = tireRepository.findById(tireId).orElseThrow(NotFoundException::new);
-        return tireMemoRepository.findAllByTire(tire)
-                .stream()
-                .map(TireMemoResponse::of)
-                .collect(Collectors.toList());
+    public List<TireMemo> findAllByTireId(Long tireId) {
+        return tireMemoRepository.findAllByTire(
+                tireRepository.findById(tireId).orElseThrow(NotFoundException::new));
     }
 
-    public TireMemoResponse findById(Long tireId, Long tireMemoId) {
-        TireMemo tireMemo = findByIdAndValidateTireId(tireId, tireMemoId);
-        return TireMemoResponse.of(tireMemo);
+    public TireMemo findById(Long tireId, Long tireMemoId) {
+        return findByIdAndValidateTireId(tireId, tireMemoId);
     }
 
     @Transactional
-    public TireMemoResponse create(Long tireId, TireMemoRequest createRequest) {
-        Tire tire = tireRepository.findById(tireId).orElseThrow(NotFoundException::new);
-        return TireMemoResponse.of(tireMemoRepository.save(TireMemo.of(createRequest, tire)));
+    public TireMemo create(Long tireId, TireMemoRequest createRequest) {
+        return tireMemoRepository.save(TireMemo.of(createRequest, tireRepository.findById(tireId).orElseThrow(NotFoundException::new)));
     }
 
     @Transactional
-    public TireMemoResponse updateTireMemo(Long tireId, Long tireMemoId, TireMemoRequest updateRequest) {
+    public void updateTireMemo(Long tireId, Long tireMemoId, TireMemoRequest updateRequest) {
         TireMemo tireMemo = findByIdAndValidateTireId(tireId, tireMemoId);
         tireMemo.update(updateRequest);
-        return TireMemoResponse.of(tireMemo);
     }
 
     @Transactional

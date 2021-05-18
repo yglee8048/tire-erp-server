@@ -14,91 +14,65 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ApiResponse<String>> exceptionHandler(Exception e, WebRequest request) {
-        return new ResponseEntity<>(
-                ApiResponse.of(
-                        HttpStatus.INTERNAL_SERVER_ERROR,
-                        e.getLocalizedMessage(),
-                        request.getDescription(false)),
-                HttpStatus.INTERNAL_SERVER_ERROR);
+        return ApiResponse.of(HttpStatus.INTERNAL_SERVER_ERROR,
+                e.getLocalizedMessage(),
+                request.getDescription(false));
     }
 
     @ExceptionHandler(AlreadyConfirmedException.class)
     public final ResponseEntity<ApiResponse<String>> exceptionHandler(AlreadyConfirmedException e, WebRequest request) {
-        return new ResponseEntity<>(
-                ApiResponse.of(
-                        HttpStatus.BAD_REQUEST,
-                        e.getLocalizedMessage(),
-                        request.getDescription(false)),
-                HttpStatus.BAD_REQUEST);
+        return ApiResponse.of(HttpStatus.BAD_REQUEST,
+                e.getLocalizedMessage(),
+                request.getDescription(false));
     }
 
     @ExceptionHandler(AlreadyExistException.class)
     public final ResponseEntity<ApiResponse<String>> exceptionHandler(AlreadyExistException e, WebRequest request) {
-        return new ResponseEntity<>(
-                ApiResponse.of(
-                        HttpStatus.BAD_REQUEST,
-                        e.getLocalizedMessage(),
-                        request.getDescription(false)),
-                HttpStatus.BAD_REQUEST);
+        return ApiResponse.of(
+                HttpStatus.BAD_REQUEST,
+                e.getLocalizedMessage(),
+                request.getDescription(false));
     }
 
     @ExceptionHandler(BadRequestException.class)
     public final ResponseEntity<ApiResponse<String>> exceptionHandler(BadRequestException e, WebRequest request) {
-        return new ResponseEntity<>(
-                ApiResponse.of(
-                        HttpStatus.BAD_REQUEST,
-                        e.getLocalizedMessage(),
-                        request.getDescription(false)),
-                HttpStatus.BAD_REQUEST);
+        return ApiResponse.of(HttpStatus.BAD_REQUEST,
+                e.getLocalizedMessage(),
+                request.getDescription(false));
     }
 
     @ExceptionHandler(CanNotDeleteException.class)
     public final ResponseEntity<ApiResponse<String>> exceptionHandler(CanNotDeleteException e, WebRequest request) {
-        return new ResponseEntity<>(
-                ApiResponse.of(
-                        HttpStatus.BAD_REQUEST,
-                        e.getLocalizedMessage(),
-                        request.getDescription(false)),
-                HttpStatus.BAD_REQUEST);
+        return ApiResponse.of(HttpStatus.BAD_REQUEST,
+                e.getLocalizedMessage(),
+                request.getDescription(false));
     }
 
     @ExceptionHandler(ForbiddenException.class)
     public final ResponseEntity<ApiResponse<String>> exceptionHandler(ForbiddenException e, WebRequest request) {
-        return new ResponseEntity<>(
-                ApiResponse.of(
-                        HttpStatus.FORBIDDEN,
-                        e.getLocalizedMessage(),
-                        request.getDescription(false)),
-                HttpStatus.FORBIDDEN);
+        return ApiResponse.of(HttpStatus.FORBIDDEN,
+                e.getLocalizedMessage(),
+                request.getDescription(false));
     }
 
     @ExceptionHandler(NotEnoughStockException.class)
     public final ResponseEntity<ApiResponse<String>> exceptionHandler(NotEnoughStockException e, WebRequest request) {
-        return new ResponseEntity<>(
-                ApiResponse.of(
-                        HttpStatus.BAD_REQUEST,
-                        e.getLocalizedMessage(),
-                        request.getDescription(false)),
-                HttpStatus.BAD_REQUEST);
+        return ApiResponse.of(HttpStatus.BAD_REQUEST,
+                e.getLocalizedMessage(),
+                request.getDescription(false));
     }
 
     @ExceptionHandler(NotFoundException.class)
     public final ResponseEntity<ApiResponse<String>> exceptionHandler(NotFoundException e, WebRequest request) {
-        return new ResponseEntity<>(
-                ApiResponse.of(
-                        HttpStatus.NOT_FOUND,
-                        e.getLocalizedMessage(),
-                        request.getDescription(false)),
-                HttpStatus.NOT_FOUND);
+        return ApiResponse.of(HttpStatus.NOT_FOUND,
+                e.getLocalizedMessage(),
+                request.getDescription(false));
     }
 
     @ExceptionHandler(UnAuthorizedException.class)
     public final ResponseEntity<ApiResponse<String>> exceptionHandler(UnAuthorizedException e, WebRequest request) {
-        return new ResponseEntity<>(
-                ApiResponse.of(
-                        HttpStatus.UNAUTHORIZED,
-                        e.getLocalizedMessage(),
-                        request.getDescription(false)),
-                HttpStatus.UNAUTHORIZED);
+        return ApiResponse.of(HttpStatus.UNAUTHORIZED,
+                e.getLocalizedMessage(),
+                request.getDescription(false));
     }
 }

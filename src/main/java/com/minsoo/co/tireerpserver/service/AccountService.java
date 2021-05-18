@@ -3,7 +3,6 @@ package com.minsoo.co.tireerpserver.service;
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.model.code.AccountRole;
 import com.minsoo.co.tireerpserver.model.dto.account.AccountRequest;
-import com.minsoo.co.tireerpserver.model.dto.account.AccountResponse;
 import com.minsoo.co.tireerpserver.model.entity.Account;
 import com.minsoo.co.tireerpserver.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,12 +41,12 @@ public class AccountService implements UserDetailsService {
                 .collect(Collectors.toSet());
     }
 
-    public AccountResponse signup(AccountRequest accountRequest) {
+    public Account signup(AccountRequest accountRequest) {
         if (accountRepository.existsByUserId(accountRequest.getUserId())) {
             throw new AlreadyExistException("이미 존재하는 아이디입니다.");
         }
 
         Account account = Account.of(accountRequest.getUserId(), passwordEncoder.encode(accountRequest.getUserPw()));
-        return new AccountResponse(accountRepository.save(account));
+        return accountRepository.save(account);
     }
 }

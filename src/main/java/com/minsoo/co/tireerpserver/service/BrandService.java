@@ -36,12 +36,11 @@ public class BrandService {
     }
 
     @Transactional
-    public Long create(BrandRequest createRequest) {
+    public Brand create(BrandRequest createRequest) {
         if (brandRepository.existsByName(createRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");
         }
-        return brandRepository.save(Brand.of(createRequest))
-                .getId();
+        return brandRepository.save(Brand.of(createRequest));
     }
 
     @Transactional

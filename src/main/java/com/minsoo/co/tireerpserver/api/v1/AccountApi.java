@@ -3,10 +3,8 @@ package com.minsoo.co.tireerpserver.api.v1;
 import com.minsoo.co.tireerpserver.auth.JwtFilter;
 import com.minsoo.co.tireerpserver.auth.TokenProvider;
 import com.minsoo.co.tireerpserver.model.dto.account.AccountRequest;
-import com.minsoo.co.tireerpserver.model.dto.account.AccountResponse;
 import com.minsoo.co.tireerpserver.model.dto.account.TokenResponse;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
-import com.minsoo.co.tireerpserver.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,7 +27,6 @@ public class AccountApi {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final AccountService accountService;
 
     @PostMapping("/authenticate")
     public ResponseEntity<ApiResponse<TokenResponse>> authorize(@Valid @RequestBody AccountRequest accountRequest) {
@@ -45,11 +42,6 @@ public class AccountApi {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        return new ResponseEntity<>(ApiResponse.CREATED(new TokenResponse(jwt)), httpHeaders, HttpStatus.CREATED);
-    }
-
-    @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<AccountResponse>> signup(@Valid @RequestBody AccountRequest accountRequest) {
-        return new ResponseEntity<>(ApiResponse.CREATED(accountService.signup(accountRequest)), HttpStatus.CREATED);
+        return ApiResponse.of(HttpStatus.CREATED, httpHeaders, "요청이 성공하였습니다.", new TokenResponse(jwt));
     }
 }

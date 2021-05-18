@@ -2,7 +2,6 @@ package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRequest;
@@ -34,8 +33,7 @@ public class ManagementServiceTest extends ServiceTest {
     void brandCreateTest() {
         log.debug("브랜드 생성 테스트");
         BrandRequest brandRequest = BRAND("브랜드 테스트");
-        Long brandId = brandService.create(brandRequest);
-        Brand brand = brandService.findById(brandId);
+        Brand brand = brandService.create(brandRequest);
         assertThat(brand.getName()).isEqualTo("브랜드 테스트");
 
         log.debug("이름 중복 생성 시 예외 발생");

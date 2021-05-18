@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -24,30 +25,35 @@ public class StockApi {
     @GetMapping
     @Tag(name = "재고 전체 목록 조회", description = "재고 전체 목록을 조회한다.")
     public ApiResponse<List<StockResponse>> findAllStocks() {
-        return ApiResponse.OK(stockService.findAll());
+        return ApiResponse.OK(stockService.findAll()
+                .stream()
+                .map(StockResponse::of)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/{stockId}")
     @Tag(name = "재고 상세 조회", description = "재고의 상세 정보를 조회한다.")
     @Parameters({@Parameter(name = "stockId", description = "재고 ID", example = "201324", required = true)})
     public ApiResponse<StockResponse> findStockById(@PathVariable(value = "stockId") Long stockId) {
-        return ApiResponse.OK(stockService.findById(stockId));
+        return ApiResponse.OK(StockResponse.of(stockService.findById(stockId)));
     }
 
     @PostMapping(value = "/{stockId}/update-lock")
     @Tag(name = "재고 Lock 수정", description = "재고의 공개 여부를 수정한다.")
     @Parameters({@Parameter(name = "stockId", description = "재고 ID", example = "201324", required = true)})
-    public ApiResponse<StockSimpleResponse> updateStockLock(@PathVariable(value = "stockId") Long stockId,
-                                                            @RequestBody @Valid StockUpdateLockRequest updateLockRequest) {
-        return ApiResponse.OK(stockService.updateStockLock(stockId, updateLockRequest));
+    public ApiResponse<String> updateStockLock(@PathVariable(value = "stockId") Long stockId,
+                                               @RequestBody @Valid StockUpdateLockRequest updateLockRequest) {
+        stockService.updateStockLock(stockId, updateLockRequest);
+        return ApiResponse.OK;
     }
 
     @PostMapping(value = "/{stockId}/move-stock")
     @Tag(name = "재고 이동", description = "타이어 DOT 재고를 이동한다.")
     @Parameters({@Parameter(name = "stockId", description = "재고 ID", example = "201324", required = true)})
-    public ApiResponse<List<StockSimpleResponse>> moveStock(@PathVariable(value = "stockId") Long stockId,
-                                                            @RequestBody @Valid MoveStockRequest moveStockRequest) {
-        return ApiResponse.OK(stockService.moveStock(stockId, moveStockRequest));
+    public ApiResponse<String> moveStock(@PathVariable(value = "stockId") Long stockId,
+                                         @RequestBody @Valid MoveStockRequest moveStockRequest) {
+        stockService.moveStock(stockId, moveStockRequest);
+        return ApiResponse.OK;
     }
 
     // TIRE-STOCKS
@@ -82,6 +88,9 @@ public class StockApi {
     @Tag(name = "타이어 하위 재고 목록 조회", description = "입력한 타이어에 해당하는 재고 목록을 조회한다.")
     @Parameters({@Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true)})
     public ApiResponse<List<StockSimpleResponse>> findTireDotStocks(@PathVariable(value = "tireId") Long tireId) {
-        return ApiResponse.OK(stockService.findAllByTireId(tireId));
+        return ApiResponse.OK(stockService.findAllByTireId(tireId)
+                .stream()
+                .map(StockSimpleResponse::of)
+                .collect(Collectors.toList()));
     }
 }
