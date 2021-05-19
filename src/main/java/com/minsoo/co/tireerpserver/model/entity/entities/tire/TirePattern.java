@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.EnumType.STRING;
@@ -45,5 +46,5 @@ public class TirePattern {
     @ElementCollection(fetch = EAGER)
     @CollectionTable(name = "tire_pattern_options", joinColumns = @JoinColumn(name = "tire_pattern_id", referencedColumnName = "tire_pattern_id"))
     @Column(name = "option", nullable = false)
-    private List<PatternOption> patternOptions;
+    private final List<PatternOption> patternOptions = new ArrayList<>();
 }

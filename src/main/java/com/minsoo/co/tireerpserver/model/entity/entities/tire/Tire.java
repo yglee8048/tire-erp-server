@@ -6,7 +6,9 @@ import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
@@ -30,7 +32,7 @@ public class Tire {
     private String productId;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "tire_pattern_id", nullable = false)
+    @JoinColumn(name = "tire_pattern_id", nullable = false, columnDefinition = "패턴 정보")
     private TirePattern pattern;
 
     @Column(name = "width", nullable = false, columnDefinition = "단면폭")
@@ -51,24 +53,35 @@ public class Tire {
     @Column(name = "speed_index", columnDefinition = "속도 지수")
     private String speedIndex;
 
-    @Column(name = "season", columnDefinition = "계절")
-    private String season;
-
     @Column(name = "price", columnDefinition = "소비자 금액")
     private Integer price;
 
-    @Column(name = "run_flat")
-    private Boolean runFlat;
-
-    @Column(name = "label")
-    private String label;
-
     @Enumerated(STRING)
-    @Column(name = "option")
-    private TireOption option;
+    @ElementCollection(fetch = EAGER)
+    @CollectionTable(name = "tire_pattern_options", joinColumns = @JoinColumn(name = "tire_pattern_id", referencedColumnName = "tire_pattern_id"))
+    @Column(name = "option", columnDefinition = "옵션 정보(런플렛, 스펀지, 실링)")
+    private final List<TireOption> options = new ArrayList<>();
 
-    @Column(name = "oe")
+    @Column(name = "oe", columnDefinition = "OE 마크")
     private String oe;
+
+    @Column(name = "country_of_manufacture", columnDefinition = "제조국")
+    private String countryOfManufacture;
+
+    @Column(name = "original_vehicle", columnDefinition = "순정 차량")
+    private String originalVehicle;
+
+    @Column(name = "note", columnDefinition = "비고")
+    private String note;
+
+    @Column(name = "group", columnDefinition = "그룹")
+    private String group;
+
+    @Column(name = "pr", columnDefinition = "PR")
+    private String pr;
+
+    @Column(name = "lr", columnDefinition = "L.R")
+    private String lr;
 
     @OneToMany(mappedBy = "tire", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private final Set<TireDot> tireDots = new HashSet<>();
@@ -77,22 +90,23 @@ public class Tire {
     private final Set<TireMemo> tireMemos = new HashSet<>();
 
     //== Business ==//
-    private Tire(TireRequest createRequest, Brand brand) {
-        this.brand = brand;
-        this.productId = createRequest.getProductId();
-        this.label = createRequest.getLabel();
-        this.width = createRequest.getWidth();
-        this.flatnessRatio = createRequest.getFlatnessRatio();
-        this.inch = createRequest.getInch();
-        this.size = "" + createRequest.getWidth() + createRequest.getFlatnessRatio() + createRequest.getInch();
-        this.pattern = createRequest.getPattern();
-        this.loadIndex = createRequest.getLoadIndex();
-        this.speedIndex = createRequest.getSpeedIndex();
-        this.season = createRequest.getSeason();
-        this.price = createRequest.getPrice();
-        this.runFlat = createRequest.getRunFlat();
-        this.option = createRequest.getOption();
-        this.oe = createRequest.getOe();
+    private Tire(String productId, TirePattern pattern, Integer width, Integer flatnessRatio, Integer inch, String size, Integer loadIndex, String speedIndex, Integer price, String oe, String countryOfManufacture, String originalVehicle, String note, String group, String pr, String lr) {
+        this.productId = productId;
+        this.pattern = pattern;
+        this.width = width;
+        this.flatnessRatio = flatnessRatio;
+        this.inch = inch;
+        this.size = size;
+        this.loadIndex = loadIndex;
+        this.speedIndex = speedIndex;
+        this.price = price;
+        this.oe = oe;
+        this.countryOfManufacture = countryOfManufacture;
+        this.originalVehicle = originalVehicle;
+        this.note = note;
+        this.group = group;
+        this.pr = pr;
+        this.lr = lr;
     }
 
     public static Tire of(TireRequest createRequest, Brand brand) {
