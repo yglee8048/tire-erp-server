@@ -1,8 +1,7 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.tire;
 
 import com.minsoo.co.tireerpserver.model.code.TireOption;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
+import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,8 +31,8 @@ public class Tire {
     private String productId;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "tire_pattern_id", nullable = false, columnDefinition = "패턴 정보")
-    private TirePattern pattern;
+    @JoinColumn(name = "pattern_id", nullable = false, columnDefinition = "패턴 정보")
+    private Pattern pattern;
 
     @Column(name = "width", nullable = false, columnDefinition = "단면폭")
     private Integer width;
@@ -58,7 +57,7 @@ public class Tire {
 
     @Enumerated(STRING)
     @ElementCollection(fetch = EAGER)
-    @CollectionTable(name = "tire_pattern_options", joinColumns = @JoinColumn(name = "tire_pattern_id", referencedColumnName = "tire_pattern_id"))
+    @CollectionTable(name = "tire_options", joinColumns = @JoinColumn(name = "tire_id", referencedColumnName = "tire_id"))
     @Column(name = "option", columnDefinition = "옵션 정보(런플렛, 스펀지, 실링)")
     private final List<TireOption> options = new ArrayList<>();
 
@@ -90,44 +89,47 @@ public class Tire {
     private final Set<TireMemo> tireMemos = new HashSet<>();
 
     //== Business ==//
-    private Tire(String productId, TirePattern pattern, Integer width, Integer flatnessRatio, Integer inch, String size, Integer loadIndex, String speedIndex, Integer price, String oe, String countryOfManufacture, String originalVehicle, String note, String group, String pr, String lr) {
-        this.productId = productId;
+    public Tire(TireRequest tireRequest, Pattern pattern) {
+        this.productId = tireRequest.getProductId();
         this.pattern = pattern;
-        this.width = width;
-        this.flatnessRatio = flatnessRatio;
-        this.inch = inch;
-        this.size = size;
-        this.loadIndex = loadIndex;
-        this.speedIndex = speedIndex;
-        this.price = price;
-        this.oe = oe;
-        this.countryOfManufacture = countryOfManufacture;
-        this.originalVehicle = originalVehicle;
-        this.note = note;
-        this.group = group;
-        this.pr = pr;
-        this.lr = lr;
+        this.width = tireRequest.getWidth();
+        this.flatnessRatio = tireRequest.getFlatnessRatio();
+        this.inch = tireRequest.getInch();
+        this.size = tireRequest.getWidth() + "/" + tireRequest.getFlatnessRatio() + "R" + tireRequest.getInch();
+        this.loadIndex = tireRequest.getLoadIndex();
+        this.speedIndex = tireRequest.getSpeedIndex();
+        this.price = tireRequest.getPrice();
+        this.oe = tireRequest.getOe();
+        this.countryOfManufacture = tireRequest.getCountryOfManufacture();
+        this.originalVehicle = tireRequest.getOriginalVehicle();
+        this.note = tireRequest.getNote();
+        this.group = tireRequest.getGroup();
+        this.pr = tireRequest.getPr();
+        this.lr = tireRequest.getLr();
     }
 
-    public static Tire of(TireRequest createRequest, Brand brand) {
-        return new Tire(createRequest, brand);
+    public static Tire of(TireRequest tireRequest, Pattern pattern) {
+        return new Tire(tireRequest, pattern);
     }
 
-    public void update(TireRequest updateRequest, Brand brand) {
-        this.brand = brand;
-        this.productId = updateRequest.getProductId();
-        this.label = updateRequest.getLabel();
-        this.width = updateRequest.getWidth();
-        this.flatnessRatio = updateRequest.getFlatnessRatio();
-        this.inch = updateRequest.getInch();
-        this.size = "" + updateRequest.getWidth() + updateRequest.getFlatnessRatio() + updateRequest.getInch();
-        this.pattern = updateRequest.getPattern();
-        this.loadIndex = updateRequest.getLoadIndex();
-        this.speedIndex = updateRequest.getSpeedIndex();
-        this.season = updateRequest.getSeason();
-        this.price = updateRequest.getPrice();
-        this.runFlat = updateRequest.getRunFlat();
-        this.option = updateRequest.getOption();
-        this.oe = updateRequest.getOe();
+    public Tire update(TireRequest tireRequest, Pattern pattern) {
+        this.productId = tireRequest.getProductId();
+        this.pattern = pattern;
+        this.width = tireRequest.getWidth();
+        this.flatnessRatio = tireRequest.getFlatnessRatio();
+        this.inch = tireRequest.getInch();
+        this.size = tireRequest.getWidth() + "/" + tireRequest.getFlatnessRatio() + "R" + tireRequest.getInch();
+        this.loadIndex = tireRequest.getLoadIndex();
+        this.speedIndex = tireRequest.getSpeedIndex();
+        this.price = tireRequest.getPrice();
+        this.oe = tireRequest.getOe();
+        this.countryOfManufacture = tireRequest.getCountryOfManufacture();
+        this.originalVehicle = tireRequest.getOriginalVehicle();
+        this.note = tireRequest.getNote();
+        this.group = tireRequest.getGroup();
+        this.pr = tireRequest.getPr();
+        this.lr = tireRequest.getLr();
+
+        return this;
     }
 }

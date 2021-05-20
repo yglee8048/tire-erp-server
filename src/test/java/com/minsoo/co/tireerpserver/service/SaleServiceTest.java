@@ -6,7 +6,7 @@ import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRespo
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.StockResponse;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import com.minsoo.co.tireerpserver.service.account.CustomerService;
 import com.minsoo.co.tireerpserver.service.management.BrandService;

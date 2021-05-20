@@ -1,13 +1,18 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
+import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternResponse;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoResponse;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
 import com.minsoo.co.tireerpserver.service.tire.TireDotService;
 import com.minsoo.co.tireerpserver.service.tire.TireMemoService;
+import com.minsoo.co.tireerpserver.service.tire.PatternService;
 import com.minsoo.co.tireerpserver.service.tire.TireService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -26,17 +31,49 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/v1/tires")
+@RequestMapping(value = "/api/v1")
 @RequiredArgsConstructor
 public class TireApi {
 
+    private final PatternService patternService;
     private final TireService tireService;
     private final TireDotService tireDotService;
     private final TireMemoService tireMemoService;
 
+    // TIRE-PATTERN
+    @GetMapping("/patterns")
+    public ApiResponse<List<PatternResponse>> findAllPatterns() {
+        return ApiResponse.OK(patternService.findAll()
+                .stream()
+                .map(PatternResponse::of)
+                .collect(Collectors.toList()));
+    }
+
+    @GetMapping("/patterns/{patternId}")
+    public ApiResponse<PatternResponse> findPatternById(@PathVariable(name = "patternId") Long patternId) {
+        return ApiResponse.OK(PatternResponse.of(patternService.findById(patternId)));
+    }
+
+    @PostMapping("/patterns")
+    public ResponseEntity<ApiResponse<String>> createPattern(@RequestBody PatternRequest patternRequest) {
+        return ApiResponse.CREATED(
+                linkTo(methodOn(TireApi.class, findPatternById(patternService.create(patternRequest).getId()))).toUri());
+    }
+
+    @PutMapping("/patterns/{patternId}")
+    public ApiResponse<String> updatePatternById(@PathVariable(name = "patternId") Long patternId, @RequestBody PatternRequest patternRequest) {
+        patternService.update(patternId, patternRequest);
+        return ApiResponse.OK;
+    }
+
+    @DeleteMapping("/patterns/{patternId}")
+    public ApiResponse<String> deletePatternById(@PathVariable(name = "patternId") Long patternId) {
+        patternService.removeById(patternId);
+        return ApiResponse.OK;
+    }
+
     // TIRE
-    @GetMapping
-    @Tag(name = "타이어 목록 조회", description = "타이어 목록을 조회한다.")
+    @GetMapping("/tires")
     public ApiResponse<List<TireResponse>> findAllTires() {
         return ApiResponse.OK(tireService.findAll()
                 .stream()
@@ -45,37 +82,64 @@ public class TireApi {
     }
 
     @GetMapping(value = "/{tireId}")
-    @Tag(name = "타이어 상세 조회", description = "타이어 상세 정보를 조회한다.")
-    @Parameters({@Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true)})
-    public ApiResponse<TireResponse> findTireById(@PathVariable Long tireId) {
+    public ApiResponse<TireResponse> findTireById(@PathVariable(name = "tireId") Long tireId) {
         return ApiResponse.OK(TireResponse.of(tireService.findById(tireId)));
     }
 
     @PostMapping
-    @Tag(name = "타이어 생성", description = "타이어를 생성한다.")
     public ResponseEntity<ApiResponse<String>> createTire(@RequestBody @Valid TireRequest createRequest) {
         return ApiResponse.CREATED(
                 linkTo(methodOn(TireApi.class, findTireById(tireService.create(createRequest).getId()))).toUri());
     }
 
     @PutMapping(value = "/{tireId}")
-    @Tag(name = "타이어 수정", description = "타이어를 수정한다.")
-    @Parameters({@Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true)})
-    public ApiResponse<String> updateTire(@PathVariable Long tireId,
-                                          @RequestBody @Valid TireRequest updateRequest) {
+    public ApiResponse<String> updateTireById(@PathVariable(name = "tireId") Long tireId,
+                                              @RequestBody @Valid TireRequest updateRequest) {
         tireService.update(tireId, updateRequest);
+        return ApiResponse.OK;
+    }
+
+    @DeleteMapping(value = "/{tireId}")
+    public ApiResponse<String> deleteTireById(@PathVariable(name = "tireId") Long tireId) {
+        tireService.removeById(tireId);
         return ApiResponse.OK;
     }
 
     // TIRE DOT
     @GetMapping(value = "/{tireId}/tire-dots")
-    @Tag(name = "타이어 DOT 목록 조회", description = "타이어 DOT 목록을 조회한다.")
-    @Parameters({@Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true)})
-    public ApiResponse<List<TireDotSimpleResponse>> findTireDots(@PathVariable Long tireId) {
+    public ApiResponse<List<TireDotSimpleResponse>> findTireDotsByTireId(@PathVariable Long tireId) {
         return ApiResponse.OK(tireDotService.findAllByTireId(tireId)
                 .stream()
                 .map(TireDotSimpleResponse::of)
                 .collect(Collectors.toList()));
+    }
+
+    @GetMapping(value = "/{tireId}/tire-dots/{tireDotId}")
+    public ApiResponse<TireDotResponse> findTireDotByIds(@PathVariable Long tireId,
+                                                         @PathVariable Long tireDotId) {
+        return ApiResponse.OK(TireDotResponse.of(tireDotService.findById(tireId, tireDotId)));
+    }
+
+    @PostMapping(value = "/{tireId}/tire-dots")
+    public ResponseEntity<ApiResponse<String>> createTireDot(@PathVariable Long tireId,
+                                                             @RequestBody TireDotRequest tireDotRequest) {
+        return ApiResponse.CREATED(
+                linkTo(methodOn(TireApi.class, findTireDotByIds(tireId, tireDotService.create(tireId, tireDotRequest).getId()))).toUri());
+    }
+
+    @PutMapping(value = "/{tireId}/tire-dots/{tireDotId}")
+    public ApiResponse<String> updateTireDotByIds(@PathVariable Long tireId,
+                                                  @PathVariable Long tireDotId,
+                                                  @RequestBody TireDotRequest tireDotRequest) {
+        tireDotService.update(tireId, tireDotId, tireDotRequest);
+        return ApiResponse.OK;
+    }
+
+    @DeleteMapping(value = "/{tireId}/tire-dots/{tireDotId}")
+    public ApiResponse<String> deleteTireDotByIds(@PathVariable Long tireId,
+                                                  @PathVariable Long tireDotId) {
+        tireDotService.removeById(tireDotId);
+        return ApiResponse.OK;
     }
 
     // TIRE MEMO

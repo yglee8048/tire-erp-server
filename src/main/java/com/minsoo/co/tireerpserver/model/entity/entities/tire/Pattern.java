@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.tire;
 
 import com.minsoo.co.tireerpserver.model.code.PatternOption;
+import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,12 +19,12 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-@Table(name = "tire_pattern", uniqueConstraints = {@UniqueConstraint(name = "tire_pattern_unique_name", columnNames = {"name"})})
-public class TirePattern {
+@Table(name = "pattern", uniqueConstraints = {@UniqueConstraint(name = "pattern_unique_name", columnNames = {"name"})})
+public class Pattern {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "tire_pattern_id", nullable = false, length = 20)
+    @Column(name = "pattern_id", nullable = false, length = 20)
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -44,7 +45,30 @@ public class TirePattern {
 
     @Enumerated(STRING)
     @ElementCollection(fetch = EAGER)
-    @CollectionTable(name = "tire_pattern_options", joinColumns = @JoinColumn(name = "tire_pattern_id", referencedColumnName = "tire_pattern_id"))
+    @CollectionTable(name = "pattern_options", joinColumns = @JoinColumn(name = "pattern_id", referencedColumnName = "pattern_id"))
     @Column(name = "option", nullable = false)
-    private final List<PatternOption> patternOptions = new ArrayList<>();
+    private final List<PatternOption> options = new ArrayList<>();
+
+    //== Business ==//
+    public Pattern(PatternRequest patternRequest, Brand brand) {
+        this.brand = brand;
+        this.name = patternRequest.getName();
+        this.carType = patternRequest.getCarType();
+        this.rank = patternRequest.getRank();
+        this.season = patternRequest.getSeason();
+    }
+
+    public static Pattern of(PatternRequest patternRequest, Brand brand) {
+        return new Pattern(patternRequest, brand);
+    }
+
+    public Pattern update(PatternRequest patternRequest, Brand brand) {
+        this.brand = brand;
+        this.name = patternRequest.getName();
+        this.carType = patternRequest.getCarType();
+        this.rank = patternRequest.getRank();
+        this.season = patternRequest.getSeason();
+
+        return this;
+    }
 }

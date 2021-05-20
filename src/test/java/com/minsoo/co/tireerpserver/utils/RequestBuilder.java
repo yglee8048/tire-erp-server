@@ -15,7 +15,7 @@ import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequestContent;
 import com.minsoo.co.tireerpserver.model.dto.stock.MoveStockRequest;
 import com.minsoo.co.tireerpserver.model.dto.stock.StockUpdateLockRequest;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireRequest;
 
 import java.time.LocalDate;
 import java.util.Arrays;

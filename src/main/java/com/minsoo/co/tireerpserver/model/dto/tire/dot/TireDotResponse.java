@@ -1,8 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.tire.dot;
 
-import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @Getter
@@ -11,13 +10,10 @@ import lombok.*;
 @NoArgsConstructor
 public class TireDotResponse {
 
-    @Schema(name = "ID", example = "21")
     private Long tireDotId;
 
-    @Schema(name = "타이어")
     private TireResponse tire;
 
-    @Schema(name = "타이어 DOT", example = "4014")
     private String dot;
 
     private TireDotResponse(TireDot tireDot) {

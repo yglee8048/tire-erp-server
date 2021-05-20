@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.api.error.exceptions;
 
+import lombok.Builder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

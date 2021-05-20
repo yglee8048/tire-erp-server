@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.repository.query;
 
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
 import com.minsoo.co.tireerpserver.model.entity.QTireDot;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;

@@ -2,10 +2,10 @@ package com.minsoo.co.tireerpserver.service.tire;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
+import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireRequest;
+import com.minsoo.co.tireerpserver.model.entity.entities.tire.Pattern;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
-import com.minsoo.co.tireerpserver.repository.management.BrandRepository;
+import com.minsoo.co.tireerpserver.repository.tire.PatternRepository;
 import com.minsoo.co.tireerpserver.repository.tire.TireRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,32 +20,40 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TireService {
 
-    private final BrandRepository brandRepository;
+    private final PatternRepository patternRepository;
     private final TireRepository tireRepository;
 
     public List<Tire> findAll() {
-        return tireRepository.findAllFetchBrand();
+        return tireRepository.findAll();
     }
 
     public Tire findById(Long id) {
-        return tireRepository.findOneFetchBrandById(id).orElseThrow(NotFoundException::new);
+        return tireRepository.findById(id).orElseThrow(() -> new NotFoundException("타이어", id));
     }
 
     @Transactional
-    public Tire create(TireRequest createRequest) {
-        if (tireRepository.existsByProductId(createRequest.getProductId())) {
-            throw new AlreadyExistException("이미 존재하는 상품 ID 입니다.");
+    public Tire create(TireRequest tireRequest) {
+        if (tireRepository.existsByProductId(tireRequest.getProductId())) {
+            throw new AlreadyExistException("이미 존재하는 타이어 ID 입니다.");
         }
-        Brand brand = brandRepository.findById(createRequest.getBrandId()).orElseThrow(() -> new NotFoundException("제조사", createRequest.getBrandId()));
+        Pattern pattern = patternRepository.findById(tireRequest.getPatternId()).orElseThrow(() -> new NotFoundException("패턴", tireRequest.getPatternId()));
 
-        return tireRepository.save(Tire.of(createRequest, brand));
+        return tireRepository.save(Tire.of(tireRequest, pattern));
     }
 
     @Transactional
-    public void update(Long id, TireRequest updateRequest) {
-        Brand brand = brandRepository.findById(updateRequest.getBrandId()).orElseThrow(() -> new NotFoundException("제조사", id));
-        Tire tire = tireRepository.findById(id).orElseThrow(() -> new NotFoundException("타이어", id));
+    public Tire update(Long tireId, TireRequest tireRequest) {
+        Tire tire = tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId));
+        Pattern pattern = patternRepository.findById(tireRequest.getPatternId()).orElseThrow(() -> new NotFoundException("패턴", tireRequest.getPatternId()));
+        if (!tire.getProductId().equals(tireRequest.getProductId()) && tireRepository.existsByProductId(tireRequest.getProductId())) {
+            throw new AlreadyExistException("이미 존재하는 타이어 ID 입니다.");
+        }
 
-        tire.update(updateRequest, brand);
+        return tire.update(tireRequest, pattern);
+    }
+
+    @Transactional
+    public void removeById(Long id) {
+        tireRepository.deleteById(id);
     }
 }
