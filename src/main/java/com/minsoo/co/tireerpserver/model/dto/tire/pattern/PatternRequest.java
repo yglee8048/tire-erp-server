@@ -12,8 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 public class PatternRequest {
 
-    private Long brandId;
-
     private String name;
 
     private String carType;

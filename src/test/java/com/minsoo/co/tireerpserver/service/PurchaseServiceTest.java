@@ -93,8 +93,8 @@ class PurchaseServiceTest extends ServiceTest {
         clear();
 
         log.debug("dot 생성 검증");
-        TireDotSimpleResponse dot01 = tireDotService.findById(purchase01.getTireDot().getTireDotId());
-        TireDotSimpleResponse dot02 = tireDotService.findById(purchase02.getTireDot().getTireDotId());
+        TireDotSimpleResponse dot01 = tireDotService.findByIds(purchase01.getTireDot().getTireDotId());
+        TireDotSimpleResponse dot02 = tireDotService.findByIds(purchase02.getTireDot().getTireDotId());
         assertThat(dot01.getDot()).isEqualTo("dot01");
         assertThat(dot02.getDot()).isEqualTo("dot02");
         assertThat(dot01.getTireDotId()).isNotEqualTo(dot02.getTireDotId());

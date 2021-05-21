@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -30,11 +31,15 @@ public class StockService {
     private final StockRepository stockRepository;
 
     public List<Stock> findAll() {
-        return stockRepository.findAllFetchAll();
+        return stockRepository.findAll();
     }
 
     public Stock findById(Long id) {
-        return stockRepository.findOneFetchAllById(id).orElseThrow(() -> new NotFoundException("재고", id));
+        return stockRepository.findById(id).orElseThrow(() -> new NotFoundException("재고", id));
+    }
+
+    public List<Stock> findAllByTireId(Long tireId) {
+        return stockRepository.findAllFetchWarehouseAndTireDotByTireId(tireId);
     }
 
     public List<TireStockResponse> findTireStocks(String size, String brandName, String pattern, String productId) {
@@ -45,7 +50,8 @@ public class StockService {
         return new TireStockParams(
                 tireRepository.findAllSizes(),
                 brandRepository.findAllBrandNames(),
-                tireRepository.findAllPatterns(),
+                null,
+//                tireRepository.findAllPatterns(),
                 tireRepository.findAllProductIds());
     }
 
@@ -53,22 +59,32 @@ public class StockService {
         return stockRepository.findTireStocksByTireId(tireId).orElseThrow(NotFoundException::new);
     }
 
-    public List<Stock> findAllByTireId(Long tireId) {
-        return stockRepository.findAllFetchWarehouseAndTireDotByTireId(tireId);
+    @Transactional
+    public List<Stock> modifyStocks(Long tireDotId, List<ModifyStockRequest> modifyStockRequests) {
+
+        return modifyStockRequests.stream()
+                .map(modifyStockRequest -> {
+                    if (modifyStockRequest.getStockId() == null) {
+                        return createStock(modifyStockRequest);
+                    } else {
+                        return updateStock(modifyStockRequest);
+                    }
+                })
+                .collect(Collectors.toList());
     }
 
-    @Transactional
-    public Stock createStock(ModifyStockRequest modifyStockRequest) {
+    private Stock createStock(ModifyStockRequest modifyStockRequest) {
         TireDot tireDot = tireDotRepository.findById(modifyStockRequest.getTireDotId()).orElseThrow(() -> new NotFoundException("타이어 DOT", modifyStockRequest.getTireDotId()));
         Warehouse warehouse = warehouseRepository.findById(modifyStockRequest.getWarehouseId()).orElseThrow(() -> new NotFoundException("창고", modifyStockRequest.getWarehouseId()));
+
         return stockRepository.save(Stock.of(tireDot, modifyStockRequest.getNickname(), warehouse, modifyStockRequest.getQuantity(), modifyStockRequest.isLock()));
     }
 
-    @Transactional
-    public Stock updateStock(Long stockId, ModifyStockRequest modifyStockRequest) {
+    private Stock updateStock(ModifyStockRequest modifyStockRequest) {
         Stock stock = stockRepository.findById(modifyStockRequest.getStockId()).orElseThrow(() -> new NotFoundException("재고", modifyStockRequest.getStockId()));
         TireDot tireDot = tireDotRepository.findById(modifyStockRequest.getTireDotId()).orElseThrow(() -> new NotFoundException("타이어 DOT", modifyStockRequest.getTireDotId()));
         Warehouse warehouse = warehouseRepository.findById(modifyStockRequest.getWarehouseId()).orElseThrow(() -> new NotFoundException("창고", modifyStockRequest.getWarehouseId()));
+
         return stock.update(tireDot, modifyStockRequest.getNickname(), warehouse, modifyStockRequest.getQuantity(), modifyStockRequest.isLock());
     }
 }

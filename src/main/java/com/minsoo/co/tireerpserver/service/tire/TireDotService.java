@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.service.tire;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
+import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
@@ -28,11 +29,11 @@ public class TireDotService {
                 tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId)));
     }
 
-    public TireDot findById(Long tireId, Long tireDotId) {
+    public TireDot findByIds(Long tireId, Long tireDotId) {
         TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
         if (!tireDot.getTire().getId().equals(tireId)) {
-            log.error("tire Id is not matched, {} : {}", tireId, tireDot.getTire().getId());
-            throw new NotFoundException("타이어 ID 와 타이어 DOT ID 가 일치하지 않습니다.");
+            log.error("Tire-id is not matched. input: {}, found {}", tireId, tireDot.getTire().getId());
+            throw new BadRequestException("타이어 ID 가 일치하지 않습니다.");
         }
         return tireDot;
     }
@@ -64,7 +65,13 @@ public class TireDotService {
     }
 
     @Transactional
-    public void removeById(Long tireDotId) {
-        tireDotRepository.deleteById(tireDotId);
+    public void removeByIds(Long tireId, Long tireDotId) {
+        TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
+        if (!tireDot.getTire().getId().equals(tireId)) {
+            log.error("Tire-id is not matched. input: {}, found {}", tireId, tireDot.getTire().getId());
+            throw new BadRequestException("타이어 ID 가 일치하지 않습니다.");
+        }
+
+        tireDotRepository.delete(tireDot);
     }
 }

@@ -15,24 +15,6 @@ import java.util.Optional;
 public interface StockRepository extends JpaRepository<Stock, Long>, StockQueryRepository {
 
     /**
-     * StockResponse 조회
-     */
-    @Query("select s from Stock s " +
-            "   join fetch s.warehouse w " +
-            "   join fetch s.tireDot d " +
-            "   join fetch d.tire t " +
-            "   join fetch t.brand b")
-    List<Stock> findAllFetchAll();
-
-    @Query("select s from Stock s " +
-            "   join fetch s.warehouse w " +
-            "   join fetch s.tireDot d " +
-            "   join fetch d.tire t " +
-            "   join fetch t.brand b " +
-            "where s.id = :id")
-    Optional<Stock> findOneFetchAllById(@Param("id") Long id);
-
-    /**
      * StockSimpleResponse 조회
      */
     @Query("select s from Stock s " +

@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.service.tire;
 
+import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireMemo;
@@ -27,7 +28,12 @@ public class TireMemoService {
     }
 
     public TireMemo findById(Long tireId, Long tireMemoId) {
-        return findByIdAndValidateTireId(tireId, tireMemoId);
+        TireMemo tireMemo = tireMemoRepository.findById(tireMemoId).orElseThrow(() -> new NotFoundException("타이어 메모", tireMemoId));
+        if (!tireMemo.getTire().getId().equals(tireId)) {
+            log.error("Tire-id is not matched. input: {}, found {}", tireId, tireMemo.getTire().getId());
+            throw new BadRequestException("타이어 ID 가 일치하지 않습니다.");
+        }
+        return tireMemo;
     }
 
     @Transactional
@@ -36,23 +42,24 @@ public class TireMemoService {
     }
 
     @Transactional
-    public void updateTireMemo(Long tireId, Long tireMemoId, TireMemoRequest updateRequest) {
-        TireMemo tireMemo = findByIdAndValidateTireId(tireId, tireMemoId);
-        tireMemo.update(updateRequest);
+    public TireMemo updateTireMemo(Long tireId, Long tireMemoId, TireMemoRequest updateRequest) {
+        TireMemo tireMemo = tireMemoRepository.findById(tireMemoId).orElseThrow(() -> new NotFoundException("타이어 메모", tireMemoId));
+        if (!tireMemo.getTire().getId().equals(tireId)) {
+            log.error("Tire-id is not matched. input: {}, found {}", tireId, tireMemo.getTire().getId());
+            throw new BadRequestException("타이어 ID 가 일치하지 않습니다.");
+        }
+
+        return tireMemo.update(updateRequest);
     }
 
     @Transactional
     public void removeById(Long tireId, Long tireMemoId) {
-        TireMemo tireMemo = findByIdAndValidateTireId(tireId, tireMemoId);
-        tireMemoRepository.delete(tireMemo);
-    }
-
-    private TireMemo findByIdAndValidateTireId(Long tireId, Long tireMemoId) {
-        TireMemo tireMemo = tireMemoRepository.findById(tireMemoId).orElseThrow(NotFoundException::new);
+        TireMemo tireMemo = tireMemoRepository.findById(tireMemoId).orElseThrow(() -> new NotFoundException("타이어 메모", tireMemoId));
         if (!tireMemo.getTire().getId().equals(tireId)) {
-            log.error("타이어 ID가 일치하지 않음. input: {}, found: {}", tireId, tireMemo.getTire().getId());
-            throw new NotFoundException();
+            log.error("Tire-id is not matched. input: {}, found {}", tireId, tireMemo.getTire().getId());
+            throw new BadRequestException("타이어 ID 가 일치하지 않습니다.");
         }
-        return tireMemo;
+
+        tireMemoRepository.delete(tireMemo);
     }
 }

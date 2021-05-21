@@ -2,8 +2,6 @@ package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
-import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternRequest;
-import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternResponse;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;
@@ -12,7 +10,6 @@ import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
 import com.minsoo.co.tireerpserver.service.tire.TireDotService;
 import com.minsoo.co.tireerpserver.service.tire.TireMemoService;
-import com.minsoo.co.tireerpserver.service.tire.PatternService;
 import com.minsoo.co.tireerpserver.service.tire.TireService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -31,49 +28,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/v1")
+@RequestMapping(value = "/api/v1/tires")
 @RequiredArgsConstructor
 public class TireApi {
 
-    private final PatternService patternService;
     private final TireService tireService;
     private final TireDotService tireDotService;
     private final TireMemoService tireMemoService;
 
-    // TIRE-PATTERN
-    @GetMapping("/patterns")
-    public ApiResponse<List<PatternResponse>> findAllPatterns() {
-        return ApiResponse.OK(patternService.findAll()
-                .stream()
-                .map(PatternResponse::of)
-                .collect(Collectors.toList()));
-    }
-
-    @GetMapping("/patterns/{patternId}")
-    public ApiResponse<PatternResponse> findPatternById(@PathVariable(name = "patternId") Long patternId) {
-        return ApiResponse.OK(PatternResponse.of(patternService.findById(patternId)));
-    }
-
-    @PostMapping("/patterns")
-    public ResponseEntity<ApiResponse<String>> createPattern(@RequestBody PatternRequest patternRequest) {
-        return ApiResponse.CREATED(
-                linkTo(methodOn(TireApi.class, findPatternById(patternService.create(patternRequest).getId()))).toUri());
-    }
-
-    @PutMapping("/patterns/{patternId}")
-    public ApiResponse<String> updatePatternById(@PathVariable(name = "patternId") Long patternId, @RequestBody PatternRequest patternRequest) {
-        patternService.update(patternId, patternRequest);
-        return ApiResponse.OK;
-    }
-
-    @DeleteMapping("/patterns/{patternId}")
-    public ApiResponse<String> deletePatternById(@PathVariable(name = "patternId") Long patternId) {
-        patternService.removeById(patternId);
-        return ApiResponse.OK;
-    }
-
     // TIRE
-    @GetMapping("/tires")
+    @GetMapping
     public ApiResponse<List<TireResponse>> findAllTires() {
         return ApiResponse.OK(tireService.findAll()
                 .stream()
@@ -117,7 +81,7 @@ public class TireApi {
     @GetMapping(value = "/{tireId}/tire-dots/{tireDotId}")
     public ApiResponse<TireDotResponse> findTireDotByIds(@PathVariable Long tireId,
                                                          @PathVariable Long tireDotId) {
-        return ApiResponse.OK(TireDotResponse.of(tireDotService.findById(tireId, tireDotId)));
+        return ApiResponse.OK(TireDotResponse.of(tireDotService.findByIds(tireId, tireDotId)));
     }
 
     @PostMapping(value = "/{tireId}/tire-dots")
@@ -138,7 +102,7 @@ public class TireApi {
     @DeleteMapping(value = "/{tireId}/tire-dots/{tireDotId}")
     public ApiResponse<String> deleteTireDotByIds(@PathVariable Long tireId,
                                                   @PathVariable Long tireDotId) {
-        tireDotService.removeById(tireDotId);
+        tireDotService.removeByIds(tireId, tireDotId);
         return ApiResponse.OK;
     }
 

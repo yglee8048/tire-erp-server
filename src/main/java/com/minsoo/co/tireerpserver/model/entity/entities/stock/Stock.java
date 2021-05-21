@@ -16,7 +16,7 @@ import static lombok.AccessLevel.*;
 @NoArgsConstructor(access = PROTECTED)
 @Entity
 @Table(name = "stock",
-        uniqueConstraints = {@UniqueConstraint(name = "stock_unique_dot_warehouse", columnNames = {"nickname", "tire_dot_id", "warehouse_id"})})
+        uniqueConstraints = {@UniqueConstraint(name = "stock_unique_dot_warehouse_nickname", columnNames = {"tire_dot_id", "warehouse_id", "nickname"})})
 public class Stock {
 
     @Id
@@ -28,12 +28,12 @@ public class Stock {
     @JoinColumn(name = "tire_dot_id", nullable = false)
     private TireDot tireDot;
 
-    @Column(name = "nickname", nullable = false)
-    private String nickname;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "warehouse_id", nullable = false)
     private Warehouse warehouse;
+
+    @Column(name = "nickname", nullable = false)
+    private String nickname;
 
     @Column(name = "quantity", nullable = false)
     private Long quantity;
@@ -60,6 +60,7 @@ public class Stock {
         this.warehouse = warehouse;
         this.quantity = quantity;
         this.lock = lock;
+
         return this;
     }
 

@@ -41,8 +41,10 @@ public class TireMemo {
         return new TireMemo(createRequest, tire);
     }
 
-    public void update(TireMemoRequest updateRequest) {
+    public TireMemo update(TireMemoRequest updateRequest) {
         this.memo = updateRequest.getMemo();
         this.lock = updateRequest.isLock();
+
+        return this;
     }
 }
