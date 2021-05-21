@@ -45,7 +45,7 @@ public class TireDotService {
             throw new AlreadyExistException("이미 존재하는 DOT 입니다.");
         }
 
-        return tireDotRepository.save(TireDot.of(tire, tireDotRequest.getDot()));
+        return tireDotRepository.save(TireDot.of(tire, tireDotRequest));
     }
 
     @Transactional
@@ -60,7 +60,7 @@ public class TireDotService {
                 throw new AlreadyExistException("이미 존재하는 DOT 입니다.");
             }
 
-            return tireDot.update(tire, tireDotRequest.getDot());
+            return tireDot.update(tire, tireDotRequest);
         }
     }
 

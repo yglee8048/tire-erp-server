@@ -92,15 +92,15 @@ public class PurchaseService {
      */
     @Transactional
     public void confirm(Long id) {
-        Purchase purchase = purchaseRepository.findOneFetchTireDotById(id).orElseThrow(() -> new NotFoundException("매입", id));
-        Stock stock = stockRepository.findOneByTireDotAndWarehouse(purchase.getTireDot(), purchase.getWarehouse())
-                // 재고가 존재하지 않는다면, 재고를 새로 생성하여 반영한다. (잠금 여부 = true 로 생성)
-                .orElseGet(() -> stockRepository.save(Stock.of(purchase.getTireDot(), purchase.getWarehouse(), true)));
-
-        // 재고 반영
-        stock.addQuantity(purchase.getQuantity());
-        // 매입 확정
-        purchase.confirm();
+//        Purchase purchase = purchaseRepository.findOneFetchTireDotById(id).orElseThrow(() -> new NotFoundException("매입", id));
+//        Stock stock = stockRepository.findOneByTireDotAndWarehouse(purchase.getTireDot(), purchase.getWarehouse())
+//                // 재고가 존재하지 않는다면, 재고를 새로 생성하여 반영한다. (잠금 여부 = true 로 생성)
+//                .orElseGet(() -> stockRepository.save(Stock.of(purchase.getTireDot(), purchase.getWarehouse(), true)));
+//
+//        // 재고 반영
+//        stock.addQuantity(purchase.getQuantity());
+//        // 매입 확정
+//        purchase.confirm();
     }
 
     @Transactional
@@ -115,8 +115,9 @@ public class PurchaseService {
 
     private TireDot findDotIfExistElseCreateByTireIdAndDot(Long tireId, String dot) {
         Tire tire = tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId));
-        return tireDotRepository.findByTireAndDot(tire, dot)
-                // 존재하지 않는 DOT 가 요청되었다면, DOT 를 새로 생성하여 리턴한다
-                .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, dot)));
+//        return tireDotRepository.findByTireAndDot(tire, dot)
+//                // 존재하지 않는 DOT 가 요청되었다면, DOT 를 새로 생성하여 리턴한다
+//                .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, dot)));
+        return null;
     }
 }

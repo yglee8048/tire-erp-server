@@ -124,7 +124,7 @@ public class TireApi {
             @Parameter(name = "tireMemoId", description = "타이어 메모 ID", example = "201324", required = true)})
     public ApiResponse<TireMemoResponse> findTireMemoById(@PathVariable(value = "tireId") Long tireId,
                                                           @PathVariable(value = "tireMemoId") Long tireMemoId) {
-        return ApiResponse.OK(TireMemoResponse.of(tireMemoService.findById(tireId, tireMemoId)));
+        return ApiResponse.OK(TireMemoResponse.of(tireMemoService.findByIds(tireId, tireMemoId)));
     }
 
     @PostMapping(value = "/{tireId}/tire-memos")

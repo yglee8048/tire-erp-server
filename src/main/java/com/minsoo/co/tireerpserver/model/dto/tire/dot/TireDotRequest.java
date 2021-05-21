@@ -10,4 +10,6 @@ import lombok.*;
 public class TireDotRequest {
 
     private String dot;
+
+    private Long retailPrice;
 }

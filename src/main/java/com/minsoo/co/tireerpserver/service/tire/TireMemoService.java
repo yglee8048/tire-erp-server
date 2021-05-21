@@ -27,7 +27,7 @@ public class TireMemoService {
                 tireRepository.findById(tireId).orElseThrow(NotFoundException::new));
     }
 
-    public TireMemo findById(Long tireId, Long tireMemoId) {
+    public TireMemo findByIds(Long tireId, Long tireMemoId) {
         TireMemo tireMemo = tireMemoRepository.findById(tireMemoId).orElseThrow(() -> new NotFoundException("타이어 메모", tireMemoId));
         if (!tireMemo.getTire().getId().equals(tireId)) {
             log.error("Tire-id is not matched. input: {}, found {}", tireId, tireMemo.getTire().getId());

@@ -26,8 +26,6 @@ public class TireRequest {
 
     private String speedIndex;
 
-    private Integer price;
-
     private List<TireOption> options;
 
     private String oe;

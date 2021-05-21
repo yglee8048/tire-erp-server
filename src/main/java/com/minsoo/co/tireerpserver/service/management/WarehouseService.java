@@ -3,10 +3,8 @@ package com.minsoo.co.tireerpserver.service.management;
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRequest;
-import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
 import com.minsoo.co.tireerpserver.repository.management.WarehouseRepository;
-import com.minsoo.co.tireerpserver.repository.query.ManagementQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,6 @@ import java.util.List;
 public class WarehouseService {
 
     private final WarehouseRepository warehouseRepository;
-    private final ManagementQueryRepository managementQueryRepository;
 
     public List<Warehouse> findAll() {
         return warehouseRepository.findAll();
@@ -29,10 +26,6 @@ public class WarehouseService {
 
     public Warehouse findById(Long id) {
         return warehouseRepository.findById(id).orElseThrow(() -> new NotFoundException("창고", id));
-    }
-
-    public List<WarehouseSimpleResponse> findAllWarehouseNames() {
-        return managementQueryRepository.findAllWarehouseNames();
     }
 
     @Transactional

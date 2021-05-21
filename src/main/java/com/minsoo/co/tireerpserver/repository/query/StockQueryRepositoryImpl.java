@@ -3,33 +3,23 @@ package com.minsoo.co.tireerpserver.repository.query;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
-import com.minsoo.co.tireerpserver.model.entity.QTireDot;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-import static com.minsoo.co.tireerpserver.model.entity.QBrand.*;
-import static com.minsoo.co.tireerpserver.model.entity.QPurchase.*;
-import static com.minsoo.co.tireerpserver.model.entity.QStock.*;
-import static com.minsoo.co.tireerpserver.model.entity.QTire.*;
-import static com.minsoo.co.tireerpserver.model.entity.QTireDot.*;
-
 @Repository
+@RequiredArgsConstructor
 public class StockQueryRepositoryImpl implements StockQueryRepository {
 
     private final JPAQueryFactory queryFactory;
-
-    public StockQueryRepositoryImpl(EntityManager em) {
-        this.queryFactory = new JPAQueryFactory(em);
-    }
 
     private JPAQuery<TireStockResponse> createTireStockQuery() {
         QTireDot tireDotSub = new QTireDot("tireDotSub");   // for sub query
@@ -70,9 +60,9 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     }
 
     @Override
-    public List<TireStockResponse> findTireStocksByParams(String size, String brandName, String pattern, String productId) {
+    public List<TireStockResponse> findTireStocks(String size, String brandName, String patternName, String productId) {
         return createTireStockQuery()
-                .where(tireSizeEq(size), brandNameContains(brandName), patternContains(pattern), productIdContains(productId))
+                .where(tireSizeEq(size), brandNameContains(brandName), patternContains(patternName), productIdContains(productId))
                 .fetch();
     }
 

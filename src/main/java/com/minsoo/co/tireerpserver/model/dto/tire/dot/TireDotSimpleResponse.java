@@ -13,19 +13,19 @@ import lombok.ToString;
 @NoArgsConstructor
 public class TireDotSimpleResponse {
 
-    @Schema(name = "타이어 DOT ID", example = "21")
     private Long tireDotId;
 
-    @Schema(name = "타이어 ID", example = "21")
     private Long tireId;
 
-    @Schema(name = "타이어 DOT", example = "4014")
     private String dot;
+
+    private Long retailPrice;
 
     private TireDotSimpleResponse(TireDot tireDot) {
         this.tireDotId = tireDot.getId();
         this.tireId = tireDot.getTire().getId();
         this.dot = tireDot.getDot();
+        this.retailPrice = tireDot.getRetailPrice();
     }
 
     public static TireDotSimpleResponse of(TireDot tireDot) {

@@ -13,56 +13,37 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/v1/stocks")
+@RequestMapping(value = "/api/v1")
 @RequiredArgsConstructor
 public class StockApi {
 
     private final StockService stockService;
 
-    @GetMapping
-    public ApiResponse<List<StockResponse>> findAllStocks() {
-        return ApiResponse.OK(stockService.findAll()
+    // STOCKS
+    @GetMapping("/tire-dots/{tireDotId}/stocks")
+    public ApiResponse<List<StockResponse>> findAllStocksByIds(@PathVariable(name = "tireDotId") Long tireDotId) {
+        return ApiResponse.OK(stockService.findAllByTireDotId(tireDotId)
                 .stream()
                 .map(StockResponse::of)
                 .collect(Collectors.toList()));
     }
 
-    @GetMapping(value = "/{stockId}")
-    public ApiResponse<StockResponse> findStockById(@PathVariable(value = "stockId") Long stockId) {
-        return ApiResponse.OK(StockResponse.of(stockService.findById(stockId)));
+    @GetMapping("/tire-dots/{tireDotId}/stocks/{stockId}")
+    public ApiResponse<StockResponse> findStockByIds(@PathVariable(name = "tireDotId") Long tireDotId,
+                                                     @PathVariable(name = "stockId") Long stockId) {
+        return ApiResponse.OK(StockResponse.of(stockService.findByIds(tireDotId, stockId)));
     }
 
-    @PostMapping(value = "/{stockId}/move-stock")
-    public ApiResponse<String> moveStock(@PathVariable(value = "stockId") Long stockId,
-                                         @RequestBody @Valid MoveStockRequest moveStockRequest) {
-        stockService.moveStock(stockId, moveStockRequest);
+    @PostMapping("/tire-dots/{tireDotId}/stocks")
+    public ApiResponse<String> modifyStocks(@PathVariable(name = "tireDotId") Long tireDotId,
+                                            @RequestBody @Valid List<ModifyStockRequest> modifyStockRequests) {
+        stockService.modifyStocks(tireDotId, modifyStockRequests);
         return ApiResponse.OK;
     }
 
     // TIRE-STOCKS
-    @GetMapping(value = "/tires")
-    public ApiResponse<List<TireStockResponse>> findTireStocks(@RequestParam(value = "size", required = false) String size,
-                                                               @RequestParam(value = "brand_name", required = false) String brandName,
-                                                               @RequestParam(value = "pattern", required = false) String pattern,
-                                                               @RequestParam(value = "product_id", required = false) String productId) {
-        return ApiResponse.OK(stockService.findTireStocks(size, brandName, pattern, productId));
-    }
-
-    @GetMapping(value = "/tires/params")
-    public ApiResponse<TireStockParams> findTireStockParams() {
-        return ApiResponse.OK(stockService.findTireStockParams());
-    }
-
-    @GetMapping(value = "/tires/{tireId}")
-    public ApiResponse<TireStockResponse> findTireStockByTireId(@PathVariable(value = "tireId") Long tireId) {
-        return ApiResponse.OK(stockService.findTireStockByTireId(tireId));
-    }
-
-    @GetMapping(value = "/tires/{tireId}/dots")
-    public ApiResponse<List<StockSimpleResponse>> findTireDotStocks(@PathVariable(value = "tireId") Long tireId) {
-        return ApiResponse.OK(stockService.findAllByTireId(tireId)
-                .stream()
-                .map(StockSimpleResponse::of)
-                .collect(Collectors.toList()));
+    @GetMapping("/tire-stocks")
+    public ApiResponse<List<TireStockResponse>> findTireStocks() {
+        return null;
     }
 }

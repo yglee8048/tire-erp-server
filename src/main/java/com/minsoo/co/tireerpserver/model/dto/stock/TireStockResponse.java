@@ -13,15 +13,14 @@ import lombok.ToString;
 @NoArgsConstructor
 public class TireStockResponse {
 
-    @Schema(name = "타이어")
     private TireResponse tire;
 
-    @Schema(name = "매입 평균가", example = "288500")
+    // 매입 평균가
     private Double averageOfPurchasePrice;
 
-    @Schema(name = "수량", example = "207")
+    // 수량
     private Long sumOfStock;
 
-    @Schema(name = "DOT 개수", example = "5")
+    // DOT 수
     private Long numberOfDot;
 }

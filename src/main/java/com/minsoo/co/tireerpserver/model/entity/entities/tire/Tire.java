@@ -52,9 +52,6 @@ public class Tire {
     @Column(name = "speed_index", columnDefinition = "속도 지수")
     private String speedIndex;
 
-    @Column(name = "price", columnDefinition = "소비자 금액")
-    private Integer price;
-
     @Enumerated(STRING)
     @ElementCollection(fetch = EAGER)
     @CollectionTable(name = "tire_options", joinColumns = @JoinColumn(name = "tire_id", referencedColumnName = "tire_id"))
@@ -98,7 +95,6 @@ public class Tire {
         this.size = tireRequest.getWidth() + "/" + tireRequest.getFlatnessRatio() + "R" + tireRequest.getInch();
         this.loadIndex = tireRequest.getLoadIndex();
         this.speedIndex = tireRequest.getSpeedIndex();
-        this.price = tireRequest.getPrice();
         this.oe = tireRequest.getOe();
         this.countryOfManufacture = tireRequest.getCountryOfManufacture();
         this.originalVehicle = tireRequest.getOriginalVehicle();
@@ -121,7 +117,6 @@ public class Tire {
         this.size = tireRequest.getWidth() + "/" + tireRequest.getFlatnessRatio() + "R" + tireRequest.getInch();
         this.loadIndex = tireRequest.getLoadIndex();
         this.speedIndex = tireRequest.getSpeedIndex();
-        this.price = tireRequest.getPrice();
         this.oe = tireRequest.getOe();
         this.countryOfManufacture = tireRequest.getCountryOfManufacture();
         this.originalVehicle = tireRequest.getOriginalVehicle();

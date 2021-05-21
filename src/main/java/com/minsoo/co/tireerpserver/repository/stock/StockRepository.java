@@ -14,28 +14,5 @@ import java.util.Optional;
 
 public interface StockRepository extends JpaRepository<Stock, Long>, StockQueryRepository {
 
-    /**
-     * StockSimpleResponse 조회
-     */
-    @Query("select s from Stock s " +
-            "   join fetch s.warehouse w " +
-            "   join fetch s.tireDot d " +
-            "where d.tire.id = :tireId")
-    List<Stock> findAllFetchWarehouseAndTireDotByTireId(@Param("tireId") Long tireId);
-
-    @EntityGraph(attributePaths = {"tireDot", "warehouse"})
-    Optional<Stock> findOneFetchWarehouseAndTireDotById(Long stockId);
-    
-    @Query("select s from Stock s " +
-            "where s.tireDot = :tireDot " +
-            "   and s.warehouse = :warehouse")
-    Optional<Stock> findOneByTireDotAndWarehouse(@Param("tireDot") TireDot tireDot,
-                                                 @Param("warehouse") Warehouse warehouse);
-
-    @EntityGraph(attributePaths = {"warehouse", "tireDot"})
-    @Query("select s from Stock s " +
-            "where s.tireDot = :tireDot " +
-            "   and s.warehouse = :warehouse")
-    Optional<Stock> findOneFetchWarehouseAndTireDotByWarehouseAndTireDot(@Param("warehouse") Warehouse warehouse,
-                                                                         @Param("tireDot") TireDot tireDot);
+    List<Stock> findAllByTireDot(TireDot tireDot);
 }

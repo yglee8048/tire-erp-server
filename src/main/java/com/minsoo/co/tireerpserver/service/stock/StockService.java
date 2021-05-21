@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.service.stock;
 
+import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.stock.*;
 import com.minsoo.co.tireerpserver.model.entity.entities.stock.Stock;
@@ -15,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -30,61 +31,65 @@ public class StockService {
     private final TireDotRepository tireDotRepository;
     private final StockRepository stockRepository;
 
-    public List<Stock> findAll() {
-        return stockRepository.findAll();
+    public List<Stock> findAllByTireDotId(Long tireDotId) {
+        TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
+        return stockRepository.findAllByTireDot(tireDot);
     }
 
-    public Stock findById(Long id) {
-        return stockRepository.findById(id).orElseThrow(() -> new NotFoundException("재고", id));
+    public Stock findByIds(Long tireDotId, Long stockId) {
+        Stock stock = stockRepository.findById(stockId).orElseThrow(() -> new NotFoundException("재고", stockId));
+        if (!tireDotId.equals(stock.getTireDot().getId())) {
+            log.error("Tire-dot-id is unmatched. input: {}, found: {}", tireDotId, stock.getTireDot().getId());
+            throw new BadRequestException("타이어 DOT ID 가 일치하지 않습니다.");
+        }
+
+        return stock;
     }
 
-    public List<Stock> findAllByTireId(Long tireId) {
-        return stockRepository.findAllFetchWarehouseAndTireDotByTireId(tireId);
-    }
-
-    public List<TireStockResponse> findTireStocks(String size, String brandName, String pattern, String productId) {
-        return stockRepository.findTireStocksByParams(size, brandName, pattern, productId);
-    }
-
-    public TireStockParams findTireStockParams() {
-        return new TireStockParams(
-                tireRepository.findAllSizes(),
-                brandRepository.findAllBrandNames(),
-                null,
-//                tireRepository.findAllPatterns(),
-                tireRepository.findAllProductIds());
-    }
-
-    public TireStockResponse findTireStockByTireId(Long tireId) {
-        return stockRepository.findTireStocksByTireId(tireId).orElseThrow(NotFoundException::new);
+    public List<TireStockResponse> findTireStocks(String size, String brandName, String patternName, String productId) {
+        return stockRepository.findTireStocks(size, brandName, patternName, productId);
     }
 
     @Transactional
-    public List<Stock> modifyStocks(Long tireDotId, List<ModifyStockRequest> modifyStockRequests) {
+    public void modifyStocks(Long tireDotId, List<ModifyStockRequest> modifyStockRequests) {
+        // validation: 재고의 합이 같아야 한다.
+        TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
+        if (tireDot.validateSumOfQuantity(modifyStockRequests)) {
+            throw new BadRequestException("재고의 총 합이 일치하지 않습니다.");
+        }
 
-        return modifyStockRequests.stream()
-                .map(modifyStockRequest -> {
-                    if (modifyStockRequest.getStockId() == null) {
-                        return createStock(modifyStockRequest);
+        Map<Long, ModifyStockRequest> modifyStockRequestMap = new HashMap<>();
+        Set<Stock> created = new HashSet<>();
+        modifyStockRequests.forEach(modifyStockRequest -> {
+            if (modifyStockRequest.getStockId() == null) {
+                created.add(createStock(tireDot, modifyStockRequest));
+            } else {
+                modifyStockRequestMap.put(modifyStockRequest.getStockId(), modifyStockRequest);
+            }
+        });
+
+        Set<Stock> removed = new HashSet<>();
+        tireDot.getStocks()
+                .forEach(stock -> {
+                    if (modifyStockRequestMap.containsKey(stock.getId())) {
+                        updateStock(stock, tireDot, modifyStockRequestMap.get(stock.getId()));
                     } else {
-                        return updateStock(modifyStockRequest);
+                        removed.add(stock);
                     }
-                })
-                .collect(Collectors.toList());
+                });
+
+        tireDot.getStocks().addAll(created);
+        tireDot.getStocks().removeAll(removed);
     }
 
-    private Stock createStock(ModifyStockRequest modifyStockRequest) {
-        TireDot tireDot = tireDotRepository.findById(modifyStockRequest.getTireDotId()).orElseThrow(() -> new NotFoundException("타이어 DOT", modifyStockRequest.getTireDotId()));
+    private Stock createStock(TireDot tireDot, ModifyStockRequest modifyStockRequest) {
         Warehouse warehouse = warehouseRepository.findById(modifyStockRequest.getWarehouseId()).orElseThrow(() -> new NotFoundException("창고", modifyStockRequest.getWarehouseId()));
-
-        return stockRepository.save(Stock.of(tireDot, modifyStockRequest.getNickname(), warehouse, modifyStockRequest.getQuantity(), modifyStockRequest.isLock()));
+        return Stock.of(tireDot, warehouse, modifyStockRequest);
     }
 
-    private Stock updateStock(ModifyStockRequest modifyStockRequest) {
-        Stock stock = stockRepository.findById(modifyStockRequest.getStockId()).orElseThrow(() -> new NotFoundException("재고", modifyStockRequest.getStockId()));
-        TireDot tireDot = tireDotRepository.findById(modifyStockRequest.getTireDotId()).orElseThrow(() -> new NotFoundException("타이어 DOT", modifyStockRequest.getTireDotId()));
+    private void updateStock(Stock stock, TireDot tireDot, ModifyStockRequest modifyStockRequest) {
         Warehouse warehouse = warehouseRepository.findById(modifyStockRequest.getWarehouseId()).orElseThrow(() -> new NotFoundException("창고", modifyStockRequest.getWarehouseId()));
 
-        return stock.update(tireDot, modifyStockRequest.getNickname(), warehouse, modifyStockRequest.getQuantity(), modifyStockRequest.isLock());
+        stock.update(tireDot, warehouse, modifyStockRequest);
     }
 }

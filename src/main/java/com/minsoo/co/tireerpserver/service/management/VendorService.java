@@ -6,7 +6,6 @@ import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
 import com.minsoo.co.tireerpserver.repository.management.VendorRepository;
-import com.minsoo.co.tireerpserver.repository.query.ManagementQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ import java.util.List;
 public class VendorService {
 
     private final VendorRepository vendorRepository;
-    private final ManagementQueryRepository managementQueryRepository;
 
     public List<Vendor> findAll() {
         return vendorRepository.findAll();
@@ -29,10 +27,6 @@ public class VendorService {
 
     public Vendor findById(Long id) {
         return vendorRepository.findById(id).orElseThrow(() -> new NotFoundException("매입처", id));
-    }
-
-    public List<VendorSimpleResponse> findAllVendorNames() {
-        return managementQueryRepository.findAllVendorNames();
     }
 
     @Transactional

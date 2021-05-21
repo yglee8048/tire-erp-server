@@ -16,10 +16,13 @@ public class TireDotResponse {
 
     private String dot;
 
+    private Long retailPrice;
+
     private TireDotResponse(TireDot tireDot) {
         this.tireDotId = tireDot.getId();
         this.tire = TireResponse.of(tireDot.getTire());
         this.dot = tireDot.getDot();
+        this.retailPrice = tireDot.getRetailPrice();
     }
 
     public static TireDotResponse of(TireDot tireDot) {
