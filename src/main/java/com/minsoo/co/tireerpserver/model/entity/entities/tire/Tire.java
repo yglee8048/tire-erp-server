@@ -3,6 +3,7 @@ package com.minsoo.co.tireerpserver.model.entity.entities.tire;
 import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
 import lombok.*;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -105,7 +106,15 @@ public class Tire {
     }
 
     public static Tire of(TireRequest tireRequest, Pattern pattern) {
-        return new Tire(tireRequest, pattern);
+        Tire tire = new Tire(tireRequest, pattern);
+
+        // options
+        if (!CollectionUtils.isEmpty(tireRequest.getOptions())) {
+            tireRequest.getOptions()
+                    .forEach(tireOption -> tire.getOptions().add(TireOptions.of(tire, tireOption)));
+        }
+
+        return tire;
     }
 
     public Tire update(TireRequest tireRequest, Pattern pattern) {
@@ -125,6 +134,13 @@ public class Tire {
         this.group = tireRequest.getGroup();
         this.pr = tireRequest.getPr();
         this.lr = tireRequest.getLr();
+
+        // options
+        this.options.clear();
+        if (!CollectionUtils.isEmpty(tireRequest.getOptions())) {
+            tireRequest.getOptions()
+                    .forEach(tireOption -> this.getOptions().add(TireOptions.of(this, tireOption)));
+        }
 
         return this;
     }

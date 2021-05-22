@@ -3,6 +3,7 @@ package com.minsoo.co.tireerpserver.model.entity.entities.management;
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 
@@ -55,8 +56,12 @@ public class Pattern {
 
     public static Pattern of(PatternRequest patternRequest, Brand brand) {
         Pattern pattern = new Pattern(patternRequest, brand);
-        patternRequest.getOptions()
-                .forEach(patternOption -> pattern.getOptions().add(PatternOptions.of(pattern, patternOption)));
+        // options
+        if (!CollectionUtils.isEmpty(patternRequest.getOptions())) {
+            patternRequest.getOptions()
+                    .forEach(patternOption -> pattern.getOptions().add(PatternOptions.of(pattern, patternOption)));
+        }
+
         return pattern;
     }
 
@@ -66,6 +71,13 @@ public class Pattern {
         this.carType = patternRequest.getCarType();
         this.rank = patternRequest.getRank();
         this.season = patternRequest.getSeason();
+
+        // options
+        this.options.clear();
+        if (!CollectionUtils.isEmpty(patternRequest.getOptions())) {
+            patternRequest.getOptions()
+                    .forEach(patternOption -> this.getOptions().add(PatternOptions.of(this, patternOption)));
+        }
 
         return this;
     }

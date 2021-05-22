@@ -70,10 +70,14 @@ public class ManagementServiceTest extends ServiceTest {
         patternOptions.add(PatternOption.HANDLING);
         patternOptions.add(PatternOption.MILEAGE);
         PatternRequest patternRequest = PATTERN("패턴 이름", patternOptions);
+
         Pattern pattern = patternService.create(brand.getId(), patternRequest);
         assertThat(pattern.getName()).isEqualTo("패턴 이름");
+        clear();
 
-        List<PatternOption> options = pattern.getOptions().stream()
+        log.debug("패턴 옵션 테스트");
+        Pattern found = patternService.findByIds(brand.getId(), pattern.getId());
+        List<PatternOption> options = found.getOptions().stream()
                 .map(PatternOptions::getOption)
                 .collect(Collectors.toList());
         assertThat(options.contains(PatternOption.HANDLING)).isTrue();
@@ -83,6 +87,29 @@ public class ManagementServiceTest extends ServiceTest {
         PatternRequest duplicateRequest = PATTERN("패턴 이름", patternOptions);
         assertThatThrownBy(() -> patternService.create(brand.getId(), duplicateRequest))
                 .isInstanceOf(AlreadyExistException.class);
+    }
+
+    @Test
+    @DisplayName("패턴 옵션 수정 테스트")
+    void patternUpdateTest() {
+        // 패턴 생성
+        List<PatternOption> patternOptions = new ArrayList<>();
+        patternOptions.add(PatternOption.HANDLING);
+        patternOptions.add(PatternOption.MILEAGE);
+
+        Brand brand = brandService.create(BRAND("브랜드 테스트"));
+        Pattern pattern = patternService.create(brand.getId(), PATTERN("패턴 이름", patternOptions));
+        clear();
+
+        patternOptions.add(PatternOption.BREAKING_POWER);
+        patternOptions.remove(PatternOption.HANDLING);
+        Pattern updated = patternService.update(brand.getId(), pattern.getId(), PATTERN("패턴 이름 수정", patternOptions));
+
+        assertThat(updated.getName()).isEqualTo("패턴 이름 수정");
+        List<PatternOption> updatedOptions = updated.getOptions().stream().map(PatternOptions::getOption).collect(Collectors.toList());
+        assertThat(updatedOptions.contains(PatternOption.BREAKING_POWER)).isTrue();
+        assertThat(updatedOptions.contains(PatternOption.HANDLING)).isFalse();
+        assertThat(updatedOptions.size()).isEqualTo(2);
     }
 
     /**
