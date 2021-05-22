@@ -1,12 +1,13 @@
 //package com.minsoo.co.tireerpserver.service;
 //
-//import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
-//import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
-//import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
 //import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
-//import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
 //import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
+//import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
+//import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
+//import com.minsoo.co.tireerpserver.model.entity.entities.purchase.Purchase;
+//import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
 //import com.minsoo.co.tireerpserver.service.management.BrandService;
+//import com.minsoo.co.tireerpserver.service.management.PatternService;
 //import com.minsoo.co.tireerpserver.service.purchase.PurchaseService;
 //import com.minsoo.co.tireerpserver.service.stock.StockService;
 //import com.minsoo.co.tireerpserver.service.tire.TireService;
@@ -29,6 +30,9 @@
 //    BrandService brandService;
 //
 //    @Autowired
+//    PatternService patternService;
+//
+//    @Autowired
 //    VendorService vendorService;
 //
 //    @Autowired
@@ -45,16 +49,16 @@
 //
 //    @BeforeEach
 //    void setUp() {
-//        log.info("초기 데이터 생성");
 //        Brand brand = brandService.create(BRAND("테스트 브랜드"));
-//        VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
-//        WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
-//        TireResponse tire01 = tireService.create(TIRE(brand.getId(), "PRODUCT_ID_01", 11, "패턴01"));    // size: 1656011
-//        TireResponse tire02 = tireService.create(TIRE(brand.getId(), "PRODUCT_ID_02", 12, "패턴02"));    // size: 1656012
-//        List<PurchaseSimpleResponse> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
-//                CREATE_PURCHASE_CONTENT(tire01.getTireId(), "dot01", warehouse.getWarehouseId(), 1L),
-//                CREATE_PURCHASE_CONTENT(tire02.getTireId(), "dot02", warehouse.getWarehouseId(), 2L)));
-//        purchases.forEach(purchase -> purchaseService.confirm(purchase.getPurchaseId()));
+//        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴", null));
+//        Vendor vendor = vendorService.create(VENDOR("테스트 매입처"));
+//
+//        Tire tire01 = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11, null));    // size: 1656011
+//        Tire tire02 = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11, null));    // size: 1656012
+//        List<Purchase> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getId(),
+//                CREATE_PURCHASE_CONTENT(tire01.getId(), "dot01", 1L),
+//                CREATE_PURCHASE_CONTENT(tire02.getId(), "dot02", 2L)));
+//        purchases.forEach(purchase -> purchaseService.confirm(purchase.getId()));
 //        clear();
 //    }
 //
