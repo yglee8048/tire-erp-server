@@ -22,10 +22,6 @@ public class PurchaseCreateRequestContent {
     @NotEmpty(message = "DOT 는 필수 값입니다.")
     private String dot;
 
-    @Schema(name = "창고 ID", example = "20019", required = true)
-    @NotNull(message = "창고 ID 는 필수 값입니다.")
-    private Long warehouseId;
-
     @Schema(name = "매입 가격", example = "450000", required = true)
     @NotNull(message = "매입 가격은 필수 값입니다.")
     @Positive(message = "매입 가격은 양수여야 합니다.")

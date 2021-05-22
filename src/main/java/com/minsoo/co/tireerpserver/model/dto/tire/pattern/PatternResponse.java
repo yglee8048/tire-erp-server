@@ -3,20 +3,17 @@ package com.minsoo.co.tireerpserver.model.dto.tire.pattern;
 import com.minsoo.co.tireerpserver.model.code.PatternOption;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.Pattern;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.minsoo.co.tireerpserver.model.entity.entities.tire.PatternOptions;
+import lombok.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Getter
-@ToString
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
 public class PatternResponse {
 
-    private Long tirePatternId;
+    private Long patternId;
 
     private BrandResponse brand;
 
@@ -31,13 +28,13 @@ public class PatternResponse {
     private List<PatternOption> options;
 
     public PatternResponse(Pattern pattern) {
-        this.tirePatternId = pattern.getId();
+        this.patternId = pattern.getId();
         this.brand = BrandResponse.of(pattern.getBrand());
         this.name = pattern.getName();
         this.carType = pattern.getCarType();
         this.rank = pattern.getRank();
         this.season = pattern.getSeason();
-        this.options = pattern.getOptions();
+        this.options = pattern.getOptions().stream().map(PatternOptions::getOption).collect(Collectors.toList());
     }
 
     public static PatternResponse of(Pattern pattern) {

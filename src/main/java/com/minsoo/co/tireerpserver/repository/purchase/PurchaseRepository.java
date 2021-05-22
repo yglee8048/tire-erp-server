@@ -10,25 +10,4 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
-
-    @Query("select p from Purchase p " +
-            "join fetch p.warehouse w " +
-            "join fetch p.vendor v " +
-            "join fetch p.tireDot d " +
-            "join fetch d.tire t " +
-            "join fetch t.brand b " +
-            "order by p.id desc")
-    List<Purchase> findAllFetchAll();
-
-    @Query("select p from Purchase p " +
-            "join fetch p.warehouse w " +
-            "join fetch p.vendor v " +
-            "join fetch p.tireDot d " +
-            "join fetch d.tire t " +
-            "join fetch t.brand b " +
-            "where p.id = :id")
-    Optional<Purchase> findOneFetchAllById(@Param("id") Long id);
-
-    @EntityGraph(attributePaths = {"tireDot"})
-    Optional<Purchase> findOneFetchTireDotById(Long id);
 }

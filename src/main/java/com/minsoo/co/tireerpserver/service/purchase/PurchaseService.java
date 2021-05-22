@@ -32,18 +32,17 @@ import java.util.stream.Collectors;
 public class PurchaseService {
 
     private final VendorRepository vendorRepository;
-    private final WarehouseRepository warehouseRepository;
     private final TireRepository tireRepository;
     private final TireDotRepository tireDotRepository;
     private final StockRepository stockRepository;
     private final PurchaseRepository purchaseRepository;
 
     public List<Purchase> findAll() {
-        return purchaseRepository.findAllFetchAll();
+        return purchaseRepository.findAll();
     }
 
     public Purchase findById(Long id) {
-        return purchaseRepository.findOneFetchAllById(id).orElseThrow(() -> new NotFoundException("매입", id));
+        return purchaseRepository.findById(id).orElseThrow(() -> new NotFoundException("매입", id));
     }
 
     /**
@@ -57,9 +56,8 @@ public class PurchaseService {
                 .stream()
                 .filter(content -> content.getQuantity() > 0)
                 .map(content -> {
-                    Warehouse warehouse = warehouseRepository.findById(content.getWarehouseId()).orElseThrow(NotFoundException::new);
                     TireDot tireDot = findDotIfExistElseCreateByTireIdAndDot(content.getTireId(), content.getDot());
-                    return purchaseRepository.save(Purchase.of(vendor, tireDot, warehouse, content, createRequest.getPurchaseDate()));
+                    return purchaseRepository.save(Purchase.of(vendor, tireDot, content, createRequest.getPurchaseDate()));
                 })
                 .collect(Collectors.toList());
     }
@@ -76,14 +74,11 @@ public class PurchaseService {
         Vendor vendor = purchase.getVendor().getId().equals(updateRequest.getVendorId())
                 ? purchase.getVendor()
                 : vendorRepository.findById(updateRequest.getVendorId()).orElseThrow(() -> new NotFoundException("매입처", updateRequest.getVendorId()));
-        Warehouse warehouse = purchase.getWarehouse().getId().equals(updateRequest.getWarehouseId())
-                ? purchase.getWarehouse()
-                : warehouseRepository.findById(updateRequest.getWarehouseId()).orElseThrow(() -> new NotFoundException("창고", updateRequest.getWarehouseId()));
         TireDot tireDot = purchase.getTireDot().getTire().getId().equals(updateRequest.getTireId()) && purchase.getTireDot().getDot().equals(updateRequest.getDot())
                 ? purchase.getTireDot()
                 : findDotIfExistElseCreateByTireIdAndDot(updateRequest.getTireId(), updateRequest.getDot());
 
-        purchase.update(vendor, tireDot, warehouse, updateRequest);
+        purchase.update(vendor, tireDot, updateRequest);
     }
 
     /**

@@ -1,8 +1,5 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
-import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandSimpleResponse;
-import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorSimpleResponse;
-import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternResponse;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
@@ -51,11 +48,6 @@ public class ManagementApi {
     @GetMapping(value = "/brands/{brandId}")
     public ApiResponse<BrandResponse> findBrandById(@PathVariable Long brandId) {
         return ApiResponse.OK(BrandResponse.of(brandService.findById(brandId)));
-    }
-
-    @GetMapping(value = "/brands/names")
-    public ApiResponse<List<BrandSimpleResponse>> findAllBrandNames() {
-        return ApiResponse.OK(brandService.findAllBrandNames());
     }
 
     @PostMapping(value = "/brands")
@@ -123,11 +115,6 @@ public class ManagementApi {
                 .collect(Collectors.toList()));
     }
 
-    @GetMapping(value = "/vendors/names")
-    public ApiResponse<List<VendorSimpleResponse>> findAllVendorNames() {
-        return ApiResponse.OK(vendorService.findAllVendorNames());
-    }
-
     @GetMapping(value = "/vendors/{vendorId}")
     public ApiResponse<VendorResponse> findVendorById(@PathVariable Long vendorId) {
         return ApiResponse.OK(VendorResponse.of(vendorService.findById(vendorId)));
@@ -159,11 +146,6 @@ public class ManagementApi {
                 .stream()
                 .map(WarehouseResponse::of)
                 .collect(Collectors.toList()));
-    }
-
-    @GetMapping(value = "/warehouses/names")
-    public ApiResponse<List<WarehouseSimpleResponse>> findAllWarehouseNames() {
-        return ApiResponse.OK(warehouseService.findAllWarehouseNames());
     }
 
     @GetMapping(value = "/warehouses/{warehouseId}")

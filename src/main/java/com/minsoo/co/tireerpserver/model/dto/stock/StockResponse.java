@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.dto.stock;
 
-import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseSimpleResponse;
+import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.stock.Stock;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,7 +22,7 @@ public class StockResponse {
     private TireDotResponse tireDot;
 
     @Schema(name = "창고")
-    private WarehouseSimpleResponse warehouse;
+    private WarehouseResponse warehouse;
 
     @Schema(name = "수량", example = "250")
     private Long quantity;
@@ -33,7 +33,7 @@ public class StockResponse {
     private StockResponse(Stock stock) {
         this.stockId = stock.getId();
         this.tireDot = TireDotResponse.of(stock.getTireDot());
-        this.warehouse = WarehouseSimpleResponse.of(stock.getWarehouse());
+        this.warehouse = WarehouseResponse.of(stock.getWarehouse());
         this.quantity = stock.getQuantity();
         this.lock = stock.isLock();
     }

@@ -16,6 +16,8 @@ public class TireRequest {
 
     private Long patternId;
 
+    private boolean onSale;
+
     private Integer width;
 
     private Integer flatnessRatio;

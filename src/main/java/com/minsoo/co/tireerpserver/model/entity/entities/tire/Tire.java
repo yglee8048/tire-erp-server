@@ -1,17 +1,13 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.tire;
 
-import com.minsoo.co.tireerpserver.model.code.TireOption;
 import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireRequest;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
@@ -34,6 +30,9 @@ public class Tire {
     @JoinColumn(name = "pattern_id", nullable = false, columnDefinition = "패턴 정보")
     private Pattern pattern;
 
+    @Column(name = "on_sale")
+    private Boolean onSale;
+
     @Column(name = "width", nullable = false, columnDefinition = "단면폭")
     private Integer width;
 
@@ -52,11 +51,9 @@ public class Tire {
     @Column(name = "speed_index", columnDefinition = "속도 지수")
     private String speedIndex;
 
-    @Enumerated(STRING)
-    @ElementCollection(fetch = EAGER)
-    @CollectionTable(name = "tire_options", joinColumns = @JoinColumn(name = "tire_id", referencedColumnName = "tire_id"))
-    @Column(name = "option", columnDefinition = "옵션 정보(런플렛, 스펀지, 실링)")
-    private final List<TireOption> options = new ArrayList<>();
+    // 옵션 정보(런플렛, 스펀지, 실링)
+    @OneToMany(mappedBy = "tire", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private final Set<TireOptions> options = new HashSet<>();
 
     @Column(name = "oe", columnDefinition = "OE 마크")
     private String oe;
@@ -89,6 +86,7 @@ public class Tire {
     public Tire(TireRequest tireRequest, Pattern pattern) {
         this.productId = tireRequest.getProductId();
         this.pattern = pattern;
+        this.onSale = tireRequest.isOnSale();
         this.width = tireRequest.getWidth();
         this.flatnessRatio = tireRequest.getFlatnessRatio();
         this.inch = tireRequest.getInch();
@@ -111,6 +109,7 @@ public class Tire {
     public Tire update(TireRequest tireRequest, Pattern pattern) {
         this.productId = tireRequest.getProductId();
         this.pattern = pattern;
+        this.onSale = tireRequest.isOnSale();
         this.width = tireRequest.getWidth();
         this.flatnessRatio = tireRequest.getFlatnessRatio();
         this.inch = tireRequest.getInch();

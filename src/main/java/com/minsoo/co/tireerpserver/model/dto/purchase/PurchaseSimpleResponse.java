@@ -45,7 +45,6 @@ public class PurchaseSimpleResponse {
         this.purchaseId = purchase.getId();
         this.vendorId = purchase.getVendor().getId();
         this.tireDot = TireDotSimpleResponse.of(purchase.getTireDot());
-        this.warehouseId = purchase.getWarehouse().getId();
         this.price = purchase.getPrice();
         this.quantity = purchase.getQuantity();
         this.status = purchase.getStatus();

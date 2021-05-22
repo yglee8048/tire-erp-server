@@ -1,6 +1,5 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.tire;
 
-import com.minsoo.co.tireerpserver.model.code.PatternOption;
 import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import lombok.Getter;
@@ -8,12 +7,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import static javax.persistence.EnumType.STRING;
-import static javax.persistence.FetchType.*;
-import static javax.persistence.GenerationType.*;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
@@ -43,11 +42,8 @@ public class Pattern {
     @Column(name = "season", columnDefinition = "계절")
     private String season;
 
-    @Enumerated(STRING)
-    @ElementCollection(fetch = EAGER)
-    @CollectionTable(name = "pattern_options", joinColumns = @JoinColumn(name = "pattern_id", referencedColumnName = "pattern_id"))
-    @Column(name = "option", nullable = false)
-    private final List<PatternOption> options = new ArrayList<>();
+    @OneToMany(mappedBy = "pattern", fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    private final Set<PatternOptions> options = new HashSet<>();
 
     //== Business ==//
     public Pattern(PatternRequest patternRequest, Brand brand) {

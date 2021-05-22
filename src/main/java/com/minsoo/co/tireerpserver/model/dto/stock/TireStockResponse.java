@@ -2,14 +2,9 @@ package com.minsoo.co.tireerpserver.model.dto.stock;
 
 import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
-@ToString
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
 public class TireStockResponse {
 
@@ -25,6 +20,6 @@ public class TireStockResponse {
     // 공개 재고 합
     private Long sumOfOpenedStock;
 
-    // DOT 수
-    private Long numberOfDot;
+    // 재고가 존재하는 DOT 수
+    private Long numberOfActiveDot;
 }

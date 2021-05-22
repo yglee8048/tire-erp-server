@@ -5,7 +5,6 @@ import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseCreateRequestConte
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseUpdateRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,10 +36,6 @@ public class Purchase {
     @JoinColumn(name = "tire_dot_id", nullable = false)
     private TireDot tireDot;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "warehouse_id", nullable = false)
-    private Warehouse warehouse;
-
     @Column(name = "price", nullable = false)
     private Integer price;
 
@@ -55,24 +50,22 @@ public class Purchase {
     private LocalDate purchaseDate;
 
     //== Business ==//
-    private Purchase(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseCreateRequestContent createRequest, LocalDate purchaseDate) {
+    private Purchase(Vendor vendor, TireDot tireDot, PurchaseCreateRequestContent createRequest, LocalDate purchaseDate) {
         this.vendor = vendor;
         this.tireDot = tireDot;
-        this.warehouse = warehouse;
         this.price = createRequest.getPrice();
         this.quantity = createRequest.getQuantity();
         this.status = PurchaseStatus.REQUESTED;
         this.purchaseDate = purchaseDate;
     }
 
-    public static Purchase of(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseCreateRequestContent createRequest, LocalDate purchaseDate) {
-        return new Purchase(vendor, tireDot, warehouse, createRequest, purchaseDate);
+    public static Purchase of(Vendor vendor, TireDot tireDot, PurchaseCreateRequestContent createRequest, LocalDate purchaseDate) {
+        return new Purchase(vendor, tireDot, createRequest, purchaseDate);
     }
 
-    public void update(Vendor vendor, TireDot tireDot, Warehouse warehouse, PurchaseUpdateRequest updateRequest) {
+    public void update(Vendor vendor, TireDot tireDot, PurchaseUpdateRequest updateRequest) {
         this.vendor = vendor;
         this.tireDot = tireDot;
-        this.warehouse = warehouse;
         this.price = updateRequest.getPrice();
         this.quantity = updateRequest.getQuantity();
         this.purchaseDate = updateRequest.getPurchaseDate();
