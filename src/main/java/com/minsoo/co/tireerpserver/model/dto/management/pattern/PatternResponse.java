@@ -1,9 +1,9 @@
-package com.minsoo.co.tireerpserver.model.dto.tire.pattern;
+package com.minsoo.co.tireerpserver.model.dto.management.pattern;
 
 import com.minsoo.co.tireerpserver.model.code.PatternOption;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.Pattern;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.PatternOptions;
+import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
+import com.minsoo.co.tireerpserver.model.entity.entities.management.PatternOptions;
 import lombok.*;
 
 import java.util.List;

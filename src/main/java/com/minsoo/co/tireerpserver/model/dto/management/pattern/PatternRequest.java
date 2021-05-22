@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.dto.tire.pattern;
+package com.minsoo.co.tireerpserver.model.dto.management.pattern;
 
 import com.minsoo.co.tireerpserver.model.code.PatternOption;
 import lombok.*;

@@ -45,7 +45,7 @@ public class CustomerApi {
 
     @PostMapping
     @Operation(summary = "거래처 생성", description = "거래처를 생성한다.")
-    public ResponseEntity<ApiResponse<String>> createCustomer(@RequestBody @Valid CustomerRequest createRequest) {
+    public ResponseEntity<ApiResponse<Object>> createCustomer(@RequestBody @Valid CustomerRequest createRequest) {
         return ApiResponse.CREATED(
                 linkTo(methodOn(CustomerApi.class, findCustomerById(customerService.create(createRequest).getId()))).toUri());
     }
@@ -53,7 +53,7 @@ public class CustomerApi {
     @PutMapping(value = "/{customerId}")
     @Operation(summary = "거래처 수정", description = "거래처를 수정한다.")
     @Parameters({@Parameter(name = "customerId", description = "거래처 ID", example = "201324", required = true)})
-    public ApiResponse<String> updateCustomer(@PathVariable(value = "customerId") Long customerId,
+    public ApiResponse<Object> updateCustomer(@PathVariable(value = "customerId") Long customerId,
                                               @RequestBody @Valid CustomerRequest updateRequest) {
         customerService.update(customerId, updateRequest);
         return ApiResponse.OK;
@@ -62,7 +62,7 @@ public class CustomerApi {
     @DeleteMapping(value = "/{customerId}")
     @Operation(summary = "거래처 삭제", description = "거래처를 삭제한다.")
     @Parameters({@Parameter(name = "customerId", description = "거래처 ID", example = "201324", required = true)})
-    public ApiResponse<String> deleteCustomer(@PathVariable(value = "customerId") Long customerId) {
+    public ApiResponse<Object> deleteCustomer(@PathVariable(value = "customerId") Long customerId) {
         customerService.removeById(customerId);
         return ApiResponse.OK;
     }

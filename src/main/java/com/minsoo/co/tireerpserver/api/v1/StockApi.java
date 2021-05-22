@@ -35,7 +35,7 @@ public class StockApi {
     }
 
     @PostMapping("/tire-dots/{tireDotId}/stocks")
-    public ApiResponse<String> modifyStocks(@PathVariable(name = "tireDotId") Long tireDotId,
+    public ApiResponse<Object> modifyStocks(@PathVariable(name = "tireDotId") Long tireDotId,
                                             @RequestBody @Valid List<ModifyStockRequest> modifyStockRequests) {
         stockService.modifyStocks(tireDotId, modifyStockRequests);
         return ApiResponse.OK;
@@ -48,10 +48,5 @@ public class StockApi {
                                                                @RequestParam(required = false) String patternName,
                                                                @RequestParam(required = false) String productId) {
         return ApiResponse.OK(stockService.findTireStocks(size, brandName, patternName, productId));
-    }
-
-    @GetMapping("/tire-stocks/{tireId}")
-    public ApiResponse<TireStockResponse> findTireStockByTireId(@PathVariable Long tireId) {
-        return ApiResponse.OK(stockService.findTireStockByTireId(tireId));
     }
 }

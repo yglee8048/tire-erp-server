@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.tire.tire;
 
 import com.minsoo.co.tireerpserver.model.code.TireOption;
-import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternResponse;
+import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireOptions;
 import lombok.*;
@@ -15,11 +15,11 @@ public class TireResponse {
 
     private Long tireId;
 
+    private Boolean onSale;
+
     private String productId;
 
     private PatternResponse pattern;
-
-    private boolean onSale;
 
     private Integer width;
 

@@ -10,9 +10,14 @@ import lombok.*;
 public class ModifyStockRequest {
 
     private Long stockId;
+
     private Long tireDotId;
+
     private String nickname;
+
     private Long warehouseId;
+
     private Long quantity;
+
     private boolean lock;
 }

@@ -5,18 +5,17 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter
-@ToString
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TireRequest {
 
+    private Boolean onSale;
+
     private String productId;
 
     private Long patternId;
-
-    private boolean onSale;
 
     private Integer width;
 

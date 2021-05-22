@@ -48,7 +48,7 @@ public class AdminApi {
     @PutMapping(value = "/{adminId}")
     @Operation(summary = "관리자 수정", description = "관리자를 수정한다.")
     @Parameters({@Parameter(name = "adminId", description = "관리자 ID", example = "201324", required = true)})
-    public ApiResponse<String> updateAdmin(@PathVariable Long adminId,
+    public ApiResponse<Object> updateAdmin(@PathVariable Long adminId,
                                            @RequestBody @Valid AdminRequest updateRequest) {
         adminService.update(adminId, updateRequest);
         return ApiResponse.OK;
@@ -57,7 +57,7 @@ public class AdminApi {
     @DeleteMapping(value = "/{adminId}")
     @Operation(summary = "관리자 삭제", description = "관리자를 삭제한다.")
     @Parameters({@Parameter(name = "adminId", description = "관리자 ID", example = "201324", required = true)})
-    public ApiResponse<String> deleteAdmin(@PathVariable Long adminId) {
+    public ApiResponse<Object> deleteAdmin(@PathVariable Long adminId) {
         adminService.removeById(adminId);
         return ApiResponse.OK;
     }

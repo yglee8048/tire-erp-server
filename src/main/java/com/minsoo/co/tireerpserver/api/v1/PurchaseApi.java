@@ -57,7 +57,7 @@ public class PurchaseApi {
     @PutMapping("/{purchaseId}")
     @Tag(name = "매입 수정", description = "매입 내용을 수정한다. (확정된 매입은 수정이 불가능하다.)")
     @Parameters({@Parameter(name = "purchaseId", description = "매입 ID", example = "201324", required = true)})
-    public ApiResponse<String> updatePurchase(@PathVariable(value = "purchaseId") Long purchaseId,
+    public ApiResponse<Object> updatePurchase(@PathVariable(value = "purchaseId") Long purchaseId,
                                               @RequestBody @Valid PurchaseUpdateRequest updateRequest) {
         purchaseService.update(purchaseId, updateRequest);
         return ApiResponse.OK;
@@ -66,7 +66,7 @@ public class PurchaseApi {
     @PostMapping(value = "/{purchaseId}/confirm")
     @Tag(name = "매입 확정", description = "매입을 확정한다. 매입을 확정한 시점에 매입 내용이 재고에 반영된다.")
     @Parameters({@Parameter(name = "purchaseId", description = "매입 ID", example = "201324", required = true)})
-    public ApiResponse<String> confirmPurchaseById(@PathVariable(value = "purchaseId") Long purchaseId) {
+    public ApiResponse<Object> confirmPurchaseById(@PathVariable(value = "purchaseId") Long purchaseId) {
         purchaseService.confirm(purchaseId);
         return ApiResponse.OK;
     }
@@ -74,7 +74,7 @@ public class PurchaseApi {
     @DeleteMapping("/{purchaseId}")
     @Tag(name = "매입 삭제", description = "매입 내용을 삭제한다. (확정된 매입은 삭제가 불가능하다.)")
     @Parameters({@Parameter(name = "purchaseId", description = "매입 ID", example = "201324", required = true)})
-    public ApiResponse<String> deletePurchase(@PathVariable(value = "purchaseId") Long purchaseId) {
+    public ApiResponse<Object> deletePurchase(@PathVariable(value = "purchaseId") Long purchaseId) {
         purchaseService.removeById(purchaseId);
         return ApiResponse.OK;
     }

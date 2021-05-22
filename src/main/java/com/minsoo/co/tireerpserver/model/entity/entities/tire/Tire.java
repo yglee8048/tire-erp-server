@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.tire;
 
 import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireRequest;
+import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,57 +24,58 @@ public class Tire {
     @Column(name = "tire_id", nullable = false, length = 20)
     private Long id;
 
-    @Column(name = "product_id", nullable = false, columnDefinition = "타이어 ID")
-    private String productId;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "pattern_id", nullable = false, columnDefinition = "패턴 정보")
-    private Pattern pattern;
-
     @Column(name = "on_sale")
     private Boolean onSale;
 
-    @Column(name = "width", nullable = false, columnDefinition = "단면폭")
+    @Column(name = "product_id", nullable = false)
+    private String productId;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "pattern_id", nullable = false)
+    private Pattern pattern;
+
+    @Column(name = "width", nullable = false)
     private Integer width;
 
-    @Column(name = "flatness_ratio", nullable = false, columnDefinition = "편평비")
+    @Column(name = "flatness_ratio", nullable = false)
     private Integer flatnessRatio;
 
-    @Column(name = "inch", nullable = false, columnDefinition = "인치")
+    @Column(name = "inch", nullable = false)
     private Integer inch;
 
-    @Column(name = "size", nullable = false, columnDefinition = "사이즈(단면폭 + '/' + 편평비 + 'R' + 인치)")
+    // width + "/" + flatnessRatio + "R" + inch
+    @Column(name = "size", nullable = false)
     private String size;
 
-    @Column(name = "load_index", columnDefinition = "하중 지수")
+    @Column(name = "load_index")
     private Integer loadIndex;
 
-    @Column(name = "speed_index", columnDefinition = "속도 지수")
+    @Column(name = "speed_index")
     private String speedIndex;
 
     // 옵션 정보(런플렛, 스펀지, 실링)
     @OneToMany(mappedBy = "tire", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private final Set<TireOptions> options = new HashSet<>();
 
-    @Column(name = "oe", columnDefinition = "OE 마크")
+    @Column(name = "oe")
     private String oe;
 
-    @Column(name = "country_of_manufacture", columnDefinition = "제조국")
+    @Column(name = "country_of_manufacture")
     private String countryOfManufacture;
 
-    @Column(name = "original_vehicle", columnDefinition = "순정 차량")
+    @Column(name = "original_vehicle")
     private String originalVehicle;
 
-    @Column(name = "note", columnDefinition = "비고")
+    @Column(name = "note")
     private String note;
 
-    @Column(name = "group", columnDefinition = "그룹")
+    @Column(name = "group")
     private String group;
 
-    @Column(name = "pr", columnDefinition = "PR")
+    @Column(name = "pr")
     private String pr;
 
-    @Column(name = "lr", columnDefinition = "L.R")
+    @Column(name = "lr")
     private String lr;
 
     @OneToMany(mappedBy = "tire", fetch = LAZY, cascade = ALL, orphanRemoval = true)
@@ -84,9 +86,9 @@ public class Tire {
 
     //== Business ==//
     public Tire(TireRequest tireRequest, Pattern pattern) {
+        this.onSale = tireRequest.getOnSale();
         this.productId = tireRequest.getProductId();
         this.pattern = pattern;
-        this.onSale = tireRequest.isOnSale();
         this.width = tireRequest.getWidth();
         this.flatnessRatio = tireRequest.getFlatnessRatio();
         this.inch = tireRequest.getInch();
@@ -107,9 +109,9 @@ public class Tire {
     }
 
     public Tire update(TireRequest tireRequest, Pattern pattern) {
+        this.onSale = tireRequest.getOnSale();
         this.productId = tireRequest.getProductId();
         this.pattern = pattern;
-        this.onSale = tireRequest.isOnSale();
         this.width = tireRequest.getWidth();
         this.flatnessRatio = tireRequest.getFlatnessRatio();
         this.inch = tireRequest.getInch();

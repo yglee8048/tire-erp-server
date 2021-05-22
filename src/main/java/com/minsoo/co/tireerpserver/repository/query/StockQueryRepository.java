@@ -8,6 +8,4 @@ import java.util.Optional;
 public interface StockQueryRepository {
 
     List<TireStockResponse> findTireStocks(String size, String brandName, String patternName, String productId);
-
-    Optional<TireStockResponse> findTireStocksByTireId(Long tireId);
 }

@@ -49,11 +49,7 @@ public class StockService {
     public List<TireStockResponse> findTireStocks(String size, String brandName, String patternName, String productId) {
         return stockRepository.findTireStocks(size, brandName, patternName, productId);
     }
-
-    public TireStockResponse findTireStockByTireId(Long tireId) {
-        return stockRepository.findTireStocksByTireId(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId));
-    }
-
+    
     @Transactional
     public void modifyStocks(Long tireDotId, List<ModifyStockRequest> modifyStockRequests) {
         // validation: 재고의 합이 같아야 한다.

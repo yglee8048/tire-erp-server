@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
-import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternRequest;
-import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternResponse;
+import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternResponse;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
@@ -12,7 +12,7 @@ import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRespo
 import com.minsoo.co.tireerpserver.service.management.BrandService;
 import com.minsoo.co.tireerpserver.service.management.VendorService;
 import com.minsoo.co.tireerpserver.service.management.WarehouseService;
-import com.minsoo.co.tireerpserver.service.tire.PatternService;
+import com.minsoo.co.tireerpserver.service.management.PatternService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -51,20 +51,20 @@ public class ManagementApi {
     }
 
     @PostMapping(value = "/brands")
-    public ResponseEntity<ApiResponse<String>> createBrand(@RequestBody @Valid BrandRequest brandRequest) {
+    public ResponseEntity<ApiResponse<Object>> createBrand(@RequestBody @Valid BrandRequest brandRequest) {
         return ApiResponse.CREATED(
                 linkTo(methodOn(ManagementApi.class, findBrandById(brandService.create(brandRequest).getId()))).toUri());
     }
 
     @PutMapping(value = "/brands/{brandId}")
-    public ApiResponse<String> updateBrand(@PathVariable Long brandId,
+    public ApiResponse<Object> updateBrand(@PathVariable Long brandId,
                                            @RequestBody @Valid BrandRequest brandUpdateRequest) {
         brandService.update(brandId, brandUpdateRequest);
         return ApiResponse.OK;
     }
 
     @DeleteMapping(value = "/brands/{brandId}")
-    public ApiResponse<String> deleteBrand(@PathVariable Long brandId) {
+    public ApiResponse<Object> deleteBrand(@PathVariable Long brandId) {
         brandService.removeById(brandId);
         return ApiResponse.OK;
     }
@@ -85,14 +85,14 @@ public class ManagementApi {
     }
 
     @PostMapping("/brands/{brandId}/patterns")
-    public ResponseEntity<ApiResponse<String>> createPattern(@PathVariable(name = "brandId") Long brandId,
+    public ResponseEntity<ApiResponse<Object>> createPattern(@PathVariable(name = "brandId") Long brandId,
                                                              @RequestBody PatternRequest patternRequest) {
         return ApiResponse.CREATED(
                 linkTo(methodOn(TireApi.class, findPatternByIds(brandId, patternService.create(brandId, patternRequest).getId()))).toUri());
     }
 
     @PutMapping("/brands/{brandId}/patterns/{patternId}")
-    public ApiResponse<String> updatePattern(@PathVariable(name = "brandId") Long brandId,
+    public ApiResponse<Object> updatePattern(@PathVariable(name = "brandId") Long brandId,
                                              @PathVariable(name = "patternId") Long patternId,
                                              @RequestBody PatternRequest patternRequest) {
         patternService.update(brandId, patternId, patternRequest);
@@ -100,7 +100,7 @@ public class ManagementApi {
     }
 
     @DeleteMapping("/brands/{brandId}/patterns/{patternId}")
-    public ApiResponse<String> deletePatternById(@PathVariable(name = "brandId") Long brandId,
+    public ApiResponse<Object> deletePatternById(@PathVariable(name = "brandId") Long brandId,
                                                  @PathVariable(name = "patternId") Long patternId) {
         patternService.removeByIds(brandId, patternId);
         return ApiResponse.OK;
@@ -121,20 +121,20 @@ public class ManagementApi {
     }
 
     @PostMapping(value = "/vendors")
-    public ResponseEntity<ApiResponse<String>> createVendor(@RequestBody @Valid VendorRequest vendorRequest) {
+    public ResponseEntity<ApiResponse<Object>> createVendor(@RequestBody @Valid VendorRequest vendorRequest) {
         return ApiResponse.CREATED(
                 linkTo(methodOn(ManagementApi.class, findVendorById(vendorService.create(vendorRequest).getId()))).toUri());
     }
 
     @PutMapping(value = "/vendors/{vendorId}")
-    public ApiResponse<String> updateVendor(@PathVariable Long vendorId,
+    public ApiResponse<Object> updateVendor(@PathVariable Long vendorId,
                                             @RequestBody @Valid VendorRequest vendorUpdateRequest) {
         vendorService.update(vendorId, vendorUpdateRequest);
         return ApiResponse.OK;
     }
 
     @DeleteMapping(value = "/vendors/{vendorId}")
-    public ApiResponse<String> deleteVendor(@PathVariable Long vendorId) {
+    public ApiResponse<Object> deleteVendor(@PathVariable Long vendorId) {
         vendorService.removeById(vendorId);
         return ApiResponse.OK;
     }
@@ -154,20 +154,20 @@ public class ManagementApi {
     }
 
     @PostMapping(value = "/warehouses")
-    public ResponseEntity<ApiResponse<String>> createWarehouse(@RequestBody @Valid WarehouseRequest warehouseRequest) {
+    public ResponseEntity<ApiResponse<Object>> createWarehouse(@RequestBody @Valid WarehouseRequest warehouseRequest) {
         return ApiResponse.CREATED(
                 linkTo(methodOn(ManagementApi.class, findWarehouseById(warehouseService.create(warehouseRequest).getId()))).toUri());
     }
 
     @PutMapping(value = "/warehouses/{warehouseId}")
-    public ApiResponse<String> updateWarehouse(@PathVariable Long warehouseId,
+    public ApiResponse<Object> updateWarehouse(@PathVariable Long warehouseId,
                                                @RequestBody @Valid WarehouseRequest warehouseUpdateRequest) {
         warehouseService.update(warehouseId, warehouseUpdateRequest);
         return ApiResponse.OK;
     }
 
     @DeleteMapping(value = "/warehouses/{warehouseId}")
-    public ApiResponse<String> deleteWarehouse(@PathVariable Long warehouseId) {
+    public ApiResponse<Object> deleteWarehouse(@PathVariable Long warehouseId) {
         warehouseService.removeById(warehouseId);
         return ApiResponse.OK;
     }

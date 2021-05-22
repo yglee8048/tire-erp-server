@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.repository.tire;
 
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.Pattern;
+import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

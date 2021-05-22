@@ -64,6 +64,7 @@ public class TireDotService {
         }
     }
 
+    // TODO: 삭제 검증
     @Transactional
     public void removeByIds(Long tireId, Long tireDotId) {
         TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));

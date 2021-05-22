@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.model.dto.stock;
 
-import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireSimpleResponse;
 import lombok.*;
 
 @Data
@@ -9,7 +8,7 @@ import lombok.*;
 public class TireStockResponse {
 
     // 타이어
-    private TireResponse tire;
+    private TireSimpleResponse tire;
 
     // 매입 평균가
     private Double averageOfPurchasePrice;

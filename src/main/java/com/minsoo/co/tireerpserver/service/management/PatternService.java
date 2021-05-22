@@ -1,14 +1,14 @@
-package com.minsoo.co.tireerpserver.service.tire;
+package com.minsoo.co.tireerpserver.service.management;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.CanNotDeleteException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternRequest;
+import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.Pattern;
+import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
 import com.minsoo.co.tireerpserver.repository.management.BrandRepository;
-import com.minsoo.co.tireerpserver.repository.tire.PatternRepository;
+import com.minsoo.co.tireerpserver.repository.management.PatternRepository;
 import com.minsoo.co.tireerpserver.repository.tire.TireRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

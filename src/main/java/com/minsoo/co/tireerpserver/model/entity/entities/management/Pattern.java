@@ -1,7 +1,6 @@
-package com.minsoo.co.tireerpserver.model.entity.entities.tire;
+package com.minsoo.co.tireerpserver.model.entity.entities.management;
 
-import com.minsoo.co.tireerpserver.model.dto.tire.pattern.PatternRequest;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
+import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +17,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-@Table(name = "pattern", uniqueConstraints = {@UniqueConstraint(name = "pattern_unique_and_name", columnNames = {"brand_id", "name"})})
+@Table(name = "pattern", uniqueConstraints = {@UniqueConstraint(name = "pattern_unique_name", columnNames = {"brand_id", "name"})})
 public class Pattern {
 
     @Id
@@ -27,19 +26,19 @@ public class Pattern {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "brand_id", nullable = false, columnDefinition = "제조사 ID")
+    @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-    @Column(name = "name", nullable = false, columnDefinition = "패턴 이름")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "car_type", columnDefinition = "차종")
+    @Column(name = "car_type")
     private String carType;
 
-    @Column(name = "rank", columnDefinition = "등급")
+    @Column(name = "rank")
     private String rank;
 
-    @Column(name = "season", columnDefinition = "계절")
+    @Column(name = "season")
     private String season;
 
     @OneToMany(mappedBy = "pattern", fetch = LAZY, cascade = ALL, orphanRemoval = true)
@@ -55,7 +54,10 @@ public class Pattern {
     }
 
     public static Pattern of(PatternRequest patternRequest, Brand brand) {
-        return new Pattern(patternRequest, brand);
+        Pattern pattern = new Pattern(patternRequest, brand);
+        patternRequest.getOptions()
+                .forEach(patternOption -> pattern.getOptions().add(PatternOptions.of(pattern, patternOption)));
+        return pattern;
     }
 
     public Pattern update(PatternRequest patternRequest, Brand brand) {
