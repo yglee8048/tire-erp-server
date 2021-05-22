@@ -14,5 +14,5 @@ public interface PatternRepository extends JpaRepository<Pattern, Long> {
     boolean existsByBrandAndName(Brand brand, String name);
 
     @Query("select distinct p.name from Pattern p")
-    List<String> findNames();
+    List<String> findAllNames();
 }

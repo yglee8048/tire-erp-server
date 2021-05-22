@@ -2,16 +2,13 @@ package com.minsoo.co.tireerpserver.model.dto.stock;
 
 import lombok.*;
 
-@Getter
-@ToString
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ModifyStockRequest {
 
     private Long stockId;
-
-    private Long tireDotId;
 
     private String nickname;
 

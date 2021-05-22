@@ -7,6 +7,7 @@ import com.minsoo.co.tireerpserver.model.entity.entities.stock.Stock;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
 import com.minsoo.co.tireerpserver.repository.management.BrandRepository;
+import com.minsoo.co.tireerpserver.repository.management.PatternRepository;
 import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
 import com.minsoo.co.tireerpserver.repository.tire.TireDotRepository;
 import com.minsoo.co.tireerpserver.repository.tire.TireRepository;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class StockService {
 
     private final BrandRepository brandRepository;
+    private final PatternRepository patternRepository;
     private final WarehouseRepository warehouseRepository;
     private final TireRepository tireRepository;
     private final TireDotRepository tireDotRepository;
@@ -49,7 +50,15 @@ public class StockService {
     public List<TireStockResponse> findTireStocks(String size, String brandName, String patternName, String productId) {
         return stockRepository.findTireStocks(size, brandName, patternName, productId);
     }
-    
+
+    public TireStockParams findTireStockParams() {
+        return new TireStockParams(
+                tireRepository.findAllSizes(),
+                brandRepository.findAllNames(),
+                patternRepository.findAllNames(),
+                tireRepository.findAllProductIds());
+    }
+
     @Transactional
     public void modifyStocks(Long tireDotId, List<ModifyStockRequest> modifyStockRequests) {
         // validation: 재고의 합이 같아야 한다.

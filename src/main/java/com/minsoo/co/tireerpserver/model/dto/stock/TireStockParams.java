@@ -1,17 +1,13 @@
 package com.minsoo.co.tireerpserver.model.dto.stock;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
-@Getter
-@ToString
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class TireStockParams {
 
     @Schema(name = "사이즈")
@@ -21,15 +17,8 @@ public class TireStockParams {
     private List<String> brandNames;
 
     @Schema(name = "패턴")
-    private List<String> patterns;
+    private List<String> patternNames;
 
     @Schema(name = "상품 ID")
     private List<String> productIds;
-
-    public TireStockParams(List<String> sizes, List<String> brandNames, List<String> patterns, List<String> productIds) {
-        this.sizes = sizes;
-        this.brandNames = brandNames;
-        this.patterns = patterns;
-        this.productIds = productIds;
-    }
 }

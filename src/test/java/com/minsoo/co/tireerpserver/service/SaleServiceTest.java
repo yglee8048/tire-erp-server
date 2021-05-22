@@ -3,7 +3,6 @@
 //import com.minsoo.co.tireerpserver.model.dto.account.customer.CustomerResponse;
 //import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
 //import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
-//import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
 //import com.minsoo.co.tireerpserver.model.dto.sale.SaleSimpleResponse;
 //import com.minsoo.co.tireerpserver.model.dto.stock.StockResponse;
 //import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
@@ -65,7 +64,7 @@
 //        WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
 //        TireResponse tire01 = tireService.create(TIRE(brand.getId(), "PRODUCT_ID_01", 11, "패턴01"));    // size: 1656011
 //        TireResponse tire02 = tireService.create(TIRE(brand.getId(), "PRODUCT_ID_02", 12, "패턴02"));    // size: 1656012
-//        List<PurchaseSimpleResponse> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
+//        List<Purchase> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
 //                CREATE_PURCHASE_CONTENT(tire01.getTireId(), "dot01", warehouse.getWarehouseId(), 1L),
 //                CREATE_PURCHASE_CONTENT(tire02.getTireId(), "dot02", warehouse.getWarehouseId(), 2L)));
 //        purchases.forEach(purchase -> purchaseService.confirm(purchase.getPurchaseId()));

@@ -5,8 +5,7 @@
 //import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 //import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
 //import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
-//import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseSimpleResponse;
-//import com.minsoo.co.tireerpserver.model.dto.stock.StockSimpleResponse;
+//import com.minsoo.co.tireerpserver.model.dto.purchase.Purchase;
 //import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
 //import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 //import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
@@ -75,14 +74,14 @@
 //        clear();
 //
 //        log.debug("매입 생성 1");
-//        List<PurchaseSimpleResponse> purchaseList01 = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
+//        List<Purchase> purchaseList01 = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
 //                CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 1L),
 //                CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot02", warehouse.getWarehouseId(), 2L)));
 //        clear();
 //
 //        log.debug("매입 생성 검증");
-//        PurchaseSimpleResponse purchase01 = purchaseList01.get(0);
-//        PurchaseSimpleResponse purchase02 = purchaseList01.get(1);
+//        Purchase purchase01 = purchaseList01.get(0);
+//        Purchase purchase02 = purchaseList01.get(1);
 //
 //        assertThat(purchaseList01.size()).isEqualTo(2);
 //        assertThat(purchase01.getVendorId()).isEqualTo(vendor.getVendorId());
@@ -102,7 +101,7 @@
 //        clear();
 //
 //        log.debug("매입 생성 2");
-//        List<PurchaseSimpleResponse> purchaseList02 = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
+//        List<Purchase> purchaseList02 = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
 //                CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 1L)));
 //        clear();
 //
@@ -113,7 +112,7 @@
 //
 //        log.info("2. 매입 수정/삭제 테스트");
 //        log.debug("수정 테스트");
-//        PurchaseSimpleResponse updatedPurchase01 = purchaseService.update(purchase01.getPurchaseId(), UPDATE_PURCHASE(vendor.getVendorId(), tire.getTireId(), "dot01", warehouse.getWarehouseId(), 50L));
+//        Purchase updatedPurchase01 = purchaseService.update(purchase01.getPurchaseId(), UPDATE_PURCHASE(vendor.getVendorId(), tire.getTireId(), "dot01", warehouse.getWarehouseId(), 50L));
 //        assertThat(updatedPurchase01.getPurchaseId()).isEqualTo(purchase01.getPurchaseId());
 //        assertThat(updatedPurchase01.getQuantity()).isEqualTo(50L);
 //        clear();
@@ -139,7 +138,7 @@
 //        VendorResponse vendor = vendorService.create(VENDOR("테스트 매입처"));
 //        WarehouseResponse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
 //        TireResponse tire = tireService.create(TIRE(brand.getId(), "PRODUCT_ID_01", 11, "테스트 타이어"));
-//        List<PurchaseSimpleResponse> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
+//        List<Purchase> purchases = purchaseService.create(CREATE_PURCHASE(vendor.getVendorId(),
 //                CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 1L),
 //                CREATE_PURCHASE_CONTENT(tire.getTireId(), "dot01", warehouse.getWarehouseId(), 2L)));
 //        clear();
@@ -154,16 +153,12 @@
 //        clear();
 //
 //        log.debug("매입이 확정되면 재고에 반영되어야 한다. -> 재고 객체 신규 생성");
-//        List<StockSimpleResponse> stocks1 = stockService.findAllByTireId(tire.getTireId());
-//        assertThat(stocks1.size()).isEqualTo(1);
-//        assertThat(stocks1.get(0).getQuantity()).isEqualTo(1L);
 //        clear();
 //
 //        log.debug("동일한 재고가 추가되면 수량만 변경된다. -> 기존 재고 객체에 수량만 추가");
 //        purchaseService.confirm(purchases.get(1).getPurchaseId());
 //        clear();
 //
-//        List<StockSimpleResponse> stocks2 = stockService.findAllByTireId(tire.getTireId());
 //        assertThat(stocks2.size()).isEqualTo(1);
 //        assertThat(stocks2.get(0).getQuantity()).isEqualTo(3L);
 //        clear();

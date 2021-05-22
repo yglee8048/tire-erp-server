@@ -10,8 +10,6 @@ import java.util.Optional;
 public interface TireDotRepository extends JpaRepository<TireDot, Long> {
 
     List<TireDot> findAllByTire(Tire tire);
-
-    Optional<TireDot> findByTireAndDot(Tire tire, String dot);
-
+    
     boolean existsByTireAndDot(Tire tire, String dot);
 }

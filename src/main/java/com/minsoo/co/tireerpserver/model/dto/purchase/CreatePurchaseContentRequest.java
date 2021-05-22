@@ -3,7 +3,6 @@ package com.minsoo.co.tireerpserver.model.dto.purchase;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
@@ -11,15 +10,11 @@ import javax.validation.constraints.Positive;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseCreateRequestContent {
+public class CreatePurchaseContentRequest {
 
-    @Schema(name = "타이어 ID", example = "20019", required = true)
-    @NotNull(message = "타이어 ID 는 필수 값입니다.")
-    private Long tireId;
-
-    @Schema(name = "DOT", example = "1223", required = true)
-    @NotEmpty(message = "DOT 는 필수 값입니다.")
-    private String dot;
+    @Schema(name = "타이어 DOT ID", example = "20019", required = true)
+    @NotNull(message = "타이어 DOT ID 는 필수 값입니다.")
+    private Long tireDotId;
 
     @Schema(name = "매입 가격", example = "450000", required = true)
     @NotNull(message = "매입 가격은 필수 값입니다.")

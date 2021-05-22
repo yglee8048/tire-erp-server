@@ -49,4 +49,9 @@ public class StockApi {
                                                                @RequestParam(required = false) String productId) {
         return ApiResponse.OK(stockService.findTireStocks(size, brandName, patternName, productId));
     }
+
+    @GetMapping("/tire-stocks/params")
+    public ApiResponse<TireStockParams> findTireStockParams() {
+        return ApiResponse.OK(stockService.findTireStockParams());
+    }
 }

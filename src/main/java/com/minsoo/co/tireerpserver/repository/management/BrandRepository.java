@@ -10,6 +10,6 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 
     boolean existsByName(String name);
 
-    @Query("select b.name from Brand b")
-    List<String> findAllBrandNames();
+    @Query("select distinct b.name from Brand b")
+    List<String> findAllNames();
 }

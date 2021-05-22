@@ -7,12 +7,11 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@ToString
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseCreateRequest {
+public class CreatePurchaseRequest {
 
     @Schema(name = "매입처 ID", example = "20019", required = true)
     @NotNull(message = "매입처 ID 는 필수 값입니다.")
@@ -24,5 +23,5 @@ public class PurchaseCreateRequest {
 
     @Schema(name = "매입 내용", required = true)
     @NotNull(message = "매입 내용은 필수 값입니다.")
-    List<PurchaseCreateRequestContent> contents;
+    List<CreatePurchaseContentRequest> contents;
 }
