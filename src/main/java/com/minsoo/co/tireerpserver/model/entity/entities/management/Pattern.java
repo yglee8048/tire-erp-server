@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.management;
 
+import com.minsoo.co.tireerpserver.model.code.PatternOption;
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
@@ -73,7 +75,7 @@ public class Pattern {
         this.season = patternRequest.getSeason();
 
         // options
-        this.options.clear();
+        this.getOptions().clear();
         if (!CollectionUtils.isEmpty(patternRequest.getOptions())) {
             patternRequest.getOptions()
                     .forEach(patternOption -> this.getOptions().add(PatternOptions.of(this, patternOption)));

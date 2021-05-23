@@ -8,5 +8,6 @@ public class SimpleTest {
 
     @Test
     public void test() {
+
     }
 }

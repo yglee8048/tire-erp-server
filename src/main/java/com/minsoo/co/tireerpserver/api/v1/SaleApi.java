@@ -5,6 +5,7 @@ import com.minsoo.co.tireerpserver.model.dto.sale.SaleFlatResponse;
 import com.minsoo.co.tireerpserver.model.dto.sale.content.SaleContentResponse;
 import com.minsoo.co.tireerpserver.model.dto.sale.content.SaleContentUpdateRequest;
 import com.minsoo.co.tireerpserver.model.dto.sale.memo.SaleMemoResponse;
+import com.minsoo.co.tireerpserver.model.entity.entities.sale.Sale;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import com.minsoo.co.tireerpserver.service.sale.SaleService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,8 +54,9 @@ public class SaleApi {
     @PostMapping
     @Operation(summary = "매출 생성", description = "매출을 생성한다.")
     public ResponseEntity<ApiResponse<Object>> createSale(@RequestBody @Valid SaleCreateRequest createRequest) {
+        Sale sale = saleService.create(createRequest);
         return ApiResponse.CREATED(
-                linkTo(methodOn(SaleApi.class).findSaleById(saleService.create(createRequest).getId())).toUri());
+                linkTo(methodOn(SaleApi.class).findSaleById(sale.getId())).toUri());
     }
 
     // sale contents

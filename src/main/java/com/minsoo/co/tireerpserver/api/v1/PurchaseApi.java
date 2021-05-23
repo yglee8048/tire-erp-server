@@ -4,6 +4,7 @@ import com.minsoo.co.tireerpserver.model.dto.purchase.CreatePurchaseRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseConfirmRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.UpdatePurchaseRequest;
+import com.minsoo.co.tireerpserver.model.entity.entities.purchase.Purchase;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import com.minsoo.co.tireerpserver.service.purchase.PurchaseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,8 +49,9 @@ public class PurchaseApi {
     @PostMapping
     @Operation(summary = "매입 생성", description = "복수의 매입을 생성한다.")
     public ResponseEntity<ApiResponse<Object>> createPurchases(@RequestBody @Valid CreatePurchaseRequest createRequest) {
+        Purchase purchase = purchaseService.create(createRequest);
         return ApiResponse.CREATED(
-                linkTo(methodOn(PurchaseApi.class).findPurchaseById(purchaseService.create(createRequest).getId())).toUri());
+                linkTo(methodOn(PurchaseApi.class).findPurchaseById(purchase.getId())).toUri());
     }
 
     @PutMapping("/{purchaseId}")
