@@ -5,6 +5,10 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
@@ -24,6 +28,9 @@ public class Brand {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "brand", fetch = LAZY)
+    private final Set<Pattern> patterns = new HashSet<>();
 
     //== Business ==//
     private Brand(BrandRequest createRequest) {

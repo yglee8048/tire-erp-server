@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireDetailResponse;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;
@@ -14,7 +15,6 @@ import com.minsoo.co.tireerpserver.service.tire.TireService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -47,8 +47,8 @@ public class TireApi {
     }
 
     @GetMapping(value = "/{tireId}")
-    public ApiResponse<TireResponse> findTireById(@PathVariable(name = "tireId") Long tireId) {
-        return ApiResponse.OK(TireResponse.of(tireService.findById(tireId)));
+    public ApiResponse<TireDetailResponse> findTireById(@PathVariable(name = "tireId") Long tireId) {
+        return ApiResponse.OK(TireDetailResponse.of(tireService.findById(tireId)));
     }
 
     @PostMapping
