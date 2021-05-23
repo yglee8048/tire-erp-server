@@ -10,9 +10,9 @@ public class ModifyStockRequest {
 
     private Long stockId;
 
-    private String nickname;
-
     private Long warehouseId;
+
+    private String nickname;
 
     private Long quantity;
 

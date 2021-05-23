@@ -9,12 +9,11 @@ import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRequest;
-import com.minsoo.co.tireerpserver.model.dto.purchase.CreatePurchaseRequest;
-import com.minsoo.co.tireerpserver.model.dto.purchase.CreatePurchaseContentRequest;
-import com.minsoo.co.tireerpserver.model.dto.purchase.UpdatePurchaseRequest;
+import com.minsoo.co.tireerpserver.model.dto.purchase.*;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequestContent;
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
+import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStockRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireRequest;
 
@@ -86,7 +85,7 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static TireDotRequest TIREDOT(String dot, Long retailPrice) {
+    public static TireDotRequest TIRE_DOT(String dot, Long retailPrice) {
         return TireDotRequest.builder()
                 .dot(dot)
                 .retailPrice(retailPrice)
@@ -109,10 +108,37 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static UpdatePurchaseRequest UPDATE_PURCHASE(Long vendorId, Long tireId, String dot, Long quantity) {
+    public static UpdatePurchaseRequest UPDATE_PURCHASE(Long vendorId, List<UpdatePurchaseContentRequest> contents) {
         return UpdatePurchaseRequest.builder()
                 .vendorId(vendorId)
                 .purchaseDate(LocalDate.now())
+                .contents(contents)
+                .build();
+    }
+
+    public static UpdatePurchaseContentRequest UPDATE_PURCHASE_CONTENT(Long purchaseContentId, Long tireDotId, Long quantity) {
+        return UpdatePurchaseContentRequest.builder()
+                .purchaseContentId(purchaseContentId)
+                .tireDotId(tireDotId)
+                .price(20000)
+                .quantity(quantity)
+                .build();
+    }
+
+    public static PurchaseConfirmRequest CONFIRM_PURCHASE(Long purchaseContentId, List<ModifyStockRequest> modifyStockRequests) {
+        return PurchaseConfirmRequest.builder()
+                .purchaseContentId(purchaseContentId)
+                .stockRequests(modifyStockRequests)
+                .build();
+    }
+
+    public static ModifyStockRequest MODIFY_STOCK(Long stockId, Long warehouseId, Long quantity, Boolean lock) {
+        return ModifyStockRequest.builder()
+                .stockId(stockId)
+                .warehouseId(warehouseId)
+                .nickname("닉네임")
+                .quantity(quantity)
+                .lock(lock)
                 .build();
     }
 
