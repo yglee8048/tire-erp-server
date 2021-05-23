@@ -1,13 +1,25 @@
 package com.minsoo.co.tireerpserver.config;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.persistence.EntityManager;
+
 @Configuration
-public class CorsConfig {
+@RequiredArgsConstructor
+public class AppConfig {
+
+    private final EntityManager entityManager;
+
+    @Bean
+    public JPAQueryFactory queryFactory() {
+        return new JPAQueryFactory(entityManager);
+    }
 
     @Bean
     public CorsFilter corsFilter() {
@@ -18,7 +30,7 @@ public class CorsConfig {
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 
-        source.registerCorsConfiguration("/api/**", config);
+        source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 }
