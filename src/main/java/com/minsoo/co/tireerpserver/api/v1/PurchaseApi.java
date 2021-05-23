@@ -49,7 +49,7 @@ public class PurchaseApi {
     @Operation(summary = "매입 생성", description = "복수의 매입을 생성한다.")
     public ResponseEntity<ApiResponse<Object>> createPurchases(@RequestBody @Valid CreatePurchaseRequest createRequest) {
         return ApiResponse.CREATED(
-                linkTo(methodOn(PurchaseApi.class, findPurchaseById(purchaseService.create(createRequest).getId()))).toUri());
+                linkTo(methodOn(PurchaseApi.class).findPurchaseById(purchaseService.create(createRequest).getId())).toUri());
     }
 
     @PutMapping("/{purchaseId}")

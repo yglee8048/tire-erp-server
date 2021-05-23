@@ -13,16 +13,16 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class AddressDTO {
 
-    @Schema(name = "시/도", example = "서울특별시")
+    @Schema(description = "시/도", example = "서울특별시")
     private String city;
 
-    @Schema(name = "도로명 주소", example = "서울특별시 종로구 세종대로 209")
+    @Schema(description = "도로명 주소", example = "서울특별시 종로구 세종대로 209")
     private String streetAddress;
 
-    @Schema(name = "상세 주소", example = "1403호")
+    @Schema(description = "상세 주소", example = "1403호")
     private String detailAddress;
 
-    @Schema(name = "우편번호", example = "03139")
+    @Schema(description = "우편번호", example = "03139")
     @Positive(message = "우편번호는 양수여야 합니다.")
     private Integer zipCode;
 

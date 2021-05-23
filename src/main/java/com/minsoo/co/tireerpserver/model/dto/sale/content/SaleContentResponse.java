@@ -14,19 +14,19 @@ import lombok.ToString;
 @NoArgsConstructor
 public class SaleContentResponse {
 
-    @Schema(name = "매출 항목 ID", example = "2991")
+    @Schema(description = "매출 항목 ID", example = "2991")
     private Long saleContentId;
 
-    @Schema(name = "매출 ID", example = "2991")
+    @Schema(description = "매출 ID", example = "2991")
     private Long saleId;
 
-    @Schema(name = "타이어 DOT")
+    @Schema(description = "타이어 DOT")
     private TireDotResponse tireDot;
 
-    @Schema(name = "매출 수량", example = "20")
+    @Schema(description = "매출 수량", example = "20")
     private Long quantity;
 
-    @Schema(name = "매출 금액", example = "240000")
+    @Schema(description = "매출 금액", example = "240000")
     private Integer price;
 
     public SaleContentResponse(SaleContent saleContent) {

@@ -13,13 +13,13 @@ import lombok.ToString;
 @NoArgsConstructor
 public class AccountResponse {
 
-    @Schema(name = "ID", example = "2937")
+    @Schema(description = "ID", example = "2937")
     private Long accountId;
 
-    @Schema(name = "계정 아이디", example = "user123", required = true)
+    @Schema(description = "계정 아이디", example = "user123", required = true)
     private String userId;
 
-    @Schema(name = "계정 비밀번호", example = "password1234*", required = true)
+    @Schema(description = "계정 비밀번호", example = "password1234*", required = true)
     private String userPw;
 
     public AccountResponse(Account account) {

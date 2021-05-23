@@ -10,15 +10,15 @@ import java.util.List;
 @AllArgsConstructor
 public class TireStockParams {
 
-    @Schema(name = "사이즈")
+    @Schema(description = "사이즈")
     private List<String> sizes;
 
-    @Schema(name = "브랜드 이름")
+    @Schema(description = "브랜드 이름")
     private List<String> brandNames;
 
-    @Schema(name = "패턴")
+    @Schema(description = "패턴")
     private List<String> patternNames;
 
-    @Schema(name = "상품 ID")
+    @Schema(description = "상품 ID")
     private List<String> productIds;
 }

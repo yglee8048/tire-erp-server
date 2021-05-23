@@ -20,34 +20,34 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class SaleFlatResponse {
 
-    @Schema(name = "매출 ID", example = "2991")
+    @Schema(description = "매출 ID", example = "2991")
     private Long saleId;
 
-    @Schema(name = "구입 고객")
+    @Schema(description = "구입 고객")
     private CustomerResponse customer;
 
-    @Schema(name = "매출 일자", example = "2021-02-18")
+    @Schema(description = "매출 일자", example = "2021-02-18")
     private LocalDate saleDate;
 
-    @Schema(name = "생성 방식", example = "AUTO")
+    @Schema(description = "생성 방식", example = "AUTO")
     private SaleSource source;
 
-    @Schema(name = "매출 상태", example = "ACCEPTED")
+    @Schema(description = "매출 상태", example = "ACCEPTED")
     private SaleStatus status;
 
-    @Schema(name = "배달 ID", example = "2991")
+    @Schema(description = "배달 ID", example = "2991")
     private Long deliveryId;
 
-    @Schema(name = "매출 항목 ID", example = "2991")
+    @Schema(description = "매출 항목 ID", example = "2991")
     private Long saleContentId;
 
-    @Schema(name = "타이어 DOT")
+    @Schema(description = "타이어 DOT")
     private TireDotResponse tireDot;
 
-    @Schema(name = "매출 수량", example = "20")
+    @Schema(description = "매출 수량", example = "20")
     private Long quantity;
 
-    @Schema(name = "매출 금액", example = "240000")
+    @Schema(description = "매출 금액", example = "240000")
     private Integer price;
 
     public SaleFlatResponse(Sale sale, SaleContent saleContent) {

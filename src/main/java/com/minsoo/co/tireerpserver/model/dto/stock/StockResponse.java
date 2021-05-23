@@ -15,19 +15,19 @@ import lombok.ToString;
 @NoArgsConstructor
 public class StockResponse {
 
-    @Schema(name = "ID", example = "20039")
+    @Schema(description = "ID", example = "20039")
     private Long stockId;
 
-    @Schema(name = "타이어 DOT")
+    @Schema(description = "타이어 DOT")
     private TireDotResponse tireDot;
 
-    @Schema(name = "창고")
+    @Schema(description = "창고")
     private WarehouseResponse warehouse;
 
-    @Schema(name = "수량", example = "250")
+    @Schema(description = "수량", example = "250")
     private Long quantity;
 
-    @Schema(name = "잠금 여부(true=비공개/false=공개)", example = "true")
+    @Schema(description = "잠금 여부(true=비공개/false=공개)", example = "true")
     private boolean lock;
 
     private StockResponse(Stock stock) {

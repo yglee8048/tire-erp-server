@@ -18,6 +18,7 @@ spring:
     property-naming-strategy: SNAKE_CASE
 
 logging.level:
+  root: info
   org.hibernate.SQL: debug
   # org.hibernate.type: trace
 

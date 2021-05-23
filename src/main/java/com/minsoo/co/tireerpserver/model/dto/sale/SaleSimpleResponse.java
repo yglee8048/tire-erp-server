@@ -20,25 +20,25 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class SaleSimpleResponse {
 
-    @Schema(name = "매출 ID", example = "2991")
+    @Schema(description = "매출 ID", example = "2991")
     private Long saleId;
 
-    @Schema(name = "고객 ID", example = "2991")
+    @Schema(description = "고객 ID", example = "2991")
     private Long customerId;
 
-    @Schema(name = "매출 일자", example = "2021-02-18")
+    @Schema(description = "매출 일자", example = "2021-02-18")
     private LocalDate saleDate;
 
-    @Schema(name = "생성 방식", example = "AUTO")
+    @Schema(description = "생성 방식", example = "AUTO")
     private SaleSource source;
 
-    @Schema(name = "매출 상태", example = "ACCEPTED")
+    @Schema(description = "매출 상태", example = "ACCEPTED")
     private SaleStatus status;
 
-    @Schema(name = "배달 ID", example = "2991")
+    @Schema(description = "배달 ID", example = "2991")
     private Long deliveryId;
 
-    @Schema(name = "매출 항목")
+    @Schema(description = "매출 항목")
     private List<SaleContentSimpleResponse> saleContents;
 
     public SaleSimpleResponse(Sale sale) {

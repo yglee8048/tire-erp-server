@@ -11,19 +11,19 @@ import lombok.*;
 @NoArgsConstructor
 public class AdminResponse {
 
-    @Schema(name = "ID", example = "2937")
+    @Schema(description = "ID", example = "2937")
     private Long adminId;
 
-    @Schema(name = "아이디", example = "user123")
+    @Schema(description = "아이디", example = "user123")
     private String userId;
 
-    @Schema(name = "이름", example = "김철수")
+    @Schema(description = "이름", example = "김철수")
     private String name;
 
-    @Schema(name = "설명", example = "21년 3월 신규 채용")
+    @Schema(description = "설명", example = "21년 3월 신규 채용")
     private String description;
 
-    @Schema(name = "역할", example = "SUPER_ADMIN")
+    @Schema(description = "역할", example = "SUPER_ADMIN")
     private AdminRole role;
 
     private AdminResponse(Admin admin) {

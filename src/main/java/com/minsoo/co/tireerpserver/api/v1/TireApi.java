@@ -2,6 +2,9 @@ package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
+import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
+import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
+import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireMemo;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;
@@ -52,8 +55,9 @@ public class TireApi {
 
     @PostMapping
     public ResponseEntity<ApiResponse<Object>> createTire(@RequestBody @Valid TireRequest createRequest) {
+        Tire tire = tireService.create(createRequest);
         return ApiResponse.CREATED(
-                linkTo(methodOn(TireApi.class, findTireById(tireService.create(createRequest).getId()))).toUri());
+                linkTo(methodOn(TireApi.class).findTireById(tire.getId())).toUri());
     }
 
     @PutMapping(value = "/{tireId}")
@@ -87,8 +91,9 @@ public class TireApi {
     @PostMapping(value = "/{tireId}/tire-dots")
     public ResponseEntity<ApiResponse<Object>> createTireDot(@PathVariable Long tireId,
                                                              @RequestBody TireDotRequest tireDotRequest) {
+        TireDot tireDot = tireDotService.create(tireId, tireDotRequest);
         return ApiResponse.CREATED(
-                linkTo(methodOn(TireApi.class, findTireDotByIds(tireId, tireDotService.create(tireId, tireDotRequest).getId()))).toUri());
+                linkTo(methodOn(TireApi.class).findTireDotByIds(tireId, tireDot.getId())).toUri());
     }
 
     @PutMapping(value = "/{tireId}/tire-dots/{tireDotId}")
@@ -132,9 +137,9 @@ public class TireApi {
     @Parameters({@Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true)})
     public ResponseEntity<ApiResponse<Object>> createTireMemo(@PathVariable(value = "tireId") Long tireId,
                                                               @RequestBody @Valid TireMemoRequest createRequest) {
+        TireMemo tireMemo = tireMemoService.create(tireId, createRequest);
         return ApiResponse.CREATED(
-                linkTo(methodOn(TireApi.class,
-                        findTireMemoById(tireId, tireMemoService.create(tireId, createRequest).getId()))).toUri());
+                linkTo(methodOn(TireApi.class).findTireMemoById(tireId, tireMemo.getId())).toUri());
     }
 
     @PutMapping(value = "/{tireId}/tire-memos/{tireMemoId}")

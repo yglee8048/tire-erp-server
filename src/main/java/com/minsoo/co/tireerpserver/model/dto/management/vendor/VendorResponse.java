@@ -14,16 +14,16 @@ import lombok.ToString;
 @NoArgsConstructor
 public class VendorResponse {
 
-    @Schema(name = "ID", example = "2091")
+    @Schema(description = "ID", example = "2091")
     private Long vendorId;
 
-    @Schema(name = "이름", example = "피렐리 코리아")
+    @Schema(description = "이름", example = "피렐리 코리아")
     private String name;
 
-    @Schema(name = "설명", example = "20년 5월부터 계약 시작")
+    @Schema(description = "설명", example = "20년 5월부터 계약 시작")
     private String description;
 
-    @Schema(name = "사업자 관련 정보")
+    @Schema(description = "사업자 관련 정보")
     private BusinessInfoDTO businessInfo;
 
     private VendorResponse(Vendor vendor) {

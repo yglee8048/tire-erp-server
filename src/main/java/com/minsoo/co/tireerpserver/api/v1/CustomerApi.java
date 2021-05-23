@@ -47,7 +47,7 @@ public class CustomerApi {
     @Operation(summary = "거래처 생성", description = "거래처를 생성한다.")
     public ResponseEntity<ApiResponse<Object>> createCustomer(@RequestBody @Valid CustomerRequest createRequest) {
         return ApiResponse.CREATED(
-                linkTo(methodOn(CustomerApi.class, findCustomerById(customerService.create(createRequest).getId()))).toUri());
+                linkTo(methodOn(CustomerApi.class).findCustomerById(customerService.create(createRequest).getId())).toUri());
     }
 
     @PutMapping(value = "/{customerId}")

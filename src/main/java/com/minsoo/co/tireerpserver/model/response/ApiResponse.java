@@ -69,7 +69,7 @@ public class ApiResponse<T> {
 
     public static ResponseEntity<ApiResponse<Object>> CREATED(URI uri) {
         return ResponseEntity.created(uri)
-                .body(new ApiResponse<>(HttpStatus.CREATED, "자원이 생성되었습니다."));
+                .body(new ApiResponse<>(HttpStatus.CREATED, "자원이 생성되었습니다.", uri.toString()));
     }
 
     public static <T> ResponseEntity<ApiResponse<T>> of(HttpStatus status, String message, T data) {

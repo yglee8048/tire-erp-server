@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +55,7 @@ public class ManagementApi {
     @PostMapping(value = "/brands")
     public ResponseEntity<ApiResponse<Object>> createBrand(@RequestBody @Valid BrandRequest brandRequest) {
         return ApiResponse.CREATED(
-                linkTo(methodOn(ManagementApi.class, findBrandById(brandService.create(brandRequest).getId()))).toUri());
+                linkTo(methodOn(ManagementApi.class).findBrandById(brandService.create(brandRequest).getId())).toUri());
     }
 
     @PutMapping(value = "/brands/{brandId}")
@@ -88,9 +89,8 @@ public class ManagementApi {
     @PostMapping("/brands/{brandId}/patterns")
     public ResponseEntity<ApiResponse<Object>> createPattern(@PathVariable(name = "brandId") Long brandId,
                                                              @RequestBody @Valid PatternRequest patternRequest) {
-        Pattern pattern = patternService.create(brandId, patternRequest);
         return ApiResponse.CREATED(
-                linkTo(methodOn(ManagementApi.class, findPatternByIds(brandId, pattern.getId()))).toUri());
+                linkTo(methodOn(ManagementApi.class).findPatternByIds(brandId, patternService.create(brandId, patternRequest).getId())).toUri());
     }
 
     @PutMapping("/brands/{brandId}/patterns/{patternId}")
@@ -125,7 +125,7 @@ public class ManagementApi {
     @PostMapping(value = "/vendors")
     public ResponseEntity<ApiResponse<Object>> createVendor(@RequestBody @Valid VendorRequest vendorRequest) {
         return ApiResponse.CREATED(
-                linkTo(methodOn(ManagementApi.class, findVendorById(vendorService.create(vendorRequest).getId()))).toUri());
+                linkTo(methodOn(ManagementApi.class).findVendorById(vendorService.create(vendorRequest).getId())).toUri());
     }
 
     @PutMapping(value = "/vendors/{vendorId}")
@@ -158,7 +158,7 @@ public class ManagementApi {
     @PostMapping(value = "/warehouses")
     public ResponseEntity<ApiResponse<Object>> createWarehouse(@RequestBody @Valid WarehouseRequest warehouseRequest) {
         return ApiResponse.CREATED(
-                linkTo(methodOn(ManagementApi.class, findWarehouseById(warehouseService.create(warehouseRequest).getId()))).toUri());
+                linkTo(methodOn(ManagementApi.class).findWarehouseById(warehouseService.create(warehouseRequest).getId())).toUri());
     }
 
     @PutMapping(value = "/warehouses/{warehouseId}")

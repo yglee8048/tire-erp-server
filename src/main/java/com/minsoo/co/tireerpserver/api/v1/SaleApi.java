@@ -54,7 +54,7 @@ public class SaleApi {
     @Operation(summary = "매출 생성", description = "매출을 생성한다.")
     public ResponseEntity<ApiResponse<Object>> createSale(@RequestBody @Valid SaleCreateRequest createRequest) {
         return ApiResponse.CREATED(
-                linkTo(methodOn(SaleApi.class, findSaleById(saleService.create(createRequest).getId()))).toUri());
+                linkTo(methodOn(SaleApi.class).findSaleById(saleService.create(createRequest).getId())).toUri());
     }
 
     // sale contents
