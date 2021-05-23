@@ -1,6 +1,5 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
-import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandDetailResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternResponse;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
@@ -47,8 +46,8 @@ public class ManagementApi {
     }
 
     @GetMapping(value = "/brands/{brandId}")
-    public ApiResponse<BrandDetailResponse> findBrandById(@PathVariable Long brandId) {
-        return ApiResponse.OK(BrandDetailResponse.of(brandService.findById(brandId)));
+    public ApiResponse<BrandResponse> findBrandById(@PathVariable Long brandId) {
+        return ApiResponse.OK(BrandResponse.of(brandService.findById(brandId)));
     }
 
     @PostMapping(value = "/brands")
