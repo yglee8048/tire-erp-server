@@ -37,7 +37,7 @@ deploy:
     local_dir: deploy
     wait-until-deployed: true
     on:
-      repo: yglee8048/tire-erp-server
+      repo: tire-erp/tire-erp-server
       branch: development
 
   - provider: codedeploy
@@ -51,7 +51,7 @@ deploy:
     region: ap-northeast-2
     wait-until-deployed: true
     on:
-      repo: yglee8048/tire-erp-server
+      repo: tire-erp/tire-erp-server
       branch: development
 
 # CI 실행 완료 시 메일로 알람
