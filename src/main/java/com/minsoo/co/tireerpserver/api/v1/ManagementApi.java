@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternResponse;
+import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
@@ -87,8 +88,9 @@ public class ManagementApi {
     @PostMapping("/brands/{brandId}/patterns")
     public ResponseEntity<ApiResponse<Object>> createPattern(@PathVariable(name = "brandId") Long brandId,
                                                              @RequestBody @Valid PatternRequest patternRequest) {
+        Pattern pattern = patternService.create(brandId, patternRequest);
         return ApiResponse.CREATED(
-                linkTo(methodOn(TireApi.class, findPatternByIds(brandId, patternService.create(brandId, patternRequest).getId()))).toUri());
+                linkTo(methodOn(ManagementApi.class, findPatternByIds(brandId, pattern.getId()))).toUri());
     }
 
     @PutMapping("/brands/{brandId}/patterns/{patternId}")
