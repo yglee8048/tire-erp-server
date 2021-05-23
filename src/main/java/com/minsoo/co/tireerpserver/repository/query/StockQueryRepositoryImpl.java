@@ -17,8 +17,8 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 import static com.minsoo.co.tireerpserver.model.entity.entities.management.QBrand.brand;
+import static com.minsoo.co.tireerpserver.model.entity.entities.management.QPattern.pattern;
 import static com.minsoo.co.tireerpserver.model.entity.entities.stock.QStock.stock;
-import static com.minsoo.co.tireerpserver.model.entity.entities.tire.QPattern.pattern;
 import static com.minsoo.co.tireerpserver.model.entity.entities.tire.QTire.tire;
 import static com.minsoo.co.tireerpserver.model.entity.entities.tire.QTireDot.tireDot;
 

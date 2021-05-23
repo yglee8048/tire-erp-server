@@ -11,6 +11,7 @@ import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
 import com.minsoo.co.tireerpserver.service.tire.TireDotService;
 import com.minsoo.co.tireerpserver.service.tire.TireMemoService;
 import com.minsoo.co.tireerpserver.service.tire.TireService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -108,7 +109,7 @@ public class TireApi {
 
     // TIRE MEMO
     @GetMapping(value = "/{tireId}/tire-memos")
-    @Tag(name = "타이어 메모 목록 조회", description = "타이어 메모 목록을 조회한다.")
+    @Operation(summary = "타이어 메모 목록 조회", description = "타이어 메모 목록을 조회한다.")
     @Parameters({@Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true)})
     public ApiResponse<List<TireMemoResponse>> findAllTireMemos(@PathVariable(value = "tireId") Long tireId) {
         return ApiResponse.OK(tireMemoService.findAllByTireId(tireId)
@@ -118,7 +119,7 @@ public class TireApi {
     }
 
     @GetMapping(value = "/{tireId}/tire-memos/{tireMemoId}")
-    @Tag(name = "타이어 메모 상세 조회", description = "타이어 메모의 상세 정보를 조회한다.")
+    @Operation(summary = "타이어 메모 상세 조회", description = "타이어 메모의 상세 정보를 조회한다.")
     @Parameters({
             @Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true),
             @Parameter(name = "tireMemoId", description = "타이어 메모 ID", example = "201324", required = true)})
@@ -128,7 +129,7 @@ public class TireApi {
     }
 
     @PostMapping(value = "/{tireId}/tire-memos")
-    @Tag(name = "타이어 메모 생성", description = "타이어 메모를 생성한다.")
+    @Operation(summary = "타이어 메모 생성", description = "타이어 메모를 생성한다.")
     @Parameters({@Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true)})
     public ResponseEntity<ApiResponse<Object>> createTireMemo(@PathVariable(value = "tireId") Long tireId,
                                                               @RequestBody @Valid TireMemoRequest createRequest) {
@@ -138,7 +139,7 @@ public class TireApi {
     }
 
     @PutMapping(value = "/{tireId}/tire-memos/{tireMemoId}")
-    @Tag(name = "타이어 메모 수정", description = "타이어 메모를 수정한다.")
+    @Operation(summary = "타이어 메모 수정", description = "타이어 메모를 수정한다.")
     @Parameters({
             @Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true),
             @Parameter(name = "tireMemoId", description = "타이어 메모 ID", example = "201324", required = true)})
@@ -150,7 +151,7 @@ public class TireApi {
     }
 
     @DeleteMapping(value = "/{tireId}/tire-memos/{tireMemoId}")
-    @Tag(name = "타이어 메모 삭제", description = "타이어 메모를 삭제한다.")
+    @Operation(summary = "타이어 메모 삭제", description = "타이어 메모를 삭제한다.")
     @Parameters({
             @Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true),
             @Parameter(name = "tireMemoId", description = "타이어 메모 ID", example = "201324", required = true)})
