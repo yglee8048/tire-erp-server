@@ -1,25 +1,32 @@
 package com.minsoo.co.tireerpserver.service.purchase;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyConfirmedException;
+import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.dto.purchase.CreatePurchaseRequest;
+import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseConfirmRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.UpdatePurchaseRequest;
+import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStock;
+import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStockRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
+import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
 import com.minsoo.co.tireerpserver.model.entity.entities.purchase.Purchase;
 import com.minsoo.co.tireerpserver.model.entity.entities.purchase.PurchaseContent;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
 import com.minsoo.co.tireerpserver.repository.management.VendorRepository;
+import com.minsoo.co.tireerpserver.repository.management.WarehouseRepository;
 import com.minsoo.co.tireerpserver.repository.purchase.PurchaseContentRepository;
 import com.minsoo.co.tireerpserver.repository.purchase.PurchaseRepository;
-import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
 import com.minsoo.co.tireerpserver.repository.tire.TireDotRepository;
+import com.minsoo.co.tireerpserver.service.stock.StockService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -28,8 +35,8 @@ import java.util.List;
 public class PurchaseService {
 
     private final VendorRepository vendorRepository;
+    private final WarehouseRepository warehouseRepository;
     private final TireDotRepository tireDotRepository;
-    private final StockRepository stockRepository;
     private final PurchaseRepository purchaseRepository;
     private final PurchaseContentRepository purchaseContentRepository;
 
@@ -85,8 +92,33 @@ public class PurchaseService {
      * 재고가 존재하지 않는다면, 재고를 새로 생성하여 반영한다.
      */
     @Transactional
-    public void confirm(Long id) {
-        
+    public Purchase confirm(Long purchaseId, List<PurchaseConfirmRequest> confirmRequests) {
+        Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> new NotFoundException("매입", purchaseId));
+
+        confirmRequests.forEach(confirmRequest -> {
+            PurchaseContent purchaseContent = purchaseContentRepository.findById(confirmRequest.getPurchaseContentId())
+                    .orElseThrow(() -> new NotFoundException("매입 항목", confirmRequest.getPurchaseContentId()));
+
+            // validation: 개수
+            Long sumOfQuantity = purchaseContent.getTireDot().getSumOfQuantity() + purchaseContent.getQuantity();
+            Long sumOfRequests = confirmRequest.getStockRequests().stream().map(ModifyStockRequest::getQuantity).reduce(0L, Long::sum);
+            if (!sumOfRequests.equals(sumOfQuantity)) {
+                throw new BadRequestException("재고의 총 합이 일치하지 않습니다.");
+            }
+
+            // 재고 적용
+            purchaseContent.getTireDot()
+                    .modifyStocks(confirmRequest.getStockRequests()
+                            .stream()
+                            .map(modifyStockRequest -> {
+                                Warehouse warehouse = warehouseRepository.findById(modifyStockRequest.getWarehouseId())
+                                        .orElseThrow(() -> new NotFoundException("창고", modifyStockRequest.getWarehouseId()));
+                                return ModifyStock.of(warehouse, modifyStockRequest);
+                            })
+                            .collect(Collectors.toList()));
+        });
+
+        return purchase.confirm();
     }
 
     /**

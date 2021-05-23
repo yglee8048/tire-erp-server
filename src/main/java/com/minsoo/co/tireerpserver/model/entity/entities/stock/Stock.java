@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.stock;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotEnoughStockException;
-import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStockRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
 import lombok.Getter;
@@ -43,24 +42,24 @@ public class Stock {
     private boolean lock;
 
     //== Business ==//
-    private Stock(TireDot tireDot, Warehouse warehouse, ModifyStockRequest modifyStockRequest) {
+    public Stock(TireDot tireDot, Warehouse warehouse, String nickname, Long quantity, Boolean lock) {
         this.tireDot = tireDot;
-        this.nickname = modifyStockRequest.getNickname();
         this.warehouse = warehouse;
-        this.quantity = modifyStockRequest.getQuantity();
-        this.lock = modifyStockRequest.isLock();
+        this.nickname = nickname;
+        this.quantity = quantity;
+        this.lock = lock;
     }
 
-    public static Stock of(TireDot tireDot, Warehouse warehouse, ModifyStockRequest modifyStockRequest) {
-        return new Stock(tireDot, warehouse, modifyStockRequest);
+    public static Stock of(TireDot tireDot, Warehouse warehouse, String nickname, Long quantity, Boolean lock) {
+        return new Stock(tireDot, warehouse, nickname, quantity, lock);
     }
 
-    public Stock update(TireDot tireDot, Warehouse warehouse, ModifyStockRequest modifyStockRequest) {
+    public Stock update(TireDot tireDot, Warehouse warehouse, String nickname, Long quantity, Boolean lock) {
         this.tireDot = tireDot;
-        this.nickname = modifyStockRequest.getNickname();
         this.warehouse = warehouse;
-        this.quantity = modifyStockRequest.getQuantity();
-        this.lock = modifyStockRequest.isLock();
+        this.nickname = nickname;
+        this.quantity = quantity;
+        this.lock = lock;
 
         return this;
     }

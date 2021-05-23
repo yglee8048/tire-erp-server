@@ -21,7 +21,7 @@ public class StockApi {
 
     // STOCKS
     @GetMapping("/tire-dots/{tireDotId}/stocks")
-    public ApiResponse<List<StockResponse>> findAllStocksByIds(@PathVariable Long tireDotId) {
+    public ApiResponse<List<StockResponse>> findAllStocksByTireDotId(@PathVariable Long tireDotId) {
         return ApiResponse.OK(stockService.findAllByTireDotId(tireDotId)
                 .stream()
                 .map(StockResponse::of)

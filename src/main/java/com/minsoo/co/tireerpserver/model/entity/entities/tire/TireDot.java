@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.tire;
 
+import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStock;
 import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStockRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.stock.Stock;
@@ -7,9 +8,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
@@ -71,5 +70,33 @@ public class TireDot {
                 .map(ModifyStockRequest::getQuantity)
                 .reduce(0L, Long::sum);
         return this.getSumOfQuantity().equals(sumOfQuantity);
+    }
+
+    public void modifyStocks(List<ModifyStock> modifyStocks) {
+        // create map
+        Map<Long, ModifyStock> modifyStockMap = new HashMap<>();
+        Set<Stock> created = new HashSet<>();
+        modifyStocks.forEach(modifyStock -> {
+            if (modifyStock.getStockId() == null) {
+                created.add(Stock.of(this, modifyStock.getWarehouse(), modifyStock.getNickname(), modifyStock.getQuantity(), modifyStock.getLock()));
+            } else {
+                modifyStockMap.put(modifyStock.getStockId(), modifyStock);
+            }
+        });
+
+        // filter removed
+        Set<Stock> removed = new HashSet<>();
+        this.getStocks()
+                .forEach(stock -> {
+                    if (modifyStockMap.containsKey(stock.getId())) {
+                        ModifyStock modifyStock = modifyStockMap.get(stock.getId());
+                        stock.update(this, modifyStock.getWarehouse(), modifyStock.getNickname(), modifyStock.getQuantity(), modifyStock.getLock());
+                    } else {
+                        removed.add(stock);
+                    }
+                });
+
+        this.getStocks().addAll(created);
+        this.getStocks().removeAll(removed);
     }
 }

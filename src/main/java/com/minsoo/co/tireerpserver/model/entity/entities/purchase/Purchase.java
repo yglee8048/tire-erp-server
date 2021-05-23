@@ -59,4 +59,10 @@ public class Purchase {
 
         return this;
     }
+
+    public Purchase confirm() {
+        this.status = PurchaseStatus.CONFIRMED;
+
+        return this;
+    }
 }

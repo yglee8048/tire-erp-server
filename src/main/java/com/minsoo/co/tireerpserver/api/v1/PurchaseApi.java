@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.purchase.CreatePurchaseRequest;
+import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseConfirmRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.UpdatePurchaseRequest;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
@@ -62,9 +63,9 @@ public class PurchaseApi {
 
     @PostMapping(value = "/{purchaseId}/confirm")
     @Operation(summary = "매입 확정", description = "매입을 확정한다. 매입을 확정한 시점에 매입 내용이 재고에 반영된다.")
-    @Parameters({@Parameter(name = "purchaseId", description = "매입 ID", example = "201324", required = true)})
-    public ApiResponse<Object> confirmPurchaseById(@PathVariable Long purchaseId) {
-        purchaseService.confirm(purchaseId);
+    public ApiResponse<Object> confirmPurchaseById(@PathVariable Long purchaseId,
+                                                   List<PurchaseConfirmRequest> confirmRequests) {
+        purchaseService.confirm(purchaseId, confirmRequests);
         return ApiResponse.OK;
     }
 

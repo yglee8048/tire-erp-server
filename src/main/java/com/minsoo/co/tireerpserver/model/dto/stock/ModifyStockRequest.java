@@ -16,5 +16,5 @@ public class ModifyStockRequest {
 
     private Long quantity;
 
-    private boolean lock;
+    private Boolean lock;
 }

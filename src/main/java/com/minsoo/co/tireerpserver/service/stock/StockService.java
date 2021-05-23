@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -67,38 +68,12 @@ public class StockService {
             throw new BadRequestException("재고의 총 합이 일치하지 않습니다.");
         }
 
-        Map<Long, ModifyStockRequest> modifyStockRequestMap = new HashMap<>();
-        Set<Stock> created = new HashSet<>();
-        modifyStockRequests.forEach(modifyStockRequest -> {
-            if (modifyStockRequest.getStockId() == null) {
-                created.add(createStock(tireDot, modifyStockRequest));
-            } else {
-                modifyStockRequestMap.put(modifyStockRequest.getStockId(), modifyStockRequest);
-            }
-        });
-
-        Set<Stock> removed = new HashSet<>();
-        tireDot.getStocks()
-                .forEach(stock -> {
-                    if (modifyStockRequestMap.containsKey(stock.getId())) {
-                        updateStock(stock, tireDot, modifyStockRequestMap.get(stock.getId()));
-                    } else {
-                        removed.add(stock);
-                    }
-                });
-
-        tireDot.getStocks().addAll(created);
-        tireDot.getStocks().removeAll(removed);
-    }
-
-    private Stock createStock(TireDot tireDot, ModifyStockRequest modifyStockRequest) {
-        Warehouse warehouse = warehouseRepository.findById(modifyStockRequest.getWarehouseId()).orElseThrow(() -> new NotFoundException("창고", modifyStockRequest.getWarehouseId()));
-        return Stock.of(tireDot, warehouse, modifyStockRequest);
-    }
-
-    private void updateStock(Stock stock, TireDot tireDot, ModifyStockRequest modifyStockRequest) {
-        Warehouse warehouse = warehouseRepository.findById(modifyStockRequest.getWarehouseId()).orElseThrow(() -> new NotFoundException("창고", modifyStockRequest.getWarehouseId()));
-
-        stock.update(tireDot, warehouse, modifyStockRequest);
+        tireDot.modifyStocks(modifyStockRequests.stream()
+                .map(modifyStockRequest -> {
+                    Warehouse warehouse = warehouseRepository.findById(modifyStockRequest.getWarehouseId())
+                            .orElseThrow(() -> new NotFoundException("창고", modifyStockRequest.getWarehouseId()));
+                    return ModifyStock.of(warehouse, modifyStockRequest);
+                })
+                .collect(Collectors.toList()));
     }
 }
