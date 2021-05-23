@@ -87,7 +87,7 @@ public class ManagementApi {
 
     @PostMapping("/brands/{brandId}/patterns")
     public ResponseEntity<ApiResponse<Object>> createPattern(@PathVariable(name = "brandId") Long brandId,
-                                                             @RequestBody PatternRequest patternRequest) {
+                                                             @RequestBody @Valid PatternRequest patternRequest) {
         return ApiResponse.CREATED(
                 linkTo(methodOn(TireApi.class, findPatternByIds(brandId, patternService.create(brandId, patternRequest).getId()))).toUri());
     }
@@ -95,7 +95,7 @@ public class ManagementApi {
     @PutMapping("/brands/{brandId}/patterns/{patternId}")
     public ApiResponse<Object> updatePattern(@PathVariable(name = "brandId") Long brandId,
                                              @PathVariable(name = "patternId") Long patternId,
-                                             @RequestBody PatternRequest patternRequest) {
+                                             @RequestBody @Valid PatternRequest patternRequest) {
         patternService.update(brandId, patternId, patternRequest);
         return ApiResponse.OK;
     }
