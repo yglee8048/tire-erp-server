@@ -11,6 +11,7 @@ import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.CreatePurchaseRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.CreatePurchaseContentRequest;
+import com.minsoo.co.tireerpserver.model.dto.purchase.UpdatePurchaseRequest;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequestContent;
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
@@ -84,10 +85,9 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static CreatePurchaseContentRequest CREATE_PURCHASE_CONTENT(Long tireId, String dot, Long quantity) {
+    public static CreatePurchaseContentRequest CREATE_PURCHASE_CONTENT(Long tireDotId, Long quantity) {
         return CreatePurchaseContentRequest.builder()
-                .tireId(tireId)
-                .dot(dot)
+                .tireDotId(tireDotId)
                 .price(20000)
                 .quantity(quantity)
                 .build();
@@ -101,14 +101,10 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static PurchaseUpdateRequest UPDATE_PURCHASE(Long vendorId, Long tireId, String dot, Long quantity) {
-        return PurchaseUpdateRequest.builder()
+    public static UpdatePurchaseRequest UPDATE_PURCHASE(Long vendorId, Long tireId, String dot, Long quantity) {
+        return UpdatePurchaseRequest.builder()
                 .vendorId(vendorId)
                 .purchaseDate(LocalDate.now())
-                .tireId(tireId)
-                .dot(dot)
-                .price(20000)
-                .quantity(quantity)
                 .build();
     }
 
