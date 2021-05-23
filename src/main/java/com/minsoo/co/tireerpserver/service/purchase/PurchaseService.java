@@ -86,6 +86,7 @@ public class PurchaseService {
      */
     @Transactional
     public void confirm(Long id) {
+        
     }
 
     /**
