@@ -5,7 +5,6 @@ import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseConfirmRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.UpdatePurchaseContentRequest;
-import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStockRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
@@ -27,7 +26,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,6 +61,7 @@ class PurchaseServiceTest extends ServiceTest {
 
     /**
      * 1. 매입 생성 테스트
+     * 1-1) 매입이 정상적으로 생성되어야 한다.
      * 2. 매입 수정/삭제 테스트
      * 2-1) 매입이 확정되기 전에는 매입 내용을 수정할 수 있다.
      * 2-2) 확정 여부와 무관하게 매입 내용을 삭제할 수 있다.
