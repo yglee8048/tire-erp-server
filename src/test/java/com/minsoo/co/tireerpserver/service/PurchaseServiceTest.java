@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyConfirmedException;
+import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseConfirmRequest;
@@ -152,8 +153,19 @@ class PurchaseServiceTest extends ServiceTest {
         assertThat(foundDot01.getSumOfQuantity()).isEqualTo(1L);
         clear();
 
-        log.debug("동일한 재고가 추가되면 수량만 변경된다. -> 기존 재고 객체에 수량만 추가");
+        log.debug("매입 확정 시 수량이 다르면 오류가 발생해야 한다.");
+        Purchase failed = purchaseService.create(CREATE_PURCHASE(vendor.getId(),
+                CREATE_PURCHASE_CONTENT(tireDot01.getId(), 1L)));
+        List<PurchaseConfirmRequest> invalidRequest = failed.getPurchaseContents()
+                .stream()
+                .map(purchaseContent ->
+                        CONFIRM_PURCHASE(purchaseContent.getId(),
+                                Collections.singletonList(MODIFY_STOCK(null, warehouse.getId(), purchaseContent.getQuantity() + 99, true))))
+                .collect(Collectors.toList());
 
+        assertThatThrownBy(() -> purchaseService.confirm(failed.getId(), invalidRequest))
+                .isInstanceOf(BadRequestException.class);
+        clear();
 
         log.debug("매입이 확정되면 수정할 수 없다.");
         List<UpdatePurchaseContentRequest> contents = purchase.getPurchaseContents()
