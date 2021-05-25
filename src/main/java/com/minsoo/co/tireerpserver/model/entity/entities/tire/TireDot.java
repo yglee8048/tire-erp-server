@@ -78,9 +78,14 @@ public class TireDot {
         Set<Stock> created = new HashSet<>();
         modifyStocks.forEach(modifyStock -> {
             if (modifyStock.getStockId() == null) {
+                // TODO: warehouse와 nickname의 중복을 확인해서 합쳐서 생성해야한다.
                 created.add(Stock.of(this, modifyStock.getWarehouse(), modifyStock.getNickname(), modifyStock.getQuantity(), modifyStock.getLock()));
             } else {
-                modifyStockMap.put(modifyStock.getStockId(), modifyStock);
+                Long key = modifyStock.getStockId();
+                if (modifyStockMap.containsKey(key)) {
+                    modifyStock.setQuantity(modifyStock.getQuantity() + modifyStockMap.get(key).getQuantity());
+                }
+                modifyStockMap.put(key, modifyStock);
             }
         });
 

@@ -138,7 +138,7 @@ class PurchaseServiceTest extends ServiceTest {
                 .stream()
                 .map(purchaseContent ->
                         CONFIRM_PURCHASE(purchaseContent.getId(),
-                                Collections.singletonList(MODIFY_STOCK(null, warehouse.getId(), purchaseContent.getQuantity(), true))))
+                                Collections.singletonList(MODIFY_STOCK(null, "별칭", warehouse.getId(), purchaseContent.getQuantity(), true))))
                 .collect(Collectors.toList());
         purchaseService.confirm(purchase.getId(), purchaseConfirmRequests);
         clear();
@@ -160,7 +160,7 @@ class PurchaseServiceTest extends ServiceTest {
                 .stream()
                 .map(purchaseContent ->
                         CONFIRM_PURCHASE(purchaseContent.getId(),
-                                Collections.singletonList(MODIFY_STOCK(null, warehouse.getId(), purchaseContent.getQuantity() + 99, true))))
+                                Collections.singletonList(MODIFY_STOCK(null, "별칭", warehouse.getId(), purchaseContent.getQuantity() + 99, true))))
                 .collect(Collectors.toList());
 
         assertThatThrownBy(() -> purchaseService.confirm(failed.getId(), invalidRequest))

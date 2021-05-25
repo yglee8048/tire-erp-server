@@ -132,11 +132,11 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static ModifyStockRequest MODIFY_STOCK(Long stockId, Long warehouseId, Long quantity, Boolean lock) {
+    public static ModifyStockRequest MODIFY_STOCK(Long stockId, String nickname, Long warehouseId, Long quantity, Boolean lock) {
         return ModifyStockRequest.builder()
                 .stockId(stockId)
                 .warehouseId(warehouseId)
-                .nickname("닉네임")
+                .nickname(nickname)
                 .quantity(quantity)
                 .lock(lock)
                 .build();

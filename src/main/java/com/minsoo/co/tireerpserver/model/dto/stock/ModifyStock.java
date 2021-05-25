@@ -25,4 +25,8 @@ public class ModifyStock {
     public static ModifyStock of(Warehouse warehouse, ModifyStockRequest modifyStockRequest) {
         return new ModifyStock(modifyStockRequest.getStockId(), warehouse, modifyStockRequest.getNickname(), modifyStockRequest.getQuantity(), modifyStockRequest.getLock());
     }
+
+    public static ModifyStock of(Long stockId, Warehouse warehouse, String nickname, Long quantity, Boolean lock) {
+        return new ModifyStock(stockId, warehouse, nickname, quantity, lock);
+    }
 }
