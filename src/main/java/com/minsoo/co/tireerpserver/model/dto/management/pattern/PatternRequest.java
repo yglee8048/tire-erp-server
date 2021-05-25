@@ -20,5 +20,6 @@ public class PatternRequest {
 
     private String season;
 
+    // TODO: 풀어서 요청 받기
     private List<PatternOption> options;
 }
