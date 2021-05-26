@@ -41,6 +41,7 @@ public class TireApi {
 
     // TIRE
     @GetMapping
+    @Operation(summary = "타이어 목록 조회")
     public ApiResponse<List<TireResponse>> findAllTires() {
         return ApiResponse.OK(tireService.findAll()
                 .stream()
@@ -49,11 +50,13 @@ public class TireApi {
     }
 
     @GetMapping(value = "/{tireId}")
+    @Operation(summary = "타이어 상세 조회")
     public ApiResponse<TireResponse> findTireById(@PathVariable(name = "tireId") Long tireId) {
         return ApiResponse.OK(TireResponse.of(tireService.findById(tireId)));
     }
 
     @PostMapping
+    @Operation(summary = "타이어 생성")
     public ResponseEntity<ApiResponse<Object>> createTire(@RequestBody @Valid TireRequest createRequest) {
         Tire tire = tireService.create(createRequest);
         return ApiResponse.CREATED(
@@ -61,6 +64,7 @@ public class TireApi {
     }
 
     @PutMapping(value = "/{tireId}")
+    @Operation(summary = "타이어 수정")
     public ApiResponse<Object> updateTireById(@PathVariable(name = "tireId") Long tireId,
                                               @RequestBody @Valid TireRequest updateRequest) {
         tireService.update(tireId, updateRequest);
@@ -68,6 +72,7 @@ public class TireApi {
     }
 
     @DeleteMapping(value = "/{tireId}")
+    @Operation(summary = "타이어 삭제")
     public ApiResponse<Object> deleteTireById(@PathVariable(name = "tireId") Long tireId) {
         tireService.removeById(tireId);
         return ApiResponse.OK;
@@ -75,6 +80,7 @@ public class TireApi {
 
     // TIRE DOT
     @GetMapping(value = "/{tireId}/tire-dots")
+    @Operation(summary = "타이어 DOT 목록 조회")
     public ApiResponse<List<TireDotSimpleResponse>> findTireDotsByTireId(@PathVariable Long tireId) {
         return ApiResponse.OK(tireDotService.findAllByTireId(tireId)
                 .stream()
@@ -83,12 +89,14 @@ public class TireApi {
     }
 
     @GetMapping(value = "/{tireId}/tire-dots/{tireDotId}")
+    @Operation(summary = "타이어 DOT 상세 조회")
     public ApiResponse<TireDotResponse> findTireDotByIds(@PathVariable Long tireId,
                                                          @PathVariable Long tireDotId) {
         return ApiResponse.OK(TireDotResponse.of(tireDotService.findByIds(tireId, tireDotId)));
     }
 
     @PostMapping(value = "/{tireId}/tire-dots")
+    @Operation(summary = "타이어 DOT 생성")
     public ResponseEntity<ApiResponse<Object>> createTireDot(@PathVariable Long tireId,
                                                              @RequestBody TireDotRequest tireDotRequest) {
         TireDot tireDot = tireDotService.create(tireId, tireDotRequest);
@@ -97,6 +105,7 @@ public class TireApi {
     }
 
     @PutMapping(value = "/{tireId}/tire-dots/{tireDotId}")
+    @Operation(summary = "타이어 DOT 수정")
     public ApiResponse<Object> updateTireDotByIds(@PathVariable Long tireId,
                                                   @PathVariable Long tireDotId,
                                                   @RequestBody TireDotRequest tireDotRequest) {
@@ -105,6 +114,7 @@ public class TireApi {
     }
 
     @DeleteMapping(value = "/{tireId}/tire-dots/{tireDotId}")
+    @Operation(summary = "타이어 DOT 삭제")
     public ApiResponse<Object> deleteTireDotByIds(@PathVariable Long tireId,
                                                   @PathVariable Long tireDotId) {
         tireDotService.removeByIds(tireId, tireDotId);
@@ -113,8 +123,8 @@ public class TireApi {
 
     // TIRE MEMO
     @GetMapping(value = "/{tireId}/tire-memos")
-    @Operation(summary = "타이어 메모 목록 조회", description = "타이어 메모 목록을 조회한다.")
-    @Parameters({@Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true)})
+    @Operation(summary = "타이어 메모 목록 조회")
+    @Parameters({@Parameter(name = "tire_id", description = "타이어 ID", example = "201324", required = true)})
     public ApiResponse<List<TireMemoResponse>> findAllTireMemos(@PathVariable(value = "tireId") Long tireId) {
         return ApiResponse.OK(tireMemoService.findAllByTireId(tireId)
                 .stream()
@@ -125,8 +135,8 @@ public class TireApi {
     @GetMapping(value = "/{tireId}/tire-memos/{tireMemoId}")
     @Operation(summary = "타이어 메모 상세 조회", description = "타이어 메모의 상세 정보를 조회한다.")
     @Parameters({
-            @Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true),
-            @Parameter(name = "tireMemoId", description = "타이어 메모 ID", example = "201324", required = true)})
+            @Parameter(name = "tire_id", description = "타이어 ID", example = "201324", required = true),
+            @Parameter(name = "tire_memo_id", description = "타이어 메모 ID", example = "201324", required = true)})
     public ApiResponse<TireMemoResponse> findTireMemoById(@PathVariable(value = "tireId") Long tireId,
                                                           @PathVariable(value = "tireMemoId") Long tireMemoId) {
         return ApiResponse.OK(TireMemoResponse.of(tireMemoService.findByIds(tireId, tireMemoId)));
@@ -134,7 +144,7 @@ public class TireApi {
 
     @PostMapping(value = "/{tireId}/tire-memos")
     @Operation(summary = "타이어 메모 생성", description = "타이어 메모를 생성한다.")
-    @Parameters({@Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true)})
+    @Parameters({@Parameter(name = "tire_id", description = "타이어 ID", example = "201324", required = true)})
     public ResponseEntity<ApiResponse<Object>> createTireMemo(@PathVariable(value = "tireId") Long tireId,
                                                               @RequestBody @Valid TireMemoRequest createRequest) {
         TireMemo tireMemo = tireMemoService.create(tireId, createRequest);
@@ -145,8 +155,8 @@ public class TireApi {
     @PutMapping(value = "/{tireId}/tire-memos/{tireMemoId}")
     @Operation(summary = "타이어 메모 수정", description = "타이어 메모를 수정한다.")
     @Parameters({
-            @Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true),
-            @Parameter(name = "tireMemoId", description = "타이어 메모 ID", example = "201324", required = true)})
+            @Parameter(name = "tire_id", description = "타이어 ID", example = "201324", required = true),
+            @Parameter(name = "tire_memo_id", description = "타이어 메모 ID", example = "201324", required = true)})
     public ApiResponse<Object> updateTireMemo(@PathVariable(value = "tireId") Long tireId,
                                               @PathVariable(value = "tireMemoId") Long tireMemoId,
                                               @RequestBody TireMemoRequest updateRequest) {
@@ -157,8 +167,8 @@ public class TireApi {
     @DeleteMapping(value = "/{tireId}/tire-memos/{tireMemoId}")
     @Operation(summary = "타이어 메모 삭제", description = "타이어 메모를 삭제한다.")
     @Parameters({
-            @Parameter(name = "tireId", description = "타이어 ID", example = "201324", required = true),
-            @Parameter(name = "tireMemoId", description = "타이어 메모 ID", example = "201324", required = true)})
+            @Parameter(name = "tire_id", description = "타이어 ID", example = "201324", required = true),
+            @Parameter(name = "tire_memo_id", description = "타이어 메모 ID", example = "201324", required = true)})
     public ApiResponse<Object> deleteTireMemo(@PathVariable(value = "tireId") Long tireId,
                                               @PathVariable(value = "tireMemoId") Long tireMemoId) {
         tireMemoService.removeById(tireId, tireMemoId);

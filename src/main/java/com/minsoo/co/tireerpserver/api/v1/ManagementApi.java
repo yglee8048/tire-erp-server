@@ -17,6 +17,7 @@ import com.minsoo.co.tireerpserver.service.management.BrandService;
 import com.minsoo.co.tireerpserver.service.management.VendorService;
 import com.minsoo.co.tireerpserver.service.management.WarehouseService;
 import com.minsoo.co.tireerpserver.service.management.PatternService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,7 @@ public class ManagementApi {
 
     // BRAND
     @GetMapping(value = "/brands")
+    @Operation(summary = "제조사 목록 조회")
     public ApiResponse<List<BrandResponse>> findAllBrands() {
         return ApiResponse.OK(brandService.findAll()
                 .stream()
@@ -50,11 +52,13 @@ public class ManagementApi {
     }
 
     @GetMapping(value = "/brands/{brandId}")
+    @Operation(summary = "제조사 상세 조회")
     public ApiResponse<BrandResponse> findBrandById(@PathVariable Long brandId) {
         return ApiResponse.OK(BrandResponse.of(brandService.findById(brandId)));
     }
 
     @PostMapping(value = "/brands")
+    @Operation(summary = "제조사 생성")
     public ResponseEntity<ApiResponse<Object>> createBrand(@RequestBody @Valid BrandRequest brandRequest) {
         Brand brand = brandService.create(brandRequest);
         return ApiResponse.CREATED(
@@ -62,6 +66,7 @@ public class ManagementApi {
     }
 
     @PutMapping(value = "/brands/{brandId}")
+    @Operation(summary = "제조사 수정")
     public ApiResponse<Object> updateBrand(@PathVariable Long brandId,
                                            @RequestBody @Valid BrandRequest brandUpdateRequest) {
         brandService.update(brandId, brandUpdateRequest);
@@ -69,6 +74,7 @@ public class ManagementApi {
     }
 
     @DeleteMapping(value = "/brands/{brandId}")
+    @Operation(summary = "제조사 삭제")
     public ApiResponse<Object> deleteBrand(@PathVariable Long brandId) {
         brandService.removeById(brandId);
         return ApiResponse.OK;
@@ -76,6 +82,7 @@ public class ManagementApi {
 
     // PATTERN
     @GetMapping("/brands/{brandId}/patterns")
+    @Operation(summary = "패턴 목록 조회")
     public ApiResponse<List<PatternResponse>> findAllPatternsByBrandId(@PathVariable(name = "brandId") Long brandId) {
         return ApiResponse.OK(patternService.findAllByBrandId(brandId)
                 .stream()
@@ -84,12 +91,14 @@ public class ManagementApi {
     }
 
     @GetMapping("/brands/{brandId}/patterns/{patternId}")
+    @Operation(summary = "패턴 상세 조회")
     public ApiResponse<PatternResponse> findPatternByIds(@PathVariable(name = "brandId") Long brandId,
                                                          @PathVariable(name = "patternId") Long patternId) {
         return ApiResponse.OK(PatternResponse.of(patternService.findByIds(brandId, patternId)));
     }
 
     @PostMapping("/brands/{brandId}/patterns")
+    @Operation(summary = "패턴 생성")
     public ResponseEntity<ApiResponse<Object>> createPattern(@PathVariable(name = "brandId") Long brandId,
                                                              @RequestBody @Valid PatternRequest patternRequest) {
         Pattern pattern = patternService.create(brandId, patternRequest);
@@ -98,6 +107,7 @@ public class ManagementApi {
     }
 
     @PutMapping("/brands/{brandId}/patterns/{patternId}")
+    @Operation(summary = "패턴 수정")
     public ApiResponse<Object> updatePattern(@PathVariable(name = "brandId") Long brandId,
                                              @PathVariable(name = "patternId") Long patternId,
                                              @RequestBody @Valid PatternRequest patternRequest) {
@@ -106,6 +116,7 @@ public class ManagementApi {
     }
 
     @DeleteMapping("/brands/{brandId}/patterns/{patternId}")
+    @Operation(summary = "패턴 삭제")
     public ApiResponse<Object> deletePatternById(@PathVariable(name = "brandId") Long brandId,
                                                  @PathVariable(name = "patternId") Long patternId) {
         patternService.removeByIds(brandId, patternId);
@@ -114,6 +125,7 @@ public class ManagementApi {
 
     // VENDOR
     @GetMapping(value = "/vendors")
+    @Operation(summary = "매입처 목록 조회")
     public ApiResponse<List<VendorResponse>> findAllVendors() {
         return ApiResponse.OK(vendorService.findAll()
                 .stream()
@@ -122,11 +134,13 @@ public class ManagementApi {
     }
 
     @GetMapping(value = "/vendors/{vendorId}")
+    @Operation(summary = "매입처 상세 조회")
     public ApiResponse<VendorResponse> findVendorById(@PathVariable Long vendorId) {
         return ApiResponse.OK(VendorResponse.of(vendorService.findById(vendorId)));
     }
 
     @PostMapping(value = "/vendors")
+    @Operation(summary = "매입처 생성")
     public ResponseEntity<ApiResponse<Object>> createVendor(@RequestBody @Valid VendorRequest vendorRequest) {
         Vendor vendor = vendorService.create(vendorRequest);
         return ApiResponse.CREATED(
@@ -134,6 +148,7 @@ public class ManagementApi {
     }
 
     @PutMapping(value = "/vendors/{vendorId}")
+    @Operation(summary = "매입처 수정")
     public ApiResponse<Object> updateVendor(@PathVariable Long vendorId,
                                             @RequestBody @Valid VendorRequest vendorUpdateRequest) {
         vendorService.update(vendorId, vendorUpdateRequest);
@@ -141,6 +156,7 @@ public class ManagementApi {
     }
 
     @DeleteMapping(value = "/vendors/{vendorId}")
+    @Operation(summary = "매입처 삭제")
     public ApiResponse<Object> deleteVendor(@PathVariable Long vendorId) {
         vendorService.removeById(vendorId);
         return ApiResponse.OK;
@@ -148,6 +164,7 @@ public class ManagementApi {
 
     // WAREHOUSE
     @GetMapping(value = "/warehouses")
+    @Operation(summary = "창고 목록 조회")
     public ApiResponse<List<WarehouseResponse>> findAllWarehouses() {
         return ApiResponse.OK(warehouseService.findAll()
                 .stream()
@@ -156,11 +173,13 @@ public class ManagementApi {
     }
 
     @GetMapping(value = "/warehouses/{warehouseId}")
+    @Operation(summary = "창고 상세 조회")
     public ApiResponse<WarehouseResponse> findWarehouseById(@PathVariable Long warehouseId) {
         return ApiResponse.OK(WarehouseResponse.of(warehouseService.findById(warehouseId)));
     }
 
     @PostMapping(value = "/warehouses")
+    @Operation(summary = "창고 생성")
     public ResponseEntity<ApiResponse<Object>> createWarehouse(@RequestBody @Valid WarehouseRequest warehouseRequest) {
         Warehouse warehouse = warehouseService.create(warehouseRequest);
         return ApiResponse.CREATED(
@@ -168,6 +187,7 @@ public class ManagementApi {
     }
 
     @PutMapping(value = "/warehouses/{warehouseId}")
+    @Operation(summary = "창고 수정")
     public ApiResponse<Object> updateWarehouse(@PathVariable Long warehouseId,
                                                @RequestBody @Valid WarehouseRequest warehouseUpdateRequest) {
         warehouseService.update(warehouseId, warehouseUpdateRequest);
@@ -175,6 +195,7 @@ public class ManagementApi {
     }
 
     @DeleteMapping(value = "/warehouses/{warehouseId}")
+    @Operation(summary = "창고 삭제")
     public ApiResponse<Object> deleteWarehouse(@PathVariable Long warehouseId) {
         warehouseService.removeById(warehouseId);
         return ApiResponse.OK;

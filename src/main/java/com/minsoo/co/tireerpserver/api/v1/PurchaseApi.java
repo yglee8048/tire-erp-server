@@ -47,7 +47,7 @@ public class PurchaseApi {
     }
 
     @PostMapping
-    @Operation(summary = "매입 생성", description = "복수의 매입을 생성한다.")
+    @Operation(summary = "매입 생성", description = "매입을 생성한다.")
     public ResponseEntity<ApiResponse<Object>> createPurchases(@RequestBody @Valid CreatePurchaseRequest createRequest) {
         Purchase purchase = purchaseService.create(createRequest);
         return ApiResponse.CREATED(
@@ -72,7 +72,7 @@ public class PurchaseApi {
     }
 
     @DeleteMapping("/{purchaseId}")
-    @Operation(summary = "매입 삭제", description = "매입 내용을 삭제한다. (확정된 매입은 삭제가 불가능하다.)")
+    @Operation(summary = "매입 삭제", description = "매입 내용을 삭제한다.")
     @Parameters({@Parameter(name = "purchaseId", description = "매입 ID", example = "201324", required = true)})
     public ApiResponse<Object> deletePurchase(@PathVariable Long purchaseId) {
         purchaseService.removeById(purchaseId);
