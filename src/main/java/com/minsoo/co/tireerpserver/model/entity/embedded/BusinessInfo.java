@@ -59,6 +59,9 @@ public class BusinessInfo {
     }
 
     public static BusinessInfo of(BusinessInfoDTO businessInfoDTO) {
+        if (businessInfoDTO == null) {
+            return new BusinessInfo();
+        }
         return new BusinessInfo(businessInfoDTO);
     }
 }

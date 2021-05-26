@@ -30,13 +30,16 @@ public class Address {
     private Integer zipCode;
 
     private Address(AddressDTO addressDTO) {
-        this.city = addressDTO.getCity() == null ? "" : addressDTO.getCity();   // embedded 타입의 경우, 모두 null 이면 에러 발생
+        this.city = addressDTO.getCity();   // embedded 타입의 경우, 모두 null 이면 에러 발생
         this.streetAddress = addressDTO.getStreetAddress();
         this.detailAddress = addressDTO.getDetailAddress();
         this.zipCode = addressDTO.getZipCode();
     }
 
     public static Address of(AddressDTO addressDTO) {
+        if (addressDTO == null) {
+            return new Address();
+        }
         return new Address(addressDTO);
     }
 }
