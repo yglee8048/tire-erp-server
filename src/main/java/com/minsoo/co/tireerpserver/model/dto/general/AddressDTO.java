@@ -16,7 +16,7 @@ public class AddressDTO {
     @Schema(description = "시/도", example = "서울특별시")
     private String city;
 
-    @Schema(description = "도로명 주소", example = "서울특별시 종로구 세종대로 209")
+    @Schema(name = "street_address", description = "도로명 주소", example = "서울특별시 종로구 세종대로 209")
     private String streetAddress;
 
     @Schema(description = "상세 주소", example = "1403호")
