@@ -13,12 +13,16 @@ import lombok.ToString;
 @NoArgsConstructor
 public class TireDotSimpleResponse {
 
+    @Schema(name = "tire_dot_id", description = "tire_dot_id")
     private Long tireDotId;
 
+    @Schema(name = "tire_id", description = "tire_id")
     private Long tireId;
 
+    @Schema(name = "dot", description = "DOT")
     private String dot;
 
+    @Schema(name = "retail_price", description = "소비자금액")
     private Long retailPrice;
 
     private TireDotSimpleResponse(TireDot tireDot) {

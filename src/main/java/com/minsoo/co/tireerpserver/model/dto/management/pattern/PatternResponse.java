@@ -9,37 +9,43 @@ import lombok.*;
 @NoArgsConstructor
 public class PatternResponse {
 
+    @Schema(name = "pattern_id", description = "pattern_id")
     private Long patternId;
 
+    @Schema(name = "brand", description = "제조사 정보")
     private BrandResponse brand;
 
+    @Schema(name = "name", description = "패턴 이름")
     private String name;
 
+    @Schema(name = "car_type", description = "차종")
     private String carType;
 
+    @Schema(name = "rank", description = "등급")
     private String rank;
 
+    @Schema(name = "season", description = "계절")
     private String season;
 
-    @Schema(description = "정숙성")
+    @Schema(name = "quietness", description = "정숙성")
     private Boolean quietness;
 
-    @Schema(description = "승차감")
+    @Schema(name = "ride_quality", description = "승차감")
     private Boolean rideQuality;
 
-    @Schema(description = "마일리지")
+    @Schema(name = "mileage", description = "마일리지")
     private Boolean mileage;
 
-    @Schema(description = "핸들링")
+    @Schema(name = "handling", description = "핸들링")
     private Boolean handling;
 
-    @Schema(description = "제동력")
+    @Schema(name = "breaking_power", description = "제동력")
     private Boolean breakingPower;
 
-    @Schema(description = "스포츠")
+    @Schema(name = "sports", description = "스포츠")
     private Boolean sports;
 
-    @Schema(description = "젖은노면")
+    @Schema(name = "wet_surface", description = "젖은노면")
     private Boolean wetSurface;
 
     public PatternResponse(Pattern pattern) {

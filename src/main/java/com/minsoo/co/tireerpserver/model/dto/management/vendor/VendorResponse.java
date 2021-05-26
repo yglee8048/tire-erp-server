@@ -14,21 +14,22 @@ import lombok.ToString;
 @NoArgsConstructor
 public class VendorResponse {
 
-    @Schema(description = "ID", example = "2091")
+    @Schema(name = "vendor_id", description = "vendor_id", example = "2091")
     private Long vendorId;
 
-    @Schema(description = "이름", example = "피렐리 코리아")
+    @Schema(name = "name", description = "이름", example = "피렐리 코리아")
     private String name;
 
-    @Schema(description = "설명", example = "20년 5월부터 계약 시작")
+    @Schema(name = "description", description = "설명", example = "20년 5월부터 계약 시작")
     private String description;
 
-    @Schema(description = "사업자 관련 정보")
+    @Schema(name = "business_info", description = "사업자 관련 정보")
     private BusinessInfoDTO businessInfo;
 
     private VendorResponse(Vendor vendor) {
         this.vendorId = vendor.getId();
         this.name = vendor.getName();
+        this.description = vendor.getDescription();
         this.businessInfo = BusinessInfoDTO.of(vendor.getBusinessInfo());
     }
 

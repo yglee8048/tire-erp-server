@@ -13,16 +13,16 @@ import lombok.ToString;
 @NoArgsConstructor
 public class TireMemoResponse {
 
-    @Schema(description = "타이어 메모 ID", example = "2991")
+    @Schema(name = "tire_memo_id", description = "tire_memo_id", example = "2991")
     private Long tireMemoId;
 
-    @Schema(description = "타이어 ID", example = "2991")
+    @Schema(name = "tire_id", description = "tire_id", example = "2991")
     private Long tireId;
 
-    @Schema(description = "내용", example = "포르쉐에서 50EA 출고 요청")
+    @Schema(name = "memo", description = "내용", example = "포르쉐에서 50EA 출고 요청")
     private String memo;
 
-    @Schema(description = "잠금 여부 (true=비공개/false=공개)", example = "true")
+    @Schema(name = "lock", description = "잠금 여부 (true=비공개/false=공개)", example = "true")
     private boolean lock;
 
     private TireMemoResponse(TireMemo tireMemo) {

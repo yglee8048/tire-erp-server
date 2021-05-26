@@ -8,13 +8,13 @@ import lombok.*;
 @NoArgsConstructor
 public class BrandResponse {
 
-    @Schema(description = "ID", example = "2991")
+    @Schema(name = "brand_id", description = "brand_id", example = "2991")
     private Long brandId;
 
-    @Schema(description = "이름", example = "금호타이어")
+    @Schema(name = "name", description = "이름", example = "금호타이어")
     private String name;
 
-    @Schema(description = "설명", example = "20년 5월부터 계약 시작")
+    @Schema(name = "description", description = "설명", example = "20년 5월부터 계약 시작")
     private String description;
 
     private BrandResponse(Brand brand) {

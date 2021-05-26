@@ -13,13 +13,13 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class VendorRequest {
 
-    @Schema(description = "이름", example = "피렐리 코리아", required = true)
+    @Schema(name = "name", description = "이름", example = "피렐리 코리아", required = true)
     @NotEmpty(message = "매입처 이름은 필수 값입니다.")
     private String name;
 
-    @Schema(description = "설명", example = "20년 5월부터 계약 시작")
+    @Schema(name = "description", description = "설명", example = "20년 5월부터 계약 시작")
     private String description;
 
-    @Schema(description = "사업자 관련 정보")
+    @Schema(name = "business_info", description = "사업자 관련 정보")
     private BusinessInfoDTO businessInfo;
 }

@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.tire.dot;
 
 import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @Getter
@@ -10,12 +11,16 @@ import lombok.*;
 @NoArgsConstructor
 public class TireDotResponse {
 
+    @Schema(name = "tire_dot_id", description = "tire_dot_id")
     private Long tireDotId;
 
+    @Schema(name = "tire", description = "타이어")
     private TireResponse tire;
 
+    @Schema(name = "dot", description = "DOT")
     private String dot;
 
+    @Schema(name = "retail_price", description = "소비자금액")
     private Long retailPrice;
 
     private TireDotResponse(TireDot tireDot) {
