@@ -13,8 +13,7 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class ModifyStockRequest {
 
-    @Schema(name = "stock_id", description = "stock_id")
-    @NotNull(message = "stock_id 는 필수 값입니다.")
+    @Schema(name = "stock_id", description = "stock_id, null 인 경우 신규 생성")
     private Long stockId;
 
     @Schema(name = "warehouse_id", description = "warehouse_id")

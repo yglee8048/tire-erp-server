@@ -7,7 +7,6 @@ import lombok.*;
 @Getter
 @ToString
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class BusinessInfoDTO {
 
@@ -40,6 +39,10 @@ public class BusinessInfoDTO {
 
     @Schema(name = "manager_phone_number", description = "담당자 전화번호", example = "010-1234-5678")
     private String managerPhoneNumber;
+
+    public BusinessInfoDTO() {
+        this.address = new AddressDTO();
+    }
 
     private BusinessInfoDTO(BusinessInfo businessInfo) {
         this.businessNumber = businessInfo.getBusinessNumber();
