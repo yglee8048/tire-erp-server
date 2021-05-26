@@ -23,7 +23,7 @@ public class ModifyStock {
     private Boolean lock;
 
     public static ModifyStock of(Warehouse warehouse, ModifyStockRequest modifyStockRequest) {
-        return new ModifyStock(modifyStockRequest.getStockId(), warehouse, modifyStockRequest.getNickname(), modifyStockRequest.getQuantity(), modifyStockRequest.getLock());
+        return new ModifyStock(modifyStockRequest.getStockId(), warehouse, modifyStockRequest.getNickname(), modifyStockRequest.getQuantity(), modifyStockRequest.isLock());
     }
 
     public static ModifyStock of(Long stockId, Warehouse warehouse, String nickname, Long quantity, Boolean lock) {

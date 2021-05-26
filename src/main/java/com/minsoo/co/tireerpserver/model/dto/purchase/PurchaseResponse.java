@@ -14,19 +14,19 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class PurchaseResponse {
 
-    @Schema(description = "ID", example = "20019")
+    @Schema(name = "purchase_id", description = "purchase_id", example = "20019")
     private Long purchaseId;
 
-    @Schema(description = "매입처")
+    @Schema(name = "vendor", description = "매입처")
     private VendorResponse vendor;
 
-    @Schema(description = "매입 상태", example = "CONFIRMED")
+    @Schema(name = "status", description = "매입 상태", example = "CONFIRMED")
     private PurchaseStatus status;
 
-    @Schema(description = "매입 일자", example = "2021-02-18")
+    @Schema(name = "purchase_date", description = "매입 일자", example = "2021-02-18")
     private LocalDate purchaseDate;
 
-    @Schema(description = "매입 항목")
+    @Schema(name = "contents", description = "매입 항목")
     private List<PurchaseContentResponse> contents;
 
     public PurchaseResponse(Purchase purchase) {

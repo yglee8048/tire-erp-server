@@ -11,19 +11,19 @@ import lombok.*;
 @NoArgsConstructor
 public class WarehouseResponse {
 
-    @Schema(description = "ID", example = "2099")
+    @Schema(name = "warehouse_id", description = "warehouse_id", example = "2099")
     private Long warehouseId;
 
-    @Schema(description = "이름", example = "왕십리 메인 창고")
+    @Schema(name = "name", description = "이름", example = "왕십리 메인 창고", required = true)
     private String name;
 
-    @Schema(description = "설명", example = "메인 판매 타이어 보관")
+    @Schema(name = "description", description = "설명", example = "메인 판매 타이어 보관")
     private String description;
 
-    @Schema(description = "용량", example = "20000")
+    @Schema(name = "capacity", description = "용량", example = "20000")
     private Integer capacity;
 
-    @Schema(description = "address")
+    @Schema(name = "address", description = "주소")
     private AddressDTO address;
 
     private WarehouseResponse(Warehouse warehouse) {

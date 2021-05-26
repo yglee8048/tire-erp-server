@@ -13,15 +13,15 @@ import java.util.List;
 @AllArgsConstructor
 public class UpdatePurchaseRequest {
 
-    @Schema(description = "매입처 ID", example = "20019", required = true)
-    @NotNull(message = "매입처 ID 는 필수 값입니다.")
+    @Schema(name = "vendor_id", description = "vendor_id", example = "20019", required = true)
+    @NotNull(message = "vendor_id 는 필수 값입니다.")
     private Long vendorId;
 
-    @Schema(description = "매입 일자", example = "2021-02-18", required = true)
+    @Schema(name = "purchase_date", description = "매입 일자", example = "2021-02-18", required = true)
     @NotNull(message = "매입 일자는 필수 값입니다.")
     private LocalDate purchaseDate;
 
-    @Schema(description = "매입 내용", required = true)
-    @NotNull(message = "매입 내용은 필수 값입니다.")
+    @Schema(name = "contents", description = "매입 항목", required = true)
+    @NotNull(message = "매입 항목은 필수 값입니다.")
     List<UpdatePurchaseContentRequest> contents;
 }

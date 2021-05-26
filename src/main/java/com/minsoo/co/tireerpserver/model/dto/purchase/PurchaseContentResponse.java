@@ -10,19 +10,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PurchaseContentResponse {
 
-    @Schema(description = "매입 항목 ID")
+    @Schema(name = "purchase_content_id", description = "purchase_content_id")
     private Long purchaseContentId;
 
-    @Schema(description = "매입 ID")
+    @Schema(name = "purchase_id", description = "매입 ID")
     private Long purchaseId;
 
-    @Schema(description = "타이어 DOT")
+    @Schema(name = "tire_dot", description = "타이어 DOT")
     private TireDotResponse tireDot;
 
-    @Schema(description = "매입 가격", example = "450000")
+    @Schema(name = "price", description = "매입 가격", example = "450000")
     private Integer price;
 
-    @Schema(description = "매입 수량", example = "45")
+    @Schema(name = "quantity", description = "매입 수량", example = "45")
     private Long quantity;
 
     public PurchaseContentResponse(PurchaseContent purchaseContent) {
