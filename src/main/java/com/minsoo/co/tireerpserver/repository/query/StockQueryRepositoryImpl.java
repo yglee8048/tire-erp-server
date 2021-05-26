@@ -52,11 +52,11 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
                         new CaseBuilder().when(stock.quantity.gt(0L))
                                 .then(tireDot.id)
                                 .otherwise(Expressions.nullExpression()).countDistinct().as("numberOfActiveDot")))
-                .from(stock)
-                .join(stock.tireDot, tireDot)
-                .join(tireDot.tire, tire)
+                .from(tire)
                 .join(tire.pattern, pattern)
                 .join(pattern.brand, brand)
+                .leftJoin(tire.tireDots, tireDot)
+                .leftJoin(tireDot.stocks, stock)
                 .groupBy(tire.id);
     }
 

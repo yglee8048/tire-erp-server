@@ -34,7 +34,7 @@ public class PurchaseResponse {
         this.vendor = VendorResponse.of(purchase.getVendor());
         this.status = purchase.getStatus();
         this.purchaseDate = purchase.getPurchaseDate();
-        this.contents = purchase.getPurchaseContents().stream().map(PurchaseContentResponse::of).collect(Collectors.toList());
+        this.contents = purchase.getContents().stream().map(PurchaseContentResponse::of).collect(Collectors.toList());
     }
 
     public static PurchaseResponse of(Purchase purchase) {

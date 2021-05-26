@@ -1,14 +1,9 @@
 package com.minsoo.co.tireerpserver.model.dto.tire.tire;
 
-import com.minsoo.co.tireerpserver.model.code.TireOption;
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireOptions;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -35,13 +30,13 @@ public class TireResponse {
     private String speedIndex;
 
     @Schema(description = "런플렛")
-    private boolean runFlat;
+    private Boolean runFlat;
 
     @Schema(description = "스펀지")
-    private boolean sponge;
+    private Boolean sponge;
 
     @Schema(description = "실링")
-    private boolean sealing;
+    private Boolean sealing;
 
     private String oe;
 
@@ -68,12 +63,9 @@ public class TireResponse {
         this.size = tire.getSize();
         this.loadIndex = tire.getLoadIndex();
         this.speedIndex = tire.getSpeedIndex();
-
-        List<TireOption> options = tire.getOptions().stream().map(TireOptions::getOption).collect(Collectors.toList());
-        this.runFlat = options.contains(TireOption.RUN_FLAT);
-        this.sponge = options.contains(TireOption.SPONGE);
-        this.sealing = options.contains(TireOption.SEALING);
-
+        this.runFlat = tire.getRunFlat();
+        this.sponge = tire.getSponge();
+        this.sealing = tire.getSealing();
         this.oe = tire.getOe();
         this.countryOfManufacture = tire.getCountryOfManufacture();
         this.originalVehicle = tire.getOriginalVehicle();

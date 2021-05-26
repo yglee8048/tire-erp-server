@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.service;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
-import com.minsoo.co.tireerpserver.model.code.PatternOption;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRequest;
@@ -10,7 +9,6 @@ import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.PatternOptions;
 import com.minsoo.co.tireerpserver.service.management.BrandService;
 import com.minsoo.co.tireerpserver.service.management.VendorService;
 import com.minsoo.co.tireerpserver.service.management.WarehouseService;
@@ -18,10 +16,6 @@ import com.minsoo.co.tireerpserver.service.management.PatternService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.minsoo.co.tireerpserver.utils.RequestBuilder.*;
 import static org.assertj.core.api.Assertions.*;
@@ -66,50 +60,20 @@ public class ManagementServiceTest extends ServiceTest {
         Brand brand = brandService.create(brandRequest);
 
         // 패턴 생성
-        List<PatternOption> patternOptions = new ArrayList<>();
-        patternOptions.add(PatternOption.HANDLING);
-        patternOptions.add(PatternOption.MILEAGE);
-        PatternRequest patternRequest = PATTERN("패턴 이름", patternOptions);
+        PatternRequest patternRequest = PATTERN("패턴 이름");
 
         Pattern pattern = patternService.create(brand.getId(), patternRequest);
         assertThat(pattern.getName()).isEqualTo("패턴 이름");
         clear();
 
-        log.debug("패턴 옵션 테스트");
-        Pattern found = patternService.findByIds(brand.getId(), pattern.getId());
-        List<PatternOption> options = found.getOptions().stream()
-                .map(PatternOptions::getOption)
-                .collect(Collectors.toList());
-        assertThat(options.contains(PatternOption.HANDLING)).isTrue();
-        assertThat(options.contains(PatternOption.MILEAGE)).isTrue();
-
         log.debug("이름 중복 생성 시 예외 발생");
-        PatternRequest duplicateRequest = PATTERN("패턴 이름", patternOptions);
+        PatternRequest duplicateRequest = PATTERN("패턴 이름");
         assertThatThrownBy(() -> patternService.create(brand.getId(), duplicateRequest))
                 .isInstanceOf(AlreadyExistException.class);
-    }
 
-    @Test
-    @DisplayName("패턴 옵션 수정 테스트")
-    void patternUpdateTest() {
-        // 패턴 생성
-        List<PatternOption> patternOptions = new ArrayList<>();
-        patternOptions.add(PatternOption.HANDLING);
-        patternOptions.add(PatternOption.MILEAGE);
-
-        Brand brand = brandService.create(BRAND("브랜드 테스트"));
-        Pattern pattern = patternService.create(brand.getId(), PATTERN("패턴 이름", patternOptions));
-        clear();
-
-        patternOptions.add(PatternOption.BREAKING_POWER);
-        patternOptions.remove(PatternOption.HANDLING);
-        Pattern updated = patternService.update(brand.getId(), pattern.getId(), PATTERN("패턴 이름 수정", patternOptions));
-
+        // 패턴 수정
+        Pattern updated = patternService.update(brand.getId(), pattern.getId(), PATTERN("패턴 이름 수정"));
         assertThat(updated.getName()).isEqualTo("패턴 이름 수정");
-        List<PatternOption> updatedOptions = updated.getOptions().stream().map(PatternOptions::getOption).collect(Collectors.toList());
-        assertThat(updatedOptions.contains(PatternOption.BREAKING_POWER)).isTrue();
-        assertThat(updatedOptions.contains(PatternOption.HANDLING)).isFalse();
-        assertThat(updatedOptions.size()).isEqualTo(2);
     }
 
     /**

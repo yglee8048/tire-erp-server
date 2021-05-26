@@ -1,7 +1,5 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.purchase;
 
-import com.minsoo.co.tireerpserver.model.dto.purchase.CreatePurchaseContentRequest;
-import com.minsoo.co.tireerpserver.model.dto.purchase.UpdatePurchaseContentRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +13,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-@Table(name = "purchase_content")
+@Table(name = "purchase_content",
+        uniqueConstraints = {@UniqueConstraint(name = "purchase_content_tire_dot_unique", columnNames = {"purchase_id", "tire_dot_id"})})
 public class PurchaseContent {
 
     @Id
@@ -37,6 +36,7 @@ public class PurchaseContent {
     @Column(name = "quantity", nullable = false)
     private Long quantity;
 
+    //== Business ==//
     public PurchaseContent(Purchase purchase, TireDot tireDot, Integer price, Long quantity) {
         this.purchase = purchase;
         this.tireDot = tireDot;
@@ -44,15 +44,20 @@ public class PurchaseContent {
         this.quantity = quantity;
     }
 
-    public static PurchaseContent of(Purchase purchase, TireDot tireDot, CreatePurchaseContentRequest createRequest) {
-        return new PurchaseContent(purchase, tireDot, createRequest.getPrice(), createRequest.getQuantity());
+    public static PurchaseContent of(Purchase purchase, TireDot tireDot, Integer price, Long quantity) {
+        return new PurchaseContent(purchase, tireDot, price, quantity);
     }
 
-    public PurchaseContent update(TireDot tireDot, UpdatePurchaseContentRequest updateRequest) {
+    public PurchaseContent update(TireDot tireDot, Integer price, Long quantity) {
         this.tireDot = tireDot;
-        this.price = updateRequest.getPrice();
-        this.quantity = updateRequest.getQuantity();
+        this.price = price;
+        this.quantity = quantity;
 
         return this;
+    }
+
+    public void removeFromPurchase() {
+        this.purchase.getContents().remove(this);
+        this.purchase = null;
     }
 }

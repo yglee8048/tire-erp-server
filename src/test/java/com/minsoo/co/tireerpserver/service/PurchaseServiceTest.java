@@ -63,23 +63,21 @@ class PurchaseServiceTest extends ServiceTest {
     /**
      * 1. 매입 생성 테스트
      * 1-1) 매입이 정상적으로 생성되어야 한다.
-     * 2. 매입 수정/삭제 테스트
-     * 2-1) 매입이 확정되기 전에는 매입 내용을 수정할 수 있다.
-     * 2-2) 확정 여부와 무관하게 매입 내용을 삭제할 수 있다.
+     * 1-2) 매입 항목의 tire-dot 가 중복으로 요청 되는 경우 합쳐서 저장한다.
      */
     @Test
-    @DisplayName("매입 생성 & 수정 & 삭제 테스트")
-    void purchaseTest() {
-        log.info("초기 데이터 생성");
+    @DisplayName("매입 생성 테스트")
+    void purchaseCreateTest() {
+        log.debug("초기 데이터 생성");
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
-        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴", null));
+        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         Vendor vendor = vendorService.create(VENDOR("테스트 매입처"));
-        Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11, null));
+        Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
         TireDot tireDot01 = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
         TireDot tireDot02 = tireDotService.create(tire.getId(), TIRE_DOT("2222", 4000L));
         clear();
 
-        log.info("1. 매입 생성 테스트");
+        log.debug("1. 매입 생성 테스트");
         log.debug("매입 생성 1");
         Purchase purchase = purchaseService.create(CREATE_PURCHASE(vendor.getId(),
                 CREATE_PURCHASE_CONTENT(tireDot01.getId(), 1L),
@@ -87,25 +85,46 @@ class PurchaseServiceTest extends ServiceTest {
         clear();
 
         log.debug("매입 생성 검증");
-        assertThat(purchase.getPurchaseContents().size()).isEqualTo(2);
+        assertThat(purchase.getContents().size()).isEqualTo(2);
         assertThat(purchase.getVendor().getId()).isEqualTo(vendor.getId());
         assertThat(purchase.getPurchaseDate()).isEqualTo(LocalDate.now());
+    }
 
-        log.info("2. 매입 수정/삭제 테스트");
-        log.debug("수정 테스트");
-        List<UpdatePurchaseContentRequest> contents = purchase.getPurchaseContents()
+    /**
+     * 2. 매입 수정 테스트
+     * 2-1) 매입이 확정되기 전에는 매입 내용을 수정할 수 있다.
+     * 2-2) 기존에 없는 매입 항목을 요청하면 tire-dot 로 묶어서 저장한다.
+     * 2-3) 기존에 있던 매입 항목은 수정한다.
+     * 2-4) 기존에 있었지만 삭제된 항목은 삭제한다.
+     * 3. 매입 삭제 테스트
+     * 3-1) 확정 여부와 무관하게 매입 내용을 삭제할 수 있다.
+     */
+    void purchaseUpdateTest() {
+        log.debug("초기 데이터 생성");
+        Brand brand = brandService.create(BRAND("테스트 브랜드"));
+        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
+        Vendor vendor = vendorService.create(VENDOR("테스트 매입처"));
+        Warehouse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
+        Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
+        TireDot tireDot01 = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
+        Purchase purchase = purchaseService.create(CREATE_PURCHASE(vendor.getId(),
+                CREATE_PURCHASE_CONTENT(tireDot01.getId(), 1L)));
+        clear();
+
+        log.debug("2. 매입 수정 테스트");
+        List<UpdatePurchaseContentRequest> contents = purchase.getContents()
                 .stream()
                 .map(purchaseContent ->
                         UPDATE_PURCHASE_CONTENT(purchaseContent.getId(), purchaseContent.getTireDot().getId(), 3L))
                 .collect(Collectors.toList());
         Purchase updated = purchaseService.update(purchase.getId(), UPDATE_PURCHASE(vendor.getId(), contents));
         assertThat(updated.getId()).isEqualTo(purchase.getId());
-        assertThat(updated.getPurchaseContents().stream()
+        assertThat(updated.getContents().stream()
                 .map(PurchaseContent::getQuantity)
                 .reduce(0L, Long::sum)).isEqualTo(6L);
         clear();
 
-        log.debug("삭제 테스트");
+        log.debug("3. 매입 삭제 테스트");
         purchaseService.removeById(purchase.getId());
         assertThatThrownBy(() -> purchaseService.findById(purchase.getId()))
                 .isInstanceOf(NotFoundException.class);
@@ -122,19 +141,19 @@ class PurchaseServiceTest extends ServiceTest {
     @Test
     @DisplayName("매입 확정 테스트")
     public void purchaseConfirmTest() {
-        log.info("초기 데이터 생성");
+        log.debug("초기 데이터 생성");
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
-        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴", null));
+        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         Vendor vendor = vendorService.create(VENDOR("테스트 매입처"));
         Warehouse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
-        Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11, null));
+        Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
         TireDot tireDot01 = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
         Purchase purchase = purchaseService.create(CREATE_PURCHASE(vendor.getId(),
                 CREATE_PURCHASE_CONTENT(tireDot01.getId(), 1L)));
         clear();
 
-        log.info("매입 확정 테스트");
-        List<PurchaseConfirmRequest> purchaseConfirmRequests = purchase.getPurchaseContents()
+        log.debug("매입 확정 테스트");
+        List<PurchaseConfirmRequest> purchaseConfirmRequests = purchase.getContents()
                 .stream()
                 .map(purchaseContent ->
                         CONFIRM_PURCHASE(purchaseContent.getId(),
@@ -156,7 +175,7 @@ class PurchaseServiceTest extends ServiceTest {
         log.debug("매입 확정 시 수량이 다르면 오류가 발생해야 한다.");
         Purchase failed = purchaseService.create(CREATE_PURCHASE(vendor.getId(),
                 CREATE_PURCHASE_CONTENT(tireDot01.getId(), 1L)));
-        List<PurchaseConfirmRequest> invalidRequest = failed.getPurchaseContents()
+        List<PurchaseConfirmRequest> invalidRequest = failed.getContents()
                 .stream()
                 .map(purchaseContent ->
                         CONFIRM_PURCHASE(purchaseContent.getId(),
@@ -168,7 +187,7 @@ class PurchaseServiceTest extends ServiceTest {
         clear();
 
         log.debug("매입이 확정되면 수정할 수 없다.");
-        List<UpdatePurchaseContentRequest> contents = purchase.getPurchaseContents()
+        List<UpdatePurchaseContentRequest> contents = purchase.getContents()
                 .stream()
                 .map(purchaseContent ->
                         UPDATE_PURCHASE_CONTENT(purchaseContent.getId(), purchaseContent.getTireDot().getId(), 3L))

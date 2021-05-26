@@ -4,9 +4,7 @@ import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyConfirmedExceptio
 import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
-import com.minsoo.co.tireerpserver.model.dto.purchase.CreatePurchaseRequest;
-import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseConfirmRequest;
-import com.minsoo.co.tireerpserver.model.dto.purchase.UpdatePurchaseRequest;
+import com.minsoo.co.tireerpserver.model.dto.purchase.*;
 import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStock;
 import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStockRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
@@ -19,7 +17,6 @@ import com.minsoo.co.tireerpserver.repository.management.WarehouseRepository;
 import com.minsoo.co.tireerpserver.repository.purchase.PurchaseContentRepository;
 import com.minsoo.co.tireerpserver.repository.purchase.PurchaseRepository;
 import com.minsoo.co.tireerpserver.repository.tire.TireDotRepository;
-import com.minsoo.co.tireerpserver.service.stock.StockService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -52,13 +49,26 @@ public class PurchaseService {
     public Purchase create(CreatePurchaseRequest createRequest) {
         Vendor vendor = vendorRepository.findById(createRequest.getVendorId()).orElseThrow(() -> new NotFoundException("매입처", createRequest.getVendorId()));
         Purchase purchase = purchaseRepository.save(Purchase.of(vendor, createRequest.getPurchaseDate()));
-        // contents
+
         createRequest.getContents()
-                .forEach(contentCreateRequest -> {
-                    TireDot tireDot = tireDotRepository.findById(contentCreateRequest.getTireDotId())
-                            .orElseThrow(() -> new NotFoundException("타이어 DOT", contentCreateRequest.getTireDotId()));
-                    purchase.getPurchaseContents().add(purchaseContentRepository.save(PurchaseContent.of(purchase, tireDot, contentCreateRequest)));
+                .stream()
+                // 같은 tire-dot 에 대한 내용은 하나로 합쳐서 저장한다.
+                .collect(Collectors.groupingBy(CreatePurchaseContentRequest::getTireDotId))
+                .forEach((tireDotId, contentRequests) -> {
+                    TireDot tireDot = tireDotRepository.findById(tireDotId)
+                            .orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
+
+                    int sumOfPrice = contentRequests.stream()
+                            .map(CreatePurchaseContentRequest::getPrice)
+                            .reduce(0, Integer::sum);
+                    long sumOfQuantity = contentRequests.stream()
+                            .map(CreatePurchaseContentRequest::getQuantity)
+                            .reduce(0L, Long::sum);
+
+                    purchase.getContents()
+                            .add(purchaseContentRepository.save(PurchaseContent.of(purchase, tireDot, sumOfPrice, sumOfQuantity)));
                 });
+
         return purchase;
     }
 
@@ -69,20 +79,52 @@ public class PurchaseService {
         if (purchase.getStatus().equals(PurchaseStatus.CONFIRMED)) {
             throw new AlreadyConfirmedException();
         }
+        // validation: purchase-content-id 가 중복되어서는 안 된다.
+        List<Long> purchaseContentIds = purchase.getContents()
+                .stream()
+                .map(PurchaseContent::getId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        if (purchaseContentIds.size() != (new HashSet<>(purchaseContentIds)).size()) {
+            throw new BadRequestException("매입 항목 ID가 중복 요청되었습니다.");
+        }
 
+        // purchase 수정
         Vendor vendor = vendorRepository.findById(updateRequest.getVendorId()).orElseThrow(() -> new NotFoundException("매입처", updateRequest.getVendorId()));
         purchase.update(vendor, updateRequest.getPurchaseDate());
 
-        // contents
-        updateRequest.getContents()
-                .forEach(contentUpdateRequest -> {
-                    TireDot tireDot = tireDotRepository.findById(contentUpdateRequest.getTireDotId())
-                            .orElseThrow(() -> new NotFoundException("타이어 DOT", contentUpdateRequest.getTireDotId()));
-                    PurchaseContent purchaseContent = purchaseContentRepository.findById(contentUpdateRequest.getPurchaseContentId())
-                            .orElseThrow(() -> new NotFoundException("매입 항목", contentUpdateRequest.getPurchaseContentId()));
+        // purchase-contents: tire-dot 기준으로 묶어서 생각한다.
+        Map<Long, List<UpdatePurchaseContentRequest>> tireDotIdMap = updateRequest.getContents()
+                .stream()
+                .collect(Collectors.groupingBy(UpdatePurchaseContentRequest::getTireDotId));
 
-                    purchaseContent.update(tireDot, contentUpdateRequest);
-                });
+        tireDotIdMap.forEach((tireDotId, contentRequests) -> {
+            TireDot tireDot = tireDotRepository.findById(tireDotId)
+                    .orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
+
+            int sumOfPrice = contentRequests.stream()
+                    .map(UpdatePurchaseContentRequest::getPrice)
+                    .reduce(0, Integer::sum);
+            long sumOfQuantity = contentRequests.stream()
+                    .map(UpdatePurchaseContentRequest::getQuantity)
+                    .reduce(0L, Long::sum);
+
+            purchase.findContentByTireDotId(tireDotId)
+                    .ifPresentOrElse(
+                            // if present, update
+                            purchaseContent -> purchaseContent.update(tireDot, sumOfPrice, sumOfQuantity),
+                            // if not, create and add
+                            () -> purchase.getContents()
+                                    .add(purchaseContentRepository.save(PurchaseContent.of(purchase, tireDot, sumOfPrice, sumOfQuantity))));
+
+            // 삭제
+            purchase.getContents()
+                    .forEach(purchaseContent -> {
+                        if (!tireDotIdMap.containsKey(purchaseContent.getTireDot().getId())) {
+                            purchaseContent.removeFromPurchase();
+                        }
+                    });
+        });
 
         return purchase;
     }
@@ -118,7 +160,7 @@ public class PurchaseService {
                             .collect(Collectors.toList()));
         });
 
-        return purchase.confirm();
+        return purchase.updateStatus(PurchaseStatus.CONFIRMED);
     }
 
     /**

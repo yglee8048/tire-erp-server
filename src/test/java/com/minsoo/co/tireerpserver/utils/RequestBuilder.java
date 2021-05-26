@@ -1,7 +1,5 @@
 package com.minsoo.co.tireerpserver.utils;
 
-import com.minsoo.co.tireerpserver.model.code.PatternOption;
-import com.minsoo.co.tireerpserver.model.code.TireOption;
 import com.minsoo.co.tireerpserver.model.dto.account.account.AccountRequest;
 import com.minsoo.co.tireerpserver.model.dto.account.customer.CustomerRequest;
 import com.minsoo.co.tireerpserver.model.dto.general.AddressDTO;
@@ -37,13 +35,19 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static PatternRequest PATTERN(String name, List<PatternOption> options) {
+    public static PatternRequest PATTERN(String name) {
         return PatternRequest.builder()
                 .name(name)
                 .carType("SUV/RV")
                 .rank("고급형")
                 .season("여름용")
-                .options(options)
+                .quietness(false)
+                .breakingPower(false)
+                .handling(true)
+                .mileage(true)
+                .rideQuality(false)
+                .sports(true)
+                .wetSurface(false)
                 .build();
     }
 
@@ -64,7 +68,7 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static TireRequest TIRE(String productId, Long patternId, Integer inch, List<TireOption> options) {
+    public static TireRequest TIRE(String productId, Long patternId, Integer inch) {
         return TireRequest.builder()
                 .onSale(true)
                 .productId(productId)
@@ -74,7 +78,9 @@ public class RequestBuilder {
                 .inch(inch)
                 .loadIndex(79)
                 .speedIndex("H")
-                .options(options)
+                .runFlat(true)
+                .sponge(false)
+                .sealing(true)
                 .oe("AO")
                 .countryOfManufacture("헝가리 외2")
                 .originalVehicle(null)

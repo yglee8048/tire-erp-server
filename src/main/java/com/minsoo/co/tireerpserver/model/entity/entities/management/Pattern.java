@@ -1,18 +1,11 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.management;
 
-import com.minsoo.co.tireerpserver.model.code.PatternOption;
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -44,8 +37,26 @@ public class Pattern {
     @Column(name = "season")
     private String season;
 
-    @OneToMany(mappedBy = "pattern", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private final Set<PatternOptions> options = new HashSet<>();
+    @Column(name = "quietness")
+    private Boolean quietness;
+
+    @Column(name = "ride_quality")
+    private Boolean rideQuality;
+
+    @Column(name = "mileage")
+    private Boolean mileage;
+
+    @Column(name = "handling")
+    private Boolean handling;
+
+    @Column(name = "breaking_power")
+    private Boolean breakingPower;
+
+    @Column(name = "sports")
+    private Boolean sports;
+
+    @Column(name = "wet_surface")
+    private Boolean wetSurface;
 
     //== Business ==//
     public Pattern(PatternRequest patternRequest, Brand brand) {
@@ -54,17 +65,17 @@ public class Pattern {
         this.carType = patternRequest.getCarType();
         this.rank = patternRequest.getRank();
         this.season = patternRequest.getSeason();
+        this.quietness = patternRequest.getQuietness();
+        this.rideQuality = patternRequest.getRideQuality();
+        this.mileage = patternRequest.getMileage();
+        this.handling = patternRequest.getHandling();
+        this.breakingPower = patternRequest.getBreakingPower();
+        this.sports = patternRequest.getSports();
+        this.wetSurface = patternRequest.getWetSurface();
     }
 
     public static Pattern of(PatternRequest patternRequest, Brand brand) {
-        Pattern pattern = new Pattern(patternRequest, brand);
-        // options
-        if (!CollectionUtils.isEmpty(patternRequest.getOptions())) {
-            patternRequest.getOptions()
-                    .forEach(patternOption -> pattern.getOptions().add(PatternOptions.of(pattern, patternOption)));
-        }
-
-        return pattern;
+        return new Pattern(patternRequest, brand);
     }
 
     public Pattern update(PatternRequest patternRequest, Brand brand) {
@@ -73,13 +84,13 @@ public class Pattern {
         this.carType = patternRequest.getCarType();
         this.rank = patternRequest.getRank();
         this.season = patternRequest.getSeason();
-
-        // options
-        this.getOptions().clear();
-        if (!CollectionUtils.isEmpty(patternRequest.getOptions())) {
-            patternRequest.getOptions()
-                    .forEach(patternOption -> this.getOptions().add(PatternOptions.of(this, patternOption)));
-        }
+        this.quietness = patternRequest.getQuietness();
+        this.rideQuality = patternRequest.getRideQuality();
+        this.mileage = patternRequest.getMileage();
+        this.handling = patternRequest.getHandling();
+        this.breakingPower = patternRequest.getBreakingPower();
+        this.sports = patternRequest.getSports();
+        this.wetSurface = patternRequest.getWetSurface();
 
         return this;
     }

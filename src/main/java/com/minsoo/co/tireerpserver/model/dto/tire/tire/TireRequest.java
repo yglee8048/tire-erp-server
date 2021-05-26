@@ -1,9 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.tire.tire;
 
-import com.minsoo.co.tireerpserver.model.code.TireOption;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-
-import java.util.List;
 
 @Data
 @Builder
@@ -27,7 +25,14 @@ public class TireRequest {
 
     private String speedIndex;
 
-    private List<TireOption> options;
+    @Schema(description = "런플렛")
+    private Boolean runFlat;
+
+    @Schema(description = "스펀지")
+    private Boolean sponge;
+
+    @Schema(description = "실링")
+    private Boolean sealing;
 
     private String oe;
 

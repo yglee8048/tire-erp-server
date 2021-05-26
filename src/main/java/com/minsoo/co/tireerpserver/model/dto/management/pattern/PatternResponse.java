@@ -1,14 +1,9 @@
 package com.minsoo.co.tireerpserver.model.dto.management.pattern;
 
-import com.minsoo.co.tireerpserver.model.code.PatternOption;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.PatternOptions;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -27,25 +22,25 @@ public class PatternResponse {
     private String season;
 
     @Schema(description = "정숙성")
-    private boolean quietness;
+    private Boolean quietness;
 
     @Schema(description = "승차감")
-    private boolean rideQuality;
+    private Boolean rideQuality;
 
     @Schema(description = "마일리지")
-    private boolean mileage;
+    private Boolean mileage;
 
     @Schema(description = "핸들링")
-    private boolean handling;
+    private Boolean handling;
 
     @Schema(description = "제동력")
-    private boolean breakingPower;
+    private Boolean breakingPower;
 
     @Schema(description = "스포츠")
-    private boolean sports;
+    private Boolean sports;
 
     @Schema(description = "젖은노면")
-    private boolean wetSurface;
+    private Boolean wetSurface;
 
     public PatternResponse(Pattern pattern) {
         this.patternId = pattern.getId();
@@ -54,15 +49,13 @@ public class PatternResponse {
         this.carType = pattern.getCarType();
         this.rank = pattern.getRank();
         this.season = pattern.getSeason();
-
-        List<PatternOption> patternOptions = pattern.getOptions().stream().map(PatternOptions::getOption).collect(Collectors.toList());
-        this.quietness = patternOptions.contains(PatternOption.QUIETNESS);
-        this.rideQuality = patternOptions.contains(PatternOption.RIDE_QUALITY);
-        this.mileage = patternOptions.contains(PatternOption.MILEAGE);
-        this.handling = patternOptions.contains(PatternOption.HANDLING);
-        this.breakingPower = patternOptions.contains(PatternOption.BREAKING_POWER);
-        this.sports = patternOptions.contains(PatternOption.SPORTS);
-        this.wetSurface = patternOptions.contains(PatternOption.WET_SURFACE);
+        this.quietness = pattern.getQuietness();
+        this.rideQuality = pattern.getRideQuality();
+        this.mileage = pattern.getMileage();
+        this.handling = pattern.getHandling();
+        this.breakingPower = pattern.getBreakingPower();
+        this.sports = pattern.getSports();
+        this.wetSurface = pattern.getWetSurface();
     }
 
     public static PatternResponse of(Pattern pattern) {

@@ -3,7 +3,6 @@ package com.minsoo.co.tireerpserver.model.entity.entities.tire;
 import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
 import lombok.*;
-import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -54,9 +53,14 @@ public class Tire {
     @Column(name = "speed_index")
     private String speedIndex;
 
-    // 옵션 정보(런플렛, 스펀지, 실링)
-    @OneToMany(mappedBy = "tire", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private final Set<TireOptions> options = new HashSet<>();
+    @Column(name = "run_flat")
+    private Boolean runFlat;
+
+    @Column(name = "sponge")
+    private Boolean sponge;
+
+    @Column(name = "sealing")
+    private Boolean sealing;
 
     @Column(name = "oe")
     private String oe;
@@ -96,6 +100,9 @@ public class Tire {
         this.size = tireRequest.getWidth() + "/" + tireRequest.getFlatnessRatio() + "R" + tireRequest.getInch();
         this.loadIndex = tireRequest.getLoadIndex();
         this.speedIndex = tireRequest.getSpeedIndex();
+        this.runFlat = tireRequest.getRunFlat();
+        this.sponge = tireRequest.getSponge();
+        this.sealing = tireRequest.getSealing();
         this.oe = tireRequest.getOe();
         this.countryOfManufacture = tireRequest.getCountryOfManufacture();
         this.originalVehicle = tireRequest.getOriginalVehicle();
@@ -106,15 +113,7 @@ public class Tire {
     }
 
     public static Tire of(TireRequest tireRequest, Pattern pattern) {
-        Tire tire = new Tire(tireRequest, pattern);
-
-        // options
-        if (!CollectionUtils.isEmpty(tireRequest.getOptions())) {
-            tireRequest.getOptions()
-                    .forEach(tireOption -> tire.getOptions().add(TireOptions.of(tire, tireOption)));
-        }
-
-        return tire;
+        return new Tire(tireRequest, pattern);
     }
 
     public Tire update(TireRequest tireRequest, Pattern pattern) {
@@ -127,6 +126,9 @@ public class Tire {
         this.size = tireRequest.getWidth() + "/" + tireRequest.getFlatnessRatio() + "R" + tireRequest.getInch();
         this.loadIndex = tireRequest.getLoadIndex();
         this.speedIndex = tireRequest.getSpeedIndex();
+        this.runFlat = tireRequest.getRunFlat();
+        this.sponge = tireRequest.getSponge();
+        this.sealing = tireRequest.getSealing();
         this.oe = tireRequest.getOe();
         this.countryOfManufacture = tireRequest.getCountryOfManufacture();
         this.originalVehicle = tireRequest.getOriginalVehicle();
@@ -134,13 +136,6 @@ public class Tire {
         this.group = tireRequest.getGroup();
         this.pr = tireRequest.getPr();
         this.lr = tireRequest.getLr();
-
-        // options
-        this.options.clear();
-        if (!CollectionUtils.isEmpty(tireRequest.getOptions())) {
-            tireRequest.getOptions()
-                    .forEach(tireOption -> this.getOptions().add(TireOptions.of(this, tireOption)));
-        }
 
         return this;
     }

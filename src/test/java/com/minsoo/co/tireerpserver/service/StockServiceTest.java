@@ -59,18 +59,19 @@ class StockServiceTest extends ServiceTest {
     @BeforeEach
     void setUp() {
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
-        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴", null));
+        Pattern pattern01 = patternService.create(brand.getId(), PATTERN("패턴01"));
+        Pattern pattern02 = patternService.create(brand.getId(), PATTERN("패턴02"));
         Vendor vendor = vendorService.create(VENDOR("테스트 매입처"));
         Warehouse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
 
-        Tire tire01 = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11, null));    // size: 1656011
-        Tire tire02 = tireService.create(TIRE("PRODUCT_ID_02", pattern.getId(), 12, null));    // size: 1656012
+        Tire tire01 = tireService.create(TIRE("PRODUCT_ID_01", pattern01.getId(), 11));    // size: 1656011
+        Tire tire02 = tireService.create(TIRE("PRODUCT_ID_02", pattern02.getId(), 12));    // size: 1656012
         TireDot tireDot01 = tireDotService.create(tire01.getId(), TIRE_DOT("1111", 2000L));
         TireDot tireDot02 = tireDotService.create(tire01.getId(), TIRE_DOT("2222", 4000L));
         Purchase purchase = purchaseService.create(CREATE_PURCHASE(vendor.getId(),
                 CREATE_PURCHASE_CONTENT(tireDot01.getId(), 1L),
                 CREATE_PURCHASE_CONTENT(tireDot01.getId(), 2L)));
-        List<PurchaseConfirmRequest> purchaseConfirmRequests = purchase.getPurchaseContents()
+        List<PurchaseConfirmRequest> purchaseConfirmRequests = purchase.getContents()
                 .stream()
                 .map(purchaseContent ->
                         CONFIRM_PURCHASE(purchaseContent.getId(),
