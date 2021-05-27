@@ -115,7 +115,7 @@ public class TireApi {
     @Operation(summary = "타이어 DOT 삭제")
     public ApiResponse<Object> deleteTireDotByIds(@PathVariable Long tireId,
                                                   @PathVariable Long tireDotId) {
-        tireDotService.removeByIds(tireId, tireDotId);
+        tireDotService.removeById(tireDotId);
         return ApiResponse.OK;
     }
 
