@@ -7,6 +7,7 @@ import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
 import com.minsoo.co.tireerpserver.model.entity.entities.purchase.Purchase;
+import com.minsoo.co.tireerpserver.model.entity.entities.purchase.PurchaseContent;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
 import com.minsoo.co.tireerpserver.service.ServiceTest;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,13 +76,26 @@ class StockServiceTest extends ServiceTest {
                 PURCHASE_CONTENT(tireDot01.getId(), 1L),
                 PURCHASE_CONTENT(tireDot02.getId(), 2L),
                 PURCHASE_CONTENT(tireDot03.getId(), 3L)));
-        List<PurchaseContentConfirmRequest> purchaseConfirmRequests = purchase.getContents()
+        PurchaseContent content01 = purchase.getContents()
                 .stream()
-                .map(purchaseContent ->
-                        PURCHASE_CONFIRM(purchaseContent.getId(),
-                                STOCK_MODIFY("별칭", warehouse.getId(), purchaseContent.getQuantity(), true)))
-                .collect(Collectors.toList());
-        purchaseService.confirm(purchase.getId(), purchaseConfirmRequests);
+                .filter(content -> content.getTireDot().getId().equals(tireDot01.getId()))
+                .findAny().orElseThrow(RuntimeException::new);
+        PurchaseContent content02 = purchase.getContents()
+                .stream()
+                .filter(content -> content.getTireDot().getId().equals(tireDot02.getId()))
+                .findAny().orElseThrow(RuntimeException::new);
+        PurchaseContent content03 = purchase.getContents()
+                .stream()
+                .filter(content -> content.getTireDot().getId().equals(tireDot03.getId()))
+                .findAny().orElseThrow(RuntimeException::new);
+
+        purchaseService.confirm(purchase.getId(),
+                Arrays.asList(
+                        PURCHASE_CONFIRM(content01.getId(), STOCK_MODIFY("별칭", warehouse.getId(), 1L, true)),
+                        PURCHASE_CONFIRM(content02.getId(), STOCK_MODIFY("별칭", warehouse.getId(), 2L, false)),
+                        PURCHASE_CONFIRM(content03.getId(),
+                                STOCK_MODIFY("별칭1", warehouse.getId(), 1L, true),
+                                STOCK_MODIFY("별칭2", warehouse.getId(), 2L, false))));
     }
 
     /**
@@ -93,16 +108,18 @@ class StockServiceTest extends ServiceTest {
     @Test
     @DisplayName("타이어-재고 목록 조회 테스트")
     void findTireStocksTest() {
-        log.debug("목록이 정상 조회되어야 한다.");
+        log.debug("목록 조회 테스트");
         List<TireStockResponse> tireStocks = stockService.findTireStocks(null, null, null, null);
         assertThat(tireStocks.size()).isEqualTo(2);
         clear();
 
-        log.debug("검색 조건이 포함된 목록만 조회되어야 한다.");
         log.debug("사이즈 검색 테스트");
         List<TireStockResponse> sizeTest = stockService.findTireStocks("11", null, null, null);
         assertThat(sizeTest.size()).isEqualTo(1);
         assertThat(sizeTest.get(0).getTire().getProductId()).isEqualTo("PRODUCT_ID_01");
+        assertThat(sizeTest.get(0).getSumOfStock()).isEqualTo(3L);
+        assertThat(sizeTest.get(0).getSumOfOpenedStock()).isEqualTo(2L);
+        assertThat(sizeTest.get(0).getNumberOfActiveDot()).isEqualTo(2L);
         clear();
 
         log.debug("패턴 검색 테스트");
@@ -121,18 +138,5 @@ class StockServiceTest extends ServiceTest {
         assertThat(brandNameTest.size()).isEqualTo(1);
         assertThat(brandNameTest.get(0).getTire().getProductId()).isEqualTo("PRODUCT_ID_02");
         clear();
-    }
-
-    /**
-     * 1. 재고 Lock 수정 테스트
-     * 2. 재고 이동 테스트
-     * 2-1) 재고가 부족하면 예외가 발생해야 한다.
-     * 2-2) 이동하는 목표 대상의 재고 객체가 없으면, 재고 객체를 생성해서 반영해야 한다.
-     * 2-3) 이동하는 목표 대상의 재고 객체가 있으면, 해당 재고 객체에 반영해야 한다.
-     * 2-4) 양쪽 재고에 이동 갯수가 정상적을 적용되어야 한다.
-     */
-    @Test
-    @DisplayName("재고 수정 테스트")
-    void stockUpdateTest() {
     }
 }
