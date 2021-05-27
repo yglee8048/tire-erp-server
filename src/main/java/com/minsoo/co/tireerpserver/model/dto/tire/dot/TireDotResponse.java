@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.dto.tire.dot;
 
-import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -13,7 +13,7 @@ public class TireDotResponse {
     private Long tireDotId;
 
     @Schema(name = "tire", description = "타이어")
-    private TireResponse tire;
+    private TireSimpleResponse tire;
 
     @Schema(name = "dot", description = "DOT")
     private String dot;
@@ -23,7 +23,7 @@ public class TireDotResponse {
 
     private TireDotResponse(TireDot tireDot) {
         this.tireDotId = tireDot.getId();
-        this.tire = TireResponse.of(tireDot.getTire());
+        this.tire = TireSimpleResponse.of(tireDot.getTire());
         this.dot = tireDot.getDot();
         this.retailPrice = tireDot.getRetailPrice();
     }

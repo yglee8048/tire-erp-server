@@ -25,7 +25,7 @@ public class AddressDTO {
     @Positive(message = "우편번호는 양수여야 합니다.")
     private Integer zipCode;
 
-    private AddressDTO(Address address) {
+    public AddressDTO(Address address) {
         this.city = address.getCity();
         this.streetAddress = address.getStreetAddress();
         this.detailAddress = address.getDetailAddress();

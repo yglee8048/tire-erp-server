@@ -43,7 +43,7 @@ public class BusinessInfoDTO {
         this.address = new AddressDTO();
     }
 
-    private BusinessInfoDTO(BusinessInfo businessInfo) {
+    public BusinessInfoDTO(BusinessInfo businessInfo) {
         this.businessNumber = businessInfo.getBusinessNumber();
         this.businessName = businessInfo.getBusinessName();
         this.businessType = businessInfo.getBusinessType();

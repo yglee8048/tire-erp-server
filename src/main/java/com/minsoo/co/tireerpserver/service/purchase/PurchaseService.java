@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,8 +38,8 @@ public class PurchaseService {
     private final PurchaseRepository purchaseRepository;
     private final PurchaseContentRepository purchaseContentRepository;
 
-    public List<Purchase> findAll() {
-        return purchaseRepository.findAll();
+    public List<PurchaseResponse> findAll(LocalDate from, LocalDate to) {
+        return purchaseRepository.findPurchases(from, to);
     }
 
     public Purchase findById(Long id) {

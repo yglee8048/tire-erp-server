@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -33,12 +32,9 @@ public class PurchaseApi {
 
     @GetMapping
     @Operation(summary = "매입 내역 목록 조회", description = "매입 내역의 목록을 조회한다.")
-    public ApiResponse<List<PurchaseResponse>> findAllPurchases(@RequestParam LocalDate from,
-                                                                @RequestParam LocalDate to) {
-        return ApiResponse.OK(purchaseService.findAll()
-                .stream()
-                .map(PurchaseResponse::of)
-                .collect(Collectors.toList()));
+    public ApiResponse<List<PurchaseResponse>> findAllPurchases(@RequestParam(required = false) LocalDate from,
+                                                                @RequestParam(required = false) LocalDate to) {
+        return ApiResponse.OK(purchaseService.findAll(from, to));
     }
 
     @GetMapping("/{purchaseId}")

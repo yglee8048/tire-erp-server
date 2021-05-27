@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.tire.tire;
 
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternSimpleResponse;
+import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,4 +30,18 @@ public class TireSimpleResponse {
 
     @Schema(name = "speed_index", description = "속도지수")
     private String speedIndex;
+
+    public TireSimpleResponse(Tire tire) {
+        this.tireId = tire.getId();
+        this.onSale = tire.getOnSale();
+        this.productId = tire.getProductId();
+        this.pattern = PatternSimpleResponse.of(tire.getPattern());
+        this.size = tire.getSize();
+        this.loadIndex = tire.getLoadIndex();
+        this.speedIndex = tire.getSpeedIndex();
+    }
+
+    public static TireSimpleResponse of(Tire tire) {
+        return new TireSimpleResponse(tire);
+    }
 }
