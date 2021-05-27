@@ -8,16 +8,17 @@ import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.*;
+import com.minsoo.co.tireerpserver.model.dto.purchase.content.PurchaseContentConfirmRequest;
+import com.minsoo.co.tireerpserver.model.dto.purchase.content.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequestContent;
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
-import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStockRequest;
+import com.minsoo.co.tireerpserver.model.dto.stock.StockRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
-import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.List;
 
 public class RequestBuilder {
 
@@ -98,49 +99,31 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static CreatePurchaseContentRequest PURCHASE_CONTENT_CREATE(Long tireDotId, Long quantity) {
-        return CreatePurchaseContentRequest.builder()
-                .tireDotId(tireDotId)
-                .price(20000)
-                .quantity(quantity)
-                .build();
-    }
-
-    public static CreatePurchaseRequest PURCHASE_CREATE(Long vendorId, LocalDate purchaseDate, CreatePurchaseContentRequest... contents) {
-        return CreatePurchaseRequest.builder()
+    public static PurchaseRequest PURCHASE(Long vendorId, LocalDate purchaseDate, PurchaseContentRequest... contents) {
+        return PurchaseRequest.builder()
                 .purchaseDate(purchaseDate)
                 .vendorId(vendorId)
                 .contents(Arrays.asList(contents))
                 .build();
     }
 
-    public static UpdatePurchaseRequest PURCHASE_UPDATE(Long vendorId, UpdatePurchaseContentRequest... contents) {
-        return UpdatePurchaseRequest.builder()
-                .vendorId(vendorId)
-                .purchaseDate(LocalDate.now())
-                .contents(Arrays.asList(contents))
-                .build();
-    }
-
-    public static UpdatePurchaseContentRequest PURCHASE_CONTENT_UPDATE(Long purchaseContentId, Long tireDotId, Long quantity) {
-        return UpdatePurchaseContentRequest.builder()
-                .purchaseContentId(purchaseContentId)
+    public static PurchaseContentRequest PURCHASE_CONTENT(Long tireDotId, Long quantity) {
+        return PurchaseContentRequest.builder()
                 .tireDotId(tireDotId)
                 .price(20000)
                 .quantity(quantity)
                 .build();
     }
 
-    public static PurchaseConfirmRequest PURCHASE_CONFIRM(Long purchaseContentId, ModifyStockRequest... modifyStockRequests) {
-        return PurchaseConfirmRequest.builder()
+    public static PurchaseContentConfirmRequest PURCHASE_CONFIRM(Long purchaseContentId, StockRequest... stockRequests) {
+        return PurchaseContentConfirmRequest.builder()
                 .purchaseContentId(purchaseContentId)
-                .stockRequests(Arrays.asList(modifyStockRequests))
+                .stockRequests(Arrays.asList(stockRequests))
                 .build();
     }
 
-    public static ModifyStockRequest STOCK_MODIFY(Long stockId, String nickname, Long warehouseId, Long quantity, Boolean lock) {
-        return ModifyStockRequest.builder()
-                .stockId(stockId)
+    public static StockRequest STOCK_MODIFY(String nickname, Long warehouseId, Long quantity, Boolean lock) {
+        return StockRequest.builder()
                 .warehouseId(warehouseId)
                 .nickname(nickname)
                 .quantity(quantity)

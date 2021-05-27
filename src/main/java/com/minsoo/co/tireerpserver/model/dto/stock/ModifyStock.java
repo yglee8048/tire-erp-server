@@ -12,21 +12,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ModifyStock {
 
-    private Long stockId;
-
     private Warehouse warehouse;
 
     private String nickname;
 
     private Long quantity;
 
-    private Boolean lock;
+    private boolean lock;
 
-    public static ModifyStock of(Warehouse warehouse, ModifyStockRequest modifyStockRequest) {
-        return new ModifyStock(modifyStockRequest.getStockId(), warehouse, modifyStockRequest.getNickname(), modifyStockRequest.getQuantity(), modifyStockRequest.isLock());
+    public static ModifyStock of(Warehouse warehouse, StockRequest stockRequest) {
+        return new ModifyStock(warehouse, stockRequest.getNickname(), stockRequest.getQuantity(), stockRequest.isLock());
     }
 
-    public static ModifyStock of(Long stockId, Warehouse warehouse, String nickname, Long quantity, Boolean lock) {
-        return new ModifyStock(stockId, warehouse, nickname, quantity, lock);
+    public static ModifyStock of(Long stockId, Warehouse warehouse, String nickname, Long quantity, boolean lock) {
+        return new ModifyStock(warehouse, nickname, quantity, lock);
     }
 }

@@ -1,8 +1,7 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.purchase;
 
-import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
-import com.minsoo.co.tireerpserver.model.dto.purchase.UpdatePurchaseContentRequest;
+import com.minsoo.co.tireerpserver.model.dto.purchase.content.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
 import lombok.Getter;
@@ -12,6 +11,7 @@ import javax.persistence.*;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
@@ -51,15 +51,50 @@ public class Purchase {
         this.purchaseDate = purchaseDate;
     }
 
-    public static Purchase of(Vendor vendor, LocalDate purchaseDate) {
-        return new Purchase(vendor, purchaseDate);
+    public static Purchase of(Vendor vendor, LocalDate purchaseDate, Map<TireDot, List<PurchaseContentRequest>> contentMap) {
+        Purchase purchase = new Purchase(vendor, purchaseDate);
+
+        // contents
+        contentMap.forEach((tireDot, contentRequests) -> {
+            int sumOfPrice = getSumOfPrice(contentRequests);
+            long sumOfQuantity = getSumOfQuantity(contentRequests);
+            purchase.getContents().add(PurchaseContent.of(purchase, tireDot, sumOfPrice, sumOfQuantity));
+        });
+
+        return purchase;
     }
 
-    public Purchase update(Vendor vendor, LocalDate purchaseDate) {
+    public Purchase update(Vendor vendor, LocalDate purchaseDate, Map<TireDot, List<PurchaseContentRequest>> contentMap) {
         this.vendor = vendor;
         this.purchaseDate = purchaseDate;
 
+        // contents
+        updateContent(contentMap);
+
         return this;
+    }
+
+    public void updateContent(Map<TireDot, List<PurchaseContentRequest>> contentMap) {
+        // DELETE
+        List<PurchaseContent> removed = this.getContents()
+                .stream()
+                .filter(purchaseContent -> !contentMap.containsKey(purchaseContent.getTireDot()))
+                .collect(Collectors.toList());
+        removed.forEach(PurchaseContent::removeFromPurchase);
+
+        // CREATE & UPDATE
+        contentMap.forEach((tireDot, contentRequests) -> {
+            int sumOfPrice = getSumOfPrice(contentRequests);
+            long sumOfQuantity = getSumOfQuantity(contentRequests);
+
+            this.findContentByTireDot(tireDot)
+                    .ifPresentOrElse(
+                            // if present, update
+                            purchaseContent -> purchaseContent.update(tireDot, sumOfPrice, sumOfQuantity),
+                            // if not, create and add
+                            () -> this.getContents()
+                                    .add(PurchaseContent.of(this, tireDot, sumOfPrice, sumOfQuantity)));
+        });
     }
 
     public Purchase updateStatus(PurchaseStatus status) {
@@ -68,36 +103,22 @@ public class Purchase {
         return this;
     }
 
-    public Optional<PurchaseContent> findContentByTireDotId(Long tireDotId) {
+    public Optional<PurchaseContent> findContentByTireDot(TireDot tireDot) {
         return this.contents
                 .stream()
-                .filter(purchaseContent -> purchaseContent.getTireDot().getId().equals(tireDotId))
+                .filter(purchaseContent -> purchaseContent.getTireDot().equals(tireDot))
                 .findAny();
     }
 
-    /**
-     * 매입 항목을 수정한다.
-     * 새로운 항목이 요청되면 생성하고, 기존 항목이 없다면 삭제한다.
-     *
-     * @param contentRequest 항목 수정 요청 DTO
-     * @param tireDot        수정 요청된 TireDot 엔티티
-     * @return 신규 생성인 경우 null, 수정인 경우 PurchaseContent 객체의 id를 반환한다.
-     */
-    public Optional<Long> modifyContents(UpdatePurchaseContentRequest contentRequest, TireDot tireDot) {
-        // 신규 추가된 항목
-        if (contentRequest.getPurchaseContentId() == null) {
-            this.getContents()
-                    .add(PurchaseContent.of(this, tireDot, contentRequest.getPrice(), contentRequest.getQuantity()));
-        }
-        // 기존에 있었던 항목
-        else {
-            this.getContents()
-                    .stream()
-                    .filter(purchaseContent -> purchaseContent.getId().equals(contentRequest.getPurchaseContentId()))
-                    .findAny()
-                    .orElseThrow(() -> new NotFoundException("매입 항목", contentRequest.getPurchaseContentId()))
-                    .update(tireDot, contentRequest.getPrice(), contentRequest.getQuantity());
-        }
-        return Optional.ofNullable(contentRequest.getPurchaseContentId());
+    private static int getSumOfPrice(List<PurchaseContentRequest> contentRequests) {
+        return contentRequests.stream()
+                .map(PurchaseContentRequest::getPrice)
+                .reduce(0, Integer::sum);
+    }
+
+    private static long getSumOfQuantity(List<PurchaseContentRequest> contentRequests) {
+        return contentRequests.stream()
+                .map(PurchaseContentRequest::getQuantity)
+                .reduce(0L, Long::sum);
     }
 }

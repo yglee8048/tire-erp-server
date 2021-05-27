@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.dto.stock;
 
-import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireSimpleResponse;
+import com.minsoo.co.tireerpserver.model.dto.tire.TireSimpleResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

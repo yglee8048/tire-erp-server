@@ -61,14 +61,14 @@ public class StockService {
     }
 
     @Transactional
-    public void modifyStocks(Long tireDotId, List<ModifyStockRequest> modifyStockRequests) {
+    public void modifyStocks(Long tireDotId, List<StockRequest> stockRequests) {
         // validation: 재고의 합이 같아야 한다.
         TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
-        if (tireDot.validateSumOfQuantity(modifyStockRequests)) {
+        if (tireDot.isValidAdjustQuantity(stockRequests)) {
             throw new BadRequestException("재고의 총 합이 일치하지 않습니다.");
         }
 
-        tireDot.modifyStocks(modifyStockRequests.stream()
+        tireDot.modifyStocks(stockRequests.stream()
                 .map(modifyStockRequest -> {
                     Warehouse warehouse = warehouseRepository.findById(modifyStockRequest.getWarehouseId())
                             .orElseThrow(() -> new NotFoundException("창고", modifyStockRequest.getWarehouseId()));

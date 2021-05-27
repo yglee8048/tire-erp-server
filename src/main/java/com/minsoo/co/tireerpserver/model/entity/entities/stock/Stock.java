@@ -75,4 +75,9 @@ public class Stock {
             this.quantity -= quantity;
         }
     }
+
+    public void removeFromTireDot() {
+        this.tireDot.getStocks().remove(this);
+        this.tireDot = null;
+    }
 }

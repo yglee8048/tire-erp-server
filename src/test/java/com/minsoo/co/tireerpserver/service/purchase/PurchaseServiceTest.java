@@ -1,14 +1,11 @@
 package com.minsoo.co.tireerpserver.service.purchase;
 
-import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyConfirmedException;
-import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
-import com.minsoo.co.tireerpserver.model.dto.purchase.CreatePurchaseRequest;
-import com.minsoo.co.tireerpserver.model.dto.purchase.UpdatePurchaseContentRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
+import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
 import com.minsoo.co.tireerpserver.model.entity.entities.purchase.Purchase;
 import com.minsoo.co.tireerpserver.model.entity.entities.purchase.PurchaseContent;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
@@ -21,16 +18,14 @@ import com.minsoo.co.tireerpserver.service.tire.TireDotService;
 import com.minsoo.co.tireerpserver.service.tire.TireService;
 import com.minsoo.co.tireerpserver.service.management.VendorService;
 import com.minsoo.co.tireerpserver.service.management.WarehouseService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.minsoo.co.tireerpserver.utils.RequestBuilder.*;
 import static org.assertj.core.api.Assertions.*;
@@ -64,19 +59,6 @@ class PurchaseServiceTest extends ServiceTest {
     @Autowired
     StockService stockService;
 
-    @BeforeEach
-    void setUp() {
-        vendorService.create(VENDOR("테스트 매입처"));
-
-        Brand brand = brandService.create(BRAND("테스트 브랜드"));
-        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
-        Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
-
-        tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
-        tireDotService.create(tire.getId(), TIRE_DOT("2222", 4000L));
-        tireDotService.create(tire.getId(), TIRE_DOT("3333", 6000L));
-    }
-
     /**
      * 1. 매입이 정상적으로 생성되어야 한다.
      * 2. 매입 항목의 tire-dot 가 중복으로 요청 되는 경우 합쳐서 저장한다.
@@ -85,18 +67,21 @@ class PurchaseServiceTest extends ServiceTest {
     @DisplayName("매입 생성")
     void create() {
         // GIVEN
-        Vendor vendor = vendorService.findById(1L);
-        TireDot tireDot01 = tireDotService.findById(1L);
-        TireDot tireDot02 = tireDotService.findById(2L);
-
-        CreatePurchaseRequest createPurchaseRequest = PURCHASE_CREATE(
-                vendor.getId(), LocalDate.now(),
-                PURCHASE_CONTENT_CREATE(tireDot01.getId(), 1L),
-                PURCHASE_CONTENT_CREATE(tireDot02.getId(), 2L),
-                PURCHASE_CONTENT_CREATE(tireDot01.getId(), 1L));
+        Vendor vendor = vendorService.create(VENDOR("테스트 매입처"));
+        Brand brand = brandService.create(BRAND("테스트 브랜드"));
+        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
+        Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
+        TireDot tireDot01 = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
+        TireDot tireDot02 = tireDotService.create(tire.getId(), TIRE_DOT("2222", 4000L));
+        clear();
 
         // WHEN
-        Purchase purchase = purchaseService.create(createPurchaseRequest);
+        Purchase purchase = purchaseService.create(
+                PURCHASE(vendor.getId(), LocalDate.now(),
+                        PURCHASE_CONTENT(tireDot01.getId(), 1L),
+                        PURCHASE_CONTENT(tireDot02.getId(), 2L),
+                        PURCHASE_CONTENT(tireDot01.getId(), 1L)));
+        clear();
 
         // THEN
         assertThat(purchase.getContents().size()).isEqualTo(2);
@@ -105,6 +90,7 @@ class PurchaseServiceTest extends ServiceTest {
                 .reduce(0L, Long::sum)).isEqualTo(4);
         assertThat(purchase.getVendor().getId()).isEqualTo(vendor.getId());
         assertThat(purchase.getPurchaseDate()).isEqualTo(LocalDate.now());
+        clear();
     }
 
     /**
@@ -114,13 +100,18 @@ class PurchaseServiceTest extends ServiceTest {
     @DisplayName("매입 목록 조회")
     void findAll() {
         // GIVEN
-        Vendor vendor = vendorService.findById(1L);
-        TireDot tireDot = tireDotService.findById(1L);
+        Vendor vendor = vendorService.create(VENDOR("테스트 매입처"));
+        Brand brand = brandService.create(BRAND("테스트 브랜드"));
+        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
+        Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
+        TireDot tireDot = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
+        clear();
 
         // WHEN
-        purchaseService.create(PURCHASE_CREATE(vendor.getId(), LocalDate.of(2021, 2, 27), PURCHASE_CONTENT_CREATE(tireDot.getId(), 1L)));
-        purchaseService.create(PURCHASE_CREATE(vendor.getId(), LocalDate.of(2021, 2, 28), PURCHASE_CONTENT_CREATE(tireDot.getId(), 1L)));
-        purchaseService.create(PURCHASE_CREATE(vendor.getId(), LocalDate.of(2021, 3, 1), PURCHASE_CONTENT_CREATE(tireDot.getId(), 1L)));
+        purchaseService.create(PURCHASE(vendor.getId(), LocalDate.of(2021, 2, 27), PURCHASE_CONTENT(tireDot.getId(), 1L)));
+        purchaseService.create(PURCHASE(vendor.getId(), LocalDate.of(2021, 2, 28), PURCHASE_CONTENT(tireDot.getId(), 1L)));
+        purchaseService.create(PURCHASE(vendor.getId(), LocalDate.of(2021, 3, 1), PURCHASE_CONTENT(tireDot.getId(), 1L)));
+        clear();
 
         // THEN
         assertThat(purchaseService.findAll(null, null).size()).isEqualTo(3);
@@ -129,6 +120,7 @@ class PurchaseServiceTest extends ServiceTest {
         assertThat(purchaseService.findAll(null, LocalDate.of(2021, 2, 28)).size()).isEqualTo(2);
         assertThat(purchaseService.findAll(LocalDate.of(2021, 2, 27),
                 LocalDate.of(2021, 2, 28)).size()).isEqualTo(2);
+        clear();
     }
 
     /**
@@ -143,16 +135,32 @@ class PurchaseServiceTest extends ServiceTest {
     @DisplayName("매입 수정")
     void update() {
         // GIVEN
-        Purchase purchase = purchaseService.create(PURCHASE_CREATE(1L, LocalDate.now(),
-                PURCHASE_CONTENT_CREATE(1L, 1L),
-                PURCHASE_CONTENT_CREATE(2L, 2L)));
+        Vendor vendor = vendorService.create(VENDOR("테스트 매입처"));
+        Brand brand = brandService.create(BRAND("테스트 브랜드"));
+        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
+        Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
+        TireDot tireDot01 = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
+        TireDot tireDot02 = tireDotService.create(tire.getId(), TIRE_DOT("2222", 4000L));
+        TireDot tireDot03 = tireDotService.create(tire.getId(), TIRE_DOT("3333", 6000L));
+
+        Purchase purchase = purchaseService.create(PURCHASE(vendor.getId(), LocalDate.now(),
+                PURCHASE_CONTENT(tireDot01.getId(), 1L),
+                PURCHASE_CONTENT(tireDot02.getId(), 2L)));
+
+        PurchaseContent purchaseContent = purchase.getContents()
+                .stream()
+                .filter(content -> content.getTireDot().getId().equals(tireDot02.getId()))
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("타이어 DOT 가 비정상 생성됨"));
+        clear();
 
         // WHEN
         Purchase updated = purchaseService.update(purchase.getId(),
-                PURCHASE_UPDATE(1L,
-                        PURCHASE_CONTENT_UPDATE(2L, 1L, 1L),
-                        PURCHASE_CONTENT_UPDATE(null, 1L, 3L),
-                        PURCHASE_CONTENT_UPDATE(null, 3L, 3L)));
+                PURCHASE(vendor.getId(), LocalDate.now(),
+                        PURCHASE_CONTENT(tireDot01.getId(), 1L),
+                        PURCHASE_CONTENT(tireDot01.getId(), 3L),
+                        PURCHASE_CONTENT(tireDot03.getId(), 3L)));
+        clear();
 
         // THEN
         assertThat(updated.getId()).isEqualTo(purchase.getId());
@@ -160,7 +168,9 @@ class PurchaseServiceTest extends ServiceTest {
         assertThat(updated.getContents().stream()
                 .map(PurchaseContent::getQuantity)
                 .reduce(0L, Long::sum)).isEqualTo(7L);
-        assertThatThrownBy(() -> purchaseContentService.findById(1L)).isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() -> purchaseContentService.findById(purchaseContent.getId()))
+                .isInstanceOf(NotFoundException.class);
+        clear();
     }
 
     /**
@@ -168,74 +178,71 @@ class PurchaseServiceTest extends ServiceTest {
      * 1-1) 매입의 상태가 확정으로 변경되어야 한다.
      * 1-2) 매입이 확정되면 수정할 수 없다. -> 예외가 발생해야 한다.
      * 1-3) 매입이 확정되면 해당 내용이 재고에 반영되어야 한다.
-     * 1-4) 매입을 확정할 때, 재고의 총합이 이상하면 안 된다.
+     * 1-4) 매입을 확정할 때, 재고의 총합이 정확하지 않으면 예외가 발생해야 한다.
      */
     @Test
     @DisplayName("매입 확정")
     void confirm() {
         // GIVEN
-        Purchase purchase = purchaseService.create(PURCHASE_CREATE(1L, LocalDate.now(),
-                PURCHASE_CONTENT_CREATE(1L, 1L),
-                PURCHASE_CONTENT_CREATE(2L, 2L)));
+        Warehouse warehouse = warehouseService.create(WAREHOUSE("테스트 창고"));
+        Vendor vendor = vendorService.create(VENDOR("테스트 매입처"));
+        Brand brand = brandService.create(BRAND("테스트 브랜드"));
+        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
+        Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
+        TireDot tireDot01 = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
+        TireDot tireDot02 = tireDotService.create(tire.getId(), TIRE_DOT("2222", 4000L));
+
+        Purchase purchase = purchaseService.create(PURCHASE(vendor.getId(), LocalDate.now(),
+                PURCHASE_CONTENT(tireDot01.getId(), 1L),
+                PURCHASE_CONTENT(tireDot02.getId(), 3L)));
         assertThat(purchase.getStatus()).isEqualTo(PurchaseStatus.REQUESTED);
 
-        List<PurchaseConfirmRequest> confirmRequests = Arrays.asList(
-                PURCHASE_CONFIRM(1L,
-                        STOCK_MODIFY(null, "별칭", 1L, 1L, true)),
-                PURCHASE_CONFIRM(2L,
-                        STOCK_MODIFY(null, "별칭", 1L, 2L, true),
-                        STOCK_MODIFY(null, "별칭2", 1L, 1L, false)));
+        List<PurchaseContent> contents = new ArrayList<>(purchase.getContents());
+        PurchaseContent purchaseContent01 = contents.get(0);
+        PurchaseContent purchaseContent02 = contents.get(1);
+        clear();
 
         // WHEN
-        purchaseService.confirm(purchase.getId(), confirmRequests);
+        Purchase confirmed = purchaseService.confirm(purchase.getId(),
+                Arrays.asList(
+                        PURCHASE_CONFIRM(purchaseContent01.getId(),
+                                STOCK_MODIFY("별칭", warehouse.getId(), 1L, true)),
+                        PURCHASE_CONFIRM(purchaseContent02.getId(),
+                                STOCK_MODIFY("별칭", warehouse.getId(), 2L, true),
+                                STOCK_MODIFY("별칭2", warehouse.getId(), 1L, false))));
+        clear();
 
         // THEN
-        assertThat(purchaseService.findById(purchase.getId()).getStatus()).isEqualTo(PurchaseStatus.CONFIRMED);
-        assertThat(tireDotService.findById())
+        assertThat(confirmed.getStatus()).isEqualTo(PurchaseStatus.CONFIRMED);
+        assertThat(tireDotService.findById(tireDot01.getId()).getSumOfQuantity()).isEqualTo(1L);
+        assertThat(tireDotService.findById(tireDot01.getId()).getStocks().size()).isEqualTo(1);
+        assertThat(tireDotService.findById(tireDot02.getId()).getSumOfQuantity()).isEqualTo(3L);
+        assertThat(tireDotService.findById(tireDot02.getId()).getStocks().size()).isEqualTo(2);
         clear();
-
-        log.debug("매입이 확정되면 재고에 반영되어야 한다.");
-        TireDot foundDot01 = tireDotService.findByIds(tire.getId(), tireDot01.getId());
-        assertThat(foundDot01.getSumOfQuantity()).isEqualTo(1L);
-        clear();
-
-        log.debug("매입 확정 시 수량이 다르면 오류가 발생해야 한다.");
-        Purchase failed = purchaseService.create(CREATE_PURCHASE(vendor.getId(), LocalDate.now(),
-                PURCHASE_CONTENT_CREATE(tireDot01.getId(), 1L)));
-        List<PurchaseConfirmRequest> invalidRequest = failed.getContents()
-                .stream()
-                .map(purchaseContent ->
-                        CONFIRM_PURCHASE(purchaseContent.getId(),
-                                Collections.singletonList(STOCK_MODIFY(null, "별칭", warehouse.getId(), purchaseContent.getQuantity() + 99, true))))
-                .collect(Collectors.toList());
-
-        assertThatThrownBy(() -> purchaseService.confirm(failed.getId(), invalidRequest))
-                .isInstanceOf(BadRequestException.class);
-        clear();
-
-        log.debug("매입이 확정되면 수정할 수 없다.");
-        List<UpdatePurchaseContentRequest> contents = purchase.getContents()
-                .stream()
-                .map(purchaseContent ->
-                        PURCHASE_CONTENT_UPDATE(purchaseContent.getId(), purchaseContent.getTireDot().getId(), 3L))
-                .collect(Collectors.toList());
-        assertThatThrownBy(() -> purchaseService.update(purchase.getId(), UPDATE_PURCHASE(vendor.getId(), contents)))
-                .isInstanceOf(AlreadyConfirmedException.class);
     }
 
     @Test
     @DisplayName("매입 삭제")
     void removeById() {
         // GIVEN
-        Purchase purchase = purchaseService.create(PURCHASE_CREATE(1L, LocalDate.now(),
-                PURCHASE_CONTENT_CREATE(1L, 1L)));
-        assertThat(purchase.getVendor().getId()).isEqualTo(1L);
+        Vendor vendor = vendorService.create(VENDOR("테스트 매입처"));
+        Brand brand = brandService.create(BRAND("테스트 브랜드"));
+        Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
+        Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
+        TireDot tireDot = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
+
+        Purchase purchase = purchaseService.create(PURCHASE(vendor.getId(), LocalDate.now(),
+                PURCHASE_CONTENT(tireDot.getId(), 1L)));
+        assertThat(purchaseService.findAll(null, null).size()).isEqualTo(1);
+        clear();
 
         // WHEN
         purchaseService.removeById(purchase.getId());
+        clear();
 
         // THEN
         assertThatThrownBy(() -> purchaseService.findById(purchase.getId()))
                 .isInstanceOf(NotFoundException.class);
+        clear();
     }
 }

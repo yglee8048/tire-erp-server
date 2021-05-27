@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.dto.purchase;
 
+import com.minsoo.co.tireerpserver.model.dto.purchase.content.PurchaseContentRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdatePurchaseRequest {
+public class PurchaseRequest {
 
     @Schema(name = "vendor_id", description = "vendor_id", example = "20019", required = true)
     @NotNull(message = "vendor_id 는 필수 값입니다.")
@@ -23,5 +24,5 @@ public class UpdatePurchaseRequest {
 
     @Schema(name = "contents", description = "매입 항목", required = true)
     @NotNull(message = "매입 항목은 필수 값입니다.")
-    List<UpdatePurchaseContentRequest> contents;
+    List<PurchaseContentRequest> contents;
 }

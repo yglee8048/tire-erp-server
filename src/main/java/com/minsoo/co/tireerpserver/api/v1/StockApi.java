@@ -40,8 +40,8 @@ public class StockApi {
     @PostMapping("/tire-dots/{tireDotId}/stocks")
     @Operation(summary = "재고 분배", description = "tire-dot 하위의 재고를 별칭과 창고 등으로 나눠 적절히 분배한다.")
     public ApiResponse<Object> modifyStocks(@PathVariable(name = "tireDotId") Long tireDotId,
-                                            @RequestBody @Valid List<ModifyStockRequest> modifyStockRequests) {
-        stockService.modifyStocks(tireDotId, modifyStockRequests);
+                                            @RequestBody @Valid List<StockRequest> stockRequests) {
+        stockService.modifyStocks(tireDotId, stockRequests);
         return ApiResponse.OK;
     }
 

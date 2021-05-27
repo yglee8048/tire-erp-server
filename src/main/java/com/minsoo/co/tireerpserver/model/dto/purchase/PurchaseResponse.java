@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.purchase;
 
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
+import com.minsoo.co.tireerpserver.model.dto.purchase.content.PurchaseContentResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.purchase.Purchase;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

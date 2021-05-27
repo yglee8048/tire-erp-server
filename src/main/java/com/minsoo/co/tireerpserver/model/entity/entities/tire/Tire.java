@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.tire;
 
-import com.minsoo.co.tireerpserver.model.dto.tire.tire.TireRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
 import lombok.*;
 

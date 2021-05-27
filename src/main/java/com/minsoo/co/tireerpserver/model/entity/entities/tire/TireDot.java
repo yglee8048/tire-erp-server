@@ -1,7 +1,8 @@
 package com.minsoo.co.tireerpserver.model.entity.entities.tire;
 
+import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStock;
-import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStockRequest;
+import com.minsoo.co.tireerpserver.model.dto.stock.StockRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.stock.Stock;
 import lombok.*;
@@ -9,6 +10,7 @@ import lombok.*;
 import javax.persistence.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.*;
@@ -65,43 +67,45 @@ public class TireDot {
                 .reduce(0L, Long::sum);
     }
 
-    public boolean validateSumOfQuantity(List<ModifyStockRequest> modifyStockRequests) {
-        Long sumOfQuantity = modifyStockRequests.stream()
-                .map(ModifyStockRequest::getQuantity)
+    public boolean isValidAdjustQuantity(List<StockRequest> stockRequests) {
+        return getSumOfStockRequestQuantity(stockRequests).equals(this.getSumOfQuantity());
+    }
+
+    public boolean isValidPurchaseQuantity(List<StockRequest> stockRequests, Long purchaseQuantity) {
+        return getSumOfStockRequestQuantity(stockRequests).equals(this.getSumOfQuantity() + purchaseQuantity);
+    }
+
+    private Long getSumOfStockRequestQuantity(List<StockRequest> stockRequests) {
+        return stockRequests.stream()
+                .map(StockRequest::getQuantity)
                 .reduce(0L, Long::sum);
-        return this.getSumOfQuantity().equals(sumOfQuantity);
+    }
+
+    public Optional<Stock> findStockByNickname(String nickname) {
+        return this.stocks.stream()
+                .filter(stock -> stock.getNickname().equals(nickname))
+                .findAny();
     }
 
     public void modifyStocks(List<ModifyStock> modifyStocks) {
-        // create map
-        Map<Long, ModifyStock> modifyStockMap = new HashMap<>();
-        Set<Stock> created = new HashSet<>();
-        modifyStocks.forEach(modifyStock -> {
-            if (modifyStock.getStockId() == null) {
-                // TODO: warehouse와 nickname의 중복을 확인해서 합쳐서 생성해야한다.
-                created.add(Stock.of(this, modifyStock.getWarehouse(), modifyStock.getNickname(), modifyStock.getQuantity(), modifyStock.getLock()));
-            } else {
-                Long key = modifyStock.getStockId();
-                if (modifyStockMap.containsKey(key)) {
-                    modifyStock.setQuantity(modifyStock.getQuantity() + modifyStockMap.get(key).getQuantity());
-                }
-                modifyStockMap.put(key, modifyStock);
-            }
-        });
+        // validation: 닉네임 중복이 있어서는 안 된다.
+        List<String> nicknames = modifyStocks.stream()
+                .map(ModifyStock::getNickname)
+                .collect(Collectors.toList());
+        if (nicknames.size() != (new HashSet<>(nicknames)).size()) {
+            throw new BadRequestException("닉네임은 중복될 수 없습니다.");
+        }
 
-        // filter removed
-        Set<Stock> removed = new HashSet<>();
-        this.getStocks()
-                .forEach(stock -> {
-                    if (modifyStockMap.containsKey(stock.getId())) {
-                        ModifyStock modifyStock = modifyStockMap.get(stock.getId());
-                        stock.update(this, modifyStock.getWarehouse(), modifyStock.getNickname(), modifyStock.getQuantity(), modifyStock.getLock());
-                    } else {
-                        removed.add(stock);
-                    }
-                });
+        // DELETE
+        List<Stock> removed = this.stocks.stream()
+                .filter(stock -> !nicknames.contains(stock.getNickname()))
+                .collect(Collectors.toList());
+        removed.forEach(Stock::removeFromTireDot);
 
-        this.getStocks().addAll(created);
-        this.getStocks().removeAll(removed);
+        // CREATE or UPDATE
+        modifyStocks.forEach(modifyStock -> findStockByNickname(modifyStock.getNickname())
+                .ifPresentOrElse(
+                        stock -> stock.update(this, modifyStock.getWarehouse(), modifyStock.getNickname(), modifyStock.getQuantity(), modifyStock.isLock()),
+                        () -> this.stocks.add(Stock.of(this, modifyStock.getWarehouse(), modifyStock.getNickname(), modifyStock.getQuantity(), modifyStock.isLock()))));
     }
 }

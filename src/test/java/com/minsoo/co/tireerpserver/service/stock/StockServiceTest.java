@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.service.stock;
 
+import com.minsoo.co.tireerpserver.model.dto.purchase.content.PurchaseContentConfirmRequest;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.minsoo.co.tireerpserver.utils.RequestBuilder.*;
-import static com.minsoo.co.tireerpserver.utils.RequestBuilder.PURCHASE_CONTENT_CREATE;
+import static com.minsoo.co.tireerpserver.utils.RequestBuilder.PURCHASE_CONTENT;
 import static org.assertj.core.api.Assertions.*;
 
 class StockServiceTest extends ServiceTest {
@@ -68,17 +69,18 @@ class StockServiceTest extends ServiceTest {
         Tire tire02 = tireService.create(TIRE("PRODUCT_ID_02", pattern02.getId(), 12));    // size: 1656012
         TireDot tireDot01 = tireDotService.create(tire01.getId(), TIRE_DOT("1111", 2000L));
         TireDot tireDot02 = tireDotService.create(tire01.getId(), TIRE_DOT("2222", 4000L));
-        Purchase purchase = purchaseService.create(PURCHASE_CREATE(vendor.getId(), LocalDate.now(),
-                PURCHASE_CONTENT_CREATE(tireDot01.getId(), 1L),
-                PURCHASE_CONTENT_CREATE(tireDot01.getId(), 2L)));
-        List<PurchaseConfirmRequest> purchaseConfirmRequests = purchase.getContents()
+        TireDot tireDot03 = tireDotService.create(tire02.getId(), TIRE_DOT("3333", 6000L));
+        Purchase purchase = purchaseService.create(PURCHASE(vendor.getId(), LocalDate.now(),
+                PURCHASE_CONTENT(tireDot01.getId(), 1L),
+                PURCHASE_CONTENT(tireDot02.getId(), 2L),
+                PURCHASE_CONTENT(tireDot03.getId(), 3L)));
+        List<PurchaseContentConfirmRequest> purchaseConfirmRequests = purchase.getContents()
                 .stream()
                 .map(purchaseContent ->
-                        CONFIRM_PURCHASE(purchaseContent.getId(),
-                                Collections.singletonList(STOCK_MODIFY(null, "별칭", warehouse.getId(), purchaseContent.getQuantity(), true))))
+                        PURCHASE_CONFIRM(purchaseContent.getId(),
+                                STOCK_MODIFY("별칭", warehouse.getId(), purchaseContent.getQuantity(), true)))
                 .collect(Collectors.toList());
         purchaseService.confirm(purchase.getId(), purchaseConfirmRequests);
-        clear();
     }
 
     /**
