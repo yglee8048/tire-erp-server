@@ -2,14 +2,9 @@ package com.minsoo.co.tireerpserver.model.dto.account.account;
 
 import com.minsoo.co.tireerpserver.model.entity.entities.account.Account;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
-@ToString
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
 public class AccountResponse {
 

@@ -5,9 +5,7 @@ import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-@Getter
-@ToString
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
 public class WarehouseResponse {
 

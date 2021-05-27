@@ -4,14 +4,9 @@ import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRespo
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.stock.Stock;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
-@ToString
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
 public class StockResponse {
 

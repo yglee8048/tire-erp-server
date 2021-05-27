@@ -4,8 +4,7 @@ import com.minsoo.co.tireerpserver.model.entity.embedded.BusinessInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-@Getter
-@ToString
+@Data
 @Builder
 @AllArgsConstructor
 public class BusinessInfoDTO {

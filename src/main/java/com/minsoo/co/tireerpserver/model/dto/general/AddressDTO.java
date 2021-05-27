@@ -6,8 +6,7 @@ import lombok.*;
 
 import javax.validation.constraints.Positive;
 
-@Getter
-@ToString
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
