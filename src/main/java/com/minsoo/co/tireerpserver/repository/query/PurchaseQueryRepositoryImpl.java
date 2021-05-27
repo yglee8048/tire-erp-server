@@ -98,10 +98,10 @@ public class PurchaseQueryRepositoryImpl implements PurchaseQueryRepository {
     }
 
     private Predicate fromDate(LocalDate from) {
-        return from == null ? null : purchase.purchaseDate.after(from);
+        return from == null ? null : purchase.purchaseDate.after(from.minusDays(1));
     }
 
     private Predicate toDate(LocalDate to) {
-        return to == null ? null : purchase.purchaseDate.before(to);
+        return to == null ? null : purchase.purchaseDate.before(to.plusDays(1));
     }
 }

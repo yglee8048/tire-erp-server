@@ -32,7 +32,7 @@ public class PatternService {
         return patternRepository.findAllByBrand(brand);
     }
 
-    public Pattern findByIds(Long brandId, Long patternId) {
+    public Pattern findById(Long brandId, Long patternId) {
         Pattern pattern = patternRepository.findById(patternId).orElseThrow(() -> new NotFoundException("패턴", patternId));
         // validation: brandId 확인
         if (!pattern.getBrand().getId().equals(brandId)) {
@@ -65,7 +65,7 @@ public class PatternService {
     }
 
     @Transactional
-    public void removeByIds(Long brandId, Long patternId) {
+    public void removeById(Long brandId, Long patternId) {
         Pattern pattern = patternRepository.findById(patternId).orElseThrow(() -> new NotFoundException("패턴", patternId));
         // validation: brandId 확인
         if (!pattern.getBrand().getId().equals(brandId)) {

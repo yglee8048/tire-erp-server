@@ -1,9 +1,10 @@
-package com.minsoo.co.tireerpserver.service;
+package com.minsoo.co.tireerpserver.service.tire;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
+import com.minsoo.co.tireerpserver.service.ServiceTest;
 import com.minsoo.co.tireerpserver.service.management.BrandService;
 import com.minsoo.co.tireerpserver.service.management.PatternService;
 import com.minsoo.co.tireerpserver.service.tire.TireService;
@@ -30,8 +31,8 @@ class TireServiceTest extends ServiceTest {
      * 타이어 상품 ID가 중복되는 경우, 예외가 발생해야 한다.
      */
     @Test
-    @DisplayName("타이어 생성 & 수정")
-    void modifyTireTest() {
+    @DisplayName("타이어 생성")
+    void create() {
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         clear();

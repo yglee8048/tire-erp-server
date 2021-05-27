@@ -94,7 +94,7 @@ public class ManagementApi {
     @Operation(summary = "패턴 상세 조회")
     public ApiResponse<PatternResponse> findPatternByIds(@PathVariable(name = "brandId") Long brandId,
                                                          @PathVariable(name = "patternId") Long patternId) {
-        return ApiResponse.OK(PatternResponse.of(patternService.findByIds(brandId, patternId)));
+        return ApiResponse.OK(PatternResponse.of(patternService.findById(brandId, patternId)));
     }
 
     @PostMapping("/brands/{brandId}/patterns")
@@ -119,7 +119,7 @@ public class ManagementApi {
     @Operation(summary = "패턴 삭제")
     public ApiResponse<Object> deletePatternById(@PathVariable(name = "brandId") Long brandId,
                                                  @PathVariable(name = "patternId") Long patternId) {
-        patternService.removeByIds(brandId, patternId);
+        patternService.removeById(brandId, patternId);
         return ApiResponse.OK;
     }
 

@@ -15,8 +15,6 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class UpdatePurchaseContentRequest {
 
-    private Long purchaseContentId;
-
     @Schema(name = "tire_dot_id", description = "tire_dot_id", example = "20019", required = true)
     @NotNull(message = "tire_dot_id 는 필수 값입니다.")
     private Long tireDotId;

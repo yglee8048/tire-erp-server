@@ -29,13 +29,8 @@ public class TireDotService {
                 tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId)));
     }
 
-    public TireDot findByIds(Long tireId, Long tireDotId) {
-        TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
-        if (!tireDot.getTire().getId().equals(tireId)) {
-            log.error("Tire-id is not matched. input: {}, found {}", tireId, tireDot.getTire().getId());
-            throw new BadRequestException("타이어 ID 가 일치하지 않습니다.");
-        }
-        return tireDot;
+    public TireDot findById(Long tireDotId) {
+        return tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
     }
 
     @Transactional

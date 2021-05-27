@@ -1,6 +1,5 @@
-package com.minsoo.co.tireerpserver.service;
+package com.minsoo.co.tireerpserver.service.stock;
 
-import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseConfirmRequest;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
@@ -9,10 +8,10 @@ import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
 import com.minsoo.co.tireerpserver.model.entity.entities.purchase.Purchase;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
+import com.minsoo.co.tireerpserver.service.ServiceTest;
 import com.minsoo.co.tireerpserver.service.management.BrandService;
 import com.minsoo.co.tireerpserver.service.management.PatternService;
 import com.minsoo.co.tireerpserver.service.purchase.PurchaseService;
-import com.minsoo.co.tireerpserver.service.stock.StockService;
 import com.minsoo.co.tireerpserver.service.tire.TireDotService;
 import com.minsoo.co.tireerpserver.service.tire.TireService;
 import com.minsoo.co.tireerpserver.service.management.VendorService;
@@ -22,12 +21,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.minsoo.co.tireerpserver.utils.RequestBuilder.*;
-import static com.minsoo.co.tireerpserver.utils.RequestBuilder.CREATE_PURCHASE_CONTENT;
+import static com.minsoo.co.tireerpserver.utils.RequestBuilder.PURCHASE_CONTENT_CREATE;
 import static org.assertj.core.api.Assertions.*;
 
 class StockServiceTest extends ServiceTest {
@@ -68,14 +68,14 @@ class StockServiceTest extends ServiceTest {
         Tire tire02 = tireService.create(TIRE("PRODUCT_ID_02", pattern02.getId(), 12));    // size: 1656012
         TireDot tireDot01 = tireDotService.create(tire01.getId(), TIRE_DOT("1111", 2000L));
         TireDot tireDot02 = tireDotService.create(tire01.getId(), TIRE_DOT("2222", 4000L));
-        Purchase purchase = purchaseService.create(CREATE_PURCHASE(vendor.getId(),
-                CREATE_PURCHASE_CONTENT(tireDot01.getId(), 1L),
-                CREATE_PURCHASE_CONTENT(tireDot01.getId(), 2L)));
+        Purchase purchase = purchaseService.create(PURCHASE_CREATE(vendor.getId(), LocalDate.now(),
+                PURCHASE_CONTENT_CREATE(tireDot01.getId(), 1L),
+                PURCHASE_CONTENT_CREATE(tireDot01.getId(), 2L)));
         List<PurchaseConfirmRequest> purchaseConfirmRequests = purchase.getContents()
                 .stream()
                 .map(purchaseContent ->
                         CONFIRM_PURCHASE(purchaseContent.getId(),
-                                Collections.singletonList(MODIFY_STOCK(null, "별칭", warehouse.getId(), purchaseContent.getQuantity(), true))))
+                                Collections.singletonList(STOCK_MODIFY(null, "별칭", warehouse.getId(), purchaseContent.getQuantity(), true))))
                 .collect(Collectors.toList());
         purchaseService.confirm(purchase.getId(), purchaseConfirmRequests);
         clear();

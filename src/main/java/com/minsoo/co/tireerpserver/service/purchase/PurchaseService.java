@@ -135,7 +135,7 @@ public class PurchaseService {
      * 재고가 존재하지 않는다면, 재고를 새로 생성하여 반영한다.
      */
     @Transactional
-    public Purchase confirm(Long purchaseId, List<PurchaseConfirmRequest> confirmRequests) {
+    public Purchase confirm(Long purchaseId, List<ModifyStockRequest> stockRequests) {
         Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> new NotFoundException("매입", purchaseId));
 
         confirmRequests.forEach(confirmRequest -> {

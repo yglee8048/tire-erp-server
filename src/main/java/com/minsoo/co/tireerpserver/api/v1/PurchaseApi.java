@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.purchase.CreatePurchaseRequest;
-import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseConfirmRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.UpdatePurchaseRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.purchase.Purchase;

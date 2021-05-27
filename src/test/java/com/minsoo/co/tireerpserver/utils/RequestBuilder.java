@@ -98,7 +98,7 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static CreatePurchaseContentRequest CREATE_PURCHASE_CONTENT(Long tireDotId, Long quantity) {
+    public static CreatePurchaseContentRequest PURCHASE_CONTENT_CREATE(Long tireDotId, Long quantity) {
         return CreatePurchaseContentRequest.builder()
                 .tireDotId(tireDotId)
                 .price(20000)
@@ -106,23 +106,23 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static CreatePurchaseRequest CREATE_PURCHASE(Long vendorId, CreatePurchaseContentRequest... contents) {
+    public static CreatePurchaseRequest PURCHASE_CREATE(Long vendorId, LocalDate purchaseDate, CreatePurchaseContentRequest... contents) {
         return CreatePurchaseRequest.builder()
-                .purchaseDate(LocalDate.now())
+                .purchaseDate(purchaseDate)
                 .vendorId(vendorId)
                 .contents(Arrays.asList(contents))
                 .build();
     }
 
-    public static UpdatePurchaseRequest UPDATE_PURCHASE(Long vendorId, List<UpdatePurchaseContentRequest> contents) {
+    public static UpdatePurchaseRequest PURCHASE_UPDATE(Long vendorId, UpdatePurchaseContentRequest... contents) {
         return UpdatePurchaseRequest.builder()
                 .vendorId(vendorId)
                 .purchaseDate(LocalDate.now())
-                .contents(contents)
+                .contents(Arrays.asList(contents))
                 .build();
     }
 
-    public static UpdatePurchaseContentRequest UPDATE_PURCHASE_CONTENT(Long purchaseContentId, Long tireDotId, Long quantity) {
+    public static UpdatePurchaseContentRequest PURCHASE_CONTENT_UPDATE(Long purchaseContentId, Long tireDotId, Long quantity) {
         return UpdatePurchaseContentRequest.builder()
                 .purchaseContentId(purchaseContentId)
                 .tireDotId(tireDotId)
@@ -131,14 +131,14 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static PurchaseConfirmRequest CONFIRM_PURCHASE(Long purchaseContentId, List<ModifyStockRequest> modifyStockRequests) {
+    public static PurchaseConfirmRequest PURCHASE_CONFIRM(Long purchaseContentId, ModifyStockRequest... modifyStockRequests) {
         return PurchaseConfirmRequest.builder()
                 .purchaseContentId(purchaseContentId)
-                .stockRequests(modifyStockRequests)
+                .stockRequests(Arrays.asList(modifyStockRequests))
                 .build();
     }
 
-    public static ModifyStockRequest MODIFY_STOCK(Long stockId, String nickname, Long warehouseId, Long quantity, Boolean lock) {
+    public static ModifyStockRequest STOCK_MODIFY(Long stockId, String nickname, Long warehouseId, Long quantity, Boolean lock) {
         return ModifyStockRequest.builder()
                 .stockId(stockId)
                 .warehouseId(warehouseId)
