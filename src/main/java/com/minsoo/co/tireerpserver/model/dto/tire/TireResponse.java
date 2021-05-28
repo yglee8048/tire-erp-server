@@ -60,8 +60,8 @@ public class TireResponse {
     @Schema(name = "note", description = "비고")
     private String note;
 
-    @Schema(name = "group", description = "그룹")
-    private String group;
+    @Schema(name = "tire_group", description = "그룹")
+    private String tireGroup;
 
     @Schema(name = "pr", description = "pr")
     private String pr;
@@ -87,7 +87,7 @@ public class TireResponse {
         this.countryOfManufacture = tire.getCountryOfManufacture();
         this.originalVehicle = tire.getOriginalVehicle();
         this.note = tire.getNote();
-        this.group = tire.getGroup();
+        this.tireGroup = tire.getTireGroup();
         this.pr = tire.getPr();
         this.lr = tire.getLr();
     }

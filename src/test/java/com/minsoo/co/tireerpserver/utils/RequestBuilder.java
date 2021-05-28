@@ -87,7 +87,7 @@ public class RequestBuilder {
                 .countryOfManufacture("헝가리 외2")
                 .originalVehicle(null)
                 .note("AC")
-                .group(null)
+                .tireGroup(null)
                 .pr("DT1")
                 .lr(null)
                 .build();

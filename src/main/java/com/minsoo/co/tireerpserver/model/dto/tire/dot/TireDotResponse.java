@@ -19,7 +19,7 @@ public class TireDotResponse {
     private String dot;
 
     @Schema(name = "retail_price", description = "소비자금액")
-    private int retailPrice;
+    private Integer retailPrice;
 
     private TireDotResponse(TireDot tireDot) {
         this.tireDotId = tireDot.getId();

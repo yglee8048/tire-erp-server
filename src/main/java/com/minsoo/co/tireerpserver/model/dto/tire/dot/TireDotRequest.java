@@ -16,5 +16,5 @@ public class TireDotRequest {
     private String dot;
 
     @Schema(name = "retail_price", description = "소비자금액")
-    private int retailPrice;
+    private Integer retailPrice;
 }

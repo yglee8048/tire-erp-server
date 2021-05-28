@@ -19,13 +19,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.minsoo.co.tireerpserver.model.entity.entities.management.QBrand.brand;
-import static com.minsoo.co.tireerpserver.model.entity.entities.management.QPattern.pattern;
-import static com.minsoo.co.tireerpserver.model.entity.entities.management.QVendor.vendor;
-import static com.minsoo.co.tireerpserver.model.entity.entities.purchase.QPurchase.purchase;
-import static com.minsoo.co.tireerpserver.model.entity.entities.purchase.QPurchaseContent.purchaseContent;
-import static com.minsoo.co.tireerpserver.model.entity.entities.tire.QTire.tire;
-import static com.minsoo.co.tireerpserver.model.entity.entities.tire.QTireDot.tireDot;
+import static com.minsoo.co.tireerpserver.model.entity.management.QBrand.brand;
+import static com.minsoo.co.tireerpserver.model.entity.management.QPattern.pattern;
+import static com.minsoo.co.tireerpserver.model.entity.management.QVendor.vendor;
+import static com.minsoo.co.tireerpserver.model.entity.purchase.QPurchase.purchase;
+import static com.minsoo.co.tireerpserver.model.entity.purchase.QPurchaseContent.purchaseContent;
+import static com.minsoo.co.tireerpserver.model.entity.tire.QTire.tire;
+import static com.minsoo.co.tireerpserver.model.entity.tire.QTireDot.tireDot;
 
 @Repository
 @RequiredArgsConstructor

@@ -74,8 +74,8 @@ public class Tire {
     @Column(name = "note")
     private String note;
 
-    @Column(name = "group")
-    private String group;
+    @Column(name = "tire_group")
+    private String tireGroup;
 
     @Column(name = "pr")
     private String pr;
@@ -107,7 +107,7 @@ public class Tire {
         this.countryOfManufacture = tireRequest.getCountryOfManufacture();
         this.originalVehicle = tireRequest.getOriginalVehicle();
         this.note = tireRequest.getNote();
-        this.group = tireRequest.getGroup();
+        this.tireGroup = tireRequest.getTireGroup();
         this.pr = tireRequest.getPr();
         this.lr = tireRequest.getLr();
     }
@@ -133,7 +133,7 @@ public class Tire {
         this.countryOfManufacture = tireRequest.getCountryOfManufacture();
         this.originalVehicle = tireRequest.getOriginalVehicle();
         this.note = tireRequest.getNote();
-        this.group = tireRequest.getGroup();
+        this.tireGroup = tireRequest.getTireGroup();
         this.pr = tireRequest.getPr();
         this.lr = tireRequest.getLr();
 
