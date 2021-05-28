@@ -37,13 +37,14 @@ public class WarehouseService {
     }
 
     @Transactional
-    public void update(Long id, WarehouseRequest updateRequest) {
+    public Warehouse update(Long id, WarehouseRequest updateRequest) {
         Warehouse warehouse = warehouseRepository.findById(id).orElseThrow(() -> new NotFoundException("창고", id));
         if (!warehouse.getName().equals(updateRequest.getName()) && warehouseRepository.existsByName(updateRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");
         }
 
         warehouse.update(updateRequest);
+        return warehouse;
     }
 
     @Transactional
