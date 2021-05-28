@@ -49,6 +49,7 @@ class TireDotServiceTest extends ServiceTest {
         // WHEN
         TireDot updated = tireDotService.update(tire.getId(), tireDot01.getId(), TIRE_DOT("1112", 2000));
         TireDotRequest invalidRequest = TIRE_DOT("1112", 2000);
+        clear();
 
         // THEN
         assertThat(updated.getDot()).isEqualTo("1112");

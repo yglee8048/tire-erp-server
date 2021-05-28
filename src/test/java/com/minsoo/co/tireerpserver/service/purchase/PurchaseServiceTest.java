@@ -163,8 +163,12 @@ class PurchaseServiceTest extends ServiceTest {
         assertThat(purchase.getStatus()).isEqualTo(PurchaseStatus.REQUESTED);
 
         List<PurchaseContent> contents = new ArrayList<>(purchase.getContents());
-        PurchaseContent purchaseContent01 = contents.get(0);
-        PurchaseContent purchaseContent02 = contents.get(1);
+        PurchaseContent purchaseContent01 = contents.stream()
+                .filter(purchaseContent -> purchaseContent.getTireDot().getId().equals(tireDot01.getId()))
+                .findAny().orElseThrow(RuntimeException::new);
+        PurchaseContent purchaseContent02 = contents.stream()
+                .filter(purchaseContent -> purchaseContent.getTireDot().getId().equals(tireDot02.getId()))
+                .findAny().orElseThrow(RuntimeException::new);
         clear();
 
         // WHEN

@@ -26,17 +26,14 @@ class TireServiceTest extends ServiceTest {
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         TireRequest tireRequest = TIRE("PRODUCT_ID_01", pattern.getId(), 11);
         TireRequest duplicateRequest = TIRE("PRODUCT_ID_01", pattern.getId(), 11);
-        clear();
 
         // WHEN
         Tire tire = tireService.create(tireRequest);
-        clear();
 
         // THEN
         assertThat(tire.getProductId()).isEqualTo("PRODUCT_ID_01");
         assertThatThrownBy(() -> tireService.create(duplicateRequest))
                 .isInstanceOf(AlreadyExistException.class);
-        clear();
     }
 
     @Test
@@ -46,7 +43,6 @@ class TireServiceTest extends ServiceTest {
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
-        clear();
 
         // WHEN
         Tire updated = tireService.update(tire.getId(), TIRE("PRODUCT_ID_02", pattern.getId(), 22));
@@ -56,7 +52,6 @@ class TireServiceTest extends ServiceTest {
         assertThat(updated.getProductId()).isEqualTo("PRODUCT_ID_02");
         assertThat(updated.getInch()).isEqualTo(22);
         assertThat(updated.getSize().endsWith("22")).isTrue();
-        clear();
     }
 
     @Test
@@ -66,16 +61,13 @@ class TireServiceTest extends ServiceTest {
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
-        clear();
 
         // WHEN
         tireService.removeById(tire.getId());
-        clear();
 
         // THEN
         assertThat(tireService.findAll().size()).isEqualTo(0);
         assertThatThrownBy(() -> tireService.findById(tire.getId()))
                 .isInstanceOf(NotFoundException.class);
-        clear();
     }
 }

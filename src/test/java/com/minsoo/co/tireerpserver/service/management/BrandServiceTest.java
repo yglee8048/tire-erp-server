@@ -42,6 +42,7 @@ public class BrandServiceTest extends ServiceTest {
         // WHEN
         Brand updated = brandService.update(brand1.getId(), BRAND("테스트-1"));
         BrandRequest duplicate = BRAND("테스트-1");
+        clear();
 
         // THEN
         assertThat(updated.getName()).isEqualTo("테스트-1");

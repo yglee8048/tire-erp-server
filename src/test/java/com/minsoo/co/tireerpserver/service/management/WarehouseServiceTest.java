@@ -41,6 +41,7 @@ public class WarehouseServiceTest extends ServiceTest {
 
         // WHEN
         Warehouse updated = warehouseService.update(warehouse1.getId(), WAREHOUSE("창고"));
+        clear();
 
         // THEN
         assertThat(updated.getName()).isEqualTo("창고");

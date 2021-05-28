@@ -22,16 +22,13 @@ class TireMemoServiceTest extends ServiceTest {
         Brand brand = brandService.create(BRAND("브랜드"));
         Pattern pattern = patternService.create(brand.getId(), PATTERN("패턴"));
         Tire tire = tireService.create(TIRE("ID", pattern.getId(), 22));
-        clear();
 
         // WHEN
         TireMemo tireMemo = tireMemoService.create(tire.getId(), TIRE_MEMO("메모", false));
-        clear();
 
         // THEN
         assertThat(tireMemo.getMemo()).isEqualTo("메모");
         assertThat(tireMemo.getLock()).isEqualTo(false);
-        clear();
     }
 
     @Test
@@ -42,7 +39,6 @@ class TireMemoServiceTest extends ServiceTest {
         Pattern pattern = patternService.create(brand.getId(), PATTERN("패턴"));
         Tire tire = tireService.create(TIRE("ID", pattern.getId(), 22));
         TireMemo tireMemo = tireMemoService.create(tire.getId(), TIRE_MEMO("메모", false));
-        clear();
 
         // WHEN
         TireMemo updated = tireMemoService.update(tire.getId(), tireMemo.getId(), TIRE_MEMO("변경", true));
@@ -51,7 +47,6 @@ class TireMemoServiceTest extends ServiceTest {
         // THEN
         assertThat(updated.getMemo()).isEqualTo("변경");
         assertThat(updated.getLock()).isEqualTo(true);
-        clear();
     }
 
     @Test
@@ -62,7 +57,6 @@ class TireMemoServiceTest extends ServiceTest {
         Pattern pattern = patternService.create(brand.getId(), PATTERN("패턴"));
         Tire tire = tireService.create(TIRE("ID", pattern.getId(), 22));
         TireMemo tireMemo = tireMemoService.create(tire.getId(), TIRE_MEMO("메모", false));
-        clear();
 
         // WHEN
         tireMemoService.removeById(tireMemo.getId());

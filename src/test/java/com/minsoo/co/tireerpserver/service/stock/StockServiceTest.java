@@ -63,6 +63,7 @@ class StockServiceTest extends ServiceTest {
                         PURCHASE_CONFIRM(content03.getId(),
                                 STOCK_MODIFY("별칭1", warehouse.getId(), 1L, true),
                                 STOCK_MODIFY("별칭2", warehouse.getId(), 2L, false))));
+        clear();
     }
 
     /**

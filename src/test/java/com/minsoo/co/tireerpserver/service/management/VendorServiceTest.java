@@ -41,6 +41,7 @@ public class VendorServiceTest extends ServiceTest {
 
         // WHEN
         Vendor updated = vendorService.update(vendor1.getId(), VENDOR("매입처-1"));
+        clear();
 
         // THEN
         assertThat(updated.getName()).isEqualTo("매입처-1");

@@ -49,6 +49,7 @@ public class PatternServiceTest extends ServiceTest {
         // WHEN
         PatternRequest patternRequest = PATTERN("패턴 이름 수정");
         Pattern updated = patternService.update(brand.getId(), pattern1.getId(), patternRequest);
+        clear();
 
         // THEN
         assertThat(updated.getName()).isEqualTo("패턴 이름 수정");
