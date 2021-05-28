@@ -18,13 +18,13 @@ public class TireMemoResponse {
     private String memo;
 
     @Schema(name = "lock", description = "잠금 여부 (true=비공개/false=공개)", example = "true")
-    private boolean lock;
+    private Boolean lock;
 
     private TireMemoResponse(TireMemo tireMemo) {
         this.tireMemoId = tireMemo.getId();
         this.tireId = tireMemo.getTire().getId();
         this.memo = tireMemo.getMemo();
-        this.lock = tireMemo.isLock();
+        this.lock = tireMemo.getLock();
     }
 
     public static TireMemoResponse of(TireMemo tireMemo) {

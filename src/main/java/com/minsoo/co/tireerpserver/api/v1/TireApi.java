@@ -133,7 +133,7 @@ public class TireApi {
     @Operation(summary = "타이어 메모 상세 조회", description = "타이어 메모의 상세 정보를 조회한다.")
     public ApiResponse<TireMemoResponse> findTireMemoById(@PathVariable(value = "tireId") Long tireId,
                                                           @PathVariable(value = "tireMemoId") Long tireMemoId) {
-        return ApiResponse.OK(TireMemoResponse.of(tireMemoService.findByIds(tireId, tireMemoId)));
+        return ApiResponse.OK(TireMemoResponse.of(tireMemoService.findById(tireMemoId)));
     }
 
     @PostMapping(value = "/{tireId}/tire-memos")
@@ -150,7 +150,7 @@ public class TireApi {
     public ApiResponse<Object> updateTireMemo(@PathVariable(value = "tireId") Long tireId,
                                               @PathVariable(value = "tireMemoId") Long tireMemoId,
                                               @RequestBody TireMemoRequest updateRequest) {
-        tireMemoService.updateTireMemo(tireId, tireMemoId, updateRequest);
+        tireMemoService.update(tireId, tireMemoId, updateRequest);
         return ApiResponse.OK;
     }
 
@@ -158,7 +158,7 @@ public class TireApi {
     @Operation(summary = "타이어 메모 삭제", description = "타이어 메모를 삭제한다.")
     public ApiResponse<Object> deleteTireMemo(@PathVariable(value = "tireId") Long tireId,
                                               @PathVariable(value = "tireMemoId") Long tireMemoId) {
-        tireMemoService.removeById(tireId, tireMemoId);
+        tireMemoService.removeById(tireMemoId);
         return ApiResponse.OK;
     }
 }

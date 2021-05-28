@@ -16,6 +16,7 @@ import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
 import com.minsoo.co.tireerpserver.model.dto.stock.StockRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -96,6 +97,13 @@ public class RequestBuilder {
         return TireDotRequest.builder()
                 .dot(dot)
                 .retailPrice(retailPrice)
+                .build();
+    }
+
+    public static TireMemoRequest TIRE_MEMO(String memo, boolean lock) {
+        return TireMemoRequest.builder()
+                .memo(memo)
+                .lock(lock)
                 .build();
     }
 

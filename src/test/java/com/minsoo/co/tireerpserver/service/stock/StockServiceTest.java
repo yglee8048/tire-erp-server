@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.service.stock;
 
-import com.minsoo.co.tireerpserver.model.dto.purchase.content.PurchaseContentConfirmRequest;
+import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
+import com.minsoo.co.tireerpserver.model.dto.stock.StockRequest;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
@@ -25,9 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.minsoo.co.tireerpserver.utils.RequestBuilder.*;
 import static com.minsoo.co.tireerpserver.utils.RequestBuilder.PURCHASE_CONTENT;
@@ -106,8 +105,8 @@ class StockServiceTest extends ServiceTest {
      * 1-4) 공개 재고는 공개된 재고의 합만 보여줘야 한다.
      */
     @Test
-    @DisplayName("타이어-재고 목록 조회 테스트")
-    void findTireStocksTest() {
+    @DisplayName("타이어-재고 목록 조회")
+    void findTireStocks() {
         log.debug("목록 조회 테스트");
         List<TireStockResponse> tireStocks = stockService.findTireStocks(null, null, null, null);
         assertThat(tireStocks.size()).isEqualTo(2);
@@ -138,5 +137,47 @@ class StockServiceTest extends ServiceTest {
         assertThat(brandNameTest.size()).isEqualTo(1);
         assertThat(brandNameTest.get(0).getTire().getProductId()).isEqualTo("PRODUCT_ID_02");
         clear();
+    }
+
+    /**
+     * 재고 이동이 적용되어야 한다.
+     * 재고 이동 시 닉네임 기준으로 재고가 이동된다.
+     * 닉네임이 중복이면 에러가 발생한다.
+     * 재고의 개수가 일치하지 않으면 에러가 발생한다.
+     */
+    @Test
+    @DisplayName("재고 이동")
+    void modifyStocks() {
+        // GIVEN
+        Warehouse warehouse = warehouseService.findAll().get(0);
+        List<TireStockResponse> tireStocks = stockService.findTireStocks("12", null, null, null);
+        Tire tire = tireService.findById(tireStocks.get(0).getTire().getTireId());
+        List<TireDot> tireDots = tireDotService.findAllByTireId(tire.getId());
+        TireDot tireDot03 = tireDots.stream()
+                .filter(tireDot -> tireDot.getDot().equals("3333"))
+                .findAny().orElseThrow(RuntimeException::new);
+        clear();
+
+        // WHEN
+        List<StockRequest> validRequest = Arrays.asList(
+                STOCK_MODIFY("테스트01", warehouse.getId(), 1L, false),
+                STOCK_MODIFY("별칭1", warehouse.getId(), 2L, false));
+        List<StockRequest> invalidRequest01 = Arrays.asList(
+                STOCK_MODIFY("테스트01", warehouse.getId(), 3L, false),
+                STOCK_MODIFY("별칭1", warehouse.getId(), 2L, false));
+        List<StockRequest> invalidRequest02 = Arrays.asList(
+                STOCK_MODIFY("테스트01", warehouse.getId(), 1L, false),
+                STOCK_MODIFY("테스트01", warehouse.getId(), 2L, false));
+
+        TireDot result = stockService.modifyStocks(tireDot03.getId(), validRequest);
+        clear();
+
+        // THEN
+        assertThat(result.getSumOfQuantity()).isEqualTo(3L);
+        assertThat(result.getStocks().size()).isEqualTo(2);
+        assertThatThrownBy(() -> stockService.modifyStocks(tireDot03.getId(), invalidRequest01))
+                .isInstanceOf(BadRequestException.class);
+        assertThatThrownBy(() -> stockService.modifyStocks(tireDot03.getId(), invalidRequest02))
+                .isInstanceOf(BadRequestException.class);
     }
 }

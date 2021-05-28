@@ -73,7 +73,7 @@ class TireServiceTest extends ServiceTest {
 
     @Test
     @DisplayName("타이어 삭제")
-    void removeTireTest() {
+    void removeById() {
         // GIVEN
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));

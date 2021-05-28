@@ -28,7 +28,7 @@ public class TireMemo {
     private String memo;
 
     @Column(name = "is_lock", nullable = false)
-    private boolean lock;
+    private Boolean lock;
 
     //== Business ==//
     private TireMemo(TireMemoRequest createRequest, Tire tire) {
