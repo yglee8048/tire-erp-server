@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.account.customer;
 
 import com.minsoo.co.tireerpserver.model.dto.general.BusinessInfoDTO;
-import com.minsoo.co.tireerpserver.model.entity.entities.account.Customer;
+import com.minsoo.co.tireerpserver.model.entity.account.Customer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

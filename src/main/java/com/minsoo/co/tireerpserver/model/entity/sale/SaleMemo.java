@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.entity.entities.sale;
+package com.minsoo.co.tireerpserver.model.entity.sale;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

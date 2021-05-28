@@ -2,9 +2,9 @@ package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireMemo;
+import com.minsoo.co.tireerpserver.model.entity.tire.Tire;
+import com.minsoo.co.tireerpserver.model.entity.tire.TireDot;
+import com.minsoo.co.tireerpserver.model.entity.tire.TireMemo;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;

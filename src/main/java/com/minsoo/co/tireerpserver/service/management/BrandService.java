@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.service.management;
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
+import com.minsoo.co.tireerpserver.model.entity.management.Brand;
 import com.minsoo.co.tireerpserver.repository.management.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

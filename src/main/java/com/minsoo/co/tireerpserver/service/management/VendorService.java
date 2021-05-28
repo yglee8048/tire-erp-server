@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.service.management;
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorRequest;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
+import com.minsoo.co.tireerpserver.model.entity.management.Vendor;
 import com.minsoo.co.tireerpserver.repository.management.VendorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

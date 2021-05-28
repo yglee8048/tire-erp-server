@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.tire;
 
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternResponse;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
+import com.minsoo.co.tireerpserver.model.entity.tire.Tire;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

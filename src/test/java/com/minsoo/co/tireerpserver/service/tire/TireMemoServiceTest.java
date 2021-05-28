@@ -1,10 +1,10 @@
 package com.minsoo.co.tireerpserver.service.tire;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireMemo;
+import com.minsoo.co.tireerpserver.model.entity.management.Brand;
+import com.minsoo.co.tireerpserver.model.entity.management.Pattern;
+import com.minsoo.co.tireerpserver.model.entity.tire.Tire;
+import com.minsoo.co.tireerpserver.model.entity.tire.TireMemo;
 import com.minsoo.co.tireerpserver.service.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.management.warehouse;
 
 import com.minsoo.co.tireerpserver.model.dto.general.AddressDTO;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
+import com.minsoo.co.tireerpserver.model.entity.management.Warehouse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

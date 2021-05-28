@@ -1,6 +1,6 @@
-package com.minsoo.co.tireerpserver.model.entity.entities.sale;
+package com.minsoo.co.tireerpserver.model.entity.sale;
 
-import com.minsoo.co.tireerpserver.model.entity.embedded.Recipient;
+import com.minsoo.co.tireerpserver.model.entity.Recipient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

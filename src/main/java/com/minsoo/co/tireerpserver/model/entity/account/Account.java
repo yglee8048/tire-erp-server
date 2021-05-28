@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.entity.entities.account;
+package com.minsoo.co.tireerpserver.model.entity.account;
 
 import com.minsoo.co.tireerpserver.model.code.AccountRole;
 import lombok.Getter;

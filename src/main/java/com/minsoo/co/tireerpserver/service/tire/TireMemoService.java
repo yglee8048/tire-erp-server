@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.service.tire;
 import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireMemo;
+import com.minsoo.co.tireerpserver.model.entity.tire.TireMemo;
 import com.minsoo.co.tireerpserver.repository.tire.TireMemoRepository;
 import com.minsoo.co.tireerpserver.repository.tire.TireRepository;
 import lombok.RequiredArgsConstructor;

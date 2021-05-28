@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.repository.sale;
 
-import com.minsoo.co.tireerpserver.model.entity.entities.sale.Sale;
-import com.minsoo.co.tireerpserver.model.entity.entities.sale.SaleContent;
+import com.minsoo.co.tireerpserver.model.entity.sale.Sale;
+import com.minsoo.co.tireerpserver.model.entity.sale.SaleContent;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

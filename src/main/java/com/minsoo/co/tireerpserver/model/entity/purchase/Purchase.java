@@ -1,9 +1,9 @@
-package com.minsoo.co.tireerpserver.model.entity.entities.purchase;
+package com.minsoo.co.tireerpserver.model.entity.purchase;
 
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.dto.purchase.content.PurchaseContentRequest;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
+import com.minsoo.co.tireerpserver.model.entity.management.Vendor;
+import com.minsoo.co.tireerpserver.model.entity.tire.TireDot;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

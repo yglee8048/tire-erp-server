@@ -1,8 +1,8 @@
-package com.minsoo.co.tireerpserver.model.entity.entities.sale;
+package com.minsoo.co.tireerpserver.model.entity.sale;
 
 import com.minsoo.co.tireerpserver.model.code.SaleSource;
 import com.minsoo.co.tireerpserver.model.code.SaleStatus;
-import com.minsoo.co.tireerpserver.model.entity.entities.account.Customer;
+import com.minsoo.co.tireerpserver.model.entity.account.Customer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

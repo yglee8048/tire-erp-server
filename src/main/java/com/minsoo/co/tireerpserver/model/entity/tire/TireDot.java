@@ -1,10 +1,10 @@
-package com.minsoo.co.tireerpserver.model.entity.entities.tire;
+package com.minsoo.co.tireerpserver.model.entity.tire;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.model.dto.stock.ModifyStock;
 import com.minsoo.co.tireerpserver.model.dto.stock.StockRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
-import com.minsoo.co.tireerpserver.model.entity.entities.stock.Stock;
+import com.minsoo.co.tireerpserver.model.entity.stock.Stock;
 import lombok.*;
 
 import javax.persistence.*;

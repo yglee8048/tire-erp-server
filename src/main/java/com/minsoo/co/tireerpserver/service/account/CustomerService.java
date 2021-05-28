@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.service.account;
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.account.customer.CustomerRequest;
-import com.minsoo.co.tireerpserver.model.entity.entities.account.Customer;
+import com.minsoo.co.tireerpserver.model.entity.account.Customer;
 import com.minsoo.co.tireerpserver.repository.account.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
