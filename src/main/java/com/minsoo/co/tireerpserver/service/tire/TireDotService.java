@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.service.tire;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
+import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
@@ -46,8 +47,10 @@ public class TireDotService {
     public TireDot update(Long tireId, Long tireDotId, TireDotRequest tireDotRequest) {
         Tire tire = tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId));
         TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
-        if (!(tireDot.getTire().equals(tire) && tireDot.getDot().equals(tireDotRequest.getDot())) &&
-                tireDotRepository.existsByTireAndDot(tire, tireDotRequest.getDot())) {
+        if (!tireDot.getTire().getId().equals(tire.getId())) {
+            throw new BadRequestException("tire_id 가 일치하지 않습니다.");
+        }
+        if (!tireDot.getDot().equals(tireDotRequest.getDot()) && tireDotRepository.existsByTireAndDot(tire, tireDotRequest.getDot())) {
             throw new AlreadyExistException("이미 존재하는 DOT 입니다.");
         }
 

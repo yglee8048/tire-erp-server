@@ -93,7 +93,7 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static TireDotRequest TIRE_DOT(String dot, Long retailPrice) {
+    public static TireDotRequest TIRE_DOT(String dot, int retailPrice) {
         return TireDotRequest.builder()
                 .dot(dot)
                 .retailPrice(retailPrice)

@@ -6,16 +6,11 @@ import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
 import com.minsoo.co.tireerpserver.service.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.minsoo.co.tireerpserver.utils.RequestBuilder.VENDOR;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 public class VendorServiceTest extends ServiceTest {
-
-    @Autowired
-    VendorService vendorService;
 
     /**
      * 매입처 이름은 중복일 수 없다.

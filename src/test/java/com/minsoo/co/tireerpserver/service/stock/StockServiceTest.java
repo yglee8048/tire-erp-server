@@ -12,17 +12,9 @@ import com.minsoo.co.tireerpserver.model.entity.entities.purchase.PurchaseConten
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
 import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
 import com.minsoo.co.tireerpserver.service.ServiceTest;
-import com.minsoo.co.tireerpserver.service.management.BrandService;
-import com.minsoo.co.tireerpserver.service.management.PatternService;
-import com.minsoo.co.tireerpserver.service.purchase.PurchaseService;
-import com.minsoo.co.tireerpserver.service.tire.TireDotService;
-import com.minsoo.co.tireerpserver.service.tire.TireService;
-import com.minsoo.co.tireerpserver.service.management.VendorService;
-import com.minsoo.co.tireerpserver.service.management.WarehouseService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -34,30 +26,6 @@ import static org.assertj.core.api.Assertions.*;
 
 class StockServiceTest extends ServiceTest {
 
-    @Autowired
-    BrandService brandService;
-
-    @Autowired
-    PatternService patternService;
-
-    @Autowired
-    VendorService vendorService;
-
-    @Autowired
-    WarehouseService warehouseService;
-
-    @Autowired
-    TireService tireService;
-
-    @Autowired
-    TireDotService tireDotService;
-
-    @Autowired
-    PurchaseService purchaseService;
-
-    @Autowired
-    StockService stockService;
-
     @BeforeEach
     void setUp() {
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
@@ -68,9 +36,9 @@ class StockServiceTest extends ServiceTest {
 
         Tire tire01 = tireService.create(TIRE("PRODUCT_ID_01", pattern01.getId(), 11));    // size: 1656011
         Tire tire02 = tireService.create(TIRE("PRODUCT_ID_02", pattern02.getId(), 12));    // size: 1656012
-        TireDot tireDot01 = tireDotService.create(tire01.getId(), TIRE_DOT("1111", 2000L));
-        TireDot tireDot02 = tireDotService.create(tire01.getId(), TIRE_DOT("2222", 4000L));
-        TireDot tireDot03 = tireDotService.create(tire02.getId(), TIRE_DOT("3333", 6000L));
+        TireDot tireDot01 = tireDotService.create(tire01.getId(), TIRE_DOT("1111", 2000));
+        TireDot tireDot02 = tireDotService.create(tire01.getId(), TIRE_DOT("2222", 4000));
+        TireDot tireDot03 = tireDotService.create(tire02.getId(), TIRE_DOT("3333", 6000));
         Purchase purchase = purchaseService.create(PURCHASE(vendor.getId(), LocalDate.now(),
                 PURCHASE_CONTENT(tireDot01.getId(), 1L),
                 PURCHASE_CONTENT(tireDot02.getId(), 2L),

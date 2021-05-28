@@ -6,16 +6,11 @@ import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
 import com.minsoo.co.tireerpserver.service.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.minsoo.co.tireerpserver.utils.RequestBuilder.BRAND;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 public class BrandServiceTest extends ServiceTest {
-
-    @Autowired
-    BrandService brandService;
 
     /**
      * 브랜드 이름은 중복일 수 없다.

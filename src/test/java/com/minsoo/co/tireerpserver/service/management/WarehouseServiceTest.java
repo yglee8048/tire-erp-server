@@ -6,16 +6,11 @@ import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
 import com.minsoo.co.tireerpserver.service.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.minsoo.co.tireerpserver.utils.RequestBuilder.WAREHOUSE;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 public class WarehouseServiceTest extends ServiceTest {
-
-    @Autowired
-    WarehouseService warehouseService;
 
     /**
      * 창고 이름은 중복일 수 없다.

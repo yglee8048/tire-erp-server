@@ -37,7 +37,7 @@ public class TireDot {
     private String dot;
 
     @Column(name = "retail_price", nullable = false)
-    private Long retailPrice;
+    private Integer retailPrice;
 
     @OneToMany(mappedBy = "tireDot", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private final Set<Stock> stocks = new HashSet<>();
