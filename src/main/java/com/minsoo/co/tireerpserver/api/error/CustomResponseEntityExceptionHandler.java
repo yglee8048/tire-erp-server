@@ -74,8 +74,9 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     @Override
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return ApiResponse.validError(status, ex.getClass().getSimpleName(), "잘못된 요청입니다.",
-                ex.getFieldError() != null ? ex.getFieldError().getDefaultMessage() : ex.getLocalizedMessage());
+        return ApiResponse.validError(status, ex.getClass().getSimpleName(),
+                ex.getFieldError() != null ? ex.getFieldError().getDefaultMessage() : ex.getLocalizedMessage(),
+                request.getDescription(false));
     }
 
     private ResponseEntity<ApiResponse<Object>> errorResponse(HttpStatus status, Exception e, WebRequest request) {
