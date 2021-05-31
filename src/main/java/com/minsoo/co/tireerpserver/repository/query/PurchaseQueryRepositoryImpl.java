@@ -73,7 +73,7 @@ public class PurchaseQueryRepositoryImpl implements PurchaseQueryRepository {
                         Projections.fields(TireSimpleResponse.class,
                                 tire.id.as("tireId"),
                                 tire.onSale,
-                                tire.productId,
+                                tire.tireIdentification,
                                 Projections.fields(PatternSimpleResponse.class,
                                         pattern.id.as("patternId"),
                                         Projections.fields(BrandResponse.class,

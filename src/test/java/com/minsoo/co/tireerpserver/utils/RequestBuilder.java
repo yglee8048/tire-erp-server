@@ -69,10 +69,10 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static TireRequest TIRE(String productId, Long patternId, Integer inch) {
+    public static TireRequest TIRE(String tireIdentification, Long patternId, Integer inch) {
         return TireRequest.builder()
                 .onSale(true)
-                .productId(productId)
+                .tireIdentification(tireIdentification)
                 .patternId(patternId)
                 .width(165)
                 .flatnessRatio(60)

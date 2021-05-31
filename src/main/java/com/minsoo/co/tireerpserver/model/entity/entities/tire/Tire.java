@@ -16,7 +16,7 @@ import static lombok.AccessLevel.*;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-@Table(name = "tire", uniqueConstraints = {@UniqueConstraint(name = "tire_unique_product_id", columnNames = {"product_id"})})
+@Table(name = "tire", uniqueConstraints = {@UniqueConstraint(name = "tire_unique_tire_identification", columnNames = {"tire_identification"})})
 public class Tire {
 
     @Id
@@ -24,15 +24,15 @@ public class Tire {
     @Column(name = "tire_id", nullable = false, length = 20)
     private Long id;
 
-    @Column(name = "on_sale")
-    private Boolean onSale;
-
-    @Column(name = "product_id", nullable = false)
-    private String productId;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "pattern_id", nullable = false)
     private Pattern pattern;
+
+    @Column(name = "tire_identification", nullable = false)
+    private String tireIdentification;
+
+    @Column(name = "on_sale")
+    private Boolean onSale;
 
     @Column(name = "width", nullable = false)
     private Integer width;
@@ -92,7 +92,7 @@ public class Tire {
     //== Business ==//
     public Tire(TireRequest tireRequest, Pattern pattern) {
         this.onSale = tireRequest.getOnSale();
-        this.productId = tireRequest.getProductId();
+        this.tireIdentification = tireRequest.getTireIdentification();
         this.pattern = pattern;
         this.width = tireRequest.getWidth();
         this.flatnessRatio = tireRequest.getFlatnessRatio();
@@ -118,7 +118,7 @@ public class Tire {
 
     public Tire update(TireRequest tireRequest, Pattern pattern) {
         this.onSale = tireRequest.getOnSale();
-        this.productId = tireRequest.getProductId();
+        this.tireIdentification = tireRequest.getTireIdentification();
         this.pattern = pattern;
         this.width = tireRequest.getWidth();
         this.flatnessRatio = tireRequest.getFlatnessRatio();

@@ -33,7 +33,7 @@ public class TireService {
 
     @Transactional
     public Tire create(TireRequest tireRequest) {
-        if (tireRepository.existsByProductId(tireRequest.getProductId())) {
+        if (tireRepository.existsByTireIdentification(tireRequest.getTireIdentification())) {
             throw new AlreadyExistException("이미 존재하는 타이어 ID 입니다.");
         }
         Pattern pattern = patternRepository.findById(tireRequest.getPatternId()).orElseThrow(() -> new NotFoundException("패턴", tireRequest.getPatternId()));
@@ -45,7 +45,7 @@ public class TireService {
     public Tire update(Long tireId, TireRequest tireRequest) {
         Tire tire = tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId));
         Pattern pattern = patternRepository.findById(tireRequest.getPatternId()).orElseThrow(() -> new NotFoundException("패턴", tireRequest.getPatternId()));
-        if (!tire.getProductId().equals(tireRequest.getProductId()) && tireRepository.existsByProductId(tireRequest.getProductId())) {
+        if (!tire.getTireIdentification().equals(tireRequest.getTireIdentification()) && tireRepository.existsByTireIdentification(tireRequest.getTireIdentification())) {
             throw new AlreadyExistException("이미 존재하는 타이어 ID 입니다.");
         }
 

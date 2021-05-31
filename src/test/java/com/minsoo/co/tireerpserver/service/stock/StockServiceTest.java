@@ -116,7 +116,7 @@ class StockServiceTest extends ServiceTest {
         log.debug("사이즈 검색 테스트");
         List<TireStockResponse> sizeTest = stockService.findTireStocks("11", null, null, null);
         assertThat(sizeTest.size()).isEqualTo(1);
-        assertThat(sizeTest.get(0).getTire().getProductId()).isEqualTo("PRODUCT_ID_01");
+        assertThat(sizeTest.get(0).getTire().getTireIdentification()).isEqualTo("PRODUCT_ID_01");
         assertThat(sizeTest.get(0).getSumOfStock()).isEqualTo(3L);
         assertThat(sizeTest.get(0).getSumOfOpenedStock()).isEqualTo(2L);
         assertThat(sizeTest.get(0).getNumberOfActiveDot()).isEqualTo(2L);
@@ -125,7 +125,7 @@ class StockServiceTest extends ServiceTest {
         log.debug("패턴 검색 테스트");
         List<TireStockResponse> patternTest = stockService.findTireStocks(null, null, "패턴02", null);
         assertThat(patternTest.size()).isEqualTo(1);
-        assertThat(patternTest.get(0).getTire().getProductId()).isEqualTo("PRODUCT_ID_02");
+        assertThat(patternTest.get(0).getTire().getTireIdentification()).isEqualTo("PRODUCT_ID_02");
         clear();
 
         log.debug("상품 ID 검색 테스트");
@@ -136,7 +136,7 @@ class StockServiceTest extends ServiceTest {
         log.debug("브랜드 이름 & 사이즈 검색 테스트");
         List<TireStockResponse> brandNameTest = stockService.findTireStocks("12", "테스트", null, null);
         assertThat(brandNameTest.size()).isEqualTo(1);
-        assertThat(brandNameTest.get(0).getTire().getProductId()).isEqualTo("PRODUCT_ID_02");
+        assertThat(brandNameTest.get(0).getTire().getTireIdentification()).isEqualTo("PRODUCT_ID_02");
         clear();
     }
 }

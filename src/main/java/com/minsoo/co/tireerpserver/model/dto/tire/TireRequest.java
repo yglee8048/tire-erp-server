@@ -3,9 +3,7 @@ package com.minsoo.co.tireerpserver.model.dto.tire;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 
 @Data
 @Builder
@@ -13,33 +11,40 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class TireRequest {
 
-    @Schema(name = "on_sale", description = "판매상태")
-    private Boolean onSale;
-
-    @Schema(name = "product_id", description = "타이어 ID")
-    @NotEmpty(message = "타이어 ID 는 필수 값입니다.")
-    private String productId;
-
     @Schema(name = "pattern_id", description = "pattern_id")
     @NotNull(message = "pattern_id 는 필수 값입니다.")
     private Long patternId;
 
+    @Schema(name = "tire_identification", description = "타이어 ID")
+    @NotEmpty(message = "타이어 ID 는 필수 값입니다.")
+    private String tireIdentification;
+
+    @Schema(name = "on_sale", description = "판매상태")
+    private Boolean onSale;
+
     @Schema(name = "width", description = "단면폭")
     @NotNull(message = "단면폭은 필수 값입니다.")
     @Positive(message = "단면폭은 양수여야 합니다.")
+    @Max(value = 999, message = "단면폭은 3자리 숫자여야 합니다.")
+    @Min(value = 100, message = "단면폭은 3자리 숫자여야 합니다.")
     private Integer width;
 
     @Schema(name = "flatness_ratio", description = "편평비")
     @NotNull(message = "편평비는 필수 값입니다.")
     @Positive(message = "편평비는 양수여야 합니다.")
+    @Max(value = 99, message = "편평비는 2자리 숫자여야 합니다.")
+    @Min(value = 10, message = "편평비는 2자리 숫자여야 합니다.")
     private Integer flatnessRatio;
 
     @Schema(name = "inch", description = "인치")
     @NotNull(message = "인치는 필수 값입니다.")
     @Positive(message = "인치는 양수여야 합니다.")
+    @Max(value = 99, message = "인치는 2자리 숫자여야 합니다.")
+    @Min(value = 10, message = "인치는 2자리 숫자여야 합니다.")
     private Integer inch;
 
     @Schema(name = "load_index", description = "하중지수")
+    @Positive(message = "하중지수는 양수여야 합니다.")
     private Integer loadIndex;
 
     @Schema(name = "speed_index", description = "속도지수")

@@ -13,14 +13,14 @@ public class TireSimpleResponse {
     @Schema(name = "tire_id", description = "tire_id")
     private Long tireId;
 
-    @Schema(name = "on_sale", description = "판매상태")
-    private Boolean onSale;
-
-    @Schema(name = "product_id", description = "타이어 ID")
-    private String productId;
-
     @Schema(name = "pattern", description = "패턴 정보")
     private PatternSimpleResponse pattern;
+
+    @Schema(name = "tire_identification", description = "타이어 ID")
+    private String tireIdentification;
+
+    @Schema(name = "on_sale", description = "판매상태")
+    private Boolean onSale;
 
     @Schema(name = "size", description = "표기형식")
     private String size;
@@ -33,9 +33,9 @@ public class TireSimpleResponse {
 
     public TireSimpleResponse(Tire tire) {
         this.tireId = tire.getId();
-        this.onSale = tire.getOnSale();
-        this.productId = tire.getProductId();
         this.pattern = PatternSimpleResponse.of(tire.getPattern());
+        this.onSale = tire.getOnSale();
+        this.tireIdentification = tire.getTireIdentification();
         this.size = tire.getSize();
         this.loadIndex = tire.getLoadIndex();
         this.speedIndex = tire.getSpeedIndex();

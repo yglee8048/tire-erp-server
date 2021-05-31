@@ -45,7 +45,7 @@ class TireServiceTest extends ServiceTest {
         clear();
 
         // THEN
-        assertThat(tire.getProductId()).isEqualTo("PRODUCT_ID_01");
+        assertThat(tire.getTireIdentification()).isEqualTo("PRODUCT_ID_01");
         assertThatThrownBy(() -> tireService.create(duplicateRequest))
                 .isInstanceOf(AlreadyExistException.class);
         clear();
@@ -65,7 +65,7 @@ class TireServiceTest extends ServiceTest {
         clear();
 
         // THEN
-        assertThat(updated.getProductId()).isEqualTo("PRODUCT_ID_02");
+        assertThat(updated.getTireIdentification()).isEqualTo("PRODUCT_ID_02");
         assertThat(updated.getInch()).isEqualTo(22);
         assertThat(updated.getSize().endsWith("22")).isTrue();
         clear();

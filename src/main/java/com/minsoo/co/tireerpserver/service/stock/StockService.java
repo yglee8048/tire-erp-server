@@ -54,10 +54,10 @@ public class StockService {
 
     public TireStockParams findTireStockParams() {
         return new TireStockParams(
-                tireRepository.findAllSizes(),
+                tireRepository.findSizes(),
                 brandRepository.findAllNames(),
                 patternRepository.findAllNames(),
-                tireRepository.findAllProductIds());
+                tireRepository.findTireIdentifications());
     }
 
     @Transactional

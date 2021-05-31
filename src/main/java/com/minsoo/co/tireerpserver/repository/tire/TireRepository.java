@@ -10,12 +10,12 @@ import java.util.List;
 public interface TireRepository extends JpaRepository<Tire, Long> {
 
     @Query("select distinct t.size from Tire t")
-    List<String> findAllSizes();
+    List<String> findSizes();
 
-    @Query("select distinct t.productId from Tire t")
-    List<String> findAllProductIds();
+    @Query("select distinct t.tireIdentification from Tire t")
+    List<String> findTireIdentifications();
 
-    boolean existsByProductId(String productId);
+    boolean existsByTireIdentification(String tireIdentification);
 
     boolean existsByPattern(Pattern pattern);
 }

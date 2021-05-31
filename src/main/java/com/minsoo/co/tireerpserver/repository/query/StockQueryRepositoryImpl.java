@@ -34,7 +34,7 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
                         Projections.fields(TireSimpleResponse.class,
                                 tire.id.as("tireId"),
                                 tire.onSale,
-                                tire.productId,
+                                tire.tireIdentification,
                                 Projections.fields(PatternSimpleResponse.class,
                                         pattern.id.as("patternId"),
                                         Projections.fields(BrandResponse.class,
@@ -66,7 +66,7 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
                 .where(containsSize(size),
                         containsBrandName(brandName),
                         containsPatternName(patternName),
-                        containsProductId(productId))
+                        containsTireIdentification(productId))
                 .fetch();
     }
 
@@ -82,7 +82,7 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
         return StringUtils.hasText(patternName) ? pattern.name.contains(patternName) : null;
     }
 
-    private BooleanExpression containsProductId(String productId) {
-        return StringUtils.hasText(productId) ? tire.productId.contains(productId) : null;
+    private BooleanExpression containsTireIdentification(String tireIdentification) {
+        return StringUtils.hasText(tireIdentification) ? tire.tireIdentification.contains(tireIdentification) : null;
     }
 }
