@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.entity.base;
+package com.minsoo.co.tireerpserver.model.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

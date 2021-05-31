@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.dto.stock;
 
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
+import com.minsoo.co.tireerpserver.model.entity.management.Warehouse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

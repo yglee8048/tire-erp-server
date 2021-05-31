@@ -1,11 +1,10 @@
 package com.minsoo.co.tireerpserver.repository.tire;
 
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
+import com.minsoo.co.tireerpserver.model.entity.tire.Tire;
+import com.minsoo.co.tireerpserver.model.entity.tire.TireDot;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TireDotRepository extends JpaRepository<TireDot, Long> {
 

@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.entity.entities.management;
+package com.minsoo.co.tireerpserver.model.entity.management;
 
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
 import lombok.Getter;

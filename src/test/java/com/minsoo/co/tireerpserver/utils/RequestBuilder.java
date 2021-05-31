@@ -16,6 +16,7 @@ import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
 import com.minsoo.co.tireerpserver.model.dto.stock.StockRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
+import com.minsoo.co.tireerpserver.model.dto.tire.memo.TireMemoRequest;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -86,16 +87,23 @@ public class RequestBuilder {
                 .countryOfManufacture("헝가리 외2")
                 .originalVehicle(null)
                 .note("AC")
-                .group(null)
+                .tireGroup(null)
                 .pr("DT1")
                 .lr(null)
                 .build();
     }
 
-    public static TireDotRequest TIRE_DOT(String dot, Long retailPrice) {
+    public static TireDotRequest TIRE_DOT(String dot, int retailPrice) {
         return TireDotRequest.builder()
                 .dot(dot)
                 .retailPrice(retailPrice)
+                .build();
+    }
+
+    public static TireMemoRequest TIRE_MEMO(String memo, boolean lock) {
+        return TireMemoRequest.builder()
+                .memo(memo)
+                .lock(lock)
                 .build();
     }
 

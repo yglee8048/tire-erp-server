@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.repository.management;
 
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
+import com.minsoo.co.tireerpserver.model.entity.management.Warehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {

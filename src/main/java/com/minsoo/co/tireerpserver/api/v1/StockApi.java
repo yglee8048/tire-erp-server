@@ -34,7 +34,7 @@ public class StockApi {
     @Operation(summary = "재고 상세 조회")
     public ApiResponse<StockResponse> findStockByIds(@PathVariable Long tireDotId,
                                                      @PathVariable Long stockId) {
-        return ApiResponse.OK(StockResponse.of(stockService.findByIds(tireDotId, stockId)));
+        return ApiResponse.OK(StockResponse.of(stockService.findById(stockId)));
     }
 
     @PostMapping("/tire-dots/{tireDotId}/stocks")

@@ -1,8 +1,8 @@
 package com.minsoo.co.tireerpserver.service.purchase;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
-import com.minsoo.co.tireerpserver.model.entity.entities.purchase.Purchase;
-import com.minsoo.co.tireerpserver.model.entity.entities.purchase.PurchaseContent;
+import com.minsoo.co.tireerpserver.model.entity.purchase.Purchase;
+import com.minsoo.co.tireerpserver.model.entity.purchase.PurchaseContent;
 import com.minsoo.co.tireerpserver.repository.purchase.PurchaseContentRepository;
 import com.minsoo.co.tireerpserver.repository.purchase.PurchaseRepository;
 import lombok.RequiredArgsConstructor;

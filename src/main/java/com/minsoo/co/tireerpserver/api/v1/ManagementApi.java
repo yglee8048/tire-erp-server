@@ -2,10 +2,10 @@ package com.minsoo.co.tireerpserver.api.v1;
 
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternResponse;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
+import com.minsoo.co.tireerpserver.model.entity.management.Brand;
+import com.minsoo.co.tireerpserver.model.entity.management.Pattern;
+import com.minsoo.co.tireerpserver.model.entity.management.Vendor;
+import com.minsoo.co.tireerpserver.model.entity.management.Warehouse;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;

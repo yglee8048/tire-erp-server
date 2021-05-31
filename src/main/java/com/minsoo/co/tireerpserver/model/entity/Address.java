@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.entity.embedded;
+package com.minsoo.co.tireerpserver.model.entity;
 
 import com.minsoo.co.tireerpserver.model.dto.general.AddressDTO;
 import lombok.*;

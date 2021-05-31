@@ -3,29 +3,17 @@ package com.minsoo.co.tireerpserver.service.tire;
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireRequest;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
+import com.minsoo.co.tireerpserver.model.entity.management.Brand;
+import com.minsoo.co.tireerpserver.model.entity.management.Pattern;
+import com.minsoo.co.tireerpserver.model.entity.tire.Tire;
 import com.minsoo.co.tireerpserver.service.ServiceTest;
-import com.minsoo.co.tireerpserver.service.management.BrandService;
-import com.minsoo.co.tireerpserver.service.management.PatternService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.minsoo.co.tireerpserver.utils.RequestBuilder.*;
 import static org.assertj.core.api.Assertions.*;
 
 class TireServiceTest extends ServiceTest {
-
-    @Autowired
-    BrandService brandService;
-
-    @Autowired
-    PatternService patternService;
-
-    @Autowired
-    TireService tireService;
 
     /**
      * 타이어 ID가 중복되는 경우, 예외가 발생해야 한다.
@@ -38,17 +26,14 @@ class TireServiceTest extends ServiceTest {
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         TireRequest tireRequest = TIRE("PRODUCT_ID_01", pattern.getId(), 11);
         TireRequest duplicateRequest = TIRE("PRODUCT_ID_01", pattern.getId(), 11);
-        clear();
 
         // WHEN
         Tire tire = tireService.create(tireRequest);
-        clear();
 
         // THEN
         assertThat(tire.getTireIdentification()).isEqualTo("PRODUCT_ID_01");
         assertThatThrownBy(() -> tireService.create(duplicateRequest))
                 .isInstanceOf(AlreadyExistException.class);
-        clear();
     }
 
     @Test
@@ -58,7 +43,6 @@ class TireServiceTest extends ServiceTest {
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
-        clear();
 
         // WHEN
         Tire updated = tireService.update(tire.getId(), TIRE("PRODUCT_ID_02", pattern.getId(), 22));
@@ -68,26 +52,22 @@ class TireServiceTest extends ServiceTest {
         assertThat(updated.getTireIdentification()).isEqualTo("PRODUCT_ID_02");
         assertThat(updated.getInch()).isEqualTo(22);
         assertThat(updated.getSize().endsWith("22")).isTrue();
-        clear();
     }
 
     @Test
     @DisplayName("타이어 삭제")
-    void removeTireTest() {
+    void removeById() {
         // GIVEN
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
-        clear();
 
         // WHEN
         tireService.removeById(tire.getId());
-        clear();
 
         // THEN
         assertThat(tireService.findAll().size()).isEqualTo(0);
         assertThatThrownBy(() -> tireService.findById(tire.getId()))
                 .isInstanceOf(NotFoundException.class);
-        clear();
     }
 }

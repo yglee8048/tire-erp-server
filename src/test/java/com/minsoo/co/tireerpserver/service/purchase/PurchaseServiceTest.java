@@ -2,25 +2,17 @@ package com.minsoo.co.tireerpserver.service.purchase;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Pattern;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Vendor;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
-import com.minsoo.co.tireerpserver.model.entity.entities.purchase.Purchase;
-import com.minsoo.co.tireerpserver.model.entity.entities.purchase.PurchaseContent;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.Tire;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
+import com.minsoo.co.tireerpserver.model.entity.management.Brand;
+import com.minsoo.co.tireerpserver.model.entity.management.Pattern;
+import com.minsoo.co.tireerpserver.model.entity.management.Vendor;
+import com.minsoo.co.tireerpserver.model.entity.management.Warehouse;
+import com.minsoo.co.tireerpserver.model.entity.purchase.Purchase;
+import com.minsoo.co.tireerpserver.model.entity.purchase.PurchaseContent;
+import com.minsoo.co.tireerpserver.model.entity.tire.Tire;
+import com.minsoo.co.tireerpserver.model.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.service.ServiceTest;
-import com.minsoo.co.tireerpserver.service.management.BrandService;
-import com.minsoo.co.tireerpserver.service.management.PatternService;
-import com.minsoo.co.tireerpserver.service.stock.StockService;
-import com.minsoo.co.tireerpserver.service.tire.TireDotService;
-import com.minsoo.co.tireerpserver.service.tire.TireService;
-import com.minsoo.co.tireerpserver.service.management.VendorService;
-import com.minsoo.co.tireerpserver.service.management.WarehouseService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,33 +23,6 @@ import static com.minsoo.co.tireerpserver.utils.RequestBuilder.*;
 import static org.assertj.core.api.Assertions.*;
 
 class PurchaseServiceTest extends ServiceTest {
-
-    @Autowired
-    BrandService brandService;
-
-    @Autowired
-    PatternService patternService;
-
-    @Autowired
-    VendorService vendorService;
-
-    @Autowired
-    WarehouseService warehouseService;
-
-    @Autowired
-    TireService tireService;
-
-    @Autowired
-    TireDotService tireDotService;
-
-    @Autowired
-    PurchaseService purchaseService;
-
-    @Autowired
-    PurchaseContentService purchaseContentService;
-
-    @Autowired
-    StockService stockService;
 
     /**
      * 1. 매입이 정상적으로 생성되어야 한다.
@@ -71,8 +36,8 @@ class PurchaseServiceTest extends ServiceTest {
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
-        TireDot tireDot01 = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
-        TireDot tireDot02 = tireDotService.create(tire.getId(), TIRE_DOT("2222", 4000L));
+        TireDot tireDot01 = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000));
+        TireDot tireDot02 = tireDotService.create(tire.getId(), TIRE_DOT("2222", 4000));
         clear();
 
         // WHEN
@@ -104,7 +69,7 @@ class PurchaseServiceTest extends ServiceTest {
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
-        TireDot tireDot = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
+        TireDot tireDot = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000));
         clear();
 
         // WHEN
@@ -139,9 +104,9 @@ class PurchaseServiceTest extends ServiceTest {
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
-        TireDot tireDot01 = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
-        TireDot tireDot02 = tireDotService.create(tire.getId(), TIRE_DOT("2222", 4000L));
-        TireDot tireDot03 = tireDotService.create(tire.getId(), TIRE_DOT("3333", 6000L));
+        TireDot tireDot01 = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000));
+        TireDot tireDot02 = tireDotService.create(tire.getId(), TIRE_DOT("2222", 4000));
+        TireDot tireDot03 = tireDotService.create(tire.getId(), TIRE_DOT("3333", 6000));
 
         Purchase purchase = purchaseService.create(PURCHASE(vendor.getId(), LocalDate.now(),
                 PURCHASE_CONTENT(tireDot01.getId(), 1L),
@@ -189,8 +154,8 @@ class PurchaseServiceTest extends ServiceTest {
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
-        TireDot tireDot01 = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
-        TireDot tireDot02 = tireDotService.create(tire.getId(), TIRE_DOT("2222", 4000L));
+        TireDot tireDot01 = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000));
+        TireDot tireDot02 = tireDotService.create(tire.getId(), TIRE_DOT("2222", 4000));
 
         Purchase purchase = purchaseService.create(PURCHASE(vendor.getId(), LocalDate.now(),
                 PURCHASE_CONTENT(tireDot01.getId(), 1L),
@@ -198,8 +163,12 @@ class PurchaseServiceTest extends ServiceTest {
         assertThat(purchase.getStatus()).isEqualTo(PurchaseStatus.REQUESTED);
 
         List<PurchaseContent> contents = new ArrayList<>(purchase.getContents());
-        PurchaseContent purchaseContent01 = contents.get(0);
-        PurchaseContent purchaseContent02 = contents.get(1);
+        PurchaseContent purchaseContent01 = contents.stream()
+                .filter(purchaseContent -> purchaseContent.getTireDot().getId().equals(tireDot01.getId()))
+                .findAny().orElseThrow(RuntimeException::new);
+        PurchaseContent purchaseContent02 = contents.stream()
+                .filter(purchaseContent -> purchaseContent.getTireDot().getId().equals(tireDot02.getId()))
+                .findAny().orElseThrow(RuntimeException::new);
         clear();
 
         // WHEN
@@ -229,7 +198,7 @@ class PurchaseServiceTest extends ServiceTest {
         Brand brand = brandService.create(BRAND("테스트 브랜드"));
         Pattern pattern = patternService.create(brand.getId(), PATTERN("테스트 패턴"));
         Tire tire = tireService.create(TIRE("PRODUCT_ID_01", pattern.getId(), 11));
-        TireDot tireDot = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000L));
+        TireDot tireDot = tireDotService.create(tire.getId(), TIRE_DOT("1111", 2000));
 
         Purchase purchase = purchaseService.create(PURCHASE(vendor.getId(), LocalDate.now(),
                 PURCHASE_CONTENT(tireDot.getId(), 1L)));

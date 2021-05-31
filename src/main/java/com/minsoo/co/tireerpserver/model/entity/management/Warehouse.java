@@ -1,7 +1,7 @@
-package com.minsoo.co.tireerpserver.model.entity.entities.management;
+package com.minsoo.co.tireerpserver.model.entity.management;
 
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseRequest;
-import com.minsoo.co.tireerpserver.model.entity.embedded.Address;
+import com.minsoo.co.tireerpserver.model.entity.Address;
 import lombok.*;
 
 import javax.persistence.*;

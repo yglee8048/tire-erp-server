@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.model.dto.stock;
 
 import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
-import com.minsoo.co.tireerpserver.model.entity.entities.stock.Stock;
+import com.minsoo.co.tireerpserver.model.entity.stock.Stock;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

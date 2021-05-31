@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.dto.sale.content;
 
 import com.minsoo.co.tireerpserver.model.dto.tire.dot.TireDotResponse;
-import com.minsoo.co.tireerpserver.model.entity.entities.sale.SaleContent;
+import com.minsoo.co.tireerpserver.model.entity.sale.SaleContent;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

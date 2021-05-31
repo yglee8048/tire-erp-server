@@ -71,8 +71,8 @@ public class TireRequest {
     @Schema(name = "note", description = "비고")
     private String note;
 
-    @Schema(name = "group", description = "그룹")
-    private String group;
+    @Schema(name = "tire_group", description = "그룹")
+    private String tireGroup;
 
     @Schema(name = "pr", description = "pr")
     private String pr;

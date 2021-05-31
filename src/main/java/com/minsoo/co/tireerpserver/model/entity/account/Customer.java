@@ -1,7 +1,7 @@
-package com.minsoo.co.tireerpserver.model.entity.entities.account;
+package com.minsoo.co.tireerpserver.model.entity.account;
 
 import com.minsoo.co.tireerpserver.model.dto.account.customer.CustomerRequest;
-import com.minsoo.co.tireerpserver.model.entity.embedded.BusinessInfo;
+import com.minsoo.co.tireerpserver.model.entity.BusinessInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

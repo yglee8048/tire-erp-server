@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.dto.account.account;
 
-import com.minsoo.co.tireerpserver.model.entity.entities.account.Account;
+import com.minsoo.co.tireerpserver.model.entity.account.Account;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

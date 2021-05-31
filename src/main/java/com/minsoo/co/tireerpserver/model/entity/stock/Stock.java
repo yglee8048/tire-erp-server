@@ -1,8 +1,8 @@
-package com.minsoo.co.tireerpserver.model.entity.entities.stock;
+package com.minsoo.co.tireerpserver.model.entity.stock;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotEnoughStockException;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
+import com.minsoo.co.tireerpserver.model.entity.management.Warehouse;
+import com.minsoo.co.tireerpserver.model.entity.tire.TireDot;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.dto.general;
 
-import com.minsoo.co.tireerpserver.model.entity.embedded.Address;
+import com.minsoo.co.tireerpserver.model.entity.Address;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

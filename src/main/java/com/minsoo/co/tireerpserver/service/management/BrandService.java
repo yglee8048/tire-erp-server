@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.service.management;
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandRequest;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
+import com.minsoo.co.tireerpserver.model.entity.management.Brand;
 import com.minsoo.co.tireerpserver.repository.management.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class BrandService {
     }
 
     @Transactional
-    public void update(Long id, BrandRequest updateRequest) {
+    public Brand update(Long id, BrandRequest updateRequest) {
         Brand brand = brandRepository.findById(id).orElseThrow(() -> new NotFoundException("제조사", id));
         // 이름을 바꾸는 경우 이미 존재하는 이름으로 바꿀 수는 없다.
         if (!brand.getName().equals(updateRequest.getName()) && brandRepository.existsByName(updateRequest.getName())) {
@@ -46,6 +46,7 @@ public class BrandService {
         }
 
         brand.update(updateRequest);
+        return brand;
     }
 
     @Transactional

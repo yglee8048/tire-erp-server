@@ -3,9 +3,9 @@ package com.minsoo.co.tireerpserver.service.stock;
 import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.stock.*;
-import com.minsoo.co.tireerpserver.model.entity.entities.stock.Stock;
-import com.minsoo.co.tireerpserver.model.entity.entities.management.Warehouse;
-import com.minsoo.co.tireerpserver.model.entity.entities.tire.TireDot;
+import com.minsoo.co.tireerpserver.model.entity.stock.Stock;
+import com.minsoo.co.tireerpserver.model.entity.management.Warehouse;
+import com.minsoo.co.tireerpserver.model.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.repository.management.BrandRepository;
 import com.minsoo.co.tireerpserver.repository.management.PatternRepository;
 import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
@@ -38,14 +38,8 @@ public class StockService {
         return stockRepository.findAllByTireDot(tireDot);
     }
 
-    public Stock findByIds(Long tireDotId, Long stockId) {
-        Stock stock = stockRepository.findById(stockId).orElseThrow(() -> new NotFoundException("재고", stockId));
-        if (!tireDotId.equals(stock.getTireDot().getId())) {
-            log.error("Tire-dot-id is unmatched. input: {}, found: {}", tireDotId, stock.getTireDot().getId());
-            throw new BadRequestException("타이어 DOT ID 가 일치하지 않습니다.");
-        }
-
-        return stock;
+    public Stock findById(Long stockId) {
+        return stockRepository.findById(stockId).orElseThrow(() -> new NotFoundException("재고", stockId));
     }
 
     public List<TireStockResponse> findTireStocks(String size, String brandName, String patternName, String productId) {
@@ -61,10 +55,10 @@ public class StockService {
     }
 
     @Transactional
-    public void modifyStocks(Long tireDotId, List<StockRequest> stockRequests) {
+    public TireDot modifyStocks(Long tireDotId, List<StockRequest> stockRequests) {
         // validation: 재고의 합이 같아야 한다.
         TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
-        if (tireDot.isValidAdjustQuantity(stockRequests)) {
+        if (!tireDot.isValidAdjustQuantity(stockRequests)) {
             throw new BadRequestException("재고의 총 합이 일치하지 않습니다.");
         }
 
@@ -75,5 +69,7 @@ public class StockService {
                     return ModifyStock.of(warehouse, modifyStockRequest);
                 })
                 .collect(Collectors.toList()));
+        
+        return tireDot;
     }
 }
