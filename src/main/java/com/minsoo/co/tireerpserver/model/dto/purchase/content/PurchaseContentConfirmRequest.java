@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
@@ -16,6 +17,7 @@ import java.util.List;
 public class PurchaseContentConfirmRequest {
 
     @Schema(name = "purchase_content_id")
+    @NotNull(message = "purchase_content_id 는 필수 값입니다.")
     private Long purchaseContentId;
 
     @Schema(name = "stock_requests", description = "매입한 항목을 어떻게 이동할 것인지 결정")

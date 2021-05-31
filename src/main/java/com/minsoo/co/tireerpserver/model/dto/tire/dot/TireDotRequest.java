@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 
 @Data
 @Builder
@@ -16,5 +17,6 @@ public class TireDotRequest {
     private String dot;
 
     @Schema(name = "retail_price", description = "소비자금액")
+    @Positive(message = "소비자금액은 양수여야 합니다.")
     private Integer retailPrice;
 }

@@ -5,7 +5,6 @@ import com.minsoo.co.tireerpserver.model.response.ApiResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -75,10 +74,8 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     @Override
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        StringBuilder message = new StringBuilder();
-        ex.getBindingResult().getAllErrors()
-                .forEach(objectError -> message.append(((FieldError) objectError).getField()).append(": ").append(objectError.getDefaultMessage()).append(" \n"));
-        return ApiResponse.validError(status, ex.getClass().getSimpleName(), "잘못된 요청입니다.", message.toString());
+        return ApiResponse.validError(status, ex.getClass().getSimpleName(), "잘못된 요청입니다.",
+                ex.getFieldError() != null ? ex.getFieldError().getDefaultMessage() : ex.getLocalizedMessage());
     }
 
     private ResponseEntity<ApiResponse<Object>> errorResponse(HttpStatus status, Exception e, WebRequest request) {
