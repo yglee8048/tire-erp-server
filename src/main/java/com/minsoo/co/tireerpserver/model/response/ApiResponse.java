@@ -90,4 +90,10 @@ public class ApiResponse<T> {
                 .status(status)
                 .body(new ApiResponse<>(status, error, message, detail));
     }
+
+    public static ResponseEntity<Object> validError(HttpStatus status, String error, String message, String detail) {
+        return ResponseEntity
+                .status(status)
+                .body(new ApiResponse<>(status, error, message, detail));
+    }
 }

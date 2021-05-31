@@ -4,8 +4,6 @@ import com.minsoo.co.tireerpserver.model.dto.management.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.model.dto.stock.TireStockResponse;
 import com.minsoo.co.tireerpserver.model.dto.management.pattern.PatternSimpleResponse;
 import com.minsoo.co.tireerpserver.model.dto.tire.TireSimpleResponse;
-import com.minsoo.co.tireerpserver.model.entity.stock.QStock;
-import com.minsoo.co.tireerpserver.model.entity.tire.QTireDot;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
