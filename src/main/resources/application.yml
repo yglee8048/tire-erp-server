@@ -24,6 +24,17 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 935349671127-kie8p7ct045tph801rrde45a8t6f8cpc.apps.googleusercontent.com
+            client-secret: 34Ifc6oTSWQ07HbrBInQf_oj
+            scope:
+              - email
+              - profile
+
 springdoc:
   swagger-ui:
     operations-sorter: alpha
@@ -32,7 +43,3 @@ springdoc:
 logging.level:
   root: info
   org.hibernate.SQL: debug
-
-jwt:
-  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
-  token-validity-in-seconds: 1000
