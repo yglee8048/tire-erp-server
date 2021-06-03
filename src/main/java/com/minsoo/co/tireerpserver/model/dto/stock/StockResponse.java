@@ -19,6 +19,9 @@ public class StockResponse {
     @Schema(name = "warehouse", description = "창고")
     private WarehouseResponse warehouse;
 
+    @Schema(name = "nickname", description = "별칭")
+    private String nickname;
+
     @Schema(name = "quantity", description = "수량", example = "250")
     private Long quantity;
 
@@ -29,6 +32,7 @@ public class StockResponse {
         this.stockId = stock.getId();
         this.tireDot = TireDotResponse.of(stock.getTireDot());
         this.warehouse = WarehouseResponse.of(stock.getWarehouse());
+        this.nickname = stock.getNickname();
         this.quantity = stock.getQuantity();
         this.lock = stock.isLock();
     }

@@ -5,6 +5,7 @@ import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.stock.*;
 import com.minsoo.co.tireerpserver.model.entity.stock.Stock;
 import com.minsoo.co.tireerpserver.model.entity.management.Warehouse;
+import com.minsoo.co.tireerpserver.model.entity.tire.Tire;
 import com.minsoo.co.tireerpserver.model.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.repository.management.BrandRepository;
 import com.minsoo.co.tireerpserver.repository.management.PatternRepository;
@@ -33,9 +34,14 @@ public class StockService {
     private final TireDotRepository tireDotRepository;
     private final StockRepository stockRepository;
 
-    public List<Stock> findAllByTireDotId(Long tireDotId) {
+    public List<Stock> findByTireDotId(Long tireDotId) {
         TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
         return stockRepository.findAllByTireDot(tireDot);
+    }
+
+    public List<Stock> findByTireId(Long tireId) {
+        Tire tire = tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId));
+        return stockRepository.findAllByTireDot_IdIn(tireDotRepository.findAllIdsByTire(tire));
     }
 
     public Stock findById(Long stockId) {
@@ -69,7 +75,7 @@ public class StockService {
                     return ModifyStock.of(warehouse, modifyStockRequest);
                 })
                 .collect(Collectors.toList()));
-        
+
         return tireDot;
     }
 }

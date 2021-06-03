@@ -23,8 +23,8 @@ public class StockApi {
     // STOCKS
     @GetMapping("/tire-dots/{tireDotId}/stocks")
     @Operation(summary = "재고 목록 조회")
-    public ApiResponse<List<StockResponse>> findAllStocksByTireDotId(@PathVariable Long tireDotId) {
-        return ApiResponse.OK(stockService.findAllByTireDotId(tireDotId)
+    public ApiResponse<List<StockResponse>> findStocksByTireDotId(@PathVariable Long tireDotId) {
+        return ApiResponse.OK(stockService.findByTireDotId(tireDotId)
                 .stream()
                 .map(StockResponse::of)
                 .collect(Collectors.toList()));
@@ -53,6 +53,15 @@ public class StockApi {
                                                                @RequestParam(required = false) String patternName,
                                                                @RequestParam(required = false) String productId) {
         return ApiResponse.OK(stockService.findTireStocks(size, brandName, patternName, productId));
+    }
+
+    @GetMapping("/tire-stocks/{tireId}/stocks")
+    @Operation(summary = "타이어 하위 재고 목록 조회")
+    public ApiResponse<List<StockResponse>> findStocksByTireId(@PathVariable Long tireId) {
+        return ApiResponse.OK(stockService.findByTireId(tireId)
+                .stream()
+                .map(StockResponse::of)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/tire-stocks/params")

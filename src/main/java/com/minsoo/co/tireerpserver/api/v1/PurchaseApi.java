@@ -3,8 +3,10 @@ package com.minsoo.co.tireerpserver.api.v1;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseRequest;
 import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseResponse;
 import com.minsoo.co.tireerpserver.model.dto.purchase.content.PurchaseContentConfirmRequest;
+import com.minsoo.co.tireerpserver.model.dto.purchase.content.PurchaseContentSimpleResponse;
 import com.minsoo.co.tireerpserver.model.entity.purchase.Purchase;
 import com.minsoo.co.tireerpserver.model.response.ApiResponse;
+import com.minsoo.co.tireerpserver.service.purchase.PurchaseContentService;
 import com.minsoo.co.tireerpserver.service.purchase.PurchaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -26,6 +29,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class PurchaseApi {
 
     private final PurchaseService purchaseService;
+    private final PurchaseContentService purchaseContentService;
 
     @GetMapping
     @Operation(summary = "매입 내역 목록 조회", description = "매입 내역의 목록을 조회한다.")
@@ -69,5 +73,15 @@ public class PurchaseApi {
     public ApiResponse<Object> deletePurchase(@PathVariable Long purchaseId) {
         purchaseService.removeById(purchaseId);
         return ApiResponse.OK;
+    }
+
+    // PURCHASE-CONTENT
+    @GetMapping(value = "/{purchaseId}/purchase-contents")
+    @Operation(summary = "매입 항목 목록 조회")
+    public ApiResponse<List<PurchaseContentSimpleResponse>> findPurchaseContentsByPurchaseId(@PathVariable Long purchaseId) {
+        return ApiResponse.OK(purchaseContentService.findAll(purchaseId)
+                .stream()
+                .map(PurchaseContentSimpleResponse::of)
+                .collect(Collectors.toList()));
     }
 }
