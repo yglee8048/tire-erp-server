@@ -33,10 +33,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String jwtHeader = request.getHeader("Authorization");
-        if (jwtHeader != null && jwtHeader.startsWith("Bearer")) {
-            String jwtToken = jwtHeader.replace("Bearer ", "");
-            String username = JWT.require(Algorithm.HMAC512("key"))
+        String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
+        if (jwtHeader != null && jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
+            String jwtToken = jwtHeader.replace(JwtProperties.TOKEN_PREFIX, "");
+            String username = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET))
                     .build()
                     .verify(jwtToken)
                     .getClaim("username").asString();
