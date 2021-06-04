@@ -23,12 +23,12 @@ public class AccountService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountRepository.findByUserId(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        Account account = accountRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
         return new PrincipalDetails(account);
     }
 
     public Account signup(AccountRequest accountRequest) {
-        if (accountRepository.existsByUserId(accountRequest.getUserId())) {
+        if (accountRepository.existsByUsername(accountRequest.getUserId())) {
             throw new AlreadyExistException("이미 존재하는 아이디입니다.");
         }
 

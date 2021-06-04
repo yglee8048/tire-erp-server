@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.config;
 
+import com.minsoo.co.tireerpserver.account.repository.AccountRepository;
 import com.minsoo.co.tireerpserver.security.JwtAuthenticationFilter;
 import com.minsoo.co.tireerpserver.security.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
+    private final AccountRepository accountRepository;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -33,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(corsFilter)
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilter(new JwtAuthorizationFilter(authenticationManager()))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), accountRepository))
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
