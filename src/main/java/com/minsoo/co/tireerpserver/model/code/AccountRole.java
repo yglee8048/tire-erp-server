@@ -1,5 +1,5 @@
 package com.minsoo.co.tireerpserver.model.code;
 
 public enum AccountRole {
-    GUEST, CUSTOMER, ADMIN, SUPER_ADMIN
+    GUEST, USER, ADMIN, ROOT
 }

@@ -7,7 +7,7 @@
 //import com.minsoo.co.tireerpserver.model.dto.stock.StockResponse;
 //import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
 //import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
-//import com.minsoo.co.tireerpserver.service.account.CustomerService;
+//import com.minsoo.co.tireerpserver.account.service.CustomerService;
 //import com.minsoo.co.tireerpserver.service.management.BrandService;
 //import com.minsoo.co.tireerpserver.service.purchase.PurchaseService;
 //import com.minsoo.co.tireerpserver.service.sale.SaleService;

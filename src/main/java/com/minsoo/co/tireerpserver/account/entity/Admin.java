@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.entity.account;
+package com.minsoo.co.tireerpserver.account.entity;
 
 import com.minsoo.co.tireerpserver.model.code.AdminRole;
 import com.minsoo.co.tireerpserver.model.dto.account.admin.AdminRequest;

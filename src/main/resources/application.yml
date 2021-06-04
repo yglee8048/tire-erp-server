@@ -24,16 +24,10 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
 
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 935349671127-kie8p7ct045tph801rrde45a8t6f8cpc.apps.googleusercontent.com
-            client-secret: 34Ifc6oTSWQ07HbrBInQf_oj
-            scope:
-              - email
-              - profile
+jwt:
+  aws:
+    userPoolId: ap-northeast-2
+    region: ap-northeast-2
 
 springdoc:
   swagger-ui:

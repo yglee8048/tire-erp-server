@@ -1,6 +1,6 @@
-package com.minsoo.co.tireerpserver.repository.account;
+package com.minsoo.co.tireerpserver.account.repository;
 
-import com.minsoo.co.tireerpserver.model.entity.account.Account;
+import com.minsoo.co.tireerpserver.account.entity.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
