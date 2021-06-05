@@ -109,7 +109,7 @@ public class RequestBuilder {
 
     public static PurchaseRequest PURCHASE(Long vendorId, LocalDate purchaseDate, PurchaseContentRequest... contents) {
         return PurchaseRequest.builder()
-                .purchaseDate(purchaseDate)
+                .transactionDate(purchaseDate)
                 .vendorId(vendorId)
                 .contents(Arrays.asList(contents))
                 .build();
@@ -151,15 +151,15 @@ public class RequestBuilder {
 
     public static SaleRequest SALE_CREATE(Long customerId, SaleContentRequest... contents) {
         return SaleRequest.builder()
-                .saleDate(LocalDate.now())
+                .transactionDate(LocalDate.now())
                 .customerId(customerId)
                 .contents(Arrays.asList(contents))
                 .build();
     }
 
-    public static SaleContentRequest SALE_CREATE_CONTENT(Long stockId, Long quantity) {
+    public static SaleContentRequest SALE_CREATE_CONTENT(Long tireDotId, Long quantity) {
         return SaleContentRequest.builder()
-                .stockId(stockId)
+                .tireDotId(tireDotId)
                 .price(240000)
                 .quantity(quantity)
                 .build();
