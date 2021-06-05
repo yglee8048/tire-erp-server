@@ -4,7 +4,7 @@ import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.entity.sale.Sale;
 import com.minsoo.co.tireerpserver.model.entity.sale.SaleContent;
-import com.minsoo.co.tireerpserver.repository.account.CustomerRepository;
+import com.minsoo.co.tireerpserver.account.repository.CustomerRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleContentRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleRepository;
 import com.minsoo.co.tireerpserver.repository.stock.StockRepository;

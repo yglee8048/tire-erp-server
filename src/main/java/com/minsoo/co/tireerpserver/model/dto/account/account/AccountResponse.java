@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.dto.account.account;
 
-import com.minsoo.co.tireerpserver.model.entity.account.Account;
+import com.minsoo.co.tireerpserver.account.entity.Account;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -19,7 +19,7 @@ public class AccountResponse {
 
     public AccountResponse(Account account) {
         this.accountId = account.getId();
-        this.userId = account.getUserId();
-        this.userPw = account.getUserPw();
+        this.userId = account.getUsername();
+        this.userPw = account.getPassword();
     }
 }

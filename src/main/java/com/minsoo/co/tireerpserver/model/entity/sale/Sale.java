@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.model.entity.sale;
 
 import com.minsoo.co.tireerpserver.model.code.SaleSource;
 import com.minsoo.co.tireerpserver.model.code.SaleStatus;
-import com.minsoo.co.tireerpserver.model.entity.account.Customer;
+import com.minsoo.co.tireerpserver.account.entity.Customer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

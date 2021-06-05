@@ -1,10 +1,10 @@
-package com.minsoo.co.tireerpserver.service.account;
+package com.minsoo.co.tireerpserver.account.service;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.model.dto.account.admin.AdminRequest;
-import com.minsoo.co.tireerpserver.model.entity.account.Admin;
-import com.minsoo.co.tireerpserver.repository.account.AdminRepository;
+import com.minsoo.co.tireerpserver.account.entity.Admin;
+import com.minsoo.co.tireerpserver.account.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
