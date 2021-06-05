@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -19,7 +20,7 @@ public class PurchaseContentService {
     private final PurchaseRepository purchaseRepository;
     private final PurchaseContentRepository purchaseContentRepository;
 
-    public List<PurchaseContent> findAllByPurchaseDate(){
+    public List<PurchaseContent> findAllByPurchaseDate(LocalDate from, LocalDate to) {
         return purchaseContentRepository.findAll();
     }
 
