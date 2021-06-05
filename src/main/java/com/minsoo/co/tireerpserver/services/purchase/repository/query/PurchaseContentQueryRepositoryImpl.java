@@ -7,6 +7,7 @@ import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseCon
 import com.minsoo.co.tireerpserver.api.v1.model.dto.tire.dot.TireDotResponse;
 import com.minsoo.co.tireerpserver.services.management.entity.QVendor;
 import com.minsoo.co.tireerpserver.services.purchase.entity.QPurchase;
+import com.minsoo.co.tireerpserver.services.stock.entity.QStock;
 import com.minsoo.co.tireerpserver.services.tire.entity.QTireDot;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -19,6 +20,7 @@ import java.util.List;
 import static com.minsoo.co.tireerpserver.services.management.entity.QVendor.vendor;
 import static com.minsoo.co.tireerpserver.services.purchase.entity.QPurchase.purchase;
 import static com.minsoo.co.tireerpserver.services.purchase.entity.QPurchaseContent.purchaseContent;
+import static com.minsoo.co.tireerpserver.services.stock.entity.QStock.stock;
 import static com.minsoo.co.tireerpserver.services.tire.entity.QTireDot.tireDot;
 
 @Repository
@@ -35,22 +37,24 @@ public class PurchaseContentQueryRepositoryImpl implements PurchaseContentQueryR
                 purchaseContent.quantity,
                 Projections.fields(PurchaseSimpleResponse.class,
                         purchase.id.as("purchaseId"),
-                        purchase.status,
-                        purchase.purchaseDate,
                         Projections.fields(VendorResponse.class,
                                 vendor.id.as("vendorId"),
                                 vendor.name,
                                 vendor.description,
                                 Projections.constructor(BusinessInfoDTO.class, vendor.businessInfo).as("businessInfo")
                         ).as("vendor"),
-                        Projections.fields(TireDotResponse.class,
-                                tireDot.id.as("tireDotId")
-                        ).as("tireDot")
-                ).as("purchase")))
+                        purchase.status,
+                        purchase.purchaseDate).as("purchase"),
+                Projections.fields(TireDotResponse.class,
+                        tireDot.id.as("tireDotId"),
+                        tireDot.dot,
+                        tireDot.retailPrice,
+                        stock.quantity.sum().as("totalQuantity")).as("tireDot")))
                 .from(purchaseContent)
                 .join(purchaseContent.purchase, purchase)
                 .join(purchase.vendor, vendor)
                 .join(purchaseContent.tireDot, tireDot)
+                .leftJoin(tireDot.stocks, stock)
                 .fetch();
     }
 }
