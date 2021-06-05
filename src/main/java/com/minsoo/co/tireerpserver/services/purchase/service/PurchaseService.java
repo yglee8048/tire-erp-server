@@ -84,10 +84,16 @@ public class PurchaseService {
     @Transactional
     public Purchase confirm(Long purchaseId, List<PurchaseContentConfirmRequest> contentConfirmRequests) {
         Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> new NotFoundException("매입", purchaseId));
+        if (purchase.getContents().size() != contentConfirmRequests.size()) {
+            throw new BadRequestException("매입 항목이 모두 확정되어야 합니다.");
+        }
 
         contentConfirmRequests.forEach(purchaseContentConfirmRequest -> {
             PurchaseContent purchaseContent = purchaseContentRepository.findById(purchaseContentConfirmRequest.getPurchaseContentId())
                     .orElseThrow(() -> new NotFoundException("매입 항목", purchaseContentConfirmRequest.getPurchaseContentId()));
+            if (!purchaseContent.getPurchase().getId().equals(purchaseId)) {
+                throw new BadRequestException("purchase_id 에 포함되지 않는 purchase_content_id 입니다.");
+            }
             TireDot tireDot = purchaseContent.getTireDot();
 
             // validate: 개수의 합이 같아야 한다.

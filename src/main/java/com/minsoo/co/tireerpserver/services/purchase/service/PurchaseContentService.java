@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.services.purchase.service;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentResponse;
 import com.minsoo.co.tireerpserver.services.purchase.entity.Purchase;
 import com.minsoo.co.tireerpserver.services.purchase.entity.PurchaseContent;
 import com.minsoo.co.tireerpserver.services.purchase.repository.PurchaseContentRepository;
@@ -20,8 +21,8 @@ public class PurchaseContentService {
     private final PurchaseRepository purchaseRepository;
     private final PurchaseContentRepository purchaseContentRepository;
 
-    public List<PurchaseContent> findAllByPurchaseDate(LocalDate from, LocalDate to) {
-        return purchaseContentRepository.findAll();
+    public List<PurchaseContentResponse> findAllByPurchaseDate(LocalDate from, LocalDate to) {
+        return purchaseContentRepository.findPurchaseContents(from, to);
     }
 
     public List<PurchaseContent> findAllByPurchaseId(Long purchaseId) {

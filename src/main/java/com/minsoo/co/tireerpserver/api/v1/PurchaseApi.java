@@ -90,9 +90,6 @@ public class PurchaseApi {
     @Operation(summary = "매입 항목 전체 목록 조회")
     public ApiResponse<List<PurchaseContentResponse>> findPurchaseContents(@RequestParam(required = false) LocalDate from,
                                                                            @RequestParam(required = false) LocalDate to) {
-        return ApiResponse.OK(purchaseContentService.findAllByPurchaseDate(from, to)
-                .stream()
-                .map(PurchaseContentResponse::of)
-                .collect(Collectors.toList()));
+        return ApiResponse.OK(purchaseContentService.findAllByPurchaseDate(from, to));
     }
 }
