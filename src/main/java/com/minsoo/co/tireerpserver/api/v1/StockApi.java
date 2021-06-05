@@ -1,8 +1,11 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
-import com.minsoo.co.tireerpserver.model.dto.stock.*;
-import com.minsoo.co.tireerpserver.model.response.ApiResponse;
-import com.minsoo.co.tireerpserver.service.stock.StockService;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.stock.StockRequest;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.stock.StockResponse;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.stock.TireStockParams;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.stock.TireStockResponse;
+import com.minsoo.co.tireerpserver.api.v1.model.ApiResponse;
+import com.minsoo.co.tireerpserver.services.stock.service.StockService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

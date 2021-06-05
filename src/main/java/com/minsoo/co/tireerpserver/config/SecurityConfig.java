@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.config;
 
-import com.minsoo.co.tireerpserver.account.repository.AccountRepository;
+import com.minsoo.co.tireerpserver.services.account.repository.AccountRepository;
 import com.minsoo.co.tireerpserver.security.JwtAuthenticationFilter;
 import com.minsoo.co.tireerpserver.security.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -21,6 +23,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
     private final AccountRepository accountRepository;
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);   // 응답의 json 을 js 에서 처리할 수 있게 허용할지 여부
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+
+        source.registerCorsConfiguration("/api/*", config);
+        return new CorsFilter(source);
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

@@ -1,13 +1,13 @@
 package com.minsoo.co.tireerpserver.api.v1;
 
-import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseRequest;
-import com.minsoo.co.tireerpserver.model.dto.purchase.PurchaseResponse;
-import com.minsoo.co.tireerpserver.model.dto.purchase.content.PurchaseContentConfirmRequest;
-import com.minsoo.co.tireerpserver.model.dto.purchase.content.PurchaseContentSimpleResponse;
-import com.minsoo.co.tireerpserver.model.entity.purchase.Purchase;
-import com.minsoo.co.tireerpserver.model.response.ApiResponse;
-import com.minsoo.co.tireerpserver.service.purchase.PurchaseContentService;
-import com.minsoo.co.tireerpserver.service.purchase.PurchaseService;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseRequest;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseResponse;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentConfirmRequest;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentSimpleResponse;
+import com.minsoo.co.tireerpserver.services.purchase.entity.Purchase;
+import com.minsoo.co.tireerpserver.api.v1.model.ApiResponse;
+import com.minsoo.co.tireerpserver.services.purchase.service.PurchaseContentService;
+import com.minsoo.co.tireerpserver.services.purchase.service.PurchaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

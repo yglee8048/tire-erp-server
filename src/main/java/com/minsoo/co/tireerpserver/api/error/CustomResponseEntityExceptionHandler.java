@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.api.error;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.*;
-import com.minsoo.co.tireerpserver.model.response.ApiResponse;
+import com.minsoo.co.tireerpserver.api.v1.model.ApiResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

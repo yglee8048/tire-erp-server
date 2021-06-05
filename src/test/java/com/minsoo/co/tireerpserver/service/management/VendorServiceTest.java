@@ -2,8 +2,8 @@ package com.minsoo.co.tireerpserver.service.management;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
-import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorRequest;
-import com.minsoo.co.tireerpserver.model.entity.management.Vendor;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.management.vendor.VendorRequest;
+import com.minsoo.co.tireerpserver.services.management.entity.Vendor;
 import com.minsoo.co.tireerpserver.service.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

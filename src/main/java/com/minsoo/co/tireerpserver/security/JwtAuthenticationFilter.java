@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.minsoo.co.tireerpserver.account.entity.Account;
+import com.minsoo.co.tireerpserver.services.account.entity.Account;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;

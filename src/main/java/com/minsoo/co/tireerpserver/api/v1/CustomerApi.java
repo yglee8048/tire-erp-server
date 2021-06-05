@@ -2,7 +2,7 @@
 //
 //import com.minsoo.co.tireerpserver.model.dto.account.customer.CustomerRequest;
 //import com.minsoo.co.tireerpserver.model.dto.account.customer.CustomerResponse;
-//import com.minsoo.co.tireerpserver.model.response.ApiResponse;
+//import com.minsoo.co.tireerpserver.api.v1.model.ApiResponse;
 //import com.minsoo.co.tireerpserver.account.service.CustomerService;
 //import io.swagger.v3.oas.annotations.Operation;
 //import io.swagger.v3.oas.annotations.Parameter;

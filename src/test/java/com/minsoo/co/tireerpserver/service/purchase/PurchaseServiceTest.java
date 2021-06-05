@@ -1,15 +1,15 @@
 package com.minsoo.co.tireerpserver.service.purchase;
 
 import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
-import com.minsoo.co.tireerpserver.model.code.PurchaseStatus;
-import com.minsoo.co.tireerpserver.model.entity.management.Brand;
-import com.minsoo.co.tireerpserver.model.entity.management.Pattern;
-import com.minsoo.co.tireerpserver.model.entity.management.Vendor;
-import com.minsoo.co.tireerpserver.model.entity.management.Warehouse;
-import com.minsoo.co.tireerpserver.model.entity.purchase.Purchase;
-import com.minsoo.co.tireerpserver.model.entity.purchase.PurchaseContent;
-import com.minsoo.co.tireerpserver.model.entity.tire.Tire;
-import com.minsoo.co.tireerpserver.model.entity.tire.TireDot;
+import com.minsoo.co.tireerpserver.services.purchase.code.PurchaseStatus;
+import com.minsoo.co.tireerpserver.services.management.entity.Brand;
+import com.minsoo.co.tireerpserver.services.management.entity.Pattern;
+import com.minsoo.co.tireerpserver.services.management.entity.Vendor;
+import com.minsoo.co.tireerpserver.services.management.entity.Warehouse;
+import com.minsoo.co.tireerpserver.services.purchase.entity.Purchase;
+import com.minsoo.co.tireerpserver.services.purchase.entity.PurchaseContent;
+import com.minsoo.co.tireerpserver.services.tire.entity.Tire;
+import com.minsoo.co.tireerpserver.services.tire.entity.TireDot;
 import com.minsoo.co.tireerpserver.service.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

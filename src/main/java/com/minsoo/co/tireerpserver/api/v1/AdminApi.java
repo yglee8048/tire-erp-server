@@ -1,6 +1,6 @@
 //package com.minsoo.co.tireerpserver.api.v1;
 //
-//import com.minsoo.co.tireerpserver.model.response.ApiResponse;
+//import com.minsoo.co.tireerpserver.api.v1.model.ApiResponse;
 //import com.minsoo.co.tireerpserver.model.dto.account.admin.AdminRequest;
 //import com.minsoo.co.tireerpserver.model.dto.account.admin.AdminResponse;
 //import com.minsoo.co.tireerpserver.account.service.AdminService;

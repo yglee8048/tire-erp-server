@@ -3,8 +3,8 @@
 //import com.minsoo.co.tireerpserver.model.dto.sale.SaleCreateRequest;
 //import com.minsoo.co.tireerpserver.model.dto.sale.SaleFlatResponse;
 //import com.minsoo.co.tireerpserver.model.dto.sale.memo.SaleMemoResponse;
-//import com.minsoo.co.tireerpserver.model.entity.sale.Sale;
-//import com.minsoo.co.tireerpserver.model.response.ApiResponse;
+//import com.minsoo.co.tireerpserver.sale.entity.Sale;
+//import com.minsoo.co.tireerpserver.api.v1.model.ApiResponse;
 //import com.minsoo.co.tireerpserver.service.sale.SaleService;
 //import io.swagger.v3.oas.annotations.Operation;
 //import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.security;
 
-import com.minsoo.co.tireerpserver.account.entity.Account;
+import com.minsoo.co.tireerpserver.services.account.entity.Account;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

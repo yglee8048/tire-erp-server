@@ -2,8 +2,8 @@ package com.minsoo.co.tireerpserver.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.minsoo.co.tireerpserver.account.entity.Account;
-import com.minsoo.co.tireerpserver.account.repository.AccountRepository;
+import com.minsoo.co.tireerpserver.services.account.entity.Account;
+import com.minsoo.co.tireerpserver.services.account.repository.AccountRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,7 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 /**
  * BasicAuthenticationFilter: 권한이나 인증이 필요한 url 을 요청하면 실행되는 필터

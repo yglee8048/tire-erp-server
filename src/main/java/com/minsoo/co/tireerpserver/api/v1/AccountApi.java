@@ -4,7 +4,7 @@
 //import com.minsoo.co.tireerpserver.auth.TokenProvider;
 //import com.minsoo.co.tireerpserver.model.dto.account.account.AccountRequest;
 //import com.minsoo.co.tireerpserver.model.dto.account.account.TokenResponse;
-//import com.minsoo.co.tireerpserver.model.response.ApiResponse;
+//import com.minsoo.co.tireerpserver.api.v1.model.ApiResponse;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.http.HttpHeaders;
 //import org.springframework.http.HttpStatus;
