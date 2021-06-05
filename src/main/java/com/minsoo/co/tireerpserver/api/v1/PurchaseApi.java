@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.api.v1;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseRequest;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseResponse;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentConfirmRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentResponse;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentGridResponse;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentSimpleResponse;
 import com.minsoo.co.tireerpserver.api.v1.model.ApiResponse;
 import com.minsoo.co.tireerpserver.services.purchase.service.PurchaseContentService;
@@ -86,8 +86,8 @@ public class PurchaseApi {
 
     @GetMapping(value = "/purchase-contents")
     @Operation(summary = "매입 항목 전체 목록 조회")
-    public ApiResponse<List<PurchaseContentResponse>> findPurchaseContents(@RequestParam(required = false) LocalDate from,
-                                                                           @RequestParam(required = false) LocalDate to) {
+    public ApiResponse<List<PurchaseContentGridResponse>> findPurchaseContents(@RequestParam(required = false) LocalDate from,
+                                                                               @RequestParam(required = false) LocalDate to) {
         return ApiResponse.OK(purchaseContentService.findAllByTransactionDate(from, to));
     }
 }
