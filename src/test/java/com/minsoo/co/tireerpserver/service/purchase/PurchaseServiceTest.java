@@ -54,7 +54,7 @@ class PurchaseServiceTest extends ServiceTest {
                 .map(PurchaseContent::getQuantity)
                 .reduce(0L, Long::sum)).isEqualTo(4);
         assertThat(purchase.getVendor().getId()).isEqualTo(vendor.getId());
-        assertThat(purchase.getPurchaseDate()).isEqualTo(LocalDate.now());
+        assertThat(purchase.getTransactionDate()).isEqualTo(LocalDate.now());
         clear();
     }
 

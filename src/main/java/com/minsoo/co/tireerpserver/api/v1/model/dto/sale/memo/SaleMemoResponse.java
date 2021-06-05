@@ -1,14 +1,9 @@
 package com.minsoo.co.tireerpserver.api.v1.model.dto.sale.memo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
-@ToString
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
 public class SaleMemoResponse {
 
@@ -22,5 +17,5 @@ public class SaleMemoResponse {
     private String memo;
 
     @Schema(description = "잠금 여부 (true=비공개/false=공개)", example = "false")
-    private boolean lock;
+    private Boolean lock;
 }

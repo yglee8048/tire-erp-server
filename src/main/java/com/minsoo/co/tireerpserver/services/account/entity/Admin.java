@@ -13,7 +13,6 @@ import static lombok.AccessLevel.*;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-@Table(name = "admin", uniqueConstraints = {@UniqueConstraint(name = "admin_unique_user_id", columnNames = {"user_id"})})
 public class Admin {
 
     @Id
@@ -21,11 +20,9 @@ public class Admin {
     @Column(name = "admin_id", length = 20, nullable = false)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private String userId;
-
-    @Column(name = "user_pw", nullable = false)
-    private String userPw;
+    @OneToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @Column(name = "name")
     private String name;
@@ -39,8 +36,6 @@ public class Admin {
 
     //== Business ==//
     private Admin(AdminRequest createRequest) {
-        this.userId = createRequest.getUserId();
-        this.userPw = createRequest.getUserPw();
         this.name = createRequest.getName();
         this.description = createRequest.getDescription();
         this.role = createRequest.getRole();
@@ -51,10 +46,6 @@ public class Admin {
     }
 
     public void update(AdminRequest updateRequest) {
-        // 비밀번호가 null 인 경우 수정하지 않는다.
-        if (updateRequest.getUserPw() != null) {
-            this.userPw = updateRequest.getUserPw();
-        }
         this.name = updateRequest.getName();
         this.description = updateRequest.getDescription();
         this.role = updateRequest.getRole();

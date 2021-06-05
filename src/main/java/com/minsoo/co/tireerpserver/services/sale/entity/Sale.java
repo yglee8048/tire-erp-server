@@ -1,16 +1,19 @@
 package com.minsoo.co.tireerpserver.services.sale.entity;
 
+import com.minsoo.co.tireerpserver.api.v1.model.dto.sale.SaleRequest;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.sale.content.SaleContentRequest;
 import com.minsoo.co.tireerpserver.services.sale.code.SaleSource;
 import com.minsoo.co.tireerpserver.services.sale.code.SaleStatus;
 import com.minsoo.co.tireerpserver.services.account.entity.Customer;
+import com.minsoo.co.tireerpserver.services.tire.entity.TireDot;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.EnumType.*;
@@ -45,25 +48,101 @@ public class Sale {
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    @Column(name = "sale_date", nullable = false)
-    private LocalDate saleDate;
+    @Column(name = "transaction_date", nullable = false)
+    private LocalDate transactionDate;
+
+    @Column(name = "confirmed_date", nullable = false)
+    private LocalDate confirmedDate;
+
+    @Column(name = "desired_delivery_date", nullable = false)
+    private LocalDate desiredDeliveryDate;
 
     @OneToMany(mappedBy = "sale", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private final Set<SaleContent> saleContents = new HashSet<>();
+    private final Set<SaleContent> contents = new HashSet<>();
 
     @OneToMany(mappedBy = "sale", fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    private final Set<SaleMemo> saleMemos = new HashSet<>();
+    private final Set<SaleMemo> memos = new HashSet<>();
 
     //== Business ==//
-    private Sale(Customer customer, LocalDate saleDate) {
+    private Sale(Customer customer, SaleRequest saleRequest) {
         this.customer = customer;
         this.source = SaleSource.MANUAL;
         this.status = SaleStatus.REQUESTED;
         this.delivery = null;
-        this.saleDate = saleDate;
+        this.transactionDate = saleRequest.getTransactionDate();
+        this.confirmedDate = saleRequest.getConfirmedDate();
+        this.desiredDeliveryDate = saleRequest.getDesiredDeliveryDate();
     }
 
-    public static Sale of(Customer customer, LocalDate saleDate) {
-        return new Sale(customer, saleDate);
+    public static Sale of(Customer customer, SaleRequest saleRequest, Map<TireDot, List<SaleContentRequest>> contentMap) {
+        Sale sale = new Sale(customer, saleRequest);
+
+        contentMap.forEach((tireDot, contentRequests) -> {
+            int sumOfPrice = getSumOfPrice(contentRequests);
+            long sumOfQuantity = getSumOfQuantity(contentRequests);
+            sale.getContents().add(SaleContent.of(sale, tireDot, sumOfPrice, sumOfQuantity));
+        });
+
+        return sale;
+    }
+
+    public Sale update(Customer customer, SaleRequest saleRequest, Map<TireDot, List<SaleContentRequest>> contentMap) {
+        this.customer = customer;
+        this.transactionDate = saleRequest.getTransactionDate();
+        this.confirmedDate = saleRequest.getConfirmedDate();
+        this.desiredDeliveryDate = saleRequest.getDesiredDeliveryDate();
+
+        // contents
+        updateContent(contentMap);
+
+        return this;
+    }
+
+    private void updateContent(Map<TireDot, List<SaleContentRequest>> contentMap) {
+        // DELETE
+        List<SaleContent> removed = this.getContents()
+                .stream()
+                .filter(saleContent -> !contentMap.containsKey(saleContent.getTireDot()))
+                .collect(Collectors.toList());
+        removed.forEach(SaleContent::removeFromSale);
+
+        // CREATE & UPDATE
+        contentMap.forEach((tireDot, contentRequests) -> {
+            int sumOfPrice = getSumOfPrice(contentRequests);
+            long sumOfQuantity = getSumOfQuantity(contentRequests);
+
+            this.findContentByTireDot(tireDot)
+                    .ifPresentOrElse(
+                            // if present, update
+                            saleContent -> saleContent.update(tireDot, sumOfPrice, sumOfQuantity),
+                            // if not, create and add
+                            () -> this.getContents()
+                                    .add(SaleContent.of(this, tireDot, sumOfPrice, sumOfQuantity)));
+        });
+    }
+
+    public Sale updateStatus(SaleStatus status) {
+        this.status = status;
+
+        return this;
+    }
+
+    public Optional<SaleContent> findContentByTireDot(TireDot tireDot) {
+        return this.contents
+                .stream()
+                .filter(saleContent -> saleContent.getTireDot().equals(tireDot))
+                .findAny();
+    }
+
+    private static int getSumOfPrice(List<SaleContentRequest> contentRequests) {
+        return contentRequests.stream()
+                .map(SaleContentRequest::getPrice)
+                .reduce(0, Integer::sum);
+    }
+
+    private static long getSumOfQuantity(List<SaleContentRequest> contentRequests) {
+        return contentRequests.stream()
+                .map(SaleContentRequest::getQuantity)
+                .reduce(0L, Long::sum);
     }
 }

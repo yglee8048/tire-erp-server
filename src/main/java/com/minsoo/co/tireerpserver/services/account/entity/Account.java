@@ -13,7 +13,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-@Table(name = "account")
+@Table(name = "account"
+        , uniqueConstraints = {@UniqueConstraint(name = "account_username_unique", columnNames = {"username"})})
 public class Account {
 
     @Id

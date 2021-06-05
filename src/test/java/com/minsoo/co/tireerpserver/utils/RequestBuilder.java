@@ -10,8 +10,8 @@ import com.minsoo.co.tireerpserver.api.v1.model.dto.management.warehouse.Warehou
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseRequest;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentConfirmRequest;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.sale.SaleCreateRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.sale.SaleCreateRequestContent;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.sale.SaleRequest;
+import com.minsoo.co.tireerpserver.api.v1.model.dto.sale.content.SaleContentRequest;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.management.pattern.PatternRequest;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.stock.StockRequest;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.tire.dot.TireDotRequest;
@@ -149,16 +149,16 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static SaleCreateRequest SALE_CREATE(Long customerId, SaleCreateRequestContent... contents) {
-        return SaleCreateRequest.builder()
+    public static SaleRequest SALE_CREATE(Long customerId, SaleContentRequest... contents) {
+        return SaleRequest.builder()
                 .saleDate(LocalDate.now())
                 .customerId(customerId)
                 .contents(Arrays.asList(contents))
                 .build();
     }
 
-    public static SaleCreateRequestContent SALE_CREATE_CONTENT(Long stockId, Long quantity) {
-        return SaleCreateRequestContent.builder()
+    public static SaleContentRequest SALE_CREATE_CONTENT(Long stockId, Long quantity) {
+        return SaleContentRequest.builder()
                 .stockId(stockId)
                 .price(240000)
                 .quantity(quantity)

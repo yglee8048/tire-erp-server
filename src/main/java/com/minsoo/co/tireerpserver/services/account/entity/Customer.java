@@ -13,8 +13,6 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-@Table(name = "customer",
-        uniqueConstraints = {@UniqueConstraint(name = "customer_unique_user_id", columnNames = {"user_id"})})
 public class Customer {
 
     @Id
@@ -22,11 +20,9 @@ public class Customer {
     @Column(name = "customer_id", length = 20, nullable = false)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private String userId;
-
-    @Column(name = "user_pw", nullable = false)
-    private String userPw;
+    @OneToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @Column(name = "name")
     private String name;
@@ -38,8 +34,6 @@ public class Customer {
     private BusinessInfo businessInfo;
 
     private Customer(CustomerRequest createRequest) {
-        this.userId = createRequest.getUserId();
-        this.userPw = createRequest.getUserPw();
         this.name = createRequest.getName();
         this.description = createRequest.getDescription();
         this.businessInfo = BusinessInfo.of(createRequest.getBusinessInfo());
@@ -50,10 +44,6 @@ public class Customer {
     }
 
     public void update(CustomerRequest updateRequest) {
-        this.userId = updateRequest.getUserId();
-        if (userPw != null) {
-            this.userPw = updateRequest.getUserPw();
-        }
         this.name = updateRequest.getName();
         this.description = updateRequest.getDescription();
         this.businessInfo = BusinessInfo.of(updateRequest.getBusinessInfo());

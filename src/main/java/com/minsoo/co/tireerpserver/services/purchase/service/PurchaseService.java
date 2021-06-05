@@ -52,7 +52,7 @@ public class PurchaseService {
     public Purchase create(PurchaseRequest purchaseRequest) {
         Vendor vendor = vendorRepository.findById(purchaseRequest.getVendorId()).orElseThrow(() -> new NotFoundException("매입처", purchaseRequest.getVendorId()));
 
-        return purchaseRepository.save(Purchase.of(vendor, purchaseRequest.getPurchaseDate(), makeContentMap(purchaseRequest)));
+        return purchaseRepository.save(Purchase.of(vendor, purchaseRequest.getTransactionDate(), makeContentMap(purchaseRequest)));
     }
 
     @Transactional
@@ -64,8 +64,7 @@ public class PurchaseService {
             throw new AlreadyConfirmedException();
         }
 
-        purchase.update(vendor, purchaseRequest.getPurchaseDate(), makeContentMap(purchaseRequest));
-
+        purchase.update(vendor, purchaseRequest.getTransactionDate(), makeContentMap(purchaseRequest));
         return purchase;
     }
 

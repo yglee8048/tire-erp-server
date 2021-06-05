@@ -45,7 +45,7 @@ public class PurchaseQueryRepositoryImpl implements PurchaseQueryRepository {
                                 Projections.constructor(BusinessInfoDTO.class, vendor.businessInfo).as("businessInfo"))
                                 .as("vendor"),
                         purchase.status,
-                        purchase.purchaseDate))
+                        purchase.transactionDate))
                         .from(purchase)
                         .join(purchase.vendor, vendor)
                         .where(fromDate(from), toDate(to))
@@ -98,10 +98,10 @@ public class PurchaseQueryRepositoryImpl implements PurchaseQueryRepository {
     }
 
     private Predicate fromDate(LocalDate from) {
-        return from == null ? null : purchase.purchaseDate.after(from.minusDays(1));
+        return from == null ? null : purchase.transactionDate.after(from.minusDays(1));
     }
 
     private Predicate toDate(LocalDate to) {
-        return to == null ? null : purchase.purchaseDate.before(to.plusDays(1));
+        return to == null ? null : purchase.transactionDate.before(to.plusDays(1));
     }
 }

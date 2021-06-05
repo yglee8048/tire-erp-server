@@ -38,21 +38,21 @@ public class Purchase {
     @Column(name = "status", nullable = false)
     private PurchaseStatus status;
 
-    @Column(name = "purchase_date", nullable = false)
-    private LocalDate purchaseDate;
+    @Column(name = "transaction_date", nullable = false)
+    private LocalDate transactionDate;
 
     @OneToMany(mappedBy = "purchase", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private final Set<PurchaseContent> contents = new HashSet<>();
 
     //== Business ==//
-    public Purchase(Vendor vendor, LocalDate purchaseDate) {
+    public Purchase(Vendor vendor, LocalDate transactionDate) {
         this.vendor = vendor;
         this.status = PurchaseStatus.REQUESTED;
-        this.purchaseDate = purchaseDate;
+        this.transactionDate = transactionDate;
     }
 
-    public static Purchase of(Vendor vendor, LocalDate purchaseDate, Map<TireDot, List<PurchaseContentRequest>> contentMap) {
-        Purchase purchase = new Purchase(vendor, purchaseDate);
+    public static Purchase of(Vendor vendor, LocalDate transactionDate, Map<TireDot, List<PurchaseContentRequest>> contentMap) {
+        Purchase purchase = new Purchase(vendor, transactionDate);
 
         // contents
         contentMap.forEach((tireDot, contentRequests) -> {
@@ -64,9 +64,9 @@ public class Purchase {
         return purchase;
     }
 
-    public Purchase update(Vendor vendor, LocalDate purchaseDate, Map<TireDot, List<PurchaseContentRequest>> contentMap) {
+    public Purchase update(Vendor vendor, LocalDate transactionDate, Map<TireDot, List<PurchaseContentRequest>> contentMap) {
         this.vendor = vendor;
-        this.purchaseDate = purchaseDate;
+        this.transactionDate = transactionDate;
 
         // contents
         updateContent(contentMap);

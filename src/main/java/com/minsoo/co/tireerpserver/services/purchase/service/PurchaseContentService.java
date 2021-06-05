@@ -21,7 +21,7 @@ public class PurchaseContentService {
     private final PurchaseRepository purchaseRepository;
     private final PurchaseContentRepository purchaseContentRepository;
 
-    public List<PurchaseContentResponse> findAllByPurchaseDate(LocalDate from, LocalDate to) {
+    public List<PurchaseContentResponse> findAllByTransactionDate(LocalDate from, LocalDate to) {
         return purchaseContentRepository.findPurchaseContents(from, to);
     }
 

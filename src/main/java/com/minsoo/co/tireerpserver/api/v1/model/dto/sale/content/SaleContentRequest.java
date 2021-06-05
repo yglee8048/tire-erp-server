@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.api.v1.model.dto.sale;
+package com.minsoo.co.tireerpserver.api.v1.model.dto.sale.content;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -11,18 +11,18 @@ import javax.validation.constraints.Positive;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleCreateRequestContent {
+public class SaleContentRequest {
 
-    @Schema(description = "재고 ID", example = "20019", required = true)
-    @NotNull(message = "재고 ID 는 필수 값입니다.")
-    private Long stockId;
+    @Schema(name = "tire_dot_id")
+    @NotNull(message = "tire_dot_id 는 필수 값입니다.")
+    private Long tireDotId;
 
-    @Schema(description = "매출 가격", example = "450000", required = true)
+    @Schema(name = "price", description = "매출 가격")
     @NotNull(message = "매출 가격은 필수 값입니다.")
     @Positive(message = "매출 가격은 양수여야 합니다.")
     private Integer price;
 
-    @Schema(description = "매출 수량", example = "45", required = true)
+    @Schema(name = "quantity", description = "매출 수량")
     @NotNull(message = "매출 수량은 필수 값입니다.")
     @Positive(message = "매출 수량은 양수여야 합니다.")
     private Long quantity;

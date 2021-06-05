@@ -29,22 +29,35 @@ public class SaleContent {
     @JoinColumn(name = "tire_dot_id", nullable = false)
     private TireDot tireDot;
 
-    @Column(name = "quantity", nullable = false)
-    private Long quantity;
-
     @Column(name = "price", nullable = false)
     private Integer price;
 
+    @Column(name = "quantity", nullable = false)
+    private Long quantity;
+
     //== Business ==//
-    private SaleContent(Sale sale, TireDot tireDot, Long quantity, Integer price) {
+    private SaleContent(Sale sale, TireDot tireDot, Integer price, Long quantity) {
         this.sale = sale;
-        sale.getSaleContents().add(this);
+        sale.getContents().add(this);
         this.tireDot = tireDot;
-        this.quantity = quantity;
         this.price = price;
+        this.quantity = quantity;
     }
 
-    public static SaleContent of(Sale sale, TireDot tireDot, Long quantity, Integer price) {
-        return new SaleContent(sale, tireDot, quantity, price);
+    public static SaleContent of(Sale sale, TireDot tireDot, Integer price, Long quantity) {
+        return new SaleContent(sale, tireDot, price, quantity);
+    }
+
+    public SaleContent update(TireDot tireDot, Integer price, Long quantity) {
+        this.tireDot = tireDot;
+        this.price = price;
+        this.quantity = quantity;
+
+        return this;
+    }
+
+    public void removeFromSale() {
+        this.sale.getContents().remove(this);
+        this.sale = null;
     }
 }

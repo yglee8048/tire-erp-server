@@ -5,7 +5,6 @@ import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseResponse;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentConfirmRequest;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentResponse;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentSimpleResponse;
-import com.minsoo.co.tireerpserver.services.purchase.entity.Purchase;
 import com.minsoo.co.tireerpserver.api.v1.model.ApiResponse;
 import com.minsoo.co.tireerpserver.services.purchase.service.PurchaseContentService;
 import com.minsoo.co.tireerpserver.services.purchase.service.PurchaseService;
@@ -48,9 +47,8 @@ public class PurchaseApi {
     @PostMapping
     @Operation(summary = "매입 생성", description = "매입을 생성한다.")
     public ResponseEntity<ApiResponse<Object>> createPurchases(@RequestBody @Valid PurchaseRequest createRequest) {
-        Purchase purchase = purchaseService.create(createRequest);
         return ApiResponse.CREATED(
-                linkTo(methodOn(PurchaseApi.class).findPurchaseById(purchase.getId())).toUri());
+                linkTo(methodOn(PurchaseApi.class).findPurchaseById(purchaseService.create(createRequest).getId())).toUri());
     }
 
     @PutMapping("/{purchaseId}")
@@ -90,6 +88,6 @@ public class PurchaseApi {
     @Operation(summary = "매입 항목 전체 목록 조회")
     public ApiResponse<List<PurchaseContentResponse>> findPurchaseContents(@RequestParam(required = false) LocalDate from,
                                                                            @RequestParam(required = false) LocalDate to) {
-        return ApiResponse.OK(purchaseContentService.findAllByPurchaseDate(from, to));
+        return ApiResponse.OK(purchaseContentService.findAllByTransactionDate(from, to));
     }
 }

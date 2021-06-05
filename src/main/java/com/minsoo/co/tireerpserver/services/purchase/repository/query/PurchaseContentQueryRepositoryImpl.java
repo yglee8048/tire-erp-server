@@ -45,7 +45,7 @@ public class PurchaseContentQueryRepositoryImpl implements PurchaseContentQueryR
                                 Projections.constructor(BusinessInfoDTO.class, vendor.businessInfo).as("businessInfo")
                         ).as("vendor"),
                         purchase.status,
-                        purchase.purchaseDate).as("purchase"),
+                        purchase.transactionDate).as("purchase"),
                 Projections.fields(TireDotResponse.class,
                         tireDot.id.as("tireDotId"),
                         Projections.fields(TireSimpleResponse.class,
@@ -80,10 +80,10 @@ public class PurchaseContentQueryRepositoryImpl implements PurchaseContentQueryR
     }
 
     private Predicate fromDate(LocalDate from) {
-        return from == null ? null : purchase.purchaseDate.after(from.minusDays(1));
+        return from == null ? null : purchase.transactionDate.after(from.minusDays(1));
     }
 
     private Predicate toDate(LocalDate to) {
-        return to == null ? null : purchase.purchaseDate.before(to.plusDays(1));
+        return to == null ? null : purchase.transactionDate.before(to.plusDays(1));
     }
 }

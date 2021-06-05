@@ -22,14 +22,14 @@ public class PurchaseSimpleResponse {
     @Schema(name = "status", description = "매입 상태", example = "CONFIRMED")
     private PurchaseStatus status;
 
-    @Schema(name = "purchase_date", description = "매입 일자", example = "2021-02-18")
-    private LocalDate purchaseDate;
+    @Schema(name = "transaction_date", description = "매입 일자", example = "2021-02-18")
+    private LocalDate transactionDate;
 
     public PurchaseSimpleResponse(Purchase purchase) {
         this.purchaseId = purchase.getId();
         this.vendor = VendorResponse.of(purchase.getVendor());
         this.status = purchase.getStatus();
-        this.purchaseDate = purchase.getPurchaseDate();
+        this.transactionDate = purchase.getTransactionDate();
     }
 
     public static PurchaseSimpleResponse of(Purchase purchase) {

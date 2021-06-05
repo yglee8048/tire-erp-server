@@ -12,8 +12,8 @@ public class AdminResponse {
     @Schema(description = "ID", example = "2937")
     private Long adminId;
 
-    @Schema(description = "아이디", example = "user123")
-    private String userId;
+    @Schema(description = "account_id", example = "user123")
+    private Long accountId;
 
     @Schema(description = "이름", example = "김철수")
     private String name;
@@ -26,7 +26,7 @@ public class AdminResponse {
 
     private AdminResponse(Admin admin) {
         this.adminId = admin.getId();
-        this.userId = admin.getUserId();
+        this.accountId = admin.getAccount().getId();
         this.name = admin.getName();
         this.role = admin.getRole();
     }

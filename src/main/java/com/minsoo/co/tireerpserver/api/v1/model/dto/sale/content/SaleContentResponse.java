@@ -1,6 +1,5 @@
 package com.minsoo.co.tireerpserver.api.v1.model.dto.sale.content;
 
-import com.minsoo.co.tireerpserver.api.v1.model.dto.tire.dot.TireDotResponse;
 import com.minsoo.co.tireerpserver.services.sale.entity.SaleContent;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.EqualsAndHashCode;
@@ -14,25 +13,25 @@ import lombok.ToString;
 @NoArgsConstructor
 public class SaleContentResponse {
 
-    @Schema(description = "매출 항목 ID", example = "2991")
+    @Schema(name = "sale_content_id", description = "sale_content_id")
     private Long saleContentId;
 
-    @Schema(description = "매출 ID", example = "2991")
+    @Schema(name = "sale_id", description = "매출")
     private Long saleId;
 
-    @Schema(description = "타이어 DOT")
-    private TireDotResponse tireDot;
+    @Schema(name = "tire_dot_id", description = "타이어 DOT")
+    private Long tireDotId;
 
-    @Schema(description = "매출 수량", example = "20")
+    @Schema(name = "quantity", description = "매출 수량", example = "20")
     private Long quantity;
 
-    @Schema(description = "매출 금액", example = "240000")
+    @Schema(name = "price", description = "매출 금액", example = "240000")
     private Integer price;
 
     public SaleContentResponse(SaleContent saleContent) {
         this.saleContentId = saleContent.getId();
         this.saleId = saleContent.getSale().getId();
-        this.tireDot = TireDotResponse.of(saleContent.getTireDot());
+        this.tireDotId = saleContent.getTireDot().getId();
         this.quantity = saleContent.getQuantity();
         this.price = saleContent.getPrice();
     }
