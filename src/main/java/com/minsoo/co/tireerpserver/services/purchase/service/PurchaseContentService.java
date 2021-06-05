@@ -19,7 +19,11 @@ public class PurchaseContentService {
     private final PurchaseRepository purchaseRepository;
     private final PurchaseContentRepository purchaseContentRepository;
 
-    public List<PurchaseContent> findAll(Long purchaseId) {
+    public List<PurchaseContent> findAllByPurchaseDate(){
+        return purchaseContentRepository.findAll();
+    }
+
+    public List<PurchaseContent> findAllByPurchaseId(Long purchaseId) {
         Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> new NotFoundException("매입", purchaseId));
         return purchaseContentRepository.findAllByPurchase(purchase);
     }

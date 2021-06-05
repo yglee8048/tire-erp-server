@@ -21,11 +21,15 @@ public class TireDotResponse {
     @Schema(name = "retail_price", description = "소비자금액")
     private Integer retailPrice;
 
+    @Schema(name = "total_quantity", description = "전체 재고")
+    private Long totalQuantity;
+
     private TireDotResponse(TireDot tireDot) {
         this.tireDotId = tireDot.getId();
         this.tire = TireSimpleResponse.of(tireDot.getTire());
         this.dot = tireDot.getDot();
         this.retailPrice = tireDot.getRetailPrice();
+        this.totalQuantity = tireDot.getSumOfQuantity();
     }
 
     public static TireDotResponse of(TireDot tireDot) {
