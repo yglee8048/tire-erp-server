@@ -62,7 +62,7 @@ public class PurchaseApi {
     @PostMapping(value = "/{purchaseId}/confirm")
     @Operation(summary = "매입 확정", description = "매입을 확정한다. 매입을 확정한 시점에 매입 내용이 재고에 반영된다.")
     public ApiResponse<Object> confirmPurchaseById(@PathVariable Long purchaseId,
-                                                   List<PurchaseContentConfirmRequest> confirmRequests) {
+                                                   @RequestBody @Valid List<PurchaseContentConfirmRequest> confirmRequests) {
         purchaseService.confirm(purchaseId, confirmRequests);
         return ApiResponse.OK;
     }

@@ -2,14 +2,9 @@ package com.minsoo.co.tireerpserver.api.v1.model.dto.sale.content;
 
 import com.minsoo.co.tireerpserver.services.sale.entity.SaleContent;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
-@ToString
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
 public class SaleContentResponse {
 
