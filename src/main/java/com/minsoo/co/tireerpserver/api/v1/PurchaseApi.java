@@ -11,6 +11,7 @@ import com.minsoo.co.tireerpserver.services.purchase.service.PurchaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,9 +87,9 @@ public class PurchaseApi {
 
     // PURCHASE-GRID
     @GetMapping(value = "/purchase-content-grid")
-    @Operation(summary = "매입 항목 전체 목록 조회", description = "매출 내역 목록을 보여줄 때 사용한다.(Aggregation)")
-    public ApiResponse<List<PurchaseContentGridResponse>> findPurchaseContents(@RequestParam(required = false) LocalDate from,
-                                                                               @RequestParam(required = false) LocalDate to) {
+    @Operation(summary = "매입 내역 목록 조회 화면", description = "매출 내역 목록을 보여줄 때 사용한다.(Aggregation)")
+    public ApiResponse<List<PurchaseContentGridResponse>> findPurchaseContents(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
+                                                                               @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
         return ApiResponse.OK(purchaseContentService.findAllByTransactionDate(from, to));
     }
 }
