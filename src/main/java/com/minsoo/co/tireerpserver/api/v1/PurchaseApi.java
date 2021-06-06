@@ -84,7 +84,8 @@ public class PurchaseApi {
                 .collect(Collectors.toList()));
     }
 
-    @GetMapping(value = "/purchase-contents")
+    // PURCHASE-GRID
+    @GetMapping(value = "/purchase-content-grid")
     @Operation(summary = "매입 항목 전체 목록 조회", description = "매출 내역 목록을 보여줄 때 사용한다.(Aggregation)")
     public ApiResponse<List<PurchaseContentGridResponse>> findPurchaseContents(@RequestParam(required = false) LocalDate from,
                                                                                @RequestParam(required = false) LocalDate to) {

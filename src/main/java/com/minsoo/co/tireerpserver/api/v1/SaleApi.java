@@ -47,8 +47,8 @@ public class SaleApi {
                 linkTo(methodOn(SaleApi.class).findSaleById(saleService.create(saleRequest).getId())).toUri());
     }
 
-    // SALE-CONTENTS
-    @GetMapping(value = "/sale-contents")
+    // SALE-GRID
+    @GetMapping(value = "/sale-content-grid")
     @Operation(summary = "매출 항목 전체 목록 조회", description = "매출 내역 목록을 보여줄 때 사용한다.(Aggregation)")
     public ApiResponse<List<SaleContentGridResponse>> findAllSaleContents(@RequestParam(required = false) LocalDate from,
                                                                           @RequestParam(required = false) LocalDate to) {
