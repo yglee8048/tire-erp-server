@@ -58,6 +58,9 @@ public class SaleContentGridResponse {
     @Schema(name = "pattern_name", description = "패턴 이름")
     private String patternName;
 
+    @Schema(name = "tire_identification", description = "타이어 ID")
+    private String tireIdentification;
+
     @Schema(name = "tire_size", description = "타이어 사이즈(표기형식)")
     private String tireSize;
 

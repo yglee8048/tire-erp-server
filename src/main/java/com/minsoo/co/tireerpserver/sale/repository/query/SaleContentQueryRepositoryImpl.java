@@ -43,6 +43,7 @@ public class SaleContentQueryRepositoryImpl implements SaleContentQueryRepositor
                         sale.status.as("saleStatus"),
                         brand.name.as("brandName"),
                         pattern.name.as("patternName"),
+                        tire.tireIdentification,
                         tire.size.as("tireSize"),
                         tireDot.dot,
                         saleContent.quantity.as("saleContentQuantity"),
