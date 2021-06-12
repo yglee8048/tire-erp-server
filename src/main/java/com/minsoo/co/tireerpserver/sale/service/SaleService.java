@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.sale.service;
 
+import com.minsoo.co.tireerpserver.sale.entity.SaleContent;
 import com.minsoo.co.tireerpserver.sale.model.content.SaleContentConfirmRequest;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyConfirmedException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.BadRequestException;
@@ -82,6 +83,7 @@ public class SaleService {
         }
 
         contentConfirmRequests.forEach(contentConfirmRequest -> {
+            
 
         });
 

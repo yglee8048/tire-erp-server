@@ -48,14 +48,14 @@ public class SaleApi {
     public ApiResponse<List<SaleResponse>> findSales() {
         return ApiResponse.OK(saleService.findAll()
                 .stream()
-                .map(SaleResponse::new)
+                .map(SaleResponse::of)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/sales/{saleId}")
     @Operation(summary = "매출 상세 조회")
     public ApiResponse<SaleResponse> findSaleById(@PathVariable Long saleId) {
-        return ApiResponse.OK(new SaleResponse(saleService.findById(saleId)));
+        return ApiResponse.OK(SaleResponse.of(saleService.findById(saleId)));
     }
 
     @PostMapping(value = "/sales")

@@ -89,21 +89,21 @@ public class PurchaseService {
             throw new BadRequestException("매입 항목이 모두 확정되어야 합니다.");
         }
 
-        contentConfirmRequests.forEach(purchaseContentConfirmRequest -> {
-            PurchaseContent purchaseContent = purchaseContentRepository.findById(purchaseContentConfirmRequest.getPurchaseContentId())
-                    .orElseThrow(() -> new NotFoundException("매입 항목", purchaseContentConfirmRequest.getPurchaseContentId()));
+        contentConfirmRequests.forEach(contentConfirmRequest -> {
+            PurchaseContent purchaseContent = purchaseContentRepository.findById(contentConfirmRequest.getPurchaseContentId())
+                    .orElseThrow(() -> new NotFoundException("매입 항목", contentConfirmRequest.getPurchaseContentId()));
             if (!purchaseContent.getPurchase().getId().equals(purchaseId)) {
                 throw new BadRequestException("purchase_id 에 포함되지 않는 purchase_content_id 입니다.");
             }
             TireDot tireDot = purchaseContent.getTireDot();
 
             // validate: 개수의 합이 같아야 한다.
-            if (!tireDot.isValidPurchaseQuantity(purchaseContentConfirmRequest.getStockRequests(), purchaseContent.getQuantity())) {
+            if (!tireDot.isValidPurchaseQuantity(contentConfirmRequest.getStockRequests(), purchaseContent.getQuantity())) {
                 throw new BadRequestException("재고의 총 합이 일치하지 않습니다.");
             }
 
             // modify stock
-            tireDot.modifyStocks(purchaseContentConfirmRequest.getStockRequests()
+            tireDot.modifyStocks(contentConfirmRequest.getStockRequests()
                     .stream()
                     .map(stockRequest -> {
                         Warehouse warehouse = warehouseRepository.findById(stockRequest.getWarehouseId())

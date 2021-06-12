@@ -4,13 +4,17 @@ import com.minsoo.co.tireerpserver.sale.code.SaleSource;
 import com.minsoo.co.tireerpserver.sale.code.SaleStatus;
 import com.minsoo.co.tireerpserver.sale.entity.Sale;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class SaleResponse {
 
     @Schema(name = "sale_id", description = "sale_id", example = "2991")
@@ -37,14 +41,16 @@ public class SaleResponse {
     @Schema(name = "delivery_id", description = "delivery_id", example = "2991")
     private Long deliveryId;
 
-    public SaleResponse(Sale sale) {
-        this.saleId = sale.getId();
-        this.customerId = sale.getCustomer().getId();
-        this.transactionDate = sale.getTransactionDate();
-        this.confirmedDate = sale.getConfirmedDate();
-        this.desiredDeliveryDate = sale.getDesiredDeliveryDate();
-        this.source = sale.getSource();
-        this.status = sale.getStatus();
-        this.deliveryId = sale.getDelivery().getId();
+    public static SaleResponse of(Sale sale) {
+        return SaleResponse.builder()
+                .saleId(sale.getId())
+                .customerId(sale.getCustomer().getId())
+                .transactionDate(sale.getTransactionDate())
+                .confirmedDate(sale.getConfirmedDate())
+                .desiredDeliveryDate(sale.getDesiredDeliveryDate())
+                .source(sale.getSource())
+                .status(sale.getStatus())
+                .deliveryId(sale.getDelivery().getId())
+                .build();
     }
 }
