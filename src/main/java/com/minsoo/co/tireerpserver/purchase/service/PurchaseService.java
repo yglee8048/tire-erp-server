@@ -50,7 +50,8 @@ public class PurchaseService {
 
     @Transactional
     public Purchase create(PurchaseRequest purchaseRequest) {
-        Vendor vendor = vendorRepository.findById(purchaseRequest.getVendorId()).orElseThrow(() -> new NotFoundException("매입처", purchaseRequest.getVendorId()));
+        Vendor vendor = vendorRepository.findById(purchaseRequest.getVendorId())
+                .orElseThrow(() -> new NotFoundException("매입처", purchaseRequest.getVendorId()));
 
         return purchaseRepository.save(Purchase.of(vendor, purchaseRequest.getTransactionDate(), makeContentMap(purchaseRequest)));
     }
@@ -58,7 +59,8 @@ public class PurchaseService {
     @Transactional
     public Purchase update(Long purchaseId, PurchaseRequest purchaseRequest) {
         Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> new NotFoundException("매입", purchaseId));
-        Vendor vendor = vendorRepository.findById(purchaseRequest.getVendorId()).orElseThrow(() -> new NotFoundException("매입처", purchaseRequest.getVendorId()));
+        Vendor vendor = vendorRepository.findById(purchaseRequest.getVendorId())
+                .orElseThrow(() -> new NotFoundException("매입처", purchaseRequest.getVendorId()));
         // validation: 이미 확정된 매입 건은 수정할 수 없다.
         if (purchase.getStatus().equals(PurchaseStatus.CONFIRMED)) {
             throw new AlreadyConfirmedException();

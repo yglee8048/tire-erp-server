@@ -73,6 +73,17 @@ public class SaleApi {
         return ApiResponse.OK;
     }
 
+    @PostMapping(value = "/sales/{saleId}/confirm")
+    @Operation(summary = "매출 확정")
+    public ApiResponse<Void> confirmSale(@PathVariable Long saleId) {
+        return null;
+    }
+
+    @DeleteMapping(value = "/sales/{saleId}")
+    public ApiResponse<Void> deleteSaleById(@PathVariable Long saleId) {
+        return null;
+    }
+
     // SALE-CONTENT
     @GetMapping(value = "/sales/{saleId}/sale-contents")
     @Operation(summary = "매출 항목 목록 조회")

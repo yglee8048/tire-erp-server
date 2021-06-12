@@ -1,6 +1,8 @@
 package com.minsoo.co.tireerpserver.sale.service;
 
+import com.minsoo.co.tireerpserver.sale.model.content.SaleContentConfirmRequest;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyConfirmedException;
+import com.minsoo.co.tireerpserver.shared.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.sale.model.SaleRequest;
 import com.minsoo.co.tireerpserver.sale.model.content.SaleContentRequest;
@@ -70,5 +72,19 @@ public class SaleService {
                 .collect(Collectors.groupingBy(
                         contentRequest -> tireDotRepository.findById(contentRequest.getTireDotId())
                                 .orElseThrow(() -> new NotFoundException("타이어 DOT", contentRequest.getTireDotId()))));
+    }
+
+    @Transactional
+    public Sale confirm(Long saleId, List<SaleContentConfirmRequest> contentConfirmRequests) {
+        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> new NotFoundException("매출", saleId));
+        if (sale.getContents().size() != contentConfirmRequests.size()) {
+            throw new BadRequestException("매출 항목이 모두 확정되어야 합니다.");
+        }
+
+        contentConfirmRequests.forEach(contentConfirmRequest -> {
+
+        });
+
+        return sale.updateStatus(SaleStatus.CONFIRMED);
     }
 }

@@ -32,6 +32,15 @@ public class PurchaseApi {
     private final PurchaseService purchaseService;
     private final PurchaseContentService purchaseContentService;
 
+    // PURCHASE-GRID
+    @GetMapping(value = "/purchase-content-grid")
+    @Operation(summary = "매입 내역 목록 조회 화면", description = "매출 내역 목록을 보여줄 때 사용한다.(Aggregation)")
+    public ApiResponse<List<PurchaseContentGridResponse>> findPurchaseContents(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
+                                                                               @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
+        return ApiResponse.OK(purchaseContentService.findAllByTransactionDate(from, to));
+    }
+
+    // PURCHASE
     @GetMapping(value = "/purchases")
     @Operation(summary = "매입 내역 목록 조회", description = "매입 내역의 목록을 조회한다.")
     public ApiResponse<List<PurchaseResponse>> findAllPurchases(@RequestParam(required = false) LocalDate from,
@@ -55,7 +64,7 @@ public class PurchaseApi {
     @PutMapping("/purchases/{purchaseId}")
     @Operation(summary = "매입 수정", description = "매입 내용을 수정한다. (확정된 매입은 수정이 불가능하다.)")
     public ApiResponse<Void> updatePurchase(@PathVariable Long purchaseId,
-                                              @RequestBody @Valid PurchaseRequest updateRequest) {
+                                            @RequestBody @Valid PurchaseRequest updateRequest) {
         purchaseService.update(purchaseId, updateRequest);
         return ApiResponse.OK;
     }
@@ -63,7 +72,7 @@ public class PurchaseApi {
     @PostMapping(value = "/purchases/{purchaseId}/confirm")
     @Operation(summary = "매입 확정", description = "매입을 확정한다. 매입을 확정한 시점에 매입 내용이 재고에 반영된다.")
     public ApiResponse<Void> confirmPurchaseById(@PathVariable Long purchaseId,
-                                                   @RequestBody @Valid List<PurchaseContentConfirmRequest> confirmRequests) {
+                                                 @RequestBody @Valid List<PurchaseContentConfirmRequest> confirmRequests) {
         purchaseService.confirm(purchaseId, confirmRequests);
         return ApiResponse.OK;
     }
@@ -83,13 +92,5 @@ public class PurchaseApi {
                 .stream()
                 .map(PurchaseContentSimpleResponse::of)
                 .collect(Collectors.toList()));
-    }
-
-    // PURCHASE-GRID
-    @GetMapping(value = "/purchase-content-grid")
-    @Operation(summary = "매입 내역 목록 조회 화면", description = "매출 내역 목록을 보여줄 때 사용한다.(Aggregation)")
-    public ApiResponse<List<PurchaseContentGridResponse>> findPurchaseContents(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
-                                                                               @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
-        return ApiResponse.OK(purchaseContentService.findAllByTransactionDate(from, to));
     }
 }
