@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content;
+package com.minsoo.co.tireerpserver.purchase.model.content;
 
 import com.minsoo.co.tireerpserver.tire.model.dot.TireDotResponse;
 import com.minsoo.co.tireerpserver.purchase.entity.PurchaseContent;

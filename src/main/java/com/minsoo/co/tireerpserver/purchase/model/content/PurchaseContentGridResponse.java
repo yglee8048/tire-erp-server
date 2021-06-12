@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content;
+package com.minsoo.co.tireerpserver.purchase.model.content;
 
 import com.minsoo.co.tireerpserver.purchase.code.PurchaseStatus;
 import io.swagger.v3.oas.annotations.media.Schema;

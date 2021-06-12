@@ -1,8 +1,8 @@
 package com.minsoo.co.tireerpserver.purchase.entity;
 
 import com.minsoo.co.tireerpserver.purchase.code.PurchaseStatus;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.management.entity.Vendor;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

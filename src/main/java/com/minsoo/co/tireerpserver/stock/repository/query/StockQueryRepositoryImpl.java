@@ -16,11 +16,11 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-import static com.minsoo.co.tireerpserver.services.management.entity.QBrand.*;
-import static com.minsoo.co.tireerpserver.services.management.entity.QPattern.*;
-import static com.minsoo.co.tireerpserver.services.stock.entity.QStock.stock;
-import static com.minsoo.co.tireerpserver.services.tire.entity.QTire.tire;
-import static com.minsoo.co.tireerpserver.services.tire.entity.QTireDot.tireDot;
+import static com.minsoo.co.tireerpserver.management.entity.QBrand.brand;
+import static com.minsoo.co.tireerpserver.management.entity.QPattern.pattern;
+import static com.minsoo.co.tireerpserver.stock.entity.QStock.stock;
+import static com.minsoo.co.tireerpserver.tire.entity.QTire.tire;
+import static com.minsoo.co.tireerpserver.tire.entity.QTireDot.tireDot;
 
 @Repository
 @RequiredArgsConstructor

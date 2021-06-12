@@ -10,13 +10,13 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.minsoo.co.tireerpserver.services.account.entity.QCustomer.customer;
-import static com.minsoo.co.tireerpserver.services.management.entity.QBrand.brand;
-import static com.minsoo.co.tireerpserver.services.management.entity.QPattern.pattern;
-import static com.minsoo.co.tireerpserver.services.sale.entity.QSale.sale;
-import static com.minsoo.co.tireerpserver.services.sale.entity.QSaleContent.saleContent;
-import static com.minsoo.co.tireerpserver.services.tire.entity.QTire.tire;
-import static com.minsoo.co.tireerpserver.services.tire.entity.QTireDot.tireDot;
+import static com.minsoo.co.tireerpserver.account.entity.QCustomer.customer;
+import static com.minsoo.co.tireerpserver.management.entity.QBrand.brand;
+import static com.minsoo.co.tireerpserver.management.entity.QPattern.pattern;
+import static com.minsoo.co.tireerpserver.sale.entity.QSale.sale;
+import static com.minsoo.co.tireerpserver.sale.entity.QSaleContent.saleContent;
+import static com.minsoo.co.tireerpserver.tire.entity.QTire.tire;
+import static com.minsoo.co.tireerpserver.tire.entity.QTireDot.tireDot;
 
 @Repository
 @RequiredArgsConstructor

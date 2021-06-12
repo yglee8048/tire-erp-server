@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.purchase.repository.query;
 
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentGridResponse;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentGridResponse;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -10,13 +10,13 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.minsoo.co.tireerpserver.services.management.entity.QBrand.brand;
-import static com.minsoo.co.tireerpserver.services.management.entity.QPattern.pattern;
-import static com.minsoo.co.tireerpserver.services.management.entity.QVendor.vendor;
-import static com.minsoo.co.tireerpserver.services.purchase.entity.QPurchase.purchase;
-import static com.minsoo.co.tireerpserver.services.purchase.entity.QPurchaseContent.purchaseContent;
-import static com.minsoo.co.tireerpserver.services.tire.entity.QTire.tire;
-import static com.minsoo.co.tireerpserver.services.tire.entity.QTireDot.tireDot;
+import static com.minsoo.co.tireerpserver.management.entity.QBrand.brand;
+import static com.minsoo.co.tireerpserver.management.entity.QPattern.pattern;
+import static com.minsoo.co.tireerpserver.management.entity.QVendor.vendor;
+import static com.minsoo.co.tireerpserver.purchase.entity.QPurchase.purchase;
+import static com.minsoo.co.tireerpserver.purchase.entity.QPurchaseContent.purchaseContent;
+import static com.minsoo.co.tireerpserver.tire.entity.QTire.tire;
+import static com.minsoo.co.tireerpserver.tire.entity.QTireDot.tireDot;
 
 @Repository
 @RequiredArgsConstructor

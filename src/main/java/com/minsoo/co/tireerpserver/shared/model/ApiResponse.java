@@ -91,7 +91,7 @@ public class ApiResponse<T> {
                 .body(new ApiResponse<>(status, error, message, detail));
     }
 
-    public static ResponseEntity<ApiResponse<Void>> validError(HttpStatus status, String error, String message, String detail) {
+    public static ResponseEntity<Object> validError(HttpStatus status, String error, String message, String detail) {
         return ResponseEntity
                 .status(status)
                 .body(new ApiResponse<>(status, error, message, detail));

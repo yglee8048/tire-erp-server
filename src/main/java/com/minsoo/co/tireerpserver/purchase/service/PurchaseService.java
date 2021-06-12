@@ -1,13 +1,13 @@
 package com.minsoo.co.tireerpserver.purchase.service;
 
+import com.minsoo.co.tireerpserver.purchase.model.PurchaseRequest;
+import com.minsoo.co.tireerpserver.purchase.model.PurchaseResponse;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentConfirmRequest;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyConfirmedException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseResponse;
 import com.minsoo.co.tireerpserver.purchase.code.PurchaseStatus;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentConfirmRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.stock.model.ModifyStock;
 import com.minsoo.co.tireerpserver.management.entity.Vendor;
 import com.minsoo.co.tireerpserver.management.entity.Warehouse;

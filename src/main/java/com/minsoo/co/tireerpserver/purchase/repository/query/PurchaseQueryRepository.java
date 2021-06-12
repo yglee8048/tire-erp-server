@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.purchase.repository.query;
 
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseResponse;
+
+import com.minsoo.co.tireerpserver.purchase.model.PurchaseResponse;
 
 import java.time.LocalDate;
 import java.util.List;

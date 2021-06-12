@@ -1,9 +1,9 @@
-package com.minsoo.co.tireerpserver.api.v1.model.dto.purchase;
+package com.minsoo.co.tireerpserver.purchase.model;
 
 import com.minsoo.co.tireerpserver.purchase.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.management.model.vendor.VendorResponse;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentSimpleResponse;
 import com.minsoo.co.tireerpserver.purchase.entity.Purchase;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentSimpleResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.api.v1.model.dto.purchase;
+package com.minsoo.co.tireerpserver.purchase.model;
 
 import com.minsoo.co.tireerpserver.management.model.vendor.VendorResponse;
 import com.minsoo.co.tireerpserver.purchase.code.PurchaseStatus;

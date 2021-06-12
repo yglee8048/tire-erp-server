@@ -1,10 +1,10 @@
 package com.minsoo.co.tireerpserver.purchase.api;
 
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseResponse;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentConfirmRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentGridResponse;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentSimpleResponse;
+import com.minsoo.co.tireerpserver.purchase.model.PurchaseRequest;
+import com.minsoo.co.tireerpserver.purchase.model.PurchaseResponse;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentConfirmRequest;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentGridResponse;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentSimpleResponse;
 import com.minsoo.co.tireerpserver.shared.model.ApiResponse;
 import com.minsoo.co.tireerpserver.purchase.service.PurchaseContentService;
 import com.minsoo.co.tireerpserver.purchase.service.PurchaseService;

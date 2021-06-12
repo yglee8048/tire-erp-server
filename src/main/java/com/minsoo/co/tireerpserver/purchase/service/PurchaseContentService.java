@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.purchase.service;
 
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentGridResponse;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentGridResponse;
 import com.minsoo.co.tireerpserver.purchase.entity.Purchase;
 import com.minsoo.co.tireerpserver.purchase.entity.PurchaseContent;
 import com.minsoo.co.tireerpserver.purchase.repository.PurchaseContentRepository;

@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content;
+package com.minsoo.co.tireerpserver.purchase.model.content;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
