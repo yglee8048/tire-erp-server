@@ -1,16 +1,16 @@
 package com.minsoo.co.tireerpserver.service.stock;
 
-import com.minsoo.co.tireerpserver.api.error.exceptions.BadRequestException;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.stock.StockRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.stock.TireStockResponse;
-import com.minsoo.co.tireerpserver.services.management.entity.Brand;
-import com.minsoo.co.tireerpserver.services.management.entity.Pattern;
-import com.minsoo.co.tireerpserver.services.management.entity.Vendor;
-import com.minsoo.co.tireerpserver.services.management.entity.Warehouse;
-import com.minsoo.co.tireerpserver.services.purchase.entity.Purchase;
-import com.minsoo.co.tireerpserver.services.purchase.entity.PurchaseContent;
-import com.minsoo.co.tireerpserver.services.tire.entity.Tire;
-import com.minsoo.co.tireerpserver.services.tire.entity.TireDot;
+import com.minsoo.co.tireerpserver.shared.error.exceptions.BadRequestException;
+import com.minsoo.co.tireerpserver.stock.model.StockRequest;
+import com.minsoo.co.tireerpserver.stock.model.TireStockResponse;
+import com.minsoo.co.tireerpserver.management.entity.Brand;
+import com.minsoo.co.tireerpserver.management.entity.Pattern;
+import com.minsoo.co.tireerpserver.management.entity.Vendor;
+import com.minsoo.co.tireerpserver.management.entity.Warehouse;
+import com.minsoo.co.tireerpserver.purchase.entity.Purchase;
+import com.minsoo.co.tireerpserver.purchase.entity.PurchaseContent;
+import com.minsoo.co.tireerpserver.tire.entity.Tire;
+import com.minsoo.co.tireerpserver.tire.entity.TireDot;
 import com.minsoo.co.tireerpserver.service.ServiceTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

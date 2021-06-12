@@ -1,15 +1,15 @@
 package com.minsoo.co.tireerpserver.service;
 
-import com.minsoo.co.tireerpserver.services.management.service.BrandService;
-import com.minsoo.co.tireerpserver.services.management.service.PatternService;
-import com.minsoo.co.tireerpserver.services.management.service.VendorService;
-import com.minsoo.co.tireerpserver.services.management.service.WarehouseService;
-import com.minsoo.co.tireerpserver.services.purchase.service.PurchaseContentService;
-import com.minsoo.co.tireerpserver.services.purchase.service.PurchaseService;
-import com.minsoo.co.tireerpserver.services.stock.service.StockService;
-import com.minsoo.co.tireerpserver.services.tire.service.TireDotService;
-import com.minsoo.co.tireerpserver.services.tire.service.TireMemoService;
-import com.minsoo.co.tireerpserver.services.tire.service.TireService;
+import com.minsoo.co.tireerpserver.management.service.BrandService;
+import com.minsoo.co.tireerpserver.management.service.PatternService;
+import com.minsoo.co.tireerpserver.management.service.VendorService;
+import com.minsoo.co.tireerpserver.management.service.WarehouseService;
+import com.minsoo.co.tireerpserver.purchase.service.PurchaseContentService;
+import com.minsoo.co.tireerpserver.purchase.service.PurchaseService;
+import com.minsoo.co.tireerpserver.stock.service.StockService;
+import com.minsoo.co.tireerpserver.tire.service.TireDotService;
+import com.minsoo.co.tireerpserver.tire.service.TireMemoService;
+import com.minsoo.co.tireerpserver.tire.service.TireService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

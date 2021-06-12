@@ -1,22 +1,22 @@
 package com.minsoo.co.tireerpserver.utils;
 
-import com.minsoo.co.tireerpserver.api.v1.model.dto.account.account.AccountRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.account.customer.CustomerRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.general.AddressDTO;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.general.BusinessInfoDTO;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.management.brand.BrandRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.management.vendor.VendorRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.management.warehouse.WarehouseRequest;
+import com.minsoo.co.tireerpserver.account.model.account.AccountRequest;
+import com.minsoo.co.tireerpserver.account.model.customer.CustomerRequest;
+import com.minsoo.co.tireerpserver.shared.model.AddressDTO;
+import com.minsoo.co.tireerpserver.shared.model.BusinessInfoDTO;
+import com.minsoo.co.tireerpserver.management.model.brand.BrandRequest;
+import com.minsoo.co.tireerpserver.management.model.vendor.VendorRequest;
+import com.minsoo.co.tireerpserver.management.model.warehouse.WarehouseRequest;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseRequest;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentConfirmRequest;
 import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.sale.SaleRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.sale.content.SaleContentRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.management.pattern.PatternRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.stock.StockRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.tire.dot.TireDotRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.tire.TireRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.tire.memo.TireMemoRequest;
+import com.minsoo.co.tireerpserver.sale.model.SaleRequest;
+import com.minsoo.co.tireerpserver.sale.model.content.SaleContentRequest;
+import com.minsoo.co.tireerpserver.management.model.pattern.PatternRequest;
+import com.minsoo.co.tireerpserver.stock.model.StockRequest;
+import com.minsoo.co.tireerpserver.tire.model.dot.TireDotRequest;
+import com.minsoo.co.tireerpserver.tire.model.TireRequest;
+import com.minsoo.co.tireerpserver.tire.model.memo.TireMemoRequest;
 
 import java.time.LocalDate;
 import java.util.Arrays;

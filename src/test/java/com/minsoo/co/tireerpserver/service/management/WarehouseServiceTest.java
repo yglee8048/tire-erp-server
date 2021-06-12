@@ -1,9 +1,9 @@
 package com.minsoo.co.tireerpserver.service.management;
 
-import com.minsoo.co.tireerpserver.api.error.exceptions.AlreadyExistException;
-import com.minsoo.co.tireerpserver.api.error.exceptions.NotFoundException;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.management.warehouse.WarehouseRequest;
-import com.minsoo.co.tireerpserver.services.management.entity.Warehouse;
+import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyExistException;
+import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
+import com.minsoo.co.tireerpserver.management.model.warehouse.WarehouseRequest;
+import com.minsoo.co.tireerpserver.management.entity.Warehouse;
 import com.minsoo.co.tireerpserver.service.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
