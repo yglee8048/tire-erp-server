@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleContentConfirmRequest {
+public class SaleContentStockRequest {
 
-    private Long saleContentId;
+    private Long stockId;
 
-    private List<SaleContentStockRequest> stockRequests;
+    private Long quantity;
 }

@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.sale.api;
 
+import com.minsoo.co.tireerpserver.sale.model.content.SaleContentConfirmRequest;
 import com.minsoo.co.tireerpserver.sale.model.content.SaleContentResponse;
 import com.minsoo.co.tireerpserver.sale.model.memo.SaleMemoRequest;
 import com.minsoo.co.tireerpserver.sale.model.memo.SaleMemoResponse;
@@ -75,13 +76,17 @@ public class SaleApi {
 
     @PostMapping(value = "/sales/{saleId}/confirm")
     @Operation(summary = "매출 확정")
-    public ApiResponse<Void> confirmSale(@PathVariable Long saleId) {
-        return null;
+    public ApiResponse<Void> confirmSale(@PathVariable Long saleId,
+                                         @RequestBody @Valid List<SaleContentConfirmRequest> saleContentConfirmRequests) {
+        saleService.confirm(saleId, saleContentConfirmRequests);
+        return ApiResponse.OK;
     }
 
-    @DeleteMapping(value = "/sales/{saleId}")
+    @PostMapping(value = "/sales/{saleId}/cancel")
+    @Operation(summary = "매출 취소")
     public ApiResponse<Void> deleteSaleById(@PathVariable Long saleId) {
-        return null;
+        saleService.cancelById(saleId);
+        return ApiResponse.OK;
     }
 
     // SALE-CONTENT

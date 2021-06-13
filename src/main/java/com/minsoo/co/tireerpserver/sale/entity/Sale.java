@@ -5,6 +5,8 @@ import com.minsoo.co.tireerpserver.sale.model.content.SaleContentRequest;
 import com.minsoo.co.tireerpserver.sale.code.SaleSource;
 import com.minsoo.co.tireerpserver.sale.code.SaleStatus;
 import com.minsoo.co.tireerpserver.account.entity.Customer;
+import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyConfirmedException;
+import com.minsoo.co.tireerpserver.shared.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -121,9 +123,17 @@ public class Sale {
         });
     }
 
-    public Sale updateStatus(SaleStatus status) {
-        this.status = status;
+    public Sale confirmStatus() {
+        this.status = SaleStatus.CONFIRMED;
 
+        return this;
+    }
+
+    public Sale cancel() {
+        if (!this.status.equals(SaleStatus.REQUESTED)) {
+            throw new AlreadyConfirmedException("이미 확정된 매출입니다.");
+        }
+        this.status = SaleStatus.CANCELED;
         return this;
     }
 
