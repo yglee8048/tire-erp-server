@@ -38,6 +38,10 @@ public class Sale {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
+    @OneToOne(fetch = LAZY, cascade = ALL, orphanRemoval = true)
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
+
     @Enumerated(STRING)
     @Column(name = "source", nullable = false)
     private SaleSource source;
@@ -45,10 +49,6 @@ public class Sale {
     @Enumerated(STRING)
     @Column(name = "status", nullable = false)
     private SaleStatus status;
-
-    @OneToOne(fetch = LAZY, cascade = ALL, orphanRemoval = true)
-    @JoinColumn(name = "delivery_id")
-    private Delivery delivery;
 
     @Column(name = "transaction_date", nullable = false)
     private LocalDate transactionDate;
