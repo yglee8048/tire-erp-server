@@ -2,14 +2,14 @@ package com.minsoo.co.tireerpserver.utils;
 
 import com.minsoo.co.tireerpserver.account.model.account.AccountRequest;
 import com.minsoo.co.tireerpserver.account.model.customer.CustomerRequest;
+import com.minsoo.co.tireerpserver.purchase.model.PurchaseRequest;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentConfirmRequest;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.shared.model.AddressDTO;
 import com.minsoo.co.tireerpserver.shared.model.BusinessInfoDTO;
 import com.minsoo.co.tireerpserver.management.model.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.management.model.vendor.VendorRequest;
 import com.minsoo.co.tireerpserver.management.model.warehouse.WarehouseRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.PurchaseRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentConfirmRequest;
-import com.minsoo.co.tireerpserver.api.v1.model.dto.purchase.content.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.sale.model.SaleRequest;
 import com.minsoo.co.tireerpserver.sale.model.content.SaleContentRequest;
 import com.minsoo.co.tireerpserver.management.model.pattern.PatternRequest;
