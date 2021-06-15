@@ -11,11 +11,15 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class AccountRequest {
 
-    @Schema(description = "계정 아이디", example = "user123", required = true)
+    @Schema(name = "user_id", description = "계정 아이디", example = "user123")
     @NotEmpty(message = "계정 아이디는 필수 값입니다.")
     private String userId;
 
-    @Schema(description = "계정 비밀번호", example = "password1234*", required = true)
+    @Schema(name = "user_pw", description = "계정 비밀번호", example = "password1234*")
     @NotEmpty(message = "계정 비밀번호는 필수 값입니다.")
     private String userPw;
+
+    @Schema(name = "nickname", description = "별명", example = "금호1")
+    @NotEmpty(message = "별명은 필수 값입니다.")
+    private String nickname;
 }

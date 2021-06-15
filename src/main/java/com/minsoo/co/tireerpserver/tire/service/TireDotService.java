@@ -26,16 +26,16 @@ public class TireDotService {
 
     public List<TireDot> findAllByTireId(Long tireId) {
         return tireDotRepository.findAllByTire(
-                tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId)));
+                tireRepository.findById(tireId).orElseThrow(() -> NotFoundException.of("타이어")));
     }
 
     public TireDot findById(Long tireDotId) {
-        return tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
+        return tireDotRepository.findById(tireDotId).orElseThrow(() -> NotFoundException.of("타이어 DOT"));
     }
 
     @Transactional
     public TireDot create(Long tireId, TireDotRequest tireDotRequest) {
-        Tire tire = tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId));
+        Tire tire = tireRepository.findById(tireId).orElseThrow(() -> NotFoundException.of("타이어"));
         if (tireDotRepository.existsByTireAndDot(tire, tireDotRequest.getDot())) {
             throw new AlreadyExistException("이미 존재하는 DOT 입니다.");
         }
@@ -45,8 +45,8 @@ public class TireDotService {
 
     @Transactional
     public TireDot update(Long tireId, Long tireDotId, TireDotRequest tireDotRequest) {
-        Tire tire = tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId));
-        TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
+        Tire tire = tireRepository.findById(tireId).orElseThrow(() -> NotFoundException.of("타이어"));
+        TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> NotFoundException.of("타이어 DOT"));
         if (!tireDot.getTire().getId().equals(tire.getId())) {
             throw new BadRequestException("tire_id 가 일치하지 않습니다.");
         }

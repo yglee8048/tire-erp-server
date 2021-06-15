@@ -23,26 +23,26 @@ public class SaleMemoService {
     private final SaleMemoRepository saleMemoRepository;
 
     public List<SaleMemo> findAllBySaleId(Long saleId) {
-        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> new NotFoundException("매출", saleId));
+        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> NotFoundException.of("매출"));
         return saleMemoRepository.findAllBySale(sale);
     }
 
     public SaleMemo findById(Long saleMemoId) {
-        return saleMemoRepository.findById(saleMemoId).orElseThrow(() -> new NotFoundException("매출 메모", saleMemoId));
+        return saleMemoRepository.findById(saleMemoId).orElseThrow(() -> NotFoundException.of("매출 메모"));
     }
 
     public SaleMemo create(Long saleId, SaleMemoRequest saleMemoRequest) {
-        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> new NotFoundException("매출", saleId));
+        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> NotFoundException.of("매출"));
         return saleMemoRepository.save(SaleMemo.of(sale, saleMemoRequest));
     }
 
     public SaleMemo update(Long saleMemoId, SaleMemoRequest saleMemoRequest) {
-        SaleMemo saleMemo = saleMemoRepository.findById(saleMemoId).orElseThrow(() -> new NotFoundException("매출 메모", saleMemoId));
+        SaleMemo saleMemo = saleMemoRepository.findById(saleMemoId).orElseThrow(() -> NotFoundException.of("매출 메모"));
         return saleMemo.update(saleMemoRequest);
     }
 
     public void removeById(Long saleMemoId) {
-        SaleMemo saleMemo = saleMemoRepository.findById(saleMemoId).orElseThrow(() -> new NotFoundException("매출 메모", saleMemoId));
+        SaleMemo saleMemo = saleMemoRepository.findById(saleMemoId).orElseThrow(() -> NotFoundException.of("매출 메모"));
         saleMemoRepository.delete(saleMemo);
     }
 }

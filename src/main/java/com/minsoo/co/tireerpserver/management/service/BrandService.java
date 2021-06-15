@@ -25,7 +25,7 @@ public class BrandService {
     }
 
     public Brand findById(Long id) {
-        return brandRepository.findById(id).orElseThrow(() -> new NotFoundException("제조사", id));
+        return brandRepository.findById(id).orElseThrow(() -> NotFoundException.of("제조사"));
     }
 
     @Transactional
@@ -39,7 +39,7 @@ public class BrandService {
 
     @Transactional
     public Brand update(Long id, BrandRequest updateRequest) {
-        Brand brand = brandRepository.findById(id).orElseThrow(() -> new NotFoundException("제조사", id));
+        Brand brand = brandRepository.findById(id).orElseThrow(() -> NotFoundException.of("제조사"));
         // 이름을 바꾸는 경우 이미 존재하는 이름으로 바꿀 수는 없다.
         if (!brand.getName().equals(updateRequest.getName()) && brandRepository.existsByName(updateRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 제조사 이름입니다.");

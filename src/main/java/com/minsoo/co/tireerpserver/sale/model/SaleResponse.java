@@ -44,7 +44,7 @@ public class SaleResponse {
     public static SaleResponse of(Sale sale) {
         return SaleResponse.builder()
                 .saleId(sale.getId())
-                .customerId(sale.getCustomer().getId())
+                .customerId(sale.getClient().getId())
                 .transactionDate(sale.getTransactionDate())
                 .confirmedDate(sale.getConfirmedDate())
                 .desiredDeliveryDate(sale.getDesiredDeliveryDate())

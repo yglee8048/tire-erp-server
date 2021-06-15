@@ -26,11 +26,11 @@ public class PurchaseContentService {
     }
 
     public List<PurchaseContent> findAllByPurchaseId(Long purchaseId) {
-        Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> new NotFoundException("매입", purchaseId));
+        Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> NotFoundException.of("매입"));
         return purchaseContentRepository.findAllByPurchase(purchase);
     }
 
     public PurchaseContent findById(Long id) {
-        return purchaseContentRepository.findById(id).orElseThrow(() -> new NotFoundException("매입 항목", id));
+        return purchaseContentRepository.findById(id).orElseThrow(() -> NotFoundException.of("매입 항목"));
     }
 }

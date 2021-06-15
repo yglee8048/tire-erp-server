@@ -28,12 +28,12 @@ public class PatternService {
     private final TireRepository tireRepository;
 
     public List<Pattern> findAllByBrandId(Long brandId) {
-        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new NotFoundException("제조사", brandId));
+        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> NotFoundException.of("제조사"));
         return patternRepository.findAllByBrand(brand);
     }
 
     public Pattern findById(Long brandId, Long patternId) {
-        Pattern pattern = patternRepository.findById(patternId).orElseThrow(() -> new NotFoundException("패턴", patternId));
+        Pattern pattern = patternRepository.findById(patternId).orElseThrow(() -> NotFoundException.of("패턴"));
         // validation: brandId 확인
         if (!pattern.getBrand().getId().equals(brandId)) {
             log.error("Brand-id is unmatched. input: {}, found: {}", brandId, pattern.getBrand().getId());
@@ -44,7 +44,7 @@ public class PatternService {
 
     @Transactional
     public Pattern create(Long brandId, PatternRequest patternRequest) {
-        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new NotFoundException("제조사", brandId));
+        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> NotFoundException.of("제조사"));
         if (patternRepository.existsByBrandAndName(brand, patternRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 패턴 이름입니다.");
         }
@@ -54,8 +54,8 @@ public class PatternService {
 
     @Transactional
     public Pattern update(Long brandId, Long patternId, PatternRequest patternRequest) {
-        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new NotFoundException("제조사", brandId));
-        Pattern pattern = patternRepository.findById(patternId).orElseThrow(() -> new NotFoundException("패턴", patternId));
+        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> NotFoundException.of("제조사"));
+        Pattern pattern = patternRepository.findById(patternId).orElseThrow(() -> NotFoundException.of("패턴"));
         if ((!patternRequest.getName().equals(pattern.getName()) || !brandId.equals(pattern.getBrand().getId()))
                 && patternRepository.existsByBrandAndName(brand, patternRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 패턴 이름입니다.");
@@ -66,7 +66,7 @@ public class PatternService {
 
     @Transactional
     public void removeById(Long brandId, Long patternId) {
-        Pattern pattern = patternRepository.findById(patternId).orElseThrow(() -> new NotFoundException("패턴", patternId));
+        Pattern pattern = patternRepository.findById(patternId).orElseThrow(() -> NotFoundException.of("패턴"));
         // validation: brandId 확인
         if (!pattern.getBrand().getId().equals(brandId)) {
             log.error("Brand-id is unmatched. input: {}, found: {}", brandId, pattern.getBrand().getId());

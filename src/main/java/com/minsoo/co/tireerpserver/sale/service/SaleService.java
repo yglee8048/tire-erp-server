@@ -8,10 +8,10 @@ import com.minsoo.co.tireerpserver.shared.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.sale.model.SaleRequest;
 import com.minsoo.co.tireerpserver.sale.model.content.SaleContentRequest;
-import com.minsoo.co.tireerpserver.user.entity.Customer;
+import com.minsoo.co.tireerpserver.user.entity.Client;
 import com.minsoo.co.tireerpserver.sale.code.SaleStatus;
 import com.minsoo.co.tireerpserver.sale.entity.Sale;
-import com.minsoo.co.tireerpserver.user.repository.CustomerRepository;
+import com.minsoo.co.tireerpserver.user.repository.ClientRepository;
 import com.minsoo.co.tireerpserver.sale.repository.SaleContentRepository;
 import com.minsoo.co.tireerpserver.sale.repository.SaleRepository;
 import com.minsoo.co.tireerpserver.stock.entity.Stock;
@@ -35,7 +35,7 @@ public class SaleService {
 
     private final SaleRepository saleRepository;
     private final SaleContentRepository saleContentRepository;
-    private final CustomerRepository customerRepository;
+    private final ClientRepository clientRepository;
     private final StockRepository stockRepository;
     private final TireDotRepository tireDotRepository;
 
@@ -44,28 +44,28 @@ public class SaleService {
     }
 
     public Sale findById(Long id) {
-        return saleRepository.findById(id).orElseThrow(() -> new NotFoundException("매출", id));
+        return saleRepository.findById(id).orElseThrow(() -> NotFoundException.of("매출"));
     }
 
     @Transactional
     public Sale create(SaleRequest saleRequest) {
-        Customer customer = customerRepository.findById(saleRequest.getCustomerId())
-                .orElseThrow(() -> new NotFoundException("고객", saleRequest.getCustomerId()));
+        Client client = clientRepository.findById(saleRequest.getCustomerId())
+                .orElseThrow(() -> NotFoundException.of("고객"));
 
-        return saleRepository.save(Sale.of(customer, saleRequest, makeContentMap(saleRequest)));
+        return saleRepository.save(Sale.of(client, saleRequest, makeContentMap(saleRequest)));
     }
 
     @Transactional
     public Sale update(Long saleId, SaleRequest saleRequest) {
-        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> new NotFoundException("매출", saleId));
-        Customer customer = customerRepository.findById(saleRequest.getCustomerId())
-                .orElseThrow(() -> new NotFoundException("고객", saleRequest.getCustomerId()));
+        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> NotFoundException.of("매출"));
+        Client client = clientRepository.findById(saleRequest.getCustomerId())
+                .orElseThrow(() -> NotFoundException.of("고객"));
         // validation: 이미 확정된 매출 건은 수정할 수 없다.
         if (sale.getStatus().equals(SaleStatus.CONFIRMED)) {
             throw new AlreadyConfirmedException();
         }
 
-        sale.update(customer, saleRequest, makeContentMap(saleRequest));
+        sale.update(client, saleRequest, makeContentMap(saleRequest));
         return sale;
     }
 
@@ -74,19 +74,19 @@ public class SaleService {
                 .stream()
                 .collect(Collectors.groupingBy(
                         contentRequest -> tireDotRepository.findById(contentRequest.getTireDotId())
-                                .orElseThrow(() -> new NotFoundException("타이어 DOT", contentRequest.getTireDotId()))));
+                                .orElseThrow(() -> NotFoundException.of("타이어 DOT"))));
     }
 
     @Transactional
     public Sale confirm(Long saleId, List<SaleContentConfirmRequest> contentConfirmRequests) {
-        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> new NotFoundException("매출", saleId));
+        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> NotFoundException.of("매출"));
         if (sale.getContents().size() != contentConfirmRequests.size()) {
             throw new BadRequestException("매출 항목이 모두 확정되어야 합니다.");
         }
 
         contentConfirmRequests.forEach(contentConfirmRequest -> {
             SaleContent saleContent = saleContentRepository.findById(contentConfirmRequest.getSaleContentId())
-                    .orElseThrow(() -> new NotFoundException("매출 항목", contentConfirmRequest.getSaleContentId()));
+                    .orElseThrow(() -> NotFoundException.of("매출 항목"));
 
             Long sumOfStock = contentConfirmRequest.getStockRequests().stream()
                     .map(SaleContentStockRequest::getQuantity)
@@ -98,7 +98,7 @@ public class SaleService {
             contentConfirmRequest.getStockRequests().forEach(
                     saleContentStockRequest -> {
                         Stock stock = stockRepository.findById(saleContentStockRequest.getStockId())
-                                .orElseThrow(() -> new NotFoundException("재고", saleContentStockRequest.getStockId()));
+                                .orElseThrow(() -> NotFoundException.of("재고"));
                         stock.reduceQuantity(saleContentStockRequest.getQuantity());
                     });
         });
@@ -108,7 +108,7 @@ public class SaleService {
 
     @Transactional
     public Sale cancelById(Long saleId) {
-        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> new NotFoundException("매출", saleId));
+        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> NotFoundException.of("매출"));
         return sale.cancel();
     }
 }

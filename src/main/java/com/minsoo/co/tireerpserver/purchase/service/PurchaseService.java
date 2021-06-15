@@ -45,22 +45,20 @@ public class PurchaseService {
     }
 
     public Purchase findById(Long id) {
-        return purchaseRepository.findById(id).orElseThrow(() -> new NotFoundException("매입", id));
+        return purchaseRepository.findById(id).orElseThrow(() -> NotFoundException.of("매입"));
     }
 
     @Transactional
     public Purchase create(PurchaseRequest purchaseRequest) {
-        Vendor vendor = vendorRepository.findById(purchaseRequest.getVendorId())
-                .orElseThrow(() -> new NotFoundException("매입처", purchaseRequest.getVendorId()));
+        Vendor vendor = vendorRepository.findById(purchaseRequest.getVendorId()).orElseThrow(() -> NotFoundException.of("매입처"));
 
         return purchaseRepository.save(Purchase.of(vendor, purchaseRequest.getTransactionDate(), makeContentMap(purchaseRequest)));
     }
 
     @Transactional
     public Purchase update(Long purchaseId, PurchaseRequest purchaseRequest) {
-        Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> new NotFoundException("매입", purchaseId));
-        Vendor vendor = vendorRepository.findById(purchaseRequest.getVendorId())
-                .orElseThrow(() -> new NotFoundException("매입처", purchaseRequest.getVendorId()));
+        Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> NotFoundException.of("매입"));
+        Vendor vendor = vendorRepository.findById(purchaseRequest.getVendorId()).orElseThrow(() -> NotFoundException.of("매입처"));
         // validation: 이미 확정된 매입 건은 수정할 수 없다.
         if (purchase.getStatus().equals(PurchaseStatus.CONFIRMED)) {
             throw new AlreadyConfirmedException();
@@ -75,7 +73,7 @@ public class PurchaseService {
                 .stream()
                 .collect(Collectors.groupingBy(
                         contentRequest -> tireDotRepository.findById(contentRequest.getTireDotId())
-                                .orElseThrow(() -> new NotFoundException("타이어 DOT", contentRequest.getTireDotId()))));
+                                .orElseThrow(() -> NotFoundException.of("타이어 DOT"))));
     }
 
     /**
@@ -84,14 +82,14 @@ public class PurchaseService {
      */
     @Transactional
     public Purchase confirm(Long purchaseId, List<PurchaseContentConfirmRequest> contentConfirmRequests) {
-        Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> new NotFoundException("매입", purchaseId));
+        Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> NotFoundException.of("매입"));
         if (purchase.getContents().size() != contentConfirmRequests.size()) {
             throw new BadRequestException("매입 항목이 모두 확정되어야 합니다.");
         }
 
         contentConfirmRequests.forEach(contentConfirmRequest -> {
             PurchaseContent purchaseContent = purchaseContentRepository.findById(contentConfirmRequest.getPurchaseContentId())
-                    .orElseThrow(() -> new NotFoundException("매입 항목", contentConfirmRequest.getPurchaseContentId()));
+                    .orElseThrow(() -> NotFoundException.of("매입 항목"));
             if (!purchaseContent.getPurchase().getId().equals(purchaseId)) {
                 throw new BadRequestException("purchase_id 에 포함되지 않는 purchase_content_id 입니다.");
             }
@@ -107,7 +105,7 @@ public class PurchaseService {
                     .stream()
                     .map(stockRequest -> {
                         Warehouse warehouse = warehouseRepository.findById(stockRequest.getWarehouseId())
-                                .orElseThrow(() -> new NotFoundException("창고", stockRequest.getWarehouseId()));
+                                .orElseThrow(() -> NotFoundException.of("창고"));
                         return ModifyStock.of(warehouse, stockRequest);
                     })
                     .collect(Collectors.toList()));

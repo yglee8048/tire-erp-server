@@ -25,7 +25,7 @@ public class VendorService {
     }
 
     public Vendor findById(Long id) {
-        return vendorRepository.findById(id).orElseThrow(() -> new NotFoundException("매입처", id));
+        return vendorRepository.findById(id).orElseThrow(() -> NotFoundException.of("매입처"));
     }
 
     @Transactional
@@ -38,7 +38,7 @@ public class VendorService {
 
     @Transactional
     public Vendor update(Long id, VendorRequest updateRequest) {
-        Vendor vendor = vendorRepository.findById(id).orElseThrow(() -> new NotFoundException("매입처", id));
+        Vendor vendor = vendorRepository.findById(id).orElseThrow(() -> NotFoundException.of("매입처"));
         if (!vendor.getName().equals(updateRequest.getName()) && vendorRepository.existsByName(updateRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 이름입니다.");
         }

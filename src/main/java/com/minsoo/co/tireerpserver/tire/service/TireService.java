@@ -28,7 +28,7 @@ public class TireService {
     }
 
     public Tire findById(Long id) {
-        return tireRepository.findById(id).orElseThrow(() -> new NotFoundException("타이어", id));
+        return tireRepository.findById(id).orElseThrow(() -> NotFoundException.of("타이어"));
     }
 
     @Transactional
@@ -36,15 +36,15 @@ public class TireService {
         if (tireRepository.existsByTireIdentification(tireRequest.getTireIdentification())) {
             throw new AlreadyExistException("이미 존재하는 타이어 ID 입니다.");
         }
-        Pattern pattern = patternRepository.findById(tireRequest.getPatternId()).orElseThrow(() -> new NotFoundException("패턴", tireRequest.getPatternId()));
+        Pattern pattern = patternRepository.findById(tireRequest.getPatternId()).orElseThrow(() -> NotFoundException.of("패턴"));
 
         return tireRepository.save(Tire.of(tireRequest, pattern));
     }
 
     @Transactional
     public Tire update(Long tireId, TireRequest tireRequest) {
-        Tire tire = tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId));
-        Pattern pattern = patternRepository.findById(tireRequest.getPatternId()).orElseThrow(() -> new NotFoundException("패턴", tireRequest.getPatternId()));
+        Tire tire = tireRepository.findById(tireId).orElseThrow(() -> NotFoundException.of("타이어"));
+        Pattern pattern = patternRepository.findById(tireRequest.getPatternId()).orElseThrow(() -> NotFoundException.of("패턴"));
         if (!tire.getTireIdentification().equals(tireRequest.getTireIdentification()) && tireRepository.existsByTireIdentification(tireRequest.getTireIdentification())) {
             throw new AlreadyExistException("이미 존재하는 타이어 ID 입니다.");
         }

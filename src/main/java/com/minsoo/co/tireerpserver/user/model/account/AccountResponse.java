@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.user.model.account;
 
+import com.minsoo.co.tireerpserver.user.code.AccountRole;
 import com.minsoo.co.tireerpserver.user.entity.Account;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -8,18 +9,22 @@ import lombok.*;
 @NoArgsConstructor
 public class AccountResponse {
 
-    @Schema(description = "ID", example = "2937")
+    @Schema(name = "account_id")
     private Long accountId;
 
-    @Schema(description = "계정 아이디", example = "user123", required = true)
+    @Schema(name = "user_id")
     private String userId;
 
-    @Schema(description = "계정 비밀번호", example = "password1234*", required = true)
-    private String userPw;
+    @Schema(name = "role")
+    private AccountRole role;
+
+    @Schema(name = "nickname")
+    private String nickname;
 
     public AccountResponse(Account account) {
         this.accountId = account.getId();
         this.userId = account.getUsername();
-        this.userPw = account.getPassword();
+        this.role = account.getRole();
+        this.nickname = account.getNickname();
     }
 }

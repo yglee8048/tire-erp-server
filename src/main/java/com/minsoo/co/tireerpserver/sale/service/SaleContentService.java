@@ -24,12 +24,12 @@ public class SaleContentService {
     private final SaleContentRepository saleContentRepository;
 
     public List<SaleContent> findAllBySaleId(Long saleId) {
-        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> new NotFoundException("매출", saleId));
+        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> NotFoundException.of("매출"));
         return saleContentRepository.findAllBySale(sale);
     }
 
     public SaleContent findById(Long saleContentId) {
-        return saleContentRepository.findById(saleContentId).orElseThrow(() -> new NotFoundException("매출 항목", saleContentId));
+        return saleContentRepository.findById(saleContentId).orElseThrow(() -> NotFoundException.of("매출 항목"));
     }
 
     public List<SaleContentGridResponse> findAllByTransactionDate(LocalDate from, LocalDate to) {

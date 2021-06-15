@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.user.entity;
 
+import com.minsoo.co.tireerpserver.shared.entity.BusinessInfo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,4 +19,13 @@ public class ClientCompany {
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "client_company_id")
     private Long id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "description")
+    private String description;
+
+    @Embedded
+    private BusinessInfo businessInfo;
 }
