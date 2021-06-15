@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.account.model.account;
+package com.minsoo.co.tireerpserver.user.model.account;
 
 import lombok.*;
 

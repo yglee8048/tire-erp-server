@@ -1,6 +1,6 @@
-package com.minsoo.co.tireerpserver.account.model.account;
+package com.minsoo.co.tireerpserver.user.model.account;
 
-import com.minsoo.co.tireerpserver.account.entity.Account;
+import com.minsoo.co.tireerpserver.user.entity.Account;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

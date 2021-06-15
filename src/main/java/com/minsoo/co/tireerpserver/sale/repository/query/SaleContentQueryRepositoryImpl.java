@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.minsoo.co.tireerpserver.account.entity.QCustomer.customer;
+import static com.minsoo.co.tireerpserver.user.entity.QCustomer.customer;
 import static com.minsoo.co.tireerpserver.management.entity.QBrand.brand;
 import static com.minsoo.co.tireerpserver.management.entity.QPattern.pattern;
 import static com.minsoo.co.tireerpserver.sale.entity.QSale.sale;

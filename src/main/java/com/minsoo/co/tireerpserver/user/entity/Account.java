@@ -1,6 +1,6 @@
-package com.minsoo.co.tireerpserver.account.entity;
+package com.minsoo.co.tireerpserver.user.entity;
 
-import com.minsoo.co.tireerpserver.account.code.AccountRole;
+import com.minsoo.co.tireerpserver.user.code.AccountRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

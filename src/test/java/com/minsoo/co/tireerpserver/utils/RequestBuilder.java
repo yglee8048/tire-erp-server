@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.utils;
 
-import com.minsoo.co.tireerpserver.account.model.account.AccountRequest;
-import com.minsoo.co.tireerpserver.account.model.customer.CustomerRequest;
+import com.minsoo.co.tireerpserver.user.model.account.AccountRequest;
+import com.minsoo.co.tireerpserver.user.model.customer.CustomerRequest;
 import com.minsoo.co.tireerpserver.purchase.model.PurchaseRequest;
 import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentConfirmRequest;
 import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentRequest;

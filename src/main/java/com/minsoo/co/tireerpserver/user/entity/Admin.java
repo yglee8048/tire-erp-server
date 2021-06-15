@@ -1,7 +1,7 @@
-package com.minsoo.co.tireerpserver.account.entity;
+package com.minsoo.co.tireerpserver.user.entity;
 
-import com.minsoo.co.tireerpserver.account.code.AdminRole;
-import com.minsoo.co.tireerpserver.account.model.admin.AdminRequest;
+import com.minsoo.co.tireerpserver.user.code.AdminRole;
+import com.minsoo.co.tireerpserver.user.model.admin.AdminRequest;
 import lombok.*;
 
 import javax.persistence.*;

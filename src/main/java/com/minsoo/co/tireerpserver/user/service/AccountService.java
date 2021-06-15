@@ -1,9 +1,9 @@
-package com.minsoo.co.tireerpserver.account.service;
+package com.minsoo.co.tireerpserver.user.service;
 
-import com.minsoo.co.tireerpserver.account.entity.Account;
-import com.minsoo.co.tireerpserver.account.repository.AccountRepository;
+import com.minsoo.co.tireerpserver.user.entity.Account;
+import com.minsoo.co.tireerpserver.user.repository.AccountRepository;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyExistException;
-import com.minsoo.co.tireerpserver.account.model.account.AccountRequest;
+import com.minsoo.co.tireerpserver.user.model.account.AccountRequest;
 import com.minsoo.co.tireerpserver.shared.security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

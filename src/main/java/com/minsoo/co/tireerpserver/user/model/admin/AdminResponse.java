@@ -1,7 +1,7 @@
-package com.minsoo.co.tireerpserver.account.model.admin;
+package com.minsoo.co.tireerpserver.user.model.admin;
 
-import com.minsoo.co.tireerpserver.account.code.AdminRole;
-import com.minsoo.co.tireerpserver.account.entity.Admin;
+import com.minsoo.co.tireerpserver.user.code.AdminRole;
+import com.minsoo.co.tireerpserver.user.entity.Admin;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

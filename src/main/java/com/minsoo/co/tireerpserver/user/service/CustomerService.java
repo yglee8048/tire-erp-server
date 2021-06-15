@@ -1,7 +1,7 @@
-package com.minsoo.co.tireerpserver.account.service;
+package com.minsoo.co.tireerpserver.user.service;
 
-import com.minsoo.co.tireerpserver.account.entity.Customer;
-import com.minsoo.co.tireerpserver.account.repository.CustomerRepository;
+import com.minsoo.co.tireerpserver.user.entity.Customer;
+import com.minsoo.co.tireerpserver.user.repository.CustomerRepository;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

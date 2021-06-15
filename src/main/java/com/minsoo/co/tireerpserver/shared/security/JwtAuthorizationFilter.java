@@ -2,8 +2,8 @@ package com.minsoo.co.tireerpserver.shared.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.minsoo.co.tireerpserver.account.entity.Account;
-import com.minsoo.co.tireerpserver.account.repository.AccountRepository;
+import com.minsoo.co.tireerpserver.user.entity.Account;
+import com.minsoo.co.tireerpserver.user.repository.AccountRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

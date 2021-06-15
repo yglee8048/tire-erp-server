@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.shared.config;
 
-import com.minsoo.co.tireerpserver.account.repository.AccountRepository;
+import com.minsoo.co.tireerpserver.user.repository.AccountRepository;
 import com.minsoo.co.tireerpserver.shared.security.JwtAuthenticationFilter;
 import com.minsoo.co.tireerpserver.shared.security.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;

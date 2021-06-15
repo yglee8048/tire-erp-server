@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.account.entity;
+package com.minsoo.co.tireerpserver.user.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
