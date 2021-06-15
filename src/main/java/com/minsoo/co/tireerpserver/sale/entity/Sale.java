@@ -7,6 +7,7 @@ import com.minsoo.co.tireerpserver.sale.code.SaleStatus;
 import com.minsoo.co.tireerpserver.user.entity.Client;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyConfirmedException;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
+import com.minsoo.co.tireerpserver.user.entity.ClientCompany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,8 +35,8 @@ public class Sale {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Client client;
+    @JoinColumn(name = "client_company_id", nullable = false)
+    private ClientCompany clientCompany;
 
     @OneToOne(fetch = LAZY, cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "delivery_id")
@@ -65,8 +66,8 @@ public class Sale {
     private final Set<SaleMemo> memos = new HashSet<>();
 
     //== Business ==//
-    private Sale(Client client, SaleRequest saleRequest) {
-        this.client = client;
+    private Sale(ClientCompany clientCompany, SaleRequest saleRequest) {
+        this.clientCompany = clientCompany;
         this.source = SaleSource.MANUAL;
         this.status = SaleStatus.REQUESTED;
         this.delivery = null;
@@ -75,8 +76,8 @@ public class Sale {
         this.desiredDeliveryDate = saleRequest.getDesiredDeliveryDate();
     }
 
-    public static Sale of(Client client, SaleRequest saleRequest, Map<TireDot, List<SaleContentRequest>> contentMap) {
-        Sale sale = new Sale(client, saleRequest);
+    public static Sale of(ClientCompany clientCompany, SaleRequest saleRequest, Map<TireDot, List<SaleContentRequest>> contentMap) {
+        Sale sale = new Sale(clientCompany, saleRequest);
 
         contentMap.forEach((tireDot, contentRequests) -> {
             int sumOfPrice = getSumOfPrice(contentRequests);
@@ -87,8 +88,8 @@ public class Sale {
         return sale;
     }
 
-    public Sale update(Client client, SaleRequest saleRequest, Map<TireDot, List<SaleContentRequest>> contentMap) {
-        this.client = client;
+    public Sale update(ClientCompany clientCompany, SaleRequest saleRequest, Map<TireDot, List<SaleContentRequest>> contentMap) {
+        this.clientCompany = clientCompany;
         this.transactionDate = saleRequest.getTransactionDate();
         this.confirmedDate = saleRequest.getConfirmedDate();
         this.desiredDeliveryDate = saleRequest.getDesiredDeliveryDate();

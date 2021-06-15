@@ -14,9 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 public class SaleRequest {
 
-    @Schema(name = "customer_id", description = "customer_id")
-    @NotNull(message = "customer_id 는 필수 값입니다.")
-    private Long customerId;
+    @Schema(name = "client_company_id")
+    @NotNull(message = "client_company_id 는 필수 값입니다.")
+    private Long clientCompanyId;
 
     @Schema(name = "transaction_date", description = "거래 일자")
     @NotNull(message = "거래 일자는 필수 값입니다.")

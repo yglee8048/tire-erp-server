@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.user.entity;
 
 import com.minsoo.co.tireerpserver.shared.entity.BusinessInfo;
+import com.minsoo.co.tireerpserver.user.model.client.company.ClientCompanyRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,4 +29,21 @@ public class ClientCompany {
 
     @Embedded
     private BusinessInfo businessInfo;
+
+    public ClientCompany(ClientCompanyRequest clientCompanyRequest) {
+        this.name = clientCompanyRequest.getName();
+        this.description = clientCompanyRequest.getDescription();
+        this.businessInfo = BusinessInfo.of(clientCompanyRequest.getBusinessInfo());
+    }
+
+    public static ClientCompany of(ClientCompanyRequest clientCompanyRequest) {
+        return new ClientCompany(clientCompanyRequest);
+    }
+
+    public ClientCompany update(ClientCompanyRequest clientCompanyRequest) {
+        this.name = clientCompanyRequest.getName();
+        this.description = clientCompanyRequest.getDescription();
+        this.businessInfo = BusinessInfo.of(clientCompanyRequest.getBusinessInfo());
+        return this;
+    }
 }
