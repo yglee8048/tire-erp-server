@@ -4,7 +4,6 @@ import com.minsoo.co.tireerpserver.sale.model.SaleRequest;
 import com.minsoo.co.tireerpserver.sale.model.content.SaleContentRequest;
 import com.minsoo.co.tireerpserver.sale.code.SaleSource;
 import com.minsoo.co.tireerpserver.sale.code.SaleStatus;
-import com.minsoo.co.tireerpserver.user.entity.Client;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyConfirmedException;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
 import com.minsoo.co.tireerpserver.user.entity.ClientCompany;

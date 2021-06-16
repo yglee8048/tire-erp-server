@@ -20,8 +20,8 @@ public class SaleResponse {
     @Schema(name = "sale_id", description = "sale_id", example = "2991")
     private Long saleId;
 
-    @Schema(name = "customer_id", description = "customer_id")
-    private Long customerId;
+    @Schema(name = "client_company_id", description = "client_company_id")
+    private Long clientCompanyId;
 
     @Schema(name = "transaction_date", description = "거래 일자", example = "2021-02-18")
     private LocalDate transactionDate;
@@ -44,7 +44,7 @@ public class SaleResponse {
     public static SaleResponse of(Sale sale) {
         return SaleResponse.builder()
                 .saleId(sale.getId())
-                .customerId(sale.getClient().getId())
+                .clientCompanyId(sale.getClientCompany().getId())
                 .transactionDate(sale.getTransactionDate())
                 .confirmedDate(sale.getConfirmedDate())
                 .desiredDeliveryDate(sale.getDesiredDeliveryDate())

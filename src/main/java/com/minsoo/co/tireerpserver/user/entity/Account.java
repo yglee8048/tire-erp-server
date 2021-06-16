@@ -1,19 +1,20 @@
 package com.minsoo.co.tireerpserver.user.entity;
 
 import com.minsoo.co.tireerpserver.user.code.AccountRole;
-import com.minsoo.co.tireerpserver.user.model.account.AccountRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
 import static javax.persistence.EnumType.*;
 import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.InheritanceType.JOINED;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@Inheritance(strategy = JOINED)
+@DiscriminatorColumn(name = "account_type")
 @Entity
 @Table(name = "account",
         uniqueConstraints = {@UniqueConstraint(name = "account_username_unique", columnNames = {"username"})})
@@ -36,19 +37,15 @@ public class Account {
     @Column(name = "nickname")
     private String nickname;
 
-    private Account(String username, String encodedPw, String nickname) {
-        this.username = username;
-        this.password = encodedPw;
-        this.role = AccountRole.GUEST;
-        this.nickname = nickname;
-    }
+    @Column(name = "description")
+    private String description;
 
-    public static Account of(AccountRequest accountRequest, PasswordEncoder passwordEncoder) {
-        return new Account(accountRequest.getUserId(), passwordEncoder.encode(accountRequest.getUserPw()), accountRequest.getNickname());
-    }
+    @Column(name = "name")
+    private String name;
 
-    public Account updatePw(String password, PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(password);
-        return this;
-    }
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
 }

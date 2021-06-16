@@ -11,6 +11,8 @@ import com.minsoo.co.tireerpserver.sale.model.content.SaleContentRequest;
 import com.minsoo.co.tireerpserver.user.entity.Client;
 import com.minsoo.co.tireerpserver.sale.code.SaleStatus;
 import com.minsoo.co.tireerpserver.sale.entity.Sale;
+import com.minsoo.co.tireerpserver.user.entity.ClientCompany;
+import com.minsoo.co.tireerpserver.user.repository.ClientCompanyRepository;
 import com.minsoo.co.tireerpserver.user.repository.ClientRepository;
 import com.minsoo.co.tireerpserver.sale.repository.SaleContentRepository;
 import com.minsoo.co.tireerpserver.sale.repository.SaleRepository;
@@ -35,7 +37,7 @@ public class SaleService {
 
     private final SaleRepository saleRepository;
     private final SaleContentRepository saleContentRepository;
-    private final ClientRepository clientRepository;
+    private final ClientCompanyRepository clientCompanyRepository;
     private final StockRepository stockRepository;
     private final TireDotRepository tireDotRepository;
 
@@ -49,23 +51,23 @@ public class SaleService {
 
     @Transactional
     public Sale create(SaleRequest saleRequest) {
-        Client client = clientRepository.findById(saleRequest.getCustomerId())
-                .orElseThrow(() -> NotFoundException.of("고객"));
+        ClientCompany clientCompany = clientCompanyRepository.findById(saleRequest.getClientCompanyId())
+                .orElseThrow(() -> NotFoundException.of("고객사"));
 
-        return saleRepository.save(Sale.of(client, saleRequest, makeContentMap(saleRequest)));
+        return saleRepository.save(Sale.of(clientCompany, saleRequest, makeContentMap(saleRequest)));
     }
 
     @Transactional
     public Sale update(Long saleId, SaleRequest saleRequest) {
         Sale sale = saleRepository.findById(saleId).orElseThrow(() -> NotFoundException.of("매출"));
-        Client client = clientRepository.findById(saleRequest.getCustomerId())
-                .orElseThrow(() -> NotFoundException.of("고객"));
+        ClientCompany clientCompany = clientCompanyRepository.findById(saleRequest.getClientCompanyId())
+                .orElseThrow(() -> NotFoundException.of("고객사"));
         // validation: 이미 확정된 매출 건은 수정할 수 없다.
         if (sale.getStatus().equals(SaleStatus.CONFIRMED)) {
             throw new AlreadyConfirmedException();
         }
 
-        sale.update(client, saleRequest, makeContentMap(saleRequest));
+        sale.update(clientCompany, saleRequest, makeContentMap(saleRequest));
         return sale;
     }
 

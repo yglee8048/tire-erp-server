@@ -30,8 +30,8 @@ public class BusinessInfo {
     @Column(name = "fax")
     private String fax;
 
-    @Column(name = "email_address")
-    private String emailAddress;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "representative")
     private String representative;
@@ -51,7 +51,7 @@ public class BusinessInfo {
         this.businessType = businessInfoDTO.getBusinessType();
         this.address = Address.of(businessInfoDTO.getAddress());
         this.fax = businessInfoDTO.getFax();
-        this.emailAddress = businessInfoDTO.getEmailAddress();
+        this.email = businessInfoDTO.getEmail();
         this.representative = businessInfoDTO.getRepresentative();
         this.representativePhoneNumber = businessInfoDTO.getRepresentativePhoneNumber();
         this.manager = businessInfoDTO.getManager();

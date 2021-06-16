@@ -24,8 +24,8 @@ public class BusinessInfoDTO {
     @Schema(name = "fax", description = "팩스", example = "02-709-5089")
     private String fax;
 
-    @Schema(name = "email_address", description = "이메일 주소", example = "sample@pirelli.com")
-    private String emailAddress;
+    @Schema(name = "email", description = "이메일 주소", example = "sample@pirelli.com")
+    private String email;
 
     @Schema(name = "representative", description = "대표자", example = "홍길동")
     private String representative;
@@ -49,7 +49,7 @@ public class BusinessInfoDTO {
         this.businessType = businessInfo.getBusinessType();
         this.address = AddressDTO.of(businessInfo.getAddress());
         this.fax = businessInfo.getFax();
-        this.emailAddress = businessInfo.getEmailAddress();
+        this.email = businessInfo.getEmail();
         this.representative = businessInfo.getRepresentative();
         this.representativePhoneNumber = businessInfo.getRepresentativePhoneNumber();
         this.manager = businessInfo.getManager();

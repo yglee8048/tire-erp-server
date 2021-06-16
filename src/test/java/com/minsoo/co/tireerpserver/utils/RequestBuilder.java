@@ -1,6 +1,5 @@
 package com.minsoo.co.tireerpserver.utils;
 
-import com.minsoo.co.tireerpserver.user.model.account.AccountRequest;
 import com.minsoo.co.tireerpserver.purchase.model.PurchaseRequest;
 import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentConfirmRequest;
 import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentRequest;
@@ -9,8 +8,6 @@ import com.minsoo.co.tireerpserver.shared.model.BusinessInfoDTO;
 import com.minsoo.co.tireerpserver.management.model.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.management.model.vendor.VendorRequest;
 import com.minsoo.co.tireerpserver.management.model.warehouse.WarehouseRequest;
-import com.minsoo.co.tireerpserver.sale.model.SaleRequest;
-import com.minsoo.co.tireerpserver.sale.model.content.SaleContentRequest;
 import com.minsoo.co.tireerpserver.management.model.pattern.PatternRequest;
 import com.minsoo.co.tireerpserver.stock.model.StockRequest;
 import com.minsoo.co.tireerpserver.tire.model.dot.TireDotRequest;
@@ -21,13 +18,6 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 public class RequestBuilder {
-
-    public static AccountRequest ACOCUNT(String userId, String userPw) {
-        return AccountRequest.builder()
-                .userId(userId)
-                .userPw(userPw)
-                .build();
-    }
 
     public static BrandRequest BRAND(String name) {
         return BrandRequest.builder()
@@ -138,32 +128,6 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static CustomerRequest CUSTOMER(String userId) {
-        return CustomerRequest.builder()
-                .name("거래처 이름")
-                .description("설명")
-                .userId(userId)
-                .userPw("password")
-                .businessInfo(BUSINESS_INFO())
-                .build();
-    }
-
-    public static SaleRequest SALE_CREATE(Long customerId, SaleContentRequest... contents) {
-        return SaleRequest.builder()
-                .transactionDate(LocalDate.now())
-                .customerId(customerId)
-                .contents(Arrays.asList(contents))
-                .build();
-    }
-
-    public static SaleContentRequest SALE_CREATE_CONTENT(Long tireDotId, Long quantity) {
-        return SaleContentRequest.builder()
-                .tireDotId(tireDotId)
-                .price(240000)
-                .quantity(quantity)
-                .build();
-    }
-
     private static AddressDTO ADDRESS() {
         return AddressDTO.builder()
                 .city("서울시")
@@ -180,7 +144,7 @@ public class RequestBuilder {
                 .businessType("테스트 사업")
                 .address(ADDRESS())
                 .fax("02-123-4567")
-                .emailAddress("test@test.com")
+                .email("test@test.com")
                 .representative("대표자")
                 .managerPhoneNumber("010-1234-5678")
                 .manager("담당자")

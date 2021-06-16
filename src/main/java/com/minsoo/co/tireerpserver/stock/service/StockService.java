@@ -38,17 +38,17 @@ public class StockService {
     private final StockRepository stockRepository;
 
     public List<Stock> findByTireDotId(Long tireDotId) {
-        TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
+        TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> NotFoundException.of("타이어 DOT"));
         return stockRepository.findAllByTireDot(tireDot);
     }
 
     public List<Stock> findByTireId(Long tireId) {
-        Tire tire = tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId));
+        Tire tire = tireRepository.findById(tireId).orElseThrow(() -> NotFoundException.of("타이어"));
         return stockRepository.findAllByTireDot_IdIn(tireDotRepository.findAllIdsByTire(tire));
     }
 
     public Stock findById(Long stockId) {
-        return stockRepository.findById(stockId).orElseThrow(() -> new NotFoundException("재고", stockId));
+        return stockRepository.findById(stockId).orElseThrow(() -> NotFoundException.of("재고"));
     }
 
     public List<TireStockResponse> findTireStocks(String size, String brandName, String patternName, String productId) {
@@ -66,7 +66,7 @@ public class StockService {
     @Transactional
     public TireDot modifyStocks(Long tireDotId, List<StockRequest> stockRequests) {
         // validation: 재고의 합이 같아야 한다.
-        TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
+        TireDot tireDot = tireDotRepository.findById(tireDotId).orElseThrow(() -> NotFoundException.of("타이어 DOT"));
         if (!tireDot.isValidAdjustQuantity(stockRequests)) {
             throw new BadRequestException("재고의 총 합이 일치하지 않습니다.");
         }
@@ -74,7 +74,7 @@ public class StockService {
         tireDot.modifyStocks(stockRequests.stream()
                 .map(modifyStockRequest -> {
                     Warehouse warehouse = warehouseRepository.findById(modifyStockRequest.getWarehouseId())
-                            .orElseThrow(() -> new NotFoundException("창고", modifyStockRequest.getWarehouseId()));
+                            .orElseThrow(() -> NotFoundException.of("창고"));
                     return ModifyStock.of(warehouse, modifyStockRequest);
                 })
                 .collect(Collectors.toList()));
