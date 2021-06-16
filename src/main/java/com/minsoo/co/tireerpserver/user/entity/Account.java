@@ -1,6 +1,8 @@
 package com.minsoo.co.tireerpserver.user.entity;
 
 import com.minsoo.co.tireerpserver.user.code.AccountRole;
+import com.minsoo.co.tireerpserver.user.model.admin.AdminRequest;
+import com.minsoo.co.tireerpserver.user.service.AccountService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -48,4 +50,15 @@ public class Account {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    public Account(AdminRequest adminRequest, AccountService accountService) {
+        this.username = adminRequest.getUserId();
+        this.password = accountService.createPassword();
+        this.role = adminRequest.getRole();
+        this.nickname = adminRequest.getNickname();
+        this.description = adminRequest.getDescription();
+        this.name = adminRequest.getName();
+        this.email = adminRequest.getEmail();
+        this.phoneNumber = adminRequest.getPhoneNumber();
+    }
 }
