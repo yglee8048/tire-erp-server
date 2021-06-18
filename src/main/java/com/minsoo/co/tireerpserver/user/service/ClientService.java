@@ -1,8 +1,10 @@
 package com.minsoo.co.tireerpserver.user.service;
 
+import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.user.entity.Client;
 import com.minsoo.co.tireerpserver.user.entity.ClientCompany;
 import com.minsoo.co.tireerpserver.user.model.client.ClientRequest;
+import com.minsoo.co.tireerpserver.user.repository.AccountRepository;
 import com.minsoo.co.tireerpserver.user.repository.ClientCompanyRepository;
 import com.minsoo.co.tireerpserver.user.repository.ClientRepository;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
@@ -19,6 +21,7 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
     private final ClientCompanyRepository clientCompanyRepository;
+    private final AccountRepository accountRepository;
     private final AccountService accountService;
 
     public List<Client> findAllByClientCompanyId(Long clientCompanyId) {
@@ -32,12 +35,18 @@ public class ClientService {
 
     public Client create(Long clientCompanyId, ClientRequest clientRequest) {
         ClientCompany clientCompany = clientCompanyRepository.findById(clientCompanyId).orElseThrow(() -> NotFoundException.of("고객사"));
+        if (accountRepository.existsByUsername(clientRequest.getUserId())) {
+            throw new AlreadyExistException("이미 존재하는 계정 아이디입니다.");
+        }
         return clientRepository.save(Client.of(clientRequest, clientCompany, accountService));
     }
 
     public Client update(Long clientCompanyId, Long clientId, ClientRequest clientRequest) {
         Client client = clientRepository.findById(clientId).orElseThrow(() -> NotFoundException.of("고객"));
         ClientCompany clientCompany = clientCompanyRepository.findById(clientCompanyId).orElseThrow(() -> NotFoundException.of("고객사"));
+        if (!client.getUsername().equals(clientRequest.getUserId()) && accountRepository.existsByUsername(clientRequest.getUserId())) {
+            throw new AlreadyExistException("이미 존재하는 계정 아이디입니다.");
+        }
         return client.update(clientRequest, clientCompany);
     }
 

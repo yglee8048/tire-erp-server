@@ -18,15 +18,12 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class ClientRequest {
 
-    @Schema(name = "client_company_id")
-    @NotNull(message = "고객사 ID 는 필수 값입니다.")
-    private Long clientCompanyId;
-
     @Schema(name = "user_id", description = "계정 아이디")
     @NotEmpty(message = "계정 아이디는 필수 값입니다.")
     private String userId;
 
     @Schema(name = "role", description = "권한")
+    @NotNull(message = "권한은 필수 값입니다.")
     private ClientRole role;
 
     @Schema(name = "nickname", description = "닉네임")
