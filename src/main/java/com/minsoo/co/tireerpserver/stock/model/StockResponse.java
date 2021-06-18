@@ -7,7 +7,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class StockResponse {
 
     @Schema(name = "stock_id", description = "stock_id", example = "20039")

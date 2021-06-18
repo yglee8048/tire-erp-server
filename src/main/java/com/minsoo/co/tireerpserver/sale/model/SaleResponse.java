@@ -50,7 +50,7 @@ public class SaleResponse {
                 .desiredDeliveryDate(sale.getDesiredDeliveryDate())
                 .source(sale.getSource())
                 .status(sale.getStatus())
-                .deliveryId(sale.getDelivery().getId())
+                .deliveryId(sale.getDelivery() == null ? null : sale.getDelivery().getId())
                 .build();
     }
 }
