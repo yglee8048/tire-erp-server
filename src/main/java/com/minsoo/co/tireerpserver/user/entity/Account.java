@@ -25,40 +25,29 @@ public class Account {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "account_id", nullable = false)
-    private Long id;
+    protected Long id;
 
     @Column(name = "username", nullable = false)
-    private String username;
+    protected String username;
 
     @Column(name = "password", nullable = false)
-    private String password;
+    protected String password;
 
     @Enumerated(STRING)
-    private AccountRole role;
+    protected AccountRole role;
 
     @Column(name = "nickname")
-    private String nickname;
+    protected String nickname;
 
     @Column(name = "description")
-    private String description;
+    protected String description;
 
     @Column(name = "name")
-    private String name;
+    protected String name;
 
     @Column(name = "email")
-    private String email;
+    protected String email;
 
     @Column(name = "phone_number")
-    private String phoneNumber;
-
-    public Account(AdminRequest adminRequest, AccountService accountService) {
-        this.username = adminRequest.getUserId();
-        this.password = accountService.createPassword();
-        this.role = adminRequest.getRole();
-        this.nickname = adminRequest.getNickname();
-        this.description = adminRequest.getDescription();
-        this.name = adminRequest.getName();
-        this.email = adminRequest.getEmail();
-        this.phoneNumber = adminRequest.getPhoneNumber();
-    }
+    protected String phoneNumber;
 }
