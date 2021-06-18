@@ -28,6 +28,7 @@ public class ClientCompanyService {
         return clientCompanyRepository.findById(id).orElseThrow(() -> NotFoundException.of("고객사"));
     }
 
+    @Transactional
     public ClientCompany create(ClientCompanyRequest clientCompanyRequest) {
         if (clientCompanyRepository.existsByName(clientCompanyRequest.getName())) {
             throw new AlreadyExistException("이미 존재하는 고객사 이름입니다.");
@@ -35,6 +36,7 @@ public class ClientCompanyService {
         return clientCompanyRepository.save(ClientCompany.of(clientCompanyRequest));
     }
 
+    @Transactional
     public ClientCompany update(Long id, ClientCompanyRequest clientCompanyRequest) {
         ClientCompany clientCompany = clientCompanyRepository.findById(id).orElseThrow(() -> NotFoundException.of("고객사"));
         if (!clientCompany.getName().equals(clientCompanyRequest.getName()) && clientCompanyRepository.existsByName(clientCompanyRequest.getName())) {
@@ -43,6 +45,7 @@ public class ClientCompanyService {
         return clientCompany.update(clientCompanyRequest);
     }
 
+    @Transactional
     public void removeById(Long id) {
         ClientCompany clientCompany = clientCompanyRepository.findById(id).orElseThrow(() -> NotFoundException.of("고객사"));
         clientCompanyRepository.delete(clientCompany);

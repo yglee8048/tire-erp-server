@@ -3,6 +3,10 @@ package com.minsoo.co.tireerpserver.utils;
 import com.minsoo.co.tireerpserver.purchase.model.PurchaseRequest;
 import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentConfirmRequest;
 import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentRequest;
+import com.minsoo.co.tireerpserver.sale.model.SaleRequest;
+import com.minsoo.co.tireerpserver.sale.model.content.SaleContentConfirmRequest;
+import com.minsoo.co.tireerpserver.sale.model.content.SaleContentRequest;
+import com.minsoo.co.tireerpserver.sale.model.content.SaleContentStockRequest;
 import com.minsoo.co.tireerpserver.shared.model.AddressDTO;
 import com.minsoo.co.tireerpserver.shared.model.BusinessInfoDTO;
 import com.minsoo.co.tireerpserver.management.model.brand.BrandRequest;
@@ -15,6 +19,7 @@ import com.minsoo.co.tireerpserver.tire.model.TireRequest;
 import com.minsoo.co.tireerpserver.tire.model.memo.TireMemoRequest;
 import com.minsoo.co.tireerpserver.user.model.client.company.ClientCompanyRequest;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.Arrays;
 
@@ -97,9 +102,9 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static PurchaseRequest PURCHASE(Long vendorId, LocalDate purchaseDate, PurchaseContentRequest... contents) {
+    public static PurchaseRequest PURCHASE(Long vendorId, LocalDate transactionDate, PurchaseContentRequest... contents) {
         return PurchaseRequest.builder()
-                .transactionDate(purchaseDate)
+                .transactionDate(transactionDate)
                 .vendorId(vendorId)
                 .contents(Arrays.asList(contents))
                 .build();
@@ -113,7 +118,7 @@ public class RequestBuilder {
                 .build();
     }
 
-    public static PurchaseContentConfirmRequest PURCHASE_CONFIRM(Long purchaseContentId, StockRequest... stockRequests) {
+    public static PurchaseContentConfirmRequest PURCHASE_CONTENT_CONFIRM(Long purchaseContentId, StockRequest... stockRequests) {
         return PurchaseContentConfirmRequest.builder()
                 .purchaseContentId(purchaseContentId)
                 .stockRequests(Arrays.asList(stockRequests))
@@ -126,6 +131,38 @@ public class RequestBuilder {
                 .nickname(nickname)
                 .quantity(quantity)
                 .lock(lock)
+                .build();
+    }
+
+    public static SaleRequest SALE(Long clientCompanyId, LocalDate transactionDate, LocalDate confirmedDate, SaleContentRequest... contents) {
+        return SaleRequest.builder()
+                .clientCompanyId(clientCompanyId)
+                .transactionDate(transactionDate)
+                .confirmedDate(confirmedDate)
+                .desiredDeliveryDate(null)
+                .contents(Arrays.asList(contents))
+                .build();
+    }
+
+    public static SaleContentRequest SALE_CONTENT(Long tireDotId, Long quantity) {
+        return SaleContentRequest.builder()
+                .price(20000)
+                .quantity(quantity)
+                .tireDotId(tireDotId)
+                .build();
+    }
+
+    public static SaleContentConfirmRequest SALE_CONTENT_CONFIRM(Long saleContentId, SaleContentStockRequest... stockRequests) {
+        return SaleContentConfirmRequest.builder()
+                .saleContentId(saleContentId)
+                .stockRequests(Arrays.asList(stockRequests))
+                .build();
+    }
+
+    public static SaleContentStockRequest SALE_STOCK(Long stockId, Long quantity) {
+        return SaleContentStockRequest.builder()
+                .stockId(stockId)
+                .quantity(quantity)
                 .build();
     }
 

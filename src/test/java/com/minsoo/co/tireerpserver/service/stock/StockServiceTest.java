@@ -58,9 +58,9 @@ class StockServiceTest extends ServiceTest {
 
         purchaseService.confirm(purchase.getId(),
                 Arrays.asList(
-                        PURCHASE_CONFIRM(content01.getId(), STOCK_MODIFY("별칭", warehouse.getId(), 1L, true)),
-                        PURCHASE_CONFIRM(content02.getId(), STOCK_MODIFY("별칭", warehouse.getId(), 2L, false)),
-                        PURCHASE_CONFIRM(content03.getId(),
+                        PURCHASE_CONTENT_CONFIRM(content01.getId(), STOCK_MODIFY("별칭", warehouse.getId(), 1L, true)),
+                        PURCHASE_CONTENT_CONFIRM(content02.getId(), STOCK_MODIFY("별칭", warehouse.getId(), 2L, false)),
+                        PURCHASE_CONTENT_CONFIRM(content03.getId(),
                                 STOCK_MODIFY("별칭1", warehouse.getId(), 1L, true),
                                 STOCK_MODIFY("별칭2", warehouse.getId(), 2L, false))));
         clear();

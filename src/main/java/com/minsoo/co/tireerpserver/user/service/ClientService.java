@@ -11,6 +11,7 @@ import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class ClientService {
         return clientRepository.findById(id).orElseThrow(() -> NotFoundException.of("고객"));
     }
 
+    @Transactional
     public Client create(Long clientCompanyId, ClientRequest clientRequest) {
         ClientCompany clientCompany = clientCompanyRepository.findById(clientCompanyId).orElseThrow(() -> NotFoundException.of("고객사"));
         if (accountRepository.existsByUsername(clientRequest.getUserId())) {
@@ -41,6 +43,7 @@ public class ClientService {
         return clientRepository.save(Client.of(clientRequest, clientCompany, accountService));
     }
 
+    @Transactional
     public Client update(Long clientCompanyId, Long clientId, ClientRequest clientRequest) {
         Client client = clientRepository.findById(clientId).orElseThrow(() -> NotFoundException.of("고객"));
         ClientCompany clientCompany = clientCompanyRepository.findById(clientCompanyId).orElseThrow(() -> NotFoundException.of("고객사"));
@@ -50,6 +53,7 @@ public class ClientService {
         return client.update(clientRequest, clientCompany);
     }
 
+    @Transactional
     public void removeById(Long clientId) {
         Client client = clientRepository.findById(clientId).orElseThrow(() -> NotFoundException.of("고객"));
         clientRepository.delete(client);

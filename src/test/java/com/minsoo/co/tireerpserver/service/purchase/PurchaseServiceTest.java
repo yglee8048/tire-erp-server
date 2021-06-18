@@ -174,9 +174,9 @@ class PurchaseServiceTest extends ServiceTest {
         // WHEN
         Purchase confirmed = purchaseService.confirm(purchase.getId(),
                 Arrays.asList(
-                        PURCHASE_CONFIRM(purchaseContent01.getId(),
+                        PURCHASE_CONTENT_CONFIRM(purchaseContent01.getId(),
                                 STOCK_MODIFY("별칭", warehouse.getId(), 1L, true)),
-                        PURCHASE_CONFIRM(purchaseContent02.getId(),
+                        PURCHASE_CONTENT_CONFIRM(purchaseContent02.getId(),
                                 STOCK_MODIFY("별칭", warehouse.getId(), 2L, true),
                                 STOCK_MODIFY("별칭2", warehouse.getId(), 1L, false))));
         clear();
