@@ -13,7 +13,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Entity
-@Table(name = "client_company")
+@Table(name = "client_company",
+        uniqueConstraints = {@UniqueConstraint(name = "client_company_unique_name", columnNames = {"name"})})
 public class ClientCompany {
 
     @Id
@@ -21,7 +22,7 @@ public class ClientCompany {
     @Column(name = "client_company_id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description")

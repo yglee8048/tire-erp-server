@@ -5,7 +5,7 @@ import com.minsoo.co.tireerpserver.management.entity.Brand;
 import com.minsoo.co.tireerpserver.management.entity.Pattern;
 import com.minsoo.co.tireerpserver.tire.entity.Tire;
 import com.minsoo.co.tireerpserver.tire.entity.TireMemo;
-import com.minsoo.co.tireerpserver.service.ServiceTest;
+import com.minsoo.co.tireerpserver.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

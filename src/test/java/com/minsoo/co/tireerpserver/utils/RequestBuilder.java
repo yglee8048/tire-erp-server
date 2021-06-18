@@ -13,6 +13,7 @@ import com.minsoo.co.tireerpserver.stock.model.StockRequest;
 import com.minsoo.co.tireerpserver.tire.model.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.tire.model.TireRequest;
 import com.minsoo.co.tireerpserver.tire.model.memo.TireMemoRequest;
+import com.minsoo.co.tireerpserver.user.model.client.company.ClientCompanyRequest;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -125,6 +126,14 @@ public class RequestBuilder {
                 .nickname(nickname)
                 .quantity(quantity)
                 .lock(lock)
+                .build();
+    }
+
+    public static ClientCompanyRequest CLIENT_COMPANY(String name) {
+        return ClientCompanyRequest.builder()
+                .name(name)
+                .description("description")
+                .businessInfo(BUSINESS_INFO())
                 .build();
     }
 

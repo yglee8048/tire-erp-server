@@ -11,7 +11,7 @@ import com.minsoo.co.tireerpserver.purchase.entity.Purchase;
 import com.minsoo.co.tireerpserver.purchase.entity.PurchaseContent;
 import com.minsoo.co.tireerpserver.tire.entity.Tire;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
-import com.minsoo.co.tireerpserver.service.ServiceTest;
+import com.minsoo.co.tireerpserver.ServiceTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

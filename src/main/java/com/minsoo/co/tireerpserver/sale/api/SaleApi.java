@@ -99,7 +99,7 @@ public class SaleApi {
                 .collect(Collectors.toList()));
     }
 
-    @GetMapping(value = "/sale/{saleId}/sale-contents/{saleContentId}")
+    @GetMapping(value = "/sales/{saleId}/sale-contents/{saleContentId}")
     @Operation(summary = "매출 항목 상세 조회")
     public ApiResponse<SaleContentResponse> findSaleContentById(@PathVariable Long saleId,
                                                                 @PathVariable Long saleContentId) {
@@ -132,7 +132,7 @@ public class SaleApi {
                         .findSaleMemoById(saleId, saleMemoService.create(saleId, saleMemoRequest).getId())).toUri());
     }
 
-    @PutMapping(value = "/sale/{saleId}/sale-memos/{saleMemoId}")
+    @PutMapping(value = "/sales/{saleId}/sale-memos/{saleMemoId}")
     @Operation(summary = "매출 메모 수정")
     public ApiResponse<Void> updateSaleMemo(@PathVariable Long saleId,
                                             @PathVariable Long saleMemoId,
@@ -141,7 +141,7 @@ public class SaleApi {
         return ApiResponse.OK;
     }
 
-    @DeleteMapping(value = "/sale/{saleId}/sale-memos/{saleMemoId}")
+    @DeleteMapping(value = "/sales/{saleId}/sale-memos/{saleMemoId}")
     @Operation(summary = "매출 메모 삭제")
     public ApiResponse<Void> deleteSaleMemo(@PathVariable Long saleId,
                                             @PathVariable Long saleMemoId) {

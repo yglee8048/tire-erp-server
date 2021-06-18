@@ -4,7 +4,7 @@ import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyExistException
 import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.management.model.vendor.VendorRequest;
 import com.minsoo.co.tireerpserver.management.entity.Vendor;
-import com.minsoo.co.tireerpserver.service.ServiceTest;
+import com.minsoo.co.tireerpserver.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

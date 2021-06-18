@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.service;
+package com.minsoo.co.tireerpserver;
 
 import com.minsoo.co.tireerpserver.management.service.BrandService;
 import com.minsoo.co.tireerpserver.management.service.PatternService;

@@ -6,7 +6,7 @@ import com.minsoo.co.tireerpserver.management.model.brand.BrandRequest;
 import com.minsoo.co.tireerpserver.management.model.pattern.PatternRequest;
 import com.minsoo.co.tireerpserver.management.entity.Brand;
 import com.minsoo.co.tireerpserver.management.entity.Pattern;
-import com.minsoo.co.tireerpserver.service.ServiceTest;
+import com.minsoo.co.tireerpserver.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
