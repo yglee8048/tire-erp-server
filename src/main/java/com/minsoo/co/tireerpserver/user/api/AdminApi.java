@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Slf4j
-@RestController(value = "/api/v1")
+@RestController
+@RequestMapping(value = "/api/v1")
 @RequiredArgsConstructor
 public class AdminApi {
 
