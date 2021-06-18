@@ -18,8 +18,8 @@ public class SaleContentGridResponse {
     @Schema(name = "sale_id", description = "sale_id")
     private Long saleId;
 
-    @Schema(name = "customer_id", description = "customer_id")
-    private Long customerId;
+    @Schema(name = "client_company_id", description = "client_company_id")
+    private Long clientCompanyId;
 
     @Schema(name = "delivery_id", description = "delivery_id")
     private Long deliveryId;
@@ -37,8 +37,8 @@ public class SaleContentGridResponse {
     private Long brandId;
 
     // DISPLAY
-    @Schema(name = "customer_name", description = "거래처 이름")
-    private String customerName;
+    @Schema(name = "client_company_name", description = "거래처 이름")
+    private String clientCompanyName;
 
     @Schema(name = "transaction_date", description = "거래 일자")
     private LocalDate transactionDate;

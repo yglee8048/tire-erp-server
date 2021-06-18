@@ -10,13 +10,13 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.minsoo.co.tireerpserver.user.entity.QCustomer.customer;
 import static com.minsoo.co.tireerpserver.management.entity.QBrand.brand;
 import static com.minsoo.co.tireerpserver.management.entity.QPattern.pattern;
 import static com.minsoo.co.tireerpserver.sale.entity.QSale.sale;
 import static com.minsoo.co.tireerpserver.sale.entity.QSaleContent.saleContent;
 import static com.minsoo.co.tireerpserver.tire.entity.QTire.tire;
 import static com.minsoo.co.tireerpserver.tire.entity.QTireDot.tireDot;
+import static com.minsoo.co.tireerpserver.user.entity.QClientCompany.clientCompany;
 
 @Repository
 @RequiredArgsConstructor
@@ -30,13 +30,13 @@ public class SaleContentQueryRepositoryImpl implements SaleContentQueryRepositor
                 .select(Projections.fields(SaleContentGridResponse.class,
                         saleContent.id.as("saleContentId"),
                         sale.id.as("saleId"),
-                        customer.id.as("customerId"),
+                        sale.clientCompany.id.as("clientCompanyId"),
                         sale.delivery.id.as("deliveryId"),
                         tireDot.id.as("tireDotId"),
                         tire.id.as("tireId"),
                         pattern.id.as("patternId"),
                         brand.id.as("brandId"),
-                        customer.name.as("customerName"),
+                        sale.clientCompany.name.as("clientCompanyName"),
                         sale.transactionDate,
                         sale.confirmedDate,
                         sale.desiredDeliveryDate,
@@ -51,7 +51,7 @@ public class SaleContentQueryRepositoryImpl implements SaleContentQueryRepositor
                 ))
                 .from(saleContent)
                 .join(saleContent.sale, sale)
-                .join(sale.customer, customer)
+                .join(sale.clientCompany, clientCompany)
                 .join(saleContent.tireDot, tireDot)
                 .join(tireDot.tire, tire)
                 .join(tire.pattern, pattern)

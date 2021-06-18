@@ -1,30 +1,5 @@
 //package com.minsoo.co.tireerpserver.service;
-//
-//import com.minsoo.co.tireerpserver.model.dto.account.customer.CustomerResponse;
-//import com.minsoo.co.tireerpserver.model.dto.management.vendor.VendorResponse;
-//import com.minsoo.co.tireerpserver.model.dto.management.warehouse.WarehouseResponse;
-//import com.minsoo.co.tireerpserver.model.dto.sale.SaleSimpleResponse;
-//import com.minsoo.co.tireerpserver.model.dto.stock.StockResponse;
-//import com.minsoo.co.tireerpserver.model.dto.tire.TireResponse;
-//import com.minsoo.co.tireerpserver.model.entity.entities.management.Brand;
-//import com.minsoo.co.tireerpserver.account.service.CustomerService;
-//import com.minsoo.co.tireerpserver.management.service.BrandService;
-//import com.minsoo.co.tireerpserver.purchase.service.PurchaseService;
-//import com.minsoo.co.tireerpserver.service.sale.SaleService;
-//import com.minsoo.co.tireerpserver.stock.service.StockService;
-//import com.minsoo.co.tireerpserver.tire.service.TireService;
-//import com.minsoo.co.tireerpserver.management.service.VendorService;
-//import com.minsoo.co.tireerpserver.management.service.WarehouseService;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//
-//import java.util.List;
-//
-//import static com.minsoo.co.tireerpserver.utils.RequestBuilder.*;
-//import static com.minsoo.co.tireerpserver.utils.RequestBuilder.CREATE_PURCHASE_CONTENT;
-//import static org.junit.jupiter.api.Assertions.*;
-//
+
 //class SaleServiceTest extends ServiceTest {
 //
 //    @Autowired
@@ -44,9 +19,6 @@
 //
 //    @Autowired
 //    StockService stockService;
-//
-//    @Autowired
-//    CustomerService customerService;
 //
 //    @Autowired
 //    SaleService saleService;
