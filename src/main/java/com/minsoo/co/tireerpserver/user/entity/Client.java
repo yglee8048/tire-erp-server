@@ -14,7 +14,6 @@ import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-@DiscriminatorValue(value = "CLIENT")
 @Entity
 @Table(name = "client")
 public class Client extends Account {

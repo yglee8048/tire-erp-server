@@ -1,8 +1,6 @@
 package com.minsoo.co.tireerpserver.user.entity;
 
 import com.minsoo.co.tireerpserver.user.code.AccountRole;
-import com.minsoo.co.tireerpserver.user.model.admin.AdminRequest;
-import com.minsoo.co.tireerpserver.user.service.AccountService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +14,6 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @NoArgsConstructor(access = PROTECTED)
 @Inheritance(strategy = JOINED)
-@DiscriminatorColumn(name = "account_type")
 @Entity
 @Table(name = "account",
         uniqueConstraints = {@UniqueConstraint(name = "account_username_unique", columnNames = {"username"})})
