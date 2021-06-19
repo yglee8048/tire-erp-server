@@ -23,7 +23,6 @@ public class SaleRequest {
     private LocalDate transactionDate;
 
     @Schema(name = "confirmed_date", description = "확정 일자")
-    @NotNull(message = "확정 일자는 필수 값입니다.")
     private LocalDate confirmedDate;
 
     @Schema(name = "desired_delivery_date", description = "배송 희망 일자")

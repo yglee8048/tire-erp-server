@@ -83,6 +83,9 @@ public class PurchaseService {
     @Transactional
     public Purchase confirm(Long purchaseId, List<PurchaseContentConfirmRequest> contentConfirmRequests) {
         Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> NotFoundException.of("매입"));
+        if (!purchase.getStatus().equals(PurchaseStatus.REQUESTED)) {
+            throw new BadRequestException(String.format("이미 %s 상태인 매입은 확정할 수 없습니다.", purchase.getStatus().getDescription()));
+        }
         if (purchase.getContents().size() != contentConfirmRequests.size()) {
             throw new BadRequestException("매입 항목이 모두 확정되어야 합니다.");
         }

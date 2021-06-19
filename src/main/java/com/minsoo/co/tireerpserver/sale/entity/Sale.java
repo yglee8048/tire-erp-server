@@ -52,10 +52,10 @@ public class Sale {
     @Column(name = "transaction_date", nullable = false)
     private LocalDate transactionDate;
 
-    @Column(name = "confirmed_date", nullable = false)
+    @Column(name = "confirmed_date")
     private LocalDate confirmedDate;
 
-    @Column(name = "desired_delivery_date", nullable = false)
+    @Column(name = "desired_delivery_date")
     private LocalDate desiredDeliveryDate;
 
     @OneToMany(mappedBy = "sale", fetch = LAZY, cascade = ALL, orphanRemoval = true)

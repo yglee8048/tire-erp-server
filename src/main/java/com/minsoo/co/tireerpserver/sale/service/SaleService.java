@@ -82,6 +82,9 @@ public class SaleService {
     @Transactional
     public Sale confirm(Long saleId, List<SaleContentConfirmRequest> contentConfirmRequests) {
         Sale sale = saleRepository.findById(saleId).orElseThrow(() -> NotFoundException.of("매출"));
+        if (!sale.getStatus().equals(SaleStatus.REQUESTED)) {
+            throw new BadRequestException(String.format("이미 %s 상태인 매출은 확정할 수 없습니다.", sale.getStatus().getDescription()));
+        }
         if (sale.getContents().size() != contentConfirmRequests.size()) {
             throw new BadRequestException("매출 항목이 모두 확정되어야 합니다.");
         }

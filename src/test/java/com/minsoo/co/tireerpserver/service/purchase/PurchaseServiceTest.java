@@ -116,7 +116,7 @@ class PurchaseServiceTest extends ServiceTest {
                 .stream()
                 .filter(content -> content.getTireDot().getId().equals(tireDot02.getId()))
                 .findAny()
-                .orElseThrow(() -> new RuntimeException("타이어 DOT 가 비정상 생성됨"));
+                .orElseThrow();
         clear();
 
         // WHEN
@@ -165,10 +165,10 @@ class PurchaseServiceTest extends ServiceTest {
         List<PurchaseContent> contents = new ArrayList<>(purchase.getContents());
         PurchaseContent purchaseContent01 = contents.stream()
                 .filter(purchaseContent -> purchaseContent.getTireDot().getId().equals(tireDot01.getId()))
-                .findAny().orElseThrow(RuntimeException::new);
+                .findAny().orElseThrow();
         PurchaseContent purchaseContent02 = contents.stream()
                 .filter(purchaseContent -> purchaseContent.getTireDot().getId().equals(tireDot02.getId()))
-                .findAny().orElseThrow(RuntimeException::new);
+                .findAny().orElseThrow();
         clear();
 
         // WHEN
