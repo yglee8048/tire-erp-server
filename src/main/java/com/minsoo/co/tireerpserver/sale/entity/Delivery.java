@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.sale.entity;
 
+import com.minsoo.co.tireerpserver.sale.model.delivery.DeliveryRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -31,4 +32,24 @@ public class Delivery {
 
     @Column(name = "invoice_number")
     private Integer invoiceNumber;
+
+    public Delivery(Sale sale, DeliveryRequest deliveryRequest) {
+        this.sale = sale;
+        this.recipient = Recipient.of(deliveryRequest);
+        this.deliveryCompany = deliveryRequest.getDeliveryCompany();
+        this.invoiceNumber = deliveryRequest.getInvoiceNumber();
+    }
+
+    public static Delivery of(Sale sale, DeliveryRequest deliveryRequest) {
+        return new Delivery(sale, deliveryRequest);
+    }
+
+    public Delivery update(Sale sale, DeliveryRequest deliveryRequest) {
+        this.sale = sale;
+        this.recipient = Recipient.of(deliveryRequest);
+        this.deliveryCompany = deliveryRequest.getDeliveryCompany();
+        this.invoiceNumber = deliveryRequest.getInvoiceNumber();
+
+        return this;
+    }
 }

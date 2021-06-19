@@ -2,8 +2,11 @@ package com.minsoo.co.tireerpserver.sale.api;
 
 import com.minsoo.co.tireerpserver.sale.model.content.SaleContentConfirmRequest;
 import com.minsoo.co.tireerpserver.sale.model.content.SaleContentResponse;
+import com.minsoo.co.tireerpserver.sale.model.delivery.DeliveryRequest;
+import com.minsoo.co.tireerpserver.sale.model.delivery.DeliveryResponse;
 import com.minsoo.co.tireerpserver.sale.model.memo.SaleMemoRequest;
 import com.minsoo.co.tireerpserver.sale.model.memo.SaleMemoResponse;
+import com.minsoo.co.tireerpserver.sale.service.DeliveryService;
 import com.minsoo.co.tireerpserver.sale.service.SaleMemoService;
 import com.minsoo.co.tireerpserver.shared.model.ApiResponse;
 import com.minsoo.co.tireerpserver.sale.model.SaleContentGridResponse;
@@ -34,6 +37,7 @@ public class SaleApi {
     private final SaleService saleService;
     private final SaleContentService saleContentService;
     private final SaleMemoService saleMemoService;
+    private final DeliveryService deliveryService;
 
     // GRID
     @GetMapping(value = "/sale-content-grid")
@@ -146,6 +150,46 @@ public class SaleApi {
     public ApiResponse<Void> deleteSaleMemo(@PathVariable Long saleId,
                                             @PathVariable Long saleMemoId) {
         saleMemoService.removeById(saleMemoId);
+        return ApiResponse.OK;
+    }
+
+    // DELIVERY
+    @GetMapping(value = "/sales/{saleId}/deliveries")
+    @Operation(summary = "배송 목록 조회")
+    public ApiResponse<List<DeliveryResponse>> findDeliveriesBySaleId(@PathVariable Long saleId) {
+        return ApiResponse.OK(deliveryService.findBySaleId(saleId)
+                .stream()
+                .map(DeliveryResponse::of)
+                .collect(Collectors.toList()));
+    }
+
+    @GetMapping(value = "/sales/{saleId}/deliveries/{deliveryId}")
+    @Operation(summary = "배송 조회")
+    public ApiResponse<DeliveryResponse> findDeliveryById(@PathVariable Long saleId, @PathVariable Long deliveryId) {
+        return ApiResponse.OK(DeliveryResponse.of(deliveryService.findById(deliveryId)));
+    }
+
+    @PostMapping(value = "/sales/{saleId}/deliveries")
+    @Operation(summary = "배송 생성")
+    public ResponseEntity<ApiResponse<Void>> createDelivery(@PathVariable Long saleId,
+                                                            @RequestBody @Valid DeliveryRequest deliveryRequest) {
+        return ApiResponse.CREATED(
+                linkTo(methodOn(SaleApi.class).findDeliveryById(saleId, deliveryService.create(saleId, deliveryRequest).getId())).toUri());
+    }
+
+    @PutMapping(value = "/sales/{saleId}/deliveries/{deliveryId}")
+    @Operation(summary = "배송 수정")
+    public ApiResponse<Void> updateDelivery(@PathVariable Long saleId,
+                                            @PathVariable Long deliveryId,
+                                            @RequestBody @Valid DeliveryRequest deliveryRequest) {
+        deliveryService.update(saleId, deliveryId, deliveryRequest);
+        return ApiResponse.OK;
+    }
+
+    @DeleteMapping(value = "/sales/{saleId}/deliveries/{deliveryId}")
+    @Operation(summary = "배송 삭제")
+    public ApiResponse<Void> deleteDelivery(@PathVariable Long saleId, @PathVariable Long deliveryId) {
+        deliveryService.removeById(deliveryId);
         return ApiResponse.OK;
     }
 }
