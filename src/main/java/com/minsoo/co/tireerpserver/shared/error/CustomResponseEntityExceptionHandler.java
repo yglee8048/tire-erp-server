@@ -71,6 +71,12 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         return errorResponse(HttpStatus.UNAUTHORIZED, e, request);
     }
 
+    @ExceptionHandler(InvalidStateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public final ResponseEntity<ApiResponse<Void>> exceptionHandler(InvalidStateException e, WebRequest request) {
+        return errorResponse(HttpStatus.BAD_REQUEST, e, request);
+    }
+
     @Override
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

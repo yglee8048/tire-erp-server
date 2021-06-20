@@ -1,6 +1,8 @@
 package com.minsoo.co.tireerpserver.sale.entity;
 
+import com.minsoo.co.tireerpserver.sale.code.SaleStatus;
 import com.minsoo.co.tireerpserver.sale.model.delivery.DeliveryRequest;
+import com.minsoo.co.tireerpserver.shared.error.exceptions.InvalidStateException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,6 +43,9 @@ public class Delivery {
     }
 
     public static Delivery of(Sale sale, DeliveryRequest deliveryRequest) {
+        if (!sale.getStatus().equals(SaleStatus.CONFIRMED)) {
+            throw new InvalidStateException("매출이 확정 상태일 때만 배송 정보를 입력할 수 있습니다.");
+        }
         return new Delivery(sale, deliveryRequest);
     }
 

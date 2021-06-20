@@ -1,10 +1,12 @@
 package com.minsoo.co.tireerpserver.sale.service;
 
+import com.minsoo.co.tireerpserver.sale.code.SaleStatus;
 import com.minsoo.co.tireerpserver.sale.entity.Delivery;
 import com.minsoo.co.tireerpserver.sale.entity.Sale;
 import com.minsoo.co.tireerpserver.sale.model.delivery.DeliveryRequest;
 import com.minsoo.co.tireerpserver.sale.repository.DeliveryRepository;
 import com.minsoo.co.tireerpserver.sale.repository.SaleRepository;
+import com.minsoo.co.tireerpserver.shared.error.exceptions.InvalidStateException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
