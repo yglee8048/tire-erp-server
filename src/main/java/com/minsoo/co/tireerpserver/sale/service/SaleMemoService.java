@@ -31,16 +31,19 @@ public class SaleMemoService {
         return saleMemoRepository.findById(saleMemoId).orElseThrow(() -> NotFoundException.of("매출 메모"));
     }
 
+    @Transactional
     public SaleMemo create(Long saleId, SaleMemoRequest saleMemoRequest) {
         Sale sale = saleRepository.findById(saleId).orElseThrow(() -> NotFoundException.of("매출"));
         return saleMemoRepository.save(SaleMemo.of(sale, saleMemoRequest));
     }
 
+    @Transactional
     public SaleMemo update(Long saleMemoId, SaleMemoRequest saleMemoRequest) {
         SaleMemo saleMemo = saleMemoRepository.findById(saleMemoId).orElseThrow(() -> NotFoundException.of("매출 메모"));
         return saleMemo.update(saleMemoRequest);
     }
 
+    @Transactional
     public void removeById(Long saleMemoId) {
         SaleMemo saleMemo = saleMemoRepository.findById(saleMemoId).orElseThrow(() -> NotFoundException.of("매출 메모"));
         saleMemoRepository.delete(saleMemo);

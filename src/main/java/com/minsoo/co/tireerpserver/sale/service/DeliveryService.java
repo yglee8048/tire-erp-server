@@ -33,17 +33,20 @@ public class DeliveryService {
         return deliveryRepository.findById(id).orElseThrow(() -> NotFoundException.of("배송"));
     }
 
+    @Transactional
     public Delivery create(Long saleId, DeliveryRequest deliveryRequest) {
         Sale sale = saleRepository.findById(saleId).orElseThrow(() -> NotFoundException.of("매출"));
         return deliveryRepository.save(Delivery.of(sale, deliveryRequest));
     }
 
+    @Transactional
     public Delivery update(Long saleId, Long deliveryId, DeliveryRequest deliveryRequest) {
         Sale sale = saleRepository.findById(saleId).orElseThrow(() -> NotFoundException.of("매출"));
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow(() -> NotFoundException.of("배송"));
         return delivery.update(sale, deliveryRequest);
     }
 
+    @Transactional
     public void removeById(Long id) {
         Delivery delivery = deliveryRepository.findById(id).orElseThrow(() -> NotFoundException.of("배송"));
         deliveryRepository.delete(delivery);
