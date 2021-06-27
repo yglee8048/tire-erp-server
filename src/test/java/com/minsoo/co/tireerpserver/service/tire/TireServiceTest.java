@@ -64,6 +64,7 @@ class TireServiceTest extends ServiceTest {
 
         // WHEN
         tireService.removeById(tire.getId());
+        em.flush();
 
         // THEN
         assertThat(tireService.findAll().size()).isEqualTo(0);

@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-@Transactional
+@Transactional(readOnly = true)
 @SpringBootTest
 public abstract class ServiceTest {
 

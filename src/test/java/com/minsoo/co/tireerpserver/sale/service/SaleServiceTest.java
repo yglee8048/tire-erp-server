@@ -52,6 +52,7 @@ class SaleServiceTest extends ServiceTest {
                         PURCHASE_CONTENT_CONFIRM(purchaseContents.get(0).getId(), STOCK_MODIFY("default", warehouse.getId(), 2L, true)),
                         PURCHASE_CONTENT_CONFIRM(purchaseContents.get(1).getId(), STOCK_MODIFY("default", warehouse.getId(), 2L, true)),
                         PURCHASE_CONTENT_CONFIRM(purchaseContents.get(2).getId(), STOCK_MODIFY("default", warehouse.getId(), 2L, true))));
+        em.flush();
     }
 
     @Test
