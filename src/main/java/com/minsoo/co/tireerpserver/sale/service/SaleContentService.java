@@ -37,6 +37,9 @@ public class SaleContentService {
     }
 
     public List<SaleContentGridResponse> findGridsBySaleId(Long saleId) {
+        if (!saleRepository.existsById(saleId)) {
+            throw NotFoundException.of("매출");
+        }
         return saleContentRepository.findSaleContentsBySaleId(saleId);
     }
 }
