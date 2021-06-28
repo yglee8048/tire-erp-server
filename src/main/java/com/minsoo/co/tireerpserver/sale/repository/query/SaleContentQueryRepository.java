@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface SaleContentQueryRepository {
 
-    List<SaleContentGridResponse> findSaleContents(LocalDate from, LocalDate to);
+    List<SaleContentGridResponse> findSaleContentsByTransactionDate(LocalDate from, LocalDate to);
+
+    List<SaleContentGridResponse> findSaleContentsBySaleId(Long saleId);
 }

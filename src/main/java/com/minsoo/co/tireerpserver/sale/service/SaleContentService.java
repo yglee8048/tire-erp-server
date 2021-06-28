@@ -32,7 +32,11 @@ public class SaleContentService {
         return saleContentRepository.findById(saleContentId).orElseThrow(() -> NotFoundException.of("매출 항목"));
     }
 
-    public List<SaleContentGridResponse> findAllByTransactionDate(LocalDate from, LocalDate to) {
-        return saleContentRepository.findSaleContents(from, to);
+    public List<SaleContentGridResponse> findGridsByTransactionDate(LocalDate from, LocalDate to) {
+        return saleContentRepository.findSaleContentsByTransactionDate(from, to);
+    }
+
+    public List<SaleContentGridResponse> findGridsBySaleId(Long saleId) {
+        return saleContentRepository.findSaleContentsBySaleId(saleId);
     }
 }

@@ -41,10 +41,16 @@ public class SaleApi {
 
     // GRID
     @GetMapping(value = "/sale-content-grid")
-    @Operation(summary = "매출 항목 전체 목록 조회", description = "매출 내역 목록을 보여줄 때 사용한다.(Aggregation)")
+    @Operation(summary = "GRID 매출 항목 전체 목록 조회", description = "매출 내역 목록을 보여줄 때 사용한다.(Aggregation)")
     public ApiResponse<List<SaleContentGridResponse>> findAllSaleContentGrid(@RequestParam(required = false) LocalDate from,
                                                                              @RequestParam(required = false) LocalDate to) {
-        return ApiResponse.OK(saleContentService.findAllByTransactionDate(from, to));
+        return ApiResponse.OK(saleContentService.findGridsByTransactionDate(from, to));
+    }
+
+    @GetMapping(value = "/sale-content-grid/{saleId}")
+    @Operation(summary = "GRID 매출 항목 목록 조회", description = "매출 상세 내역에서 사용한다.")
+    public ApiResponse<List<SaleContentGridResponse>> findSaleContentGridBySaleId(@PathVariable Long saleId) {
+        return ApiResponse.OK(saleContentService.findGridsBySaleId(saleId));
     }
 
     // SALE

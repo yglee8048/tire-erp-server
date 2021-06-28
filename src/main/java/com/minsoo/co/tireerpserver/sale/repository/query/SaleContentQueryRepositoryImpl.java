@@ -3,6 +3,7 @@ package com.minsoo.co.tireerpserver.sale.repository.query;
 import com.minsoo.co.tireerpserver.sale.model.SaleContentGridResponse;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -24,8 +25,7 @@ public class SaleContentQueryRepositoryImpl implements SaleContentQueryRepositor
 
     private final JPAQueryFactory queryFactory;
 
-    @Override
-    public List<SaleContentGridResponse> findSaleContents(LocalDate from, LocalDate to) {
+    private JPAQuery<SaleContentGridResponse> createSaleContentQuery() {
         return queryFactory
                 .select(Projections.fields(SaleContentGridResponse.class,
                         saleContent.id.as("saleContentId"),
@@ -55,8 +55,20 @@ public class SaleContentQueryRepositoryImpl implements SaleContentQueryRepositor
                 .join(saleContent.tireDot, tireDot)
                 .join(tireDot.tire, tire)
                 .join(tire.pattern, pattern)
-                .join(pattern.brand, brand)
+                .join(pattern.brand, brand);
+    }
+
+    @Override
+    public List<SaleContentGridResponse> findSaleContentsByTransactionDate(LocalDate from, LocalDate to) {
+        return createSaleContentQuery()
                 .where(fromDate(from), toDate(to))
+                .fetch();
+    }
+
+    @Override
+    public List<SaleContentGridResponse> findSaleContentsBySaleId(Long saleId) {
+        return createSaleContentQuery()
+                .where(sale.id.eq(saleId))
                 .fetch();
     }
 
