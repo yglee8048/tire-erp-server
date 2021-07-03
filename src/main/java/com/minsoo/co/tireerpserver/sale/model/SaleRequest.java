@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.sale.model;
 
 import com.minsoo.co.tireerpserver.sale.model.content.SaleContentRequest;
+import com.minsoo.co.tireerpserver.sale.model.memo.SaleMemoRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -31,4 +32,7 @@ public class SaleRequest {
     @Schema(name = "contents", description = "매출 항목")
     @NotNull(message = "매출 항목은 필수 값입니다.")
     List<SaleContentRequest> contents;
+
+    @Schema(name = "memos", description = "매출 메모")
+    List<SaleMemoRequest> memos;
 }

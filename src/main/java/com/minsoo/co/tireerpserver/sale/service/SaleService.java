@@ -1,8 +1,10 @@
 package com.minsoo.co.tireerpserver.sale.service;
 
 import com.minsoo.co.tireerpserver.sale.entity.SaleContent;
+import com.minsoo.co.tireerpserver.sale.entity.SaleMemo;
 import com.minsoo.co.tireerpserver.sale.model.content.SaleContentConfirmRequest;
 import com.minsoo.co.tireerpserver.sale.model.content.SaleContentStockRequest;
+import com.minsoo.co.tireerpserver.sale.repository.SaleMemoRepository;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyConfirmedException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
@@ -24,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -37,6 +40,7 @@ public class SaleService {
 
     private final SaleRepository saleRepository;
     private final SaleContentRepository saleContentRepository;
+    private final SaleMemoRepository saleMemoRepository;
     private final ClientCompanyRepository clientCompanyRepository;
     private final StockRepository stockRepository;
     private final TireDotRepository tireDotRepository;
@@ -53,8 +57,13 @@ public class SaleService {
     public Sale create(SaleRequest saleRequest) {
         ClientCompany clientCompany = clientCompanyRepository.findById(saleRequest.getClientCompanyId())
                 .orElseThrow(() -> NotFoundException.of("고객사"));
+        Sale sale = saleRepository.save(Sale.of(clientCompany, saleRequest, makeContentMap(saleRequest)));
 
-        return saleRepository.save(Sale.of(clientCompany, saleRequest, makeContentMap(saleRequest)));
+        // memo 추가
+        if (!CollectionUtils.isEmpty(saleRequest.getMemos())) {
+            saleRequest.getMemos().forEach(saleMemoRequest -> sale.getMemos().add(saleMemoRepository.save(SaleMemo.of(sale, saleMemoRequest))));
+        }
+        return sale;
     }
 
     @Transactional
