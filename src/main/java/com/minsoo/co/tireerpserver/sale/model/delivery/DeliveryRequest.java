@@ -33,6 +33,6 @@ public class DeliveryRequest {
     private String deliveryCompany;
 
     @Schema(name = "invoice_number", description = "송장번호", example = "442394464783")
-    @NotEmpty(message = "송장번호는 필수 값입니다.")
+    @NotNull(message = "송장번호는 필수 값입니다.")
     private Integer invoiceNumber;
 }
