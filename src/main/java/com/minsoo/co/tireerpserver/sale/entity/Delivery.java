@@ -37,6 +37,7 @@ public class Delivery {
 
     public Delivery(Sale sale, DeliveryRequest deliveryRequest) {
         this.sale = sale;
+        sale.addDelivery(this);
         this.recipient = Recipient.of(deliveryRequest);
         this.deliveryCompany = deliveryRequest.getDeliveryCompany();
         this.invoiceNumber = deliveryRequest.getInvoiceNumber();

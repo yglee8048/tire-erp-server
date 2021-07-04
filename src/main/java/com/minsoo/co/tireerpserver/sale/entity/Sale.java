@@ -154,4 +154,8 @@ public class Sale {
                 .map(SaleContentRequest::getQuantity)
                 .reduce(0L, Long::sum);
     }
+
+    public void addDelivery(Delivery delivery) {
+        this.delivery = delivery;
+    }
 }
