@@ -17,6 +17,7 @@ import com.minsoo.co.tireerpserver.sale.service.SaleService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,8 +43,8 @@ public class SaleApi {
     // GRID
     @GetMapping(value = "/sale-content-grid")
     @Operation(summary = "GRID 매출 항목 전체 목록 조회", description = "매출 내역 목록을 보여줄 때 사용한다.(Aggregation)")
-    public ApiResponse<List<SaleContentGridResponse>> findAllSaleContentGrid(@RequestParam(required = false) LocalDate from,
-                                                                             @RequestParam(required = false) LocalDate to) {
+    public ApiResponse<List<SaleContentGridResponse>> findAllSaleContentGrid(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
+                                                                             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
         return ApiResponse.OK(saleContentService.findGridsByTransactionDate(from, to));
     }
 
