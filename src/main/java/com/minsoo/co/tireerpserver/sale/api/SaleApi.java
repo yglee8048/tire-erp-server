@@ -31,7 +31,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/v1")
+@RequestMapping(value = "/admins/api/v1")
 @RequiredArgsConstructor
 public class SaleApi {
 

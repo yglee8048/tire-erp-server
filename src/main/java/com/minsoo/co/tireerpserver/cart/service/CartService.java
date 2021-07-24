@@ -45,12 +45,10 @@ public class CartService {
 
     public Cart update(Long cartId, CartRequest cartRequest) {
         Cart cart = cartRepository.findById(cartId).orElseThrow(() -> NotFoundException.of("장바구니"));
-        Client client = clientRepository.findById(cartRequest.getClientId())
-                .orElseThrow(() -> NotFoundException.of("고객"));
         TireDot tireDot = tireDotRepository.findById(cartRequest.getTireDotId())
                 .orElseThrow(() -> NotFoundException.of("타이어 DOT"));
 
-        return cart.update(client, tireDot, cartRequest.getQuantity());
+        return cart.update(tireDot, cartRequest.getQuantity());
     }
 
     public void removeById(Long cartId) {

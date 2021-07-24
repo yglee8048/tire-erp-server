@@ -6,6 +6,7 @@ import com.minsoo.co.tireerpserver.sale.code.SaleSource;
 import com.minsoo.co.tireerpserver.sale.code.SaleStatus;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyConfirmedException;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
+import com.minsoo.co.tireerpserver.user.entity.Client;
 import com.minsoo.co.tireerpserver.user.entity.ClientCompany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,10 @@ public class Sale {
     @JoinColumn(name = "client_company_id", nullable = false)
     private ClientCompany clientCompany;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
+
     @OneToOne(fetch = LAZY, cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
@@ -65,29 +70,26 @@ public class Sale {
     private final Set<SaleMemo> memos = new HashSet<>();
 
     //== Business ==//
-    private Sale(ClientCompany clientCompany, SaleRequest saleRequest) {
+    private Sale(ClientCompany clientCompany, Client client) {
         this.clientCompany = clientCompany;
+        this.client = client;
         this.source = SaleSource.MANUAL;
         this.status = SaleStatus.REQUESTED;
         this.delivery = null;
-        this.transactionDate = saleRequest.getTransactionDate();
-        this.confirmedDate = saleRequest.getConfirmedDate();
-        this.desiredDeliveryDate = saleRequest.getDesiredDeliveryDate();
     }
 
-    public static Sale of(ClientCompany clientCompany, SaleRequest saleRequest, Map<TireDot, List<SaleContentRequest>> contentMap) {
-        Sale sale = new Sale(clientCompany, saleRequest);
-
-        contentMap.forEach((tireDot, contentRequests) -> {
-            int sumOfPrice = getSumOfPrice(contentRequests);
-            long sumOfQuantity = getSumOfQuantity(contentRequests);
-            sale.getContents().add(SaleContent.of(sale, tireDot, sumOfPrice, sumOfQuantity));
-        });
-
+    public static Sale ofAdmin(ClientCompany clientCompany, SaleRequest saleRequest, Map<TireDot, List<SaleContentRequest>> contentMap) {
+        Sale sale = new Sale(clientCompany, null);
+        sale.update(clientCompany, saleRequest, contentMap);
         return sale;
     }
 
     public Sale update(ClientCompany clientCompany, SaleRequest saleRequest, Map<TireDot, List<SaleContentRequest>> contentMap) {
+        // validation: 이미 확정된 매출 건은 수정할 수 없다.
+        if (this.status.equals(SaleStatus.CONFIRMED)) {
+            throw new AlreadyConfirmedException();
+        }
+
         this.clientCompany = clientCompany;
         this.transactionDate = saleRequest.getTransactionDate();
         this.confirmedDate = saleRequest.getConfirmedDate();

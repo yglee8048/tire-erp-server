@@ -34,13 +34,16 @@ public class Cart {
     @Column(name = "quantity")
     private Long quantity;
 
-    public static Cart of(Client client, TireDot tireDot, Long quantity) {
-        Cart cart = new Cart();
-        return cart.update(client, tireDot, quantity);
+    private Cart(Client client) {
+        this.client = client;
     }
 
-    public Cart update(Client client, TireDot tireDot, Long quantity) {
-        this.client = client;
+    public static Cart of(Client client, TireDot tireDot, Long quantity) {
+        Cart cart = new Cart(client);
+        return cart.update(tireDot, quantity);
+    }
+
+    public Cart update(TireDot tireDot, Long quantity) {
         this.tireDot = tireDot;
         this.quantity = quantity;
 

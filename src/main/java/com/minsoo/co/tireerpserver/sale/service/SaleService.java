@@ -55,7 +55,7 @@ public class SaleService {
     public Sale create(SaleRequest saleRequest) {
         ClientCompany clientCompany = clientCompanyRepository.findById(saleRequest.getClientCompanyId())
                 .orElseThrow(() -> NotFoundException.of("고객사"));
-        Sale sale = saleRepository.save(Sale.of(clientCompany, saleRequest, makeContentMap(saleRequest)));
+        Sale sale = saleRepository.save(Sale.ofAdmin(clientCompany, saleRequest, makeContentMap(saleRequest)));
 
         // memo 추가
         if (!CollectionUtils.isEmpty(saleRequest.getMemos())) {
@@ -69,10 +69,6 @@ public class SaleService {
         Sale sale = saleRepository.findById(saleId).orElseThrow(() -> NotFoundException.of("매출"));
         ClientCompany clientCompany = clientCompanyRepository.findById(saleRequest.getClientCompanyId())
                 .orElseThrow(() -> NotFoundException.of("고객사"));
-        // validation: 이미 확정된 매출 건은 수정할 수 없다.
-        if (sale.getStatus().equals(SaleStatus.CONFIRMED)) {
-            throw new AlreadyConfirmedException();
-        }
 
         sale.update(clientCompany, saleRequest, makeContentMap(saleRequest));
         return sale;
