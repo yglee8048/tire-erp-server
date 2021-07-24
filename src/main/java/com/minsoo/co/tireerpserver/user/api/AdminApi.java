@@ -50,13 +50,13 @@ public class AdminApi {
     @Operation(summary = "관리자 수정")
     public ApiResponse<Void> updateAdmin(@PathVariable Long adminId, @RequestBody @Valid AdminRequest adminRequest) {
         adminService.update(adminId, adminRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping(value = "/admins/{adminId}")
     @Operation(summary = "관리자 삭제")
     public ApiResponse<Void> deleteAdmin(@PathVariable Long adminId) {
         adminService.removeById(adminId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 }

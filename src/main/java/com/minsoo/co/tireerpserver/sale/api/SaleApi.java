@@ -82,7 +82,7 @@ public class SaleApi {
     public ApiResponse<Void> updateSale(@PathVariable Long saleId,
                                         @RequestBody @Valid SaleRequest saleRequest) {
         saleService.update(saleId, saleRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @PostMapping(value = "/sales/{saleId}/confirm")
@@ -90,14 +90,14 @@ public class SaleApi {
     public ApiResponse<Void> confirmSale(@PathVariable Long saleId,
                                          @RequestBody @Valid List<SaleContentConfirmRequest> saleContentConfirmRequests) {
         saleService.confirm(saleId, saleContentConfirmRequests);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @PostMapping(value = "/sales/{saleId}/cancel")
     @Operation(summary = "매출 취소")
     public ApiResponse<Void> deleteSaleById(@PathVariable Long saleId) {
         saleService.cancelById(saleId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     // SALE-CONTENT
@@ -149,7 +149,7 @@ public class SaleApi {
                                             @PathVariable Long saleMemoId,
                                             @RequestBody @Valid SaleMemoRequest saleMemoRequest) {
         saleMemoService.update(saleMemoId, saleMemoRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping(value = "/sales/{saleId}/sale-memos/{saleMemoId}")
@@ -157,7 +157,7 @@ public class SaleApi {
     public ApiResponse<Void> deleteSaleMemo(@PathVariable Long saleId,
                                             @PathVariable Long saleMemoId) {
         saleMemoService.removeById(saleMemoId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     // DELIVERY
@@ -190,13 +190,13 @@ public class SaleApi {
                                             @PathVariable Long deliveryId,
                                             @RequestBody @Valid DeliveryRequest deliveryRequest) {
         deliveryService.update(saleId, deliveryId, deliveryRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping(value = "/sales/{saleId}/deliveries/{deliveryId}")
     @Operation(summary = "배송 삭제")
     public ApiResponse<Void> deleteDelivery(@PathVariable Long saleId, @PathVariable Long deliveryId) {
         deliveryService.removeById(deliveryId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 }

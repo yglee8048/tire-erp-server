@@ -54,14 +54,14 @@ public class ClientApi {
     @Operation(summary = "고객사 수정")
     public ApiResponse<Void> updateClientCompany(@PathVariable Long clientCompanyId, @RequestBody @Valid ClientCompanyRequest clientCompanyRequest) {
         clientCompanyService.update(clientCompanyId, clientCompanyRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping(value = "/client-companies/{clientCompanyId}")
     @Operation(summary = "고객사 삭제")
     public ApiResponse<Void> deleteClientCompany(@PathVariable Long clientCompanyId) {
         clientCompanyService.removeById(clientCompanyId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @GetMapping(value = "/client-companies/{clientCompanyId}/clients")
@@ -90,13 +90,13 @@ public class ClientApi {
     @Operation(summary = "고객 수정")
     public ApiResponse<Void> updateClient(@PathVariable Long clientCompanyId, @PathVariable Long clientId, @RequestBody @Valid ClientRequest clientRequest) {
         clientService.update(clientCompanyId, clientId, clientRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping(value = "/client-companies/{clientCompanyId}/clients/{clientId}")
     @Operation(summary = "고객 삭제")
     public ApiResponse<Void> deleteClient(@PathVariable Long clientCompanyId, @PathVariable Long clientId) {
         clientService.removeById(clientId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 }

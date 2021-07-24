@@ -29,7 +29,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/v1/tires")
+@RequestMapping(value = "/admin/api/v1/tires")
 @RequiredArgsConstructor
 public class TireApi {
 
@@ -66,14 +66,14 @@ public class TireApi {
     public ApiResponse<Void> updateTireById(@PathVariable(name = "tireId") Long tireId,
                                               @RequestBody @Valid TireRequest updateRequest) {
         tireService.update(tireId, updateRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping(value = "/{tireId}")
     @Operation(summary = "타이어 삭제")
     public ApiResponse<Void> deleteTireById(@PathVariable(name = "tireId") Long tireId) {
         tireService.removeById(tireId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     // TIRE DOT
@@ -108,7 +108,7 @@ public class TireApi {
                                                   @PathVariable Long tireDotId,
                                                   @RequestBody TireDotRequest tireDotRequest) {
         tireDotService.update(tireId, tireDotId, tireDotRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping(value = "/{tireId}/tire-dots/{tireDotId}")
@@ -116,7 +116,7 @@ public class TireApi {
     public ApiResponse<Void> deleteTireDotByIds(@PathVariable Long tireId,
                                                   @PathVariable Long tireDotId) {
         tireDotService.removeById(tireDotId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     // TIRE MEMO
@@ -151,7 +151,7 @@ public class TireApi {
                                               @PathVariable(value = "tireMemoId") Long tireMemoId,
                                               @RequestBody TireMemoRequest updateRequest) {
         tireMemoService.update(tireId, tireMemoId, updateRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping(value = "/{tireId}/tire-memos/{tireMemoId}")
@@ -159,6 +159,6 @@ public class TireApi {
     public ApiResponse<Void> deleteTireMemo(@PathVariable(value = "tireId") Long tireId,
                                               @PathVariable(value = "tireMemoId") Long tireMemoId) {
         tireMemoService.removeById(tireMemoId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 }

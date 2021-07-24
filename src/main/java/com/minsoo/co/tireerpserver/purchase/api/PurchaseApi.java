@@ -66,7 +66,7 @@ public class PurchaseApi {
     public ApiResponse<Void> updatePurchase(@PathVariable Long purchaseId,
                                             @RequestBody @Valid PurchaseRequest updateRequest) {
         purchaseService.update(purchaseId, updateRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @PostMapping(value = "/purchases/{purchaseId}/confirm")
@@ -74,14 +74,14 @@ public class PurchaseApi {
     public ApiResponse<Void> confirmPurchaseById(@PathVariable Long purchaseId,
                                                  @RequestBody @Valid List<PurchaseContentConfirmRequest> confirmRequests) {
         purchaseService.confirm(purchaseId, confirmRequests);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping("/purchases/{purchaseId}")
     @Operation(summary = "매입 삭제", description = "매입 내용을 삭제한다.")
     public ApiResponse<Void> deletePurchase(@PathVariable Long purchaseId) {
         purchaseService.removeById(purchaseId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     // PURCHASE-CONTENT

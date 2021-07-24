@@ -70,14 +70,14 @@ public class ManagementApi {
     public ApiResponse<Void> updateBrand(@PathVariable Long brandId,
                                            @RequestBody @Valid BrandRequest brandUpdateRequest) {
         brandService.update(brandId, brandUpdateRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping(value = "/brands/{brandId}")
     @Operation(summary = "제조사 삭제")
     public ApiResponse<Void> deleteBrand(@PathVariable Long brandId) {
         brandService.removeById(brandId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     // PATTERN
@@ -112,7 +112,7 @@ public class ManagementApi {
                                              @PathVariable(name = "patternId") Long patternId,
                                              @RequestBody @Valid PatternRequest patternRequest) {
         patternService.update(brandId, patternId, patternRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping("/brands/{brandId}/patterns/{patternId}")
@@ -120,7 +120,7 @@ public class ManagementApi {
     public ApiResponse<Void> deletePatternById(@PathVariable(name = "brandId") Long brandId,
                                                  @PathVariable(name = "patternId") Long patternId) {
         patternService.removeById(brandId, patternId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     // VENDOR
@@ -152,14 +152,14 @@ public class ManagementApi {
     public ApiResponse<Void> updateVendor(@PathVariable Long vendorId,
                                             @RequestBody @Valid VendorRequest vendorUpdateRequest) {
         vendorService.update(vendorId, vendorUpdateRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping(value = "/vendors/{vendorId}")
     @Operation(summary = "매입처 삭제")
     public ApiResponse<Void> deleteVendor(@PathVariable Long vendorId) {
         vendorService.removeById(vendorId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     // WAREHOUSE
@@ -191,13 +191,13 @@ public class ManagementApi {
     public ApiResponse<Void> updateWarehouse(@PathVariable Long warehouseId,
                                                @RequestBody @Valid WarehouseRequest warehouseUpdateRequest) {
         warehouseService.update(warehouseId, warehouseUpdateRequest);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     @DeleteMapping(value = "/warehouses/{warehouseId}")
     @Operation(summary = "창고 삭제")
     public ApiResponse<Void> deleteWarehouse(@PathVariable Long warehouseId) {
         warehouseService.removeById(warehouseId);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 }

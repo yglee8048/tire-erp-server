@@ -61,7 +61,7 @@ public class ApiResponse<T> {
         this.detail = detail;
     }
 
-    public static final ApiResponse<Void> OK = new ApiResponse<>(HttpStatus.OK, "요청이 성공하였습니다.");
+    public static final ApiResponse<Void> NO_CONTENT = new ApiResponse<>(HttpStatus.OK, "요청이 성공하였습니다.");
 
     public static <T> ApiResponse<T> OK(T data) {
         return new ApiResponse<>(HttpStatus.OK, "요청이 성공하였습니다.", data);

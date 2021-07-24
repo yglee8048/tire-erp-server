@@ -45,7 +45,7 @@ public class StockApi {
     public ApiResponse<Void> modifyStocks(@PathVariable(name = "tireDotId") Long tireDotId,
                                             @RequestBody @Valid List<StockRequest> stockRequests) {
         stockService.modifyStocks(tireDotId, stockRequests);
-        return ApiResponse.OK;
+        return ApiResponse.NO_CONTENT;
     }
 
     // TIRE-STOCKS
