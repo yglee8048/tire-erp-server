@@ -2,7 +2,6 @@ package com.minsoo.co.tireerpserver.cart.entity;
 
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
 import com.minsoo.co.tireerpserver.user.entity.Client;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,11 +23,11 @@ public class Cart {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "client_id", referencedColumnName = "client_id")
+    @JoinColumn(name = "client_id", referencedColumnName = "account_id")
     private Client client;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "tire_dot", referencedColumnName = "tire_dot")
+    @JoinColumn(name = "tire_dot_id", referencedColumnName = "tire_dot_id")
     private TireDot tireDot;
 
     @Column(name = "quantity")
