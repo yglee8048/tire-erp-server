@@ -39,7 +39,7 @@ public class Sale {
     private ClientCompany clientCompany;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "client_id", nullable = false)
+    @JoinColumn(name = "client_id")
     private Client client;
 
     @OneToOne(fetch = LAZY, cascade = ALL, orphanRemoval = true)
