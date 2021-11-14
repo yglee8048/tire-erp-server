@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.purchase.entity;
 
+import com.minsoo.co.tireerpserver.management.entity.Warehouse;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,22 +37,26 @@ public class PurchaseContent {
     @Column(name = "quantity", nullable = false)
     private Long quantity;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id", nullable = false)
+    private Warehouse warehouse;
+
     //== Business ==//
-    public PurchaseContent(Purchase purchase, TireDot tireDot, Integer price, Long quantity) {
+    public PurchaseContent(Purchase purchase) {
         this.purchase = purchase;
+    }
+
+    public static PurchaseContent of(Purchase purchase, TireDot tireDot, Integer price, Long quantity, Warehouse warehouse) {
+        PurchaseContent purchaseContent = new PurchaseContent(purchase);
+        purchaseContent.update(tireDot, price, quantity, warehouse);
+        return purchaseContent;
+    }
+
+    public PurchaseContent update(TireDot tireDot, Integer price, Long quantity, Warehouse warehouse) {
         this.tireDot = tireDot;
         this.price = price;
         this.quantity = quantity;
-    }
-
-    public static PurchaseContent of(Purchase purchase, TireDot tireDot, Integer price, Long quantity) {
-        return new PurchaseContent(purchase, tireDot, price, quantity);
-    }
-
-    public PurchaseContent update(TireDot tireDot, Integer price, Long quantity) {
-        this.tireDot = tireDot;
-        this.price = price;
-        this.quantity = quantity;
+        this.warehouse = warehouse;
 
         return this;
     }

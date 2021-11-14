@@ -36,9 +36,6 @@ public class TireDot {
     @Column(name = "dot", nullable = false)
     private String dot;
 
-    @Column(name = "retail_price", nullable = false)
-    private Integer retailPrice;
-
     @OneToMany(mappedBy = "tireDot", fetch = LAZY, cascade = ALL, orphanRemoval = true)
     private final Set<Stock> stocks = new HashSet<>();
 
@@ -46,7 +43,6 @@ public class TireDot {
     public TireDot(Tire tire, TireDotRequest tireDotRequest) {
         this.tire = tire;
         this.dot = tireDotRequest.getDot();
-        this.retailPrice = tireDotRequest.getRetailPrice();
     }
 
     public static TireDot of(Tire tire, TireDotRequest tireDotRequest) {
@@ -56,7 +52,6 @@ public class TireDot {
     public TireDot update(Tire tire, TireDotRequest tireDotRequest) {
         this.tire = tire;
         this.dot = tireDotRequest.getDot();
-        this.retailPrice = tireDotRequest.getRetailPrice();
 
         return this;
     }

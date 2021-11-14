@@ -53,6 +53,9 @@ public class Tire {
     @Column(name = "speed_index")
     private String speedIndex;
 
+    @Column(name = "retail_price", nullable = false)
+    private Integer retailPrice;
+
     @Column(name = "run_flat")
     private Boolean runFlat;
 
@@ -100,6 +103,7 @@ public class Tire {
         this.size = tireRequest.getWidth() + "/" + tireRequest.getFlatnessRatio() + "R" + tireRequest.getInch();
         this.loadIndex = tireRequest.getLoadIndex();
         this.speedIndex = tireRequest.getSpeedIndex();
+        this.retailPrice = tireRequest.getRetailPrice();
         this.runFlat = tireRequest.getRunFlat();
         this.sponge = tireRequest.getSponge();
         this.sealing = tireRequest.getSealing();
@@ -126,6 +130,7 @@ public class Tire {
         this.size = tireRequest.getWidth() + "/" + tireRequest.getFlatnessRatio() + "R" + tireRequest.getInch();
         this.loadIndex = tireRequest.getLoadIndex();
         this.speedIndex = tireRequest.getSpeedIndex();
+        this.retailPrice = tireRequest.getRetailPrice();
         this.runFlat = tireRequest.getRunFlat();
         this.sponge = tireRequest.getSponge();
         this.sealing = tireRequest.getSealing();

@@ -6,7 +6,6 @@ import com.minsoo.co.tireerpserver.tire.entity.Tire;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
 import com.minsoo.co.tireerpserver.tire.entity.TireMemo;
 import com.minsoo.co.tireerpserver.shared.model.ApiResponse;
-import com.minsoo.co.tireerpserver.tire.model.dot.TireDotSimpleResponse;
 import com.minsoo.co.tireerpserver.tire.model.memo.TireMemoRequest;
 import com.minsoo.co.tireerpserver.tire.model.memo.TireMemoResponse;
 import com.minsoo.co.tireerpserver.tire.model.TireRequest;

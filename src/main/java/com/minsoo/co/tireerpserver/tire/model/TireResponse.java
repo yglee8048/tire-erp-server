@@ -3,7 +3,8 @@ package com.minsoo.co.tireerpserver.tire.model;
 import com.minsoo.co.tireerpserver.management.model.pattern.PatternResponse;
 import com.minsoo.co.tireerpserver.tire.entity.Tire;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -38,6 +39,9 @@ public class TireResponse {
 
     @Schema(name = "speed_index", description = "속도지수")
     private String speedIndex;
+
+    @Schema(name = "retail_price", description = "소비자금액")
+    private Integer retailPrice;
 
     @Schema(name = "run_flat", description = "런플렛")
     private Boolean runFlat;
@@ -80,6 +84,7 @@ public class TireResponse {
         this.size = tire.getSize();
         this.loadIndex = tire.getLoadIndex();
         this.speedIndex = tire.getSpeedIndex();
+        this.retailPrice = tire.getRetailPrice();
         this.runFlat = tire.getRunFlat();
         this.sponge = tire.getSponge();
         this.sealing = tire.getSealing();

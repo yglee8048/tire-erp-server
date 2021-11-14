@@ -1,26 +1,24 @@
 package com.minsoo.co.tireerpserver.purchase.entity;
 
-import com.minsoo.co.tireerpserver.purchase.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.management.entity.Vendor;
+import com.minsoo.co.tireerpserver.purchase.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
-import static javax.persistence.FetchType.*;
-import static javax.persistence.GenerationType.*;
-import static lombok.AccessLevel.PROTECTED;
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
-@NoArgsConstructor(access = PROTECTED)
 @Entity
 @Table(name = "purchase")
 public class Purchase {
@@ -45,56 +43,21 @@ public class Purchase {
     private final Set<PurchaseContent> contents = new HashSet<>();
 
     //== Business ==//
-    public Purchase(Vendor vendor, LocalDate transactionDate) {
-        this.vendor = vendor;
+    protected Purchase() {
         this.status = PurchaseStatus.REQUESTED;
-        this.transactionDate = transactionDate;
     }
 
-    public static Purchase of(Vendor vendor, LocalDate transactionDate, Map<TireDot, List<PurchaseContentRequest>> contentMap) {
-        Purchase purchase = new Purchase(vendor, transactionDate);
-
-        // contents
-        contentMap.forEach((tireDot, contentRequests) -> {
-            int sumOfPrice = getSumOfPrice(contentRequests);
-            long sumOfQuantity = getSumOfQuantity(contentRequests);
-            purchase.getContents().add(PurchaseContent.of(purchase, tireDot, sumOfPrice, sumOfQuantity));
-        });
-
+    public static Purchase of(Vendor vendor, LocalDate transactionDate) {
+        Purchase purchase = new Purchase();
+        purchase.update(vendor, transactionDate);
         return purchase;
     }
 
-    public Purchase update(Vendor vendor, LocalDate transactionDate, Map<TireDot, List<PurchaseContentRequest>> contentMap) {
+    public Purchase update(Vendor vendor, LocalDate transactionDate) {
         this.vendor = vendor;
         this.transactionDate = transactionDate;
 
-        // contents
-        updateContent(contentMap);
-
         return this;
-    }
-
-    public void updateContent(Map<TireDot, List<PurchaseContentRequest>> contentMap) {
-        // DELETE
-        List<PurchaseContent> removed = this.getContents()
-                .stream()
-                .filter(purchaseContent -> !contentMap.containsKey(purchaseContent.getTireDot()))
-                .collect(Collectors.toList());
-        removed.forEach(PurchaseContent::removeFromPurchase);
-
-        // CREATE & UPDATE
-        contentMap.forEach((tireDot, contentRequests) -> {
-            int sumOfPrice = getSumOfPrice(contentRequests);
-            long sumOfQuantity = getSumOfQuantity(contentRequests);
-
-            this.findContentByTireDot(tireDot)
-                    .ifPresentOrElse(
-                            // if present, update
-                            purchaseContent -> purchaseContent.update(tireDot, sumOfPrice, sumOfQuantity),
-                            // if not, create and add
-                            () -> this.getContents()
-                                    .add(PurchaseContent.of(this, tireDot, sumOfPrice, sumOfQuantity)));
-        });
     }
 
     public Purchase updateStatus(PurchaseStatus status) {

@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.purchase.model;
 import com.minsoo.co.tireerpserver.purchase.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.management.model.vendor.VendorResponse;
 import com.minsoo.co.tireerpserver.purchase.entity.Purchase;
-import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentSimpleResponse;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -28,14 +28,14 @@ public class PurchaseResponse {
     private LocalDate transactionDate;
 
     @Schema(name = "contents", description = "매입 항목")
-    private List<PurchaseContentSimpleResponse> contents;
+    private List<PurchaseContentResponse> contents;
 
     public PurchaseResponse(Purchase purchase) {
         this.purchaseId = purchase.getId();
         this.vendor = VendorResponse.of(purchase.getVendor());
         this.status = purchase.getStatus();
         this.transactionDate = purchase.getTransactionDate();
-        this.contents = purchase.getContents().stream().map(PurchaseContentSimpleResponse::of).collect(Collectors.toList());
+        this.contents = purchase.getContents().stream().map(PurchaseContentResponse::of).collect(Collectors.toList());
     }
 
     public static PurchaseResponse of(Purchase purchase) {

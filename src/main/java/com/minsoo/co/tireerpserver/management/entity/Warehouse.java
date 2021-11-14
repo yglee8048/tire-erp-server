@@ -26,9 +26,6 @@ public class Warehouse {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "capacity")
-    private Integer capacity;
-
     @Embedded
     private Address address;
 
@@ -36,7 +33,6 @@ public class Warehouse {
     private Warehouse(WarehouseRequest createRequest) {
         this.name = createRequest.getName();
         this.description = createRequest.getDescription();
-        this.capacity = createRequest.getCapacity();
         this.address = Address.of(createRequest.getAddress());
     }
 
@@ -47,7 +43,6 @@ public class Warehouse {
     public void update(WarehouseRequest updateRequest) {
         this.name = updateRequest.getName();
         this.description = updateRequest.getDescription();
-        this.capacity = updateRequest.getCapacity();
         this.address = Address.of(updateRequest.getAddress());
     }
 }

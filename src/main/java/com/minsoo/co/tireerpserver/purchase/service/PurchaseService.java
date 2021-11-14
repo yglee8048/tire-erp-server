@@ -1,32 +1,30 @@
 package com.minsoo.co.tireerpserver.purchase.service;
 
+import com.minsoo.co.tireerpserver.management.entity.Vendor;
+import com.minsoo.co.tireerpserver.management.repository.VendorRepository;
+import com.minsoo.co.tireerpserver.management.repository.WarehouseRepository;
+import com.minsoo.co.tireerpserver.purchase.code.PurchaseStatus;
+import com.minsoo.co.tireerpserver.purchase.entity.Purchase;
+import com.minsoo.co.tireerpserver.purchase.model.DefaultStockName;
 import com.minsoo.co.tireerpserver.purchase.model.PurchaseRequest;
 import com.minsoo.co.tireerpserver.purchase.model.PurchaseResponse;
-import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentConfirmRequest;
-import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentRequest;
+import com.minsoo.co.tireerpserver.purchase.repository.PurchaseContentRepository;
+import com.minsoo.co.tireerpserver.purchase.repository.PurchaseRepository;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyConfirmedException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
-import com.minsoo.co.tireerpserver.purchase.code.PurchaseStatus;
-import com.minsoo.co.tireerpserver.stock.model.ModifyStock;
-import com.minsoo.co.tireerpserver.management.entity.Vendor;
-import com.minsoo.co.tireerpserver.management.entity.Warehouse;
-import com.minsoo.co.tireerpserver.purchase.entity.Purchase;
-import com.minsoo.co.tireerpserver.purchase.entity.PurchaseContent;
-import com.minsoo.co.tireerpserver.management.repository.VendorRepository;
-import com.minsoo.co.tireerpserver.management.repository.WarehouseRepository;
-import com.minsoo.co.tireerpserver.purchase.repository.PurchaseRepository;
+import com.minsoo.co.tireerpserver.stock.entity.Stock;
+import com.minsoo.co.tireerpserver.stock.repository.StockRepository;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
 import com.minsoo.co.tireerpserver.tire.repository.TireDotRepository;
-import com.minsoo.co.tireerpserver.purchase.repository.PurchaseContentRepository;
+import com.minsoo.co.tireerpserver.tire.repository.TireRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -36,9 +34,11 @@ public class PurchaseService {
 
     private final VendorRepository vendorRepository;
     private final WarehouseRepository warehouseRepository;
+    private final TireRepository tireRepository;
     private final TireDotRepository tireDotRepository;
     private final PurchaseRepository purchaseRepository;
     private final PurchaseContentRepository purchaseContentRepository;
+    private final StockRepository stockRepository;
 
     public List<PurchaseResponse> findAll(LocalDate from, LocalDate to) {
         return purchaseRepository.findPurchases(from, to);
@@ -52,7 +52,7 @@ public class PurchaseService {
     public Purchase create(PurchaseRequest purchaseRequest) {
         Vendor vendor = vendorRepository.findById(purchaseRequest.getVendorId()).orElseThrow(() -> NotFoundException.of("매입처"));
 
-        return purchaseRepository.save(Purchase.of(vendor, purchaseRequest.getTransactionDate(), makeContentMap(purchaseRequest)));
+        return purchaseRepository.save(Purchase.of(vendor, purchaseRequest.getTransactionDate()));
     }
 
     @Transactional
@@ -64,16 +64,8 @@ public class PurchaseService {
             throw new AlreadyConfirmedException();
         }
 
-        purchase.update(vendor, purchaseRequest.getTransactionDate(), makeContentMap(purchaseRequest));
+        purchase.update(vendor, purchaseRequest.getTransactionDate());
         return purchase;
-    }
-
-    private Map<TireDot, List<PurchaseContentRequest>> makeContentMap(PurchaseRequest purchaseRequest) {
-        return purchaseRequest.getContents()
-                .stream()
-                .collect(Collectors.groupingBy(
-                        contentRequest -> tireDotRepository.findById(contentRequest.getTireDotId())
-                                .orElseThrow(() -> NotFoundException.of("타이어 DOT"))));
     }
 
     /**
@@ -81,37 +73,20 @@ public class PurchaseService {
      * 재고가 존재하지 않는다면, 재고를 새로 생성하여 반영한다.
      */
     @Transactional
-    public Purchase confirm(Long purchaseId, List<PurchaseContentConfirmRequest> contentConfirmRequests) {
+    public Purchase confirm(Long purchaseId) {
         Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> NotFoundException.of("매입"));
         if (!purchase.getStatus().equals(PurchaseStatus.REQUESTED)) {
             throw new BadRequestException(String.format("이미 %s 상태인 매입은 확정할 수 없습니다.", purchase.getStatus().getDescription()));
         }
-        if (purchase.getContents().size() != contentConfirmRequests.size()) {
-            throw new BadRequestException("매입 항목이 모두 확정되어야 합니다.");
-        }
 
-        contentConfirmRequests.forEach(contentConfirmRequest -> {
-            PurchaseContent purchaseContent = purchaseContentRepository.findById(contentConfirmRequest.getPurchaseContentId())
-                    .orElseThrow(() -> NotFoundException.of("매입 항목"));
-            if (!purchaseContent.getPurchase().getId().equals(purchaseId)) {
-                throw new BadRequestException("purchase_id 에 포함되지 않는 purchase_content_id 입니다.");
-            }
+        purchase.getContents().forEach(purchaseContent -> {
             TireDot tireDot = purchaseContent.getTireDot();
 
-            // validate: 개수의 합이 같아야 한다.
-            if (!tireDot.isValidPurchaseQuantity(contentConfirmRequest.getStockRequests(), purchaseContent.getQuantity())) {
-                throw new BadRequestException("재고의 총 합이 일치하지 않습니다.");
-            }
-
             // modify stock
-            tireDot.modifyStocks(contentConfirmRequest.getStockRequests()
-                    .stream()
-                    .map(stockRequest -> {
-                        Warehouse warehouse = warehouseRepository.findById(stockRequest.getWarehouseId())
-                                .orElseThrow(() -> NotFoundException.of("창고"));
-                        return ModifyStock.of(warehouse, stockRequest);
-                    })
-                    .collect(Collectors.toList()));
+            stockRepository.findByTireDotAndNickname(tireDot, DefaultStockName.DEFAULT.name())
+                    .ifPresentOrElse(
+                            stock -> stock.addQuantity(purchaseContent.getQuantity()),
+                            () -> stockRepository.save(Stock.of(tireDot, purchaseContent.getWarehouse(), DefaultStockName.DEFAULT.name(), purchaseContent.getQuantity(), false)));
         });
 
         return purchase.updateStatus(PurchaseStatus.CONFIRMED);

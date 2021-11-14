@@ -2,12 +2,11 @@ package com.minsoo.co.tireerpserver.purchase.api;
 
 import com.minsoo.co.tireerpserver.purchase.model.PurchaseRequest;
 import com.minsoo.co.tireerpserver.purchase.model.PurchaseResponse;
-import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentConfirmRequest;
 import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentGridResponse;
-import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentSimpleResponse;
-import com.minsoo.co.tireerpserver.shared.model.ApiResponse;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentResponse;
 import com.minsoo.co.tireerpserver.purchase.service.PurchaseContentService;
 import com.minsoo.co.tireerpserver.purchase.service.PurchaseService;
+import com.minsoo.co.tireerpserver.shared.model.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,9 +70,8 @@ public class PurchaseApi {
 
     @PostMapping(value = "/purchases/{purchaseId}/confirm")
     @Operation(summary = "매입 확정", description = "매입을 확정한다. 매입을 확정한 시점에 매입 내용이 재고에 반영된다.")
-    public ApiResponse<Void> confirmPurchaseById(@PathVariable Long purchaseId,
-                                                 @RequestBody @Valid List<PurchaseContentConfirmRequest> confirmRequests) {
-        purchaseService.confirm(purchaseId, confirmRequests);
+    public ApiResponse<Void> confirmPurchaseById(@PathVariable Long purchaseId) {
+        purchaseService.confirm(purchaseId);
         return ApiResponse.NO_CONTENT;
     }
 
@@ -87,10 +85,10 @@ public class PurchaseApi {
     // PURCHASE-CONTENT
     @GetMapping(value = "/purchases/{purchaseId}/purchase-contents")
     @Operation(summary = "매입 항목 목록 조회")
-    public ApiResponse<List<PurchaseContentSimpleResponse>> findPurchaseContentsByPurchaseId(@PathVariable Long purchaseId) {
+    public ApiResponse<List<PurchaseContentResponse>> findPurchaseContentsByPurchaseId(@PathVariable Long purchaseId) {
         return ApiResponse.OK(purchaseContentService.findAllByPurchaseId(purchaseId)
                 .stream()
-                .map(PurchaseContentSimpleResponse::of)
+                .map(PurchaseContentResponse::of)
                 .collect(Collectors.toList()));
     }
 }

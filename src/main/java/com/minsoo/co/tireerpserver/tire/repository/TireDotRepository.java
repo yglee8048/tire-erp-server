@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TireDotRepository extends JpaRepository<TireDot, Long> {
 
@@ -14,6 +15,8 @@ public interface TireDotRepository extends JpaRepository<TireDot, Long> {
 
     @Query("select d.id from TireDot d where d.tire = :tire")
     List<Long> findAllIdsByTire(@Param(value = "tire") Tire tire);
-    
+
+    Optional<TireDot> findByTireAndDot(Tire tire, String dot);
+
     boolean existsByTireAndDot(Tire tire, String dot);
 }

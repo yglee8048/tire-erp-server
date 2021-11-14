@@ -1,9 +1,10 @@
 package com.minsoo.co.tireerpserver.management.model.warehouse;
 
-import com.minsoo.co.tireerpserver.shared.model.AddressDTO;
 import com.minsoo.co.tireerpserver.management.entity.Warehouse;
+import com.minsoo.co.tireerpserver.shared.model.AddressDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -18,9 +19,6 @@ public class WarehouseResponse {
     @Schema(name = "description", description = "설명", example = "메인 판매 타이어 보관")
     private String description;
 
-    @Schema(name = "capacity", description = "용량", example = "20000")
-    private Integer capacity;
-
     @Schema(name = "address", description = "주소")
     private AddressDTO address;
 
@@ -28,7 +26,6 @@ public class WarehouseResponse {
         this.warehouseId = warehouse.getId();
         this.name = warehouse.getName();
         this.description = warehouse.getDescription();
-        this.capacity = warehouse.getCapacity();
         this.address = AddressDTO.of(warehouse.getAddress());
     }
 

@@ -50,6 +50,10 @@ public class TireRequest {
     @Schema(name = "speed_index", description = "속도지수")
     private String speedIndex;
 
+    @Schema(name = "retail_price", description = "소비자금액")
+    @Positive(message = "소비자금액은 양수여야 합니다.")
+    private Integer retailPrice;
+
     @Schema(name = "run_flat", description = "런플렛")
     private Boolean runFlat;
 

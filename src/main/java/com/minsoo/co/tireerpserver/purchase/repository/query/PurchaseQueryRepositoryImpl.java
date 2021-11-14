@@ -1,13 +1,11 @@
 package com.minsoo.co.tireerpserver.purchase.repository.query;
 
 import com.minsoo.co.tireerpserver.purchase.model.PurchaseResponse;
-import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentSimpleResponse;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentResponse;
 import com.minsoo.co.tireerpserver.shared.model.BusinessInfoDTO;
 import com.minsoo.co.tireerpserver.management.model.brand.BrandResponse;
-import com.minsoo.co.tireerpserver.management.model.pattern.PatternSimpleResponse;
 import com.minsoo.co.tireerpserver.management.model.vendor.VendorResponse;
 import com.minsoo.co.tireerpserver.tire.model.dot.TireDotResponse;
-import com.minsoo.co.tireerpserver.tire.model.TireSimpleResponse;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -51,12 +49,12 @@ public class PurchaseQueryRepositoryImpl implements PurchaseQueryRepository {
                         .where(fromDate(from), toDate(to))
                         .fetch();
 
-        List<PurchaseContentSimpleResponse> contentResponses = findContents(purchaseResponses.stream()
+        List<PurchaseContentResponse> contentResponses = findContents(purchaseResponses.stream()
                 .map(PurchaseResponse::getPurchaseId)
                 .collect(Collectors.toList()));
 
-        Map<Long, List<PurchaseContentSimpleResponse>> contentMap = contentResponses.stream()
-                .collect(Collectors.groupingBy(PurchaseContentSimpleResponse::getPurchaseId));
+        Map<Long, List<PurchaseContentResponse>> contentMap = contentResponses.stream()
+                .collect(Collectors.groupingBy(PurchaseContentResponse::getPurchaseId));
 
         purchaseResponses
                 .forEach(purchaseResponse -> purchaseResponse.setContents(contentMap.get(purchaseResponse.getPurchaseId())));
@@ -64,8 +62,8 @@ public class PurchaseQueryRepositoryImpl implements PurchaseQueryRepository {
         return purchaseResponses;
     }
 
-    private List<PurchaseContentSimpleResponse> findContents(List<Long> purchaseIds) {
-        return queryFactory.select(Projections.fields(PurchaseContentSimpleResponse.class,
+    private List<PurchaseContentResponse> findContents(List<Long> purchaseIds) {
+        return queryFactory.select(Projections.fields(PurchaseContentResponse.class,
                 purchaseContent.id.as("purchaseContentId"),
                 purchaseContent.purchase.id.as("purchaseId"),
                 Projections.fields(TireDotResponse.class,

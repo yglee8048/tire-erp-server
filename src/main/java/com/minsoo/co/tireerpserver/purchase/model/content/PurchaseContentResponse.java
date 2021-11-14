@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.purchase.model.content;
 
-import com.minsoo.co.tireerpserver.purchase.model.PurchaseSimpleResponse;
+import com.minsoo.co.tireerpserver.management.entity.Warehouse;
+import com.minsoo.co.tireerpserver.management.model.warehouse.WarehouseResponse;
 import com.minsoo.co.tireerpserver.tire.model.dot.TireDotResponse;
 import com.minsoo.co.tireerpserver.purchase.entity.PurchaseContent;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,8 +15,8 @@ public class PurchaseContentResponse {
     @Schema(name = "purchase_content_id", description = "purchase_content_id")
     private Long purchaseContentId;
 
-    @Schema(name = "purchase", description = "매입 정보")
-    private PurchaseSimpleResponse purchase;
+    @Schema(name = "purchase_id", description = "매입 ID")
+    private Long purchaseId;
 
     @Schema(name = "tire_dot", description = "타이어 DOT")
     private TireDotResponse tireDot;
@@ -26,9 +27,12 @@ public class PurchaseContentResponse {
     @Schema(name = "quantity", description = "매입 수량", example = "45")
     private Long quantity;
 
+    @Schema(name = "warehouse", description = "창고")
+    private WarehouseResponse warehouse;
+
     public PurchaseContentResponse(PurchaseContent purchaseContent) {
         this.purchaseContentId = purchaseContent.getId();
-        this.purchase = PurchaseSimpleResponse.of(purchaseContent.getPurchase());
+        this.purchaseId = purchaseContent.getPurchase().getId();
         this.tireDot = TireDotResponse.of(purchaseContent.getTireDot());
         this.price = purchaseContent.getPrice();
         this.quantity = purchaseContent.getQuantity();

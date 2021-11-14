@@ -1,6 +1,5 @@
 package com.minsoo.co.tireerpserver.stock.model;
 
-import com.minsoo.co.tireerpserver.tire.model.TireSimpleResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

@@ -2,8 +2,6 @@ package com.minsoo.co.tireerpserver.stock.repository.query;
 
 import com.minsoo.co.tireerpserver.management.model.brand.BrandResponse;
 import com.minsoo.co.tireerpserver.stock.model.TireStockResponse;
-import com.minsoo.co.tireerpserver.management.model.pattern.PatternSimpleResponse;
-import com.minsoo.co.tireerpserver.tire.model.TireSimpleResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
