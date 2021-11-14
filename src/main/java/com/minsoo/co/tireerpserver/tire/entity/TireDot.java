@@ -1,21 +1,24 @@
 package com.minsoo.co.tireerpserver.tire.entity;
 
 import com.minsoo.co.tireerpserver.shared.error.exceptions.BadRequestException;
+import com.minsoo.co.tireerpserver.stock.entity.Stock;
 import com.minsoo.co.tireerpserver.stock.model.ModifyStock;
 import com.minsoo.co.tireerpserver.stock.model.StockRequest;
 import com.minsoo.co.tireerpserver.tire.model.dot.TireDotRequest;
-import com.minsoo.co.tireerpserver.stock.entity.Stock;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.*;
-import static javax.persistence.GenerationType.*;
-import static lombok.AccessLevel.*;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED)
@@ -40,18 +43,14 @@ public class TireDot {
     private final Set<Stock> stocks = new HashSet<>();
 
     //== Business ==//
-    public TireDot(Tire tire, TireDotRequest tireDotRequest) {
-        this.tire = tire;
-        this.dot = tireDotRequest.getDot();
+    public static TireDot of(Tire tire, String dot) {
+        TireDot tireDot = new TireDot();
+        return tireDot.update(tire, dot);
     }
 
-    public static TireDot of(Tire tire, TireDotRequest tireDotRequest) {
-        return new TireDot(tire, tireDotRequest);
-    }
-
-    public TireDot update(Tire tire, TireDotRequest tireDotRequest) {
+    public TireDot update(Tire tire, String dot) {
         this.tire = tire;
-        this.dot = tireDotRequest.getDot();
+        this.dot = dot;
 
         return this;
     }

@@ -1,13 +1,16 @@
 package com.minsoo.co.tireerpserver.purchase.service;
 
 import com.minsoo.co.tireerpserver.management.entity.Vendor;
+import com.minsoo.co.tireerpserver.management.entity.Warehouse;
 import com.minsoo.co.tireerpserver.management.repository.VendorRepository;
 import com.minsoo.co.tireerpserver.management.repository.WarehouseRepository;
 import com.minsoo.co.tireerpserver.purchase.code.PurchaseStatus;
 import com.minsoo.co.tireerpserver.purchase.entity.Purchase;
+import com.minsoo.co.tireerpserver.purchase.entity.PurchaseContent;
 import com.minsoo.co.tireerpserver.purchase.model.DefaultStockName;
 import com.minsoo.co.tireerpserver.purchase.model.PurchaseRequest;
 import com.minsoo.co.tireerpserver.purchase.model.PurchaseResponse;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.purchase.repository.PurchaseContentRepository;
 import com.minsoo.co.tireerpserver.purchase.repository.PurchaseRepository;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyConfirmedException;
@@ -15,6 +18,7 @@ import com.minsoo.co.tireerpserver.shared.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
 import com.minsoo.co.tireerpserver.stock.entity.Stock;
 import com.minsoo.co.tireerpserver.stock.repository.StockRepository;
+import com.minsoo.co.tireerpserver.tire.entity.Tire;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
 import com.minsoo.co.tireerpserver.tire.repository.TireDotRepository;
 import com.minsoo.co.tireerpserver.tire.repository.TireRepository;
@@ -51,8 +55,23 @@ public class PurchaseService {
     @Transactional
     public Purchase create(PurchaseRequest purchaseRequest) {
         Vendor vendor = vendorRepository.findById(purchaseRequest.getVendorId()).orElseThrow(() -> NotFoundException.of("매입처"));
+        Purchase purchase = purchaseRepository.save(Purchase.of(vendor, purchaseRequest.getTransactionDate()));
 
-        return purchaseRepository.save(Purchase.of(vendor, purchaseRequest.getTransactionDate()));
+        addPurchaseContents(purchase, purchaseRequest.getContents());
+        return purchase;
+    }
+
+    private void addPurchaseContents(Purchase purchase, List<PurchaseContentRequest> purchaseContentRequests) {
+        for (PurchaseContentRequest contentRequest : purchaseContentRequests) {
+            Warehouse warehouse = warehouseRepository.findById(contentRequest.getWarehouseId()).orElseThrow(() -> NotFoundException.of("창고"));
+
+            Tire tire = tireRepository.findById(contentRequest.getTireId()).orElseThrow(() -> NotFoundException.of("타이어"));
+            TireDot tireDot = tireDotRepository.findByTireAndDot(tire, contentRequest.getDot())
+                    .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, contentRequest.getDot())));
+
+            PurchaseContent purchaseContent = PurchaseContent.of(purchase, tireDot, contentRequest.getPrice(), contentRequest.getQuantity(), warehouse);
+            purchase.getContents().add(purchaseContent);
+        }
     }
 
     @Transactional
@@ -65,6 +84,8 @@ public class PurchaseService {
         }
 
         purchase.update(vendor, purchaseRequest.getTransactionDate());
+        purchase.getContents().clear();
+        addPurchaseContents(purchase, purchaseRequest.getContents());
         return purchase;
     }
 
