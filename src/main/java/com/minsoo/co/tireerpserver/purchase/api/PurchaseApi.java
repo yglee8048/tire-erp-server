@@ -36,7 +36,7 @@ public class PurchaseApi {
     @Operation(summary = "매입 내역 목록 조회 화면", description = "매출 내역 목록을 보여줄 때 사용한다.(Aggregation)")
     public ApiResponse<List<PurchaseContentGridResponse>> findPurchaseContents(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
                                                                                @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
-        return ApiResponse.OK(purchaseContentService.findAllByTransactionDate(from, to));
+        return ApiResponse.OK(purchaseService.findAllAsGrid(from, to));
     }
 
     // PURCHASE
@@ -44,7 +44,7 @@ public class PurchaseApi {
     @Operation(summary = "매입 내역 목록 조회", description = "매입 내역의 목록을 조회한다.")
     public ApiResponse<List<PurchaseResponse>> findAllPurchases(@RequestParam(required = false) LocalDate from,
                                                                 @RequestParam(required = false) LocalDate to) {
-        return ApiResponse.OK(purchaseService.findAll(from, to));
+        return ApiResponse.OK(purchaseService.findAllAsResponses(from, to));
     }
 
     @GetMapping("/purchases/{purchaseId}")

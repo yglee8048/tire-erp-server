@@ -3,9 +3,9 @@ package com.minsoo.co.tireerpserver.tire.service;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.AlreadyExistException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.BadRequestException;
 import com.minsoo.co.tireerpserver.shared.error.exceptions.NotFoundException;
-import com.minsoo.co.tireerpserver.tire.model.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.tire.entity.Tire;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
+import com.minsoo.co.tireerpserver.tire.model.dot.TireDotRequest;
 import com.minsoo.co.tireerpserver.tire.repository.TireDotRepository;
 import com.minsoo.co.tireerpserver.tire.repository.TireRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class TireDotService {
             throw new AlreadyExistException("이미 존재하는 DOT 입니다.");
         }
 
-        return tireDotRepository.save(TireDot.of(tire, tireDotRequest));
+        return tireDotRepository.save(TireDot.of(tire, tireDotRequest.getDot()));
     }
 
     @Transactional
@@ -54,7 +54,7 @@ public class TireDotService {
             throw new AlreadyExistException("이미 존재하는 DOT 입니다.");
         }
 
-        return tireDot.update(tire, tireDotRequest);
+        return tireDot.update(tire, tireDotRequest.getDot());
     }
 
     //TODO: 삭제 검증

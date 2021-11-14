@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.purchase.model.content;
 
 import com.minsoo.co.tireerpserver.purchase.code.PurchaseStatus;
+import com.minsoo.co.tireerpserver.purchase.entity.PurchaseContent;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -63,4 +64,24 @@ public class PurchaseContentGridResponse {
 
     @Schema(name = "purchase_content_quantity", description = "매입 항목 매입 개수")
     private Long purchaseContentQuantity;
+
+    public PurchaseContentGridResponse(PurchaseContent purchaseContent) {
+        this.purchaseContentId = purchaseContent.getId();
+        this.purchaseId = purchaseContent.getPurchase().getId();
+        this.vendorId = purchaseContent.getPurchase().getVendor().getId();
+        this.tireDotId = purchaseContent.getTireDot().getId();
+        this.tireId = purchaseContent.getTireDot().getTire().getId();
+        this.patternId = purchaseContent.getTireDot().getTire().getPattern().getId();
+        this.brandId = purchaseContent.getTireDot().getTire().getPattern().getBrand().getId();
+        this.vendorName = purchaseContent.getPurchase().getVendor().getName();
+        this.purchaseStatus = purchaseContent.getPurchase().getStatus();
+        this.transactionDate = purchaseContent.getPurchase().getTransactionDate();
+        this.brandName = purchaseContent.getTireDot().getTire().getPattern().getBrand().getName();
+        this.patternName = purchaseContent.getTireDot().getTire().getPattern().getName();
+        this.tireIdentification = purchaseContent.getTireDot().getTire().getTireIdentification();
+        this.tireSize = purchaseContent.getTireDot().getTire().getSize();
+        this.dot = purchaseContent.getTireDot().getDot();
+        this.purchaseContentPrice = purchaseContent.getPrice();
+        this.purchaseContentQuantity = purchaseContent.getQuantity();
+    }
 }

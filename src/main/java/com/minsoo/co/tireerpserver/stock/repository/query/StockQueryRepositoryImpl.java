@@ -1,7 +1,9 @@
 package com.minsoo.co.tireerpserver.stock.repository.query;
 
 import com.minsoo.co.tireerpserver.management.model.brand.BrandResponse;
+import com.minsoo.co.tireerpserver.management.model.pattern.PatternResponse;
 import com.minsoo.co.tireerpserver.stock.model.TireStockResponse;
+import com.minsoo.co.tireerpserver.tire.model.TireResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
@@ -29,11 +31,11 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     private JPAQuery<TireStockResponse> createTireStockQuery() {
         return queryFactory
                 .select(Projections.fields(TireStockResponse.class,
-                        Projections.fields(TireSimpleResponse.class,
+                        Projections.fields(TireResponse.class,
                                 tire.id.as("tireId"),
                                 tire.onSale,
                                 tire.tireIdentification,
-                                Projections.fields(PatternSimpleResponse.class,
+                                Projections.fields(PatternResponse.class,
                                         pattern.id.as("patternId"),
                                         Projections.fields(BrandResponse.class,
                                                 brand.id.as("brandId"),

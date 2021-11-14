@@ -10,6 +10,7 @@ import com.minsoo.co.tireerpserver.purchase.entity.PurchaseContent;
 import com.minsoo.co.tireerpserver.purchase.model.DefaultStockName;
 import com.minsoo.co.tireerpserver.purchase.model.PurchaseRequest;
 import com.minsoo.co.tireerpserver.purchase.model.PurchaseResponse;
+import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentGridResponse;
 import com.minsoo.co.tireerpserver.purchase.model.content.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.purchase.repository.PurchaseContentRepository;
 import com.minsoo.co.tireerpserver.purchase.repository.PurchaseRepository;
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -44,9 +46,28 @@ public class PurchaseService {
     private final PurchaseContentRepository purchaseContentRepository;
     private final StockRepository stockRepository;
 
-    public List<PurchaseResponse> findAll(LocalDate from, LocalDate to) {
-        return purchaseRepository.findPurchases(from, to);
+    public List<PurchaseContentGridResponse> findAllAsGrid(LocalDate from, LocalDate to) {
+        return findAll(from, to)
+                .stream()
+                .flatMap(purchase -> purchase.getContents().stream())
+                .map(PurchaseContentGridResponse::new)
+                .collect(Collectors.toList());
     }
+
+    public List<PurchaseResponse> findAllAsResponses(LocalDate from, LocalDate to) {
+        return findAll(from, to)
+                .stream()
+                .map(PurchaseResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<Purchase> findAll(LocalDate from, LocalDate to) {
+        if (from == null || to == null) {
+            return purchaseRepository.findAll();
+        }
+        return purchaseRepository.findByTransactionDateBetween(from, to);
+    }
+
 
     public Purchase findById(Long id) {
         return purchaseRepository.findById(id).orElseThrow(() -> NotFoundException.of("매입"));
@@ -69,7 +90,7 @@ public class PurchaseService {
             TireDot tireDot = tireDotRepository.findByTireAndDot(tire, contentRequest.getDot())
                     .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, contentRequest.getDot())));
 
-            PurchaseContent purchaseContent = PurchaseContent.of(purchase, tireDot, contentRequest.getPrice(), contentRequest.getQuantity(), warehouse);
+            PurchaseContent purchaseContent = purchaseContentRepository.save(PurchaseContent.of(purchase, tireDot, contentRequest.getPrice(), contentRequest.getQuantity(), warehouse));
             purchase.getContents().add(purchaseContent);
         }
     }

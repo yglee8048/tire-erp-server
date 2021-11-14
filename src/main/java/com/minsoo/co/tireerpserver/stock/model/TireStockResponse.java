@@ -1,14 +1,16 @@
 package com.minsoo.co.tireerpserver.stock.model;
 
+import com.minsoo.co.tireerpserver.tire.model.TireResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 public class TireStockResponse {
 
     @Schema(name = "tire", description = "타이어 정보")
-    private TireSimpleResponse tire;
+    private TireResponse tire;
 
     @Schema(name = "average_of_purchase_price", description = "매입 평균가")
     private Double averageOfPurchasePrice;

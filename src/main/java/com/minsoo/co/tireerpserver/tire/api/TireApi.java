@@ -1,15 +1,15 @@
 package com.minsoo.co.tireerpserver.tire.api;
 
-import com.minsoo.co.tireerpserver.tire.model.dot.TireDotRequest;
-import com.minsoo.co.tireerpserver.tire.model.dot.TireDotResponse;
+import com.minsoo.co.tireerpserver.shared.model.ApiResponse;
 import com.minsoo.co.tireerpserver.tire.entity.Tire;
 import com.minsoo.co.tireerpserver.tire.entity.TireDot;
 import com.minsoo.co.tireerpserver.tire.entity.TireMemo;
-import com.minsoo.co.tireerpserver.shared.model.ApiResponse;
-import com.minsoo.co.tireerpserver.tire.model.memo.TireMemoRequest;
-import com.minsoo.co.tireerpserver.tire.model.memo.TireMemoResponse;
 import com.minsoo.co.tireerpserver.tire.model.TireRequest;
 import com.minsoo.co.tireerpserver.tire.model.TireResponse;
+import com.minsoo.co.tireerpserver.tire.model.dot.TireDotRequest;
+import com.minsoo.co.tireerpserver.tire.model.dot.TireDotResponse;
+import com.minsoo.co.tireerpserver.tire.model.memo.TireMemoRequest;
+import com.minsoo.co.tireerpserver.tire.model.memo.TireMemoResponse;
 import com.minsoo.co.tireerpserver.tire.service.TireDotService;
 import com.minsoo.co.tireerpserver.tire.service.TireMemoService;
 import com.minsoo.co.tireerpserver.tire.service.TireService;
@@ -63,7 +63,7 @@ public class TireApi {
     @PutMapping(value = "/{tireId}")
     @Operation(summary = "타이어 수정")
     public ApiResponse<Void> updateTireById(@PathVariable(name = "tireId") Long tireId,
-                                              @RequestBody @Valid TireRequest updateRequest) {
+                                            @RequestBody @Valid TireRequest updateRequest) {
         tireService.update(tireId, updateRequest);
         return ApiResponse.NO_CONTENT;
     }
@@ -78,10 +78,10 @@ public class TireApi {
     // TIRE DOT
     @GetMapping(value = "/{tireId}/tire-dots")
     @Operation(summary = "타이어 DOT 목록 조회")
-    public ApiResponse<List<TireDotSimpleResponse>> findTireDotsByTireId(@PathVariable Long tireId) {
+    public ApiResponse<List<TireDotResponse>> findTireDotsByTireId(@PathVariable Long tireId) {
         return ApiResponse.OK(tireDotService.findAllByTireId(tireId)
                 .stream()
-                .map(TireDotSimpleResponse::of)
+                .map(TireDotResponse::of)
                 .collect(Collectors.toList()));
     }
 
@@ -95,7 +95,7 @@ public class TireApi {
     @PostMapping(value = "/{tireId}/tire-dots")
     @Operation(summary = "타이어 DOT 생성")
     public ResponseEntity<ApiResponse<Void>> createTireDot(@PathVariable Long tireId,
-                                                             @RequestBody TireDotRequest tireDotRequest) {
+                                                           @RequestBody TireDotRequest tireDotRequest) {
         TireDot tireDot = tireDotService.create(tireId, tireDotRequest);
         return ApiResponse.CREATED(
                 linkTo(methodOn(TireApi.class).findTireDotByIds(tireId, tireDot.getId())).toUri());
@@ -104,8 +104,8 @@ public class TireApi {
     @PutMapping(value = "/{tireId}/tire-dots/{tireDotId}")
     @Operation(summary = "타이어 DOT 수정")
     public ApiResponse<Void> updateTireDotByIds(@PathVariable Long tireId,
-                                                  @PathVariable Long tireDotId,
-                                                  @RequestBody TireDotRequest tireDotRequest) {
+                                                @PathVariable Long tireDotId,
+                                                @RequestBody TireDotRequest tireDotRequest) {
         tireDotService.update(tireId, tireDotId, tireDotRequest);
         return ApiResponse.NO_CONTENT;
     }
@@ -113,7 +113,7 @@ public class TireApi {
     @DeleteMapping(value = "/{tireId}/tire-dots/{tireDotId}")
     @Operation(summary = "타이어 DOT 삭제")
     public ApiResponse<Void> deleteTireDotByIds(@PathVariable Long tireId,
-                                                  @PathVariable Long tireDotId) {
+                                                @PathVariable Long tireDotId) {
         tireDotService.removeById(tireDotId);
         return ApiResponse.NO_CONTENT;
     }
@@ -138,7 +138,7 @@ public class TireApi {
     @PostMapping(value = "/{tireId}/tire-memos")
     @Operation(summary = "타이어 메모 생성", description = "타이어 메모를 생성한다.")
     public ResponseEntity<ApiResponse<Void>> createTireMemo(@PathVariable(value = "tireId") Long tireId,
-                                                              @RequestBody @Valid TireMemoRequest createRequest) {
+                                                            @RequestBody @Valid TireMemoRequest createRequest) {
         TireMemo tireMemo = tireMemoService.create(tireId, createRequest);
         return ApiResponse.CREATED(
                 linkTo(methodOn(TireApi.class).findTireMemoById(tireId, tireMemo.getId())).toUri());
@@ -147,8 +147,8 @@ public class TireApi {
     @PutMapping(value = "/{tireId}/tire-memos/{tireMemoId}")
     @Operation(summary = "타이어 메모 수정", description = "타이어 메모를 수정한다.")
     public ApiResponse<Void> updateTireMemo(@PathVariable(value = "tireId") Long tireId,
-                                              @PathVariable(value = "tireMemoId") Long tireMemoId,
-                                              @RequestBody TireMemoRequest updateRequest) {
+                                            @PathVariable(value = "tireMemoId") Long tireMemoId,
+                                            @RequestBody TireMemoRequest updateRequest) {
         tireMemoService.update(tireId, tireMemoId, updateRequest);
         return ApiResponse.NO_CONTENT;
     }
@@ -156,7 +156,7 @@ public class TireApi {
     @DeleteMapping(value = "/{tireId}/tire-memos/{tireMemoId}")
     @Operation(summary = "타이어 메모 삭제", description = "타이어 메모를 삭제한다.")
     public ApiResponse<Void> deleteTireMemo(@PathVariable(value = "tireId") Long tireId,
-                                              @PathVariable(value = "tireMemoId") Long tireMemoId) {
+                                            @PathVariable(value = "tireMemoId") Long tireMemoId) {
         tireMemoService.removeById(tireMemoId);
         return ApiResponse.NO_CONTENT;
     }
