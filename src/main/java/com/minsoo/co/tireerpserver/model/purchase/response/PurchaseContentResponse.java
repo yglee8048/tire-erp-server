@@ -10,14 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PurchaseContentResponse {
 
-    private Long id;
+    private Long purchaseContentId;
     private TireDotResponse tireDot;
     private Integer price;
     private Long quantity;
     private WarehouseResponse warehouse;
 
     public PurchaseContentResponse(PurchaseContent purchaseContent) {
-        this.id = purchaseContent.getId();
+        this.purchaseContentId = purchaseContent.getId();
         this.tireDot = new TireDotResponse(purchaseContent.getTireDot());
         this.price = purchaseContent.getPrice();
         this.quantity = purchaseContent.getQuantity();

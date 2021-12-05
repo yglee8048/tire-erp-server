@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TireMemoResponse {
 
-    private Long id;
+    private Long tireMemoId;
     private TireResponse tire;
     private String memo;
     private Boolean lock;
 
     public TireMemoResponse(TireMemo tireMemo) {
-        this.id = tireMemo.getId();
+        this.tireMemoId = tireMemo.getId();
         this.tire = new TireResponse(tireMemo.getTire());
         this.memo = tireMemo.getMemo();
         this.lock = tireMemo.getLock();

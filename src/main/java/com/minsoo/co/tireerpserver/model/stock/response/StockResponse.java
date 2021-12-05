@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StockResponse {
 
-    private Long id;
+    private Long stockId;
     private TireDotResponse tireDot;
     private WarehouseResponse warehouse;
     private String nickname;
@@ -18,7 +18,7 @@ public class StockResponse {
     private Boolean lock;
 
     public StockResponse(Stock stock) {
-        this.id = stock.getId();
+        this.stockId = stock.getId();
         this.tireDot = new TireDotResponse(stock.getTireDot());
         this.warehouse = new WarehouseResponse(stock.getWarehouse());
         this.nickname = stock.getNickname();

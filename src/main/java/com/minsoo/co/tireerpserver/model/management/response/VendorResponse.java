@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VendorResponse {
 
-    private Long id;
+    private Long vendorId;
     private String name;
     private String description;
     private BusinessInfoDTO businessInfo;
 
     public VendorResponse(Vendor vendor) {
-        this.id = vendor.getId();
+        this.vendorId = vendor.getId();
         this.name = vendor.getName();
         this.description = vendor.getDescription();
         this.businessInfo = new BusinessInfoDTO(vendor.getBusinessInfo());

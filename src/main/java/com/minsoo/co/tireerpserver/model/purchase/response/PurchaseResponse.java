@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class PurchaseResponse {
 
-    private Long id;
+    private Long purchaseId;
     private VendorResponse vendor;
     private PurchaseStatus status;
     private LocalDate transactionDate;
     private List<PurchaseContentResponse> contents;
 
     public PurchaseResponse(Purchase purchase) {
-        this.id = purchase.getId();
+        this.purchaseId = purchase.getId();
         this.vendor = new VendorResponse(purchase.getVendor());
         this.status = purchase.getStatus();
         this.transactionDate = purchase.getTransactionDate();

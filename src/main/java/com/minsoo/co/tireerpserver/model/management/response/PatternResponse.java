@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PatternResponse {
 
-    private Long id;
+    private Long patternId;
     private BrandResponse brand;
     private String name;
     private String carType;
@@ -23,7 +23,7 @@ public class PatternResponse {
     private Boolean wetSurface;
 
     public PatternResponse(Pattern pattern) {
-        this.id = pattern.getId();
+        this.patternId = pattern.getId();
         this.brand = new BrandResponse(pattern.getBrand());
         this.name = pattern.getName();
         this.carType = pattern.getCarType();

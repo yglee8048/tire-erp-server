@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BrandResponse {
 
-    private Long id;
+    private Long brandId;
     private String name;
     private String description;
 
     public BrandResponse(Brand brand) {
-        this.id = brand.getId();
+        this.brandId = brand.getId();
         this.name = brand.getName();
         this.description = brand.getDescription();
     }

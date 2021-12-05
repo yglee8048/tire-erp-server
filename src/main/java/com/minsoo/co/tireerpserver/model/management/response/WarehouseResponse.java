@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class WarehouseResponse {
 
-    private Long id;
+    private Long warehouseId;
     private String name;
     private String description;
     private AddressDTO address;
 
     public WarehouseResponse(Warehouse warehouse) {
-        this.id = warehouse.getId();
+        this.warehouseId = warehouse.getId();
         this.name = warehouse.getName();
         this.description = warehouse.getDescription();
         this.address = new AddressDTO(warehouse.getAddress());

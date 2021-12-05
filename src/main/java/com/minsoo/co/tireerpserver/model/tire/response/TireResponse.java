@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TireResponse {
 
-    private Long id;
+    private Long tireId;
     private PatternResponse pattern;
     private String tireIdentification;
     private Boolean onSale;
@@ -32,7 +32,7 @@ public class TireResponse {
     private String lr;
 
     public TireResponse(Tire tire) {
-        this.id = tire.getId();
+        this.tireId = tire.getId();
         this.pattern = new PatternResponse(tire.getPattern());
         this.onSale = tire.getOnSale();
         this.tireIdentification = tire.getTireIdentification();
