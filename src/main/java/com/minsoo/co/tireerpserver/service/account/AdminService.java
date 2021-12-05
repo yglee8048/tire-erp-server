@@ -36,4 +36,14 @@ public class AdminService {
     public Admin create(AdminRequest adminRequest) {
         return adminRepository.save(Admin.of(adminRequest, passwordEncoder));
     }
+
+    public Admin update(Long adminId, AdminRequest adminRequest) {
+        Admin admin = findById(adminId);
+        return admin.update(adminRequest, passwordEncoder);
+    }
+
+    public void deleteById(Long adminId) {
+        Admin admin = findById(adminId);
+        adminRepository.delete(admin);
+    }
 }

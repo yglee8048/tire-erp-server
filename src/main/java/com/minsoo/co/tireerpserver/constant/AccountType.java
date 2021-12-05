@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.entity.account;
+package com.minsoo.co.tireerpserver.constant;
 
 public abstract class AccountType {
 

@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.account.request;
 
-import com.minsoo.co.tireerpserver.entity.account.ClientRole;
+import com.minsoo.co.tireerpserver.constant.ClientRole;
 import com.minsoo.co.tireerpserver.model.AddressDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -20,6 +20,10 @@ public class ClientRequest {
     @Schema(name = "user_id", description = "계정 아이디")
     @NotEmpty(message = "계정 아이디는 필수 값입니다.")
     private String userId;
+
+    @Schema(name = "password", description = "계정 비밀번호")
+    @NotEmpty(message = "계정 비밀번호는 필수 값입니다.")
+    private String password;
 
     @Schema(name = "role", description = "권한")
     @NotNull(message = "권한은 필수 값입니다.")

@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.account.request;
 
-import com.minsoo.co.tireerpserver.entity.account.AdminRole;
+import com.minsoo.co.tireerpserver.constant.AdminRole;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
