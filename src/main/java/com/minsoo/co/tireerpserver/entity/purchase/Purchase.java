@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.entity.purchase;
 
+import com.minsoo.co.tireerpserver.constant.PurchaseStatus;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
 import com.minsoo.co.tireerpserver.entity.management.Vendor;

@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.purchase.response;
 
 import com.minsoo.co.tireerpserver.entity.purchase.Purchase;
-import com.minsoo.co.tireerpserver.entity.purchase.PurchaseStatus;
+import com.minsoo.co.tireerpserver.constant.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.management.response.VendorResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.entity.purchase;
+package com.minsoo.co.tireerpserver.constant;
 
 public enum PurchaseStatus {
     REQUESTED, CONFIRMED
