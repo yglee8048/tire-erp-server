@@ -4,8 +4,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 @Getter
@@ -14,4 +17,8 @@ import javax.persistence.Table;
 @Table(name = "admin")
 @DiscriminatorValue(AccountType.ADMIN)
 public class Admin extends Account {
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private AdminRole role;
 }
