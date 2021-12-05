@@ -7,7 +7,17 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,23 +34,27 @@ public class TireDot extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tire_id", nullable = false)
+    @JoinColumn(name = "tire_id")
     private Tire tire;
 
-    @Column(name = "dot", nullable = false)
+    @Column(name = "dot")
     private String dot;
+
+    @Column(name = "price")
+    private Integer price;
 
     @OneToMany(mappedBy = "tireDot", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Stock> stocks = new HashSet<>();
 
-    public static TireDot of(Tire tire, String dot) {
+    public static TireDot of(Tire tire, String dot, int price) {
         TireDot tireDot = new TireDot();
-        return tireDot.update(tire, dot);
+        return tireDot.update(tire, dot, price);
     }
 
-    public TireDot update(Tire tire, String dot) {
+    public TireDot update(Tire tire, String dot, int price) {
         this.tire = tire;
         this.dot = dot;
+        this.price = price;
         return this;
     }
 

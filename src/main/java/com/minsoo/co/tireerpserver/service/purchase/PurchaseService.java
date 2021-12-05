@@ -65,7 +65,7 @@ public class PurchaseService {
                 return new NotFoundException(SystemMessage.NOT_FOUND + ": [타이어]");
             });
             TireDot tireDot = tireDotRepository.findByTireAndDot(tire, content.getDot())
-                    .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, content.getDot())));
+                    .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, content.getDot(), tire.getRetailPrice())));
             Warehouse warehouse = warehouseRepository.findById(content.getWarehouseId()).orElseThrow(() -> {
                 log.error("Can not find warehouse by id: {}", content.getWarehouseId());
                 return new NotFoundException(SystemMessage.NOT_FOUND + ": [창고]");

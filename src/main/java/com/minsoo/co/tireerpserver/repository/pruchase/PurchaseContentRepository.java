@@ -1,12 +1,12 @@
 package com.minsoo.co.tireerpserver.repository.pruchase;
 
-import com.minsoo.co.tireerpserver.entity.purchase.Purchase;
 import com.minsoo.co.tireerpserver.entity.purchase.PurchaseContent;
+import com.minsoo.co.tireerpserver.entity.tire.Tire;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
+import org.springframework.data.jpa.repository.Query;
 
 public interface PurchaseContentRepository extends JpaRepository<PurchaseContent, Long> {
 
-    List<PurchaseContent> findAllByPurchase(Purchase purchase);
+    @Query("select avg(pc.price) from PurchaseContent pc join pc.tireDot td join td.tire t where t = :tire")
+    Double averagePriceByTire(Tire tire);
 }

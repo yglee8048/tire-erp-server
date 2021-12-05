@@ -4,6 +4,7 @@ import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.tire.Tire;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
+import com.minsoo.co.tireerpserver.model.tire.request.TireDotRequest;
 import com.minsoo.co.tireerpserver.repository.tire.TireDotRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,15 +38,15 @@ public class TireDotService {
         });
     }
 
-    public TireDot create(Long tireId, String dot) {
+    public TireDot create(Long tireId, TireDotRequest tireDotRequest) {
         Tire tire = tireService.findById(tireId);
-        return tireDotRepository.save(TireDot.of(tire, dot));
+        return tireDotRepository.save(TireDot.of(tire, tireDotRequest.getDot(), tireDotRequest.getPrice()));
     }
 
-    public TireDot update(Long tireId, Long tireDotId, String dot) {
+    public TireDot update(Long tireId, Long tireDotId, TireDotRequest tireDotRequest) {
         Tire tire = tireService.findById(tireId);
         TireDot tireDot = findById(tireDotId);
-        return tireDot.update(tire, dot);
+        return tireDot.update(tire, tireDotRequest.getDot(), tireDotRequest.getPrice());
     }
 
     public void deleteById(Long tireDotId) {
