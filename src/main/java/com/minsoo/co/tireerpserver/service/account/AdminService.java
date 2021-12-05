@@ -3,9 +3,11 @@ package com.minsoo.co.tireerpserver.service.account;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.account.Admin;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
+import com.minsoo.co.tireerpserver.model.account.request.AdminRequest;
 import com.minsoo.co.tireerpserver.repository.account.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,7 @@ import java.util.List;
 public class AdminService {
 
     private final AdminRepository adminRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<Admin> findAll() {
         return adminRepository.findAll();
@@ -30,7 +33,7 @@ public class AdminService {
         });
     }
 
-    public Admin create() {
-
+    public Admin create(AdminRequest adminRequest) {
+        return adminRepository.save(Admin.of(adminRequest, passwordEncoder));
     }
 }

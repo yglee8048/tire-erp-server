@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.account.request;
 
-import com.minsoo.co.tireerpserver.shared.model.AddressDTO;
-import com.minsoo.co.tireerpserver.user.code.ClientRole;
+import com.minsoo.co.tireerpserver.entity.account.ClientRole;
+import com.minsoo.co.tireerpserver.model.AddressDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
