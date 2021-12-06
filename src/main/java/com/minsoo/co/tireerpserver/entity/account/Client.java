@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.entity.account;
 import com.minsoo.co.tireerpserver.constant.AccountType;
 import com.minsoo.co.tireerpserver.constant.ClientRole;
 import com.minsoo.co.tireerpserver.entity.Address;
-import com.minsoo.co.tireerpserver.model.account.request.ClientRequest;
+import com.minsoo.co.tireerpserver.model.request.account.ClientRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

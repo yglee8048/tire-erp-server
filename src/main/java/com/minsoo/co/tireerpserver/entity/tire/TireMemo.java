@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.entity.tire;
 
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
-import com.minsoo.co.tireerpserver.model.tire.request.TireMemoRequest;
+import com.minsoo.co.tireerpserver.model.request.tire.TireMemoRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,14 +1,14 @@
 package com.minsoo.co.tireerpserver.api;
 
 import com.minsoo.co.tireerpserver.model.ApiResponse;
-import com.minsoo.co.tireerpserver.model.management.request.BrandRequest;
-import com.minsoo.co.tireerpserver.model.management.request.PatternRequest;
-import com.minsoo.co.tireerpserver.model.management.request.VendorRequest;
-import com.minsoo.co.tireerpserver.model.management.request.WarehouseRequest;
-import com.minsoo.co.tireerpserver.model.management.response.BrandResponse;
-import com.minsoo.co.tireerpserver.model.management.response.PatternResponse;
-import com.minsoo.co.tireerpserver.model.management.response.VendorResponse;
-import com.minsoo.co.tireerpserver.model.management.response.WarehouseResponse;
+import com.minsoo.co.tireerpserver.model.request.management.BrandRequest;
+import com.minsoo.co.tireerpserver.model.request.management.PatternRequest;
+import com.minsoo.co.tireerpserver.model.request.management.VendorRequest;
+import com.minsoo.co.tireerpserver.model.request.management.WarehouseRequest;
+import com.minsoo.co.tireerpserver.model.response.management.BrandResponse;
+import com.minsoo.co.tireerpserver.model.response.management.PatternResponse;
+import com.minsoo.co.tireerpserver.model.response.management.VendorResponse;
+import com.minsoo.co.tireerpserver.model.response.management.WarehouseResponse;
 import com.minsoo.co.tireerpserver.service.management.BrandService;
 import com.minsoo.co.tireerpserver.service.management.PatternService;
 import com.minsoo.co.tireerpserver.service.management.VendorService;
@@ -130,7 +130,7 @@ public class ManagementApi {
         return ApiResponse.NO_CONTENT();
     }
 
-    @GetMapping("/warehouse")
+    @GetMapping("/warehouses")
     public ApiResponse<List<WarehouseResponse>> findAllWarehouses() {
         return ApiResponse.OK(warehouseService.findAll()
                 .stream()
@@ -139,23 +139,23 @@ public class ManagementApi {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/warehouse")
+    @PostMapping("/warehouses")
     public ApiResponse<WarehouseResponse> createWarehouse(@RequestBody @Valid WarehouseRequest warehouseRequest) {
         return ApiResponse.CREATED(new WarehouseResponse(warehouseService.create(warehouseRequest)));
     }
 
-    @GetMapping("/warehouse/{warehouseId}")
+    @GetMapping("/warehouses/{warehouseId}")
     public ApiResponse<WarehouseResponse> findWarehouseById(@PathVariable Long warehouseId) {
         return ApiResponse.OK(new WarehouseResponse(warehouseService.findById(warehouseId)));
     }
 
-    @PutMapping("/warehouse/{warehouseId}")
+    @PutMapping("/warehouses/{warehouseId}")
     public ApiResponse<WarehouseResponse> updateWarehouse(@PathVariable Long warehouseId,
                                                           @RequestBody @Valid WarehouseRequest warehouseRequest) {
         return ApiResponse.OK(new WarehouseResponse(warehouseService.update(warehouseId, warehouseRequest)));
     }
 
-    @DeleteMapping("/warehouse/{warehouseId}")
+    @DeleteMapping("/warehouses/{warehouseId}")
     public ApiResponse<Void> deleteWarehouseById(@PathVariable Long warehouseId) {
         warehouseService.deleteById(warehouseId);
         return ApiResponse.NO_CONTENT();

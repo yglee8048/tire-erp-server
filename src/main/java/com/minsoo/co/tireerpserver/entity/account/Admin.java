@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.entity.account;
 
 import com.minsoo.co.tireerpserver.constant.AccountType;
 import com.minsoo.co.tireerpserver.constant.AdminRole;
-import com.minsoo.co.tireerpserver.model.account.request.AdminRequest;
+import com.minsoo.co.tireerpserver.model.request.account.AdminRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

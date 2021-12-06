@@ -4,7 +4,7 @@ import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.management.Brand;
 import com.minsoo.co.tireerpserver.entity.management.Pattern;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.management.request.PatternRequest;
+import com.minsoo.co.tireerpserver.model.request.management.PatternRequest;
 import com.minsoo.co.tireerpserver.repository.management.PatternRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

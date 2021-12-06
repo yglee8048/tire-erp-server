@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.service.management;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.management.Warehouse;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.management.request.WarehouseRequest;
+import com.minsoo.co.tireerpserver.model.request.management.WarehouseRequest;
 import com.minsoo.co.tireerpserver.repository.management.WarehouseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

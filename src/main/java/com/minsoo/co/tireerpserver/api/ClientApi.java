@@ -1,10 +1,10 @@
 package com.minsoo.co.tireerpserver.api;
 
 import com.minsoo.co.tireerpserver.model.ApiResponse;
-import com.minsoo.co.tireerpserver.model.account.request.ClientCompanyRequest;
-import com.minsoo.co.tireerpserver.model.account.request.ClientRequest;
-import com.minsoo.co.tireerpserver.model.account.response.ClientCompanyResponse;
-import com.minsoo.co.tireerpserver.model.account.response.ClientResponse;
+import com.minsoo.co.tireerpserver.model.request.account.ClientCompanyRequest;
+import com.minsoo.co.tireerpserver.model.request.account.ClientRequest;
+import com.minsoo.co.tireerpserver.model.response.account.ClientCompanyResponse;
+import com.minsoo.co.tireerpserver.model.response.account.ClientResponse;
 import com.minsoo.co.tireerpserver.service.account.ClientCompanyService;
 import com.minsoo.co.tireerpserver.service.account.ClientService;
 import lombok.RequiredArgsConstructor;

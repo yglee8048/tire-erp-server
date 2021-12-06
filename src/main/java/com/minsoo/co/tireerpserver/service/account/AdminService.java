@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.service.account;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.account.Admin;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.account.request.AdminRequest;
+import com.minsoo.co.tireerpserver.model.request.account.AdminRequest;
 import com.minsoo.co.tireerpserver.repository.account.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

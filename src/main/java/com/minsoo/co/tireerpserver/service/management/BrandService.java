@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.service.management;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.management.Brand;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.management.request.BrandRequest;
+import com.minsoo.co.tireerpserver.model.request.management.BrandRequest;
 import com.minsoo.co.tireerpserver.repository.management.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

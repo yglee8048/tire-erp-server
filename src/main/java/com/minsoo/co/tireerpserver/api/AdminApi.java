@@ -1,8 +1,8 @@
 package com.minsoo.co.tireerpserver.api;
 
 import com.minsoo.co.tireerpserver.model.ApiResponse;
-import com.minsoo.co.tireerpserver.model.account.request.AdminRequest;
-import com.minsoo.co.tireerpserver.model.account.response.AdminResponse;
+import com.minsoo.co.tireerpserver.model.request.account.AdminRequest;
+import com.minsoo.co.tireerpserver.model.response.account.AdminResponse;
 import com.minsoo.co.tireerpserver.service.account.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

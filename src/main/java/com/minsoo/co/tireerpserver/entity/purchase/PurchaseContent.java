@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.entity.purchase;
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
 import com.minsoo.co.tireerpserver.entity.management.Warehouse;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
-import com.minsoo.co.tireerpserver.model.purchase.request.PurchaseContentRequest;
+import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseContentRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

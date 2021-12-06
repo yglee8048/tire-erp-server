@@ -1,20 +1,12 @@
 package com.minsoo.co.tireerpserver.entity.management;
 
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
-import com.minsoo.co.tireerpserver.model.management.request.PatternRequest;
+import com.minsoo.co.tireerpserver.model.request.management.PatternRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,6 +25,9 @@ public class Pattern extends BaseTimeEntity {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "pattern_code")
+    private String patternCode;
 
     @Column(name = "car_type")
     private String carType;
@@ -72,6 +67,7 @@ public class Pattern extends BaseTimeEntity {
     public Pattern update(Brand brand, PatternRequest request) {
         this.brand = brand;
         this.name = request.getName();
+        this.patternCode = request.getPatternCode();
         this.carType = request.getCarType();
         this.rank = request.getRank();
         this.season = request.getSeason();

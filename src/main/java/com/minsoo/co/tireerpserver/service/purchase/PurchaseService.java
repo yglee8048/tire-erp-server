@@ -11,8 +11,8 @@ import com.minsoo.co.tireerpserver.entity.tire.Tire;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.purchase.request.PurchaseContentRequest;
-import com.minsoo.co.tireerpserver.model.purchase.request.PurchaseRequest;
+import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseContentRequest;
+import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseRequest;
 import com.minsoo.co.tireerpserver.repository.management.VendorRepository;
 import com.minsoo.co.tireerpserver.repository.management.WarehouseRepository;
 import com.minsoo.co.tireerpserver.repository.pruchase.PurchaseContentRepository;
@@ -24,8 +24,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -40,10 +38,6 @@ public class PurchaseService {
     private final TireDotRepository tireDotRepository;
     private final VendorRepository vendorRepository;
     private final WarehouseRepository warehouseRepository;
-
-    public List<Purchase> findAll() {
-        return purchaseRepository.findAll();
-    }
 
     public Purchase findById(Long purchaseId) {
         return purchaseRepository.findById(purchaseId).orElseThrow(() -> {
@@ -65,7 +59,7 @@ public class PurchaseService {
                 return new NotFoundException(SystemMessage.NOT_FOUND + ": [타이어]");
             });
             TireDot tireDot = tireDotRepository.findByTireAndDot(tire, content.getDot())
-                    .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, content.getDot(), tire.getRetailPrice())));
+                    .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, content.getDot())));
             Warehouse warehouse = warehouseRepository.findById(content.getWarehouseId()).orElseThrow(() -> {
                 log.error("Can not find warehouse by id: {}", content.getWarehouseId());
                 return new NotFoundException(SystemMessage.NOT_FOUND + ": [창고]");

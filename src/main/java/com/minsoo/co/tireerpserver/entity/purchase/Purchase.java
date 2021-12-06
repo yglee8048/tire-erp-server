@@ -5,7 +5,7 @@ import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
 import com.minsoo.co.tireerpserver.entity.management.Vendor;
 import com.minsoo.co.tireerpserver.exception.BadRequestException;
-import com.minsoo.co.tireerpserver.model.purchase.request.PurchaseRequest;
+import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseRequest;
 import lombok.Getter;
 
 import javax.persistence.CascadeType;

@@ -4,7 +4,7 @@ import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.management.Pattern;
 import com.minsoo.co.tireerpserver.entity.tire.Tire;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.tire.request.TireRequest;
+import com.minsoo.co.tireerpserver.model.request.tire.TireRequest;
 import com.minsoo.co.tireerpserver.repository.tire.TireRepository;
 import com.minsoo.co.tireerpserver.service.management.PatternService;
 import lombok.RequiredArgsConstructor;

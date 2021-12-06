@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.entity.tire;
 
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
 import com.minsoo.co.tireerpserver.entity.management.Pattern;
-import com.minsoo.co.tireerpserver.model.tire.request.TireRequest;
+import com.minsoo.co.tireerpserver.model.request.tire.TireRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +26,8 @@ public class Tire extends BaseTimeEntity {
     @JoinColumn(name = "pattern_id")
     private Pattern pattern;
 
-    @Column(name = "tire_identification")
-    private String tireIdentification;
+    @Column(name = "tire_code")
+    private String tireCode;
 
     @Column(name = "on_sale")
     private Boolean onSale;
@@ -84,6 +84,9 @@ public class Tire extends BaseTimeEntity {
     @Column(name = "lr")
     private String lr;
 
+    @Column(name = "tire_ro_id")
+    private String tireRoId;
+
     @OneToMany(mappedBy = "tire", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<TireDot> tireDots = new HashSet<>();
 
@@ -94,7 +97,7 @@ public class Tire extends BaseTimeEntity {
 
     public Tire update(Pattern pattern, TireRequest tireRequest) {
         this.pattern = pattern;
-        this.tireIdentification = tireRequest.getTireIdentification();
+        this.tireCode = tireRequest.getTireCode();
         this.onSale = tireRequest.getOnSale();
         this.width = tireRequest.getWidth();
         this.flatnessRatio = tireRequest.getFlatnessRatio();
@@ -113,6 +116,32 @@ public class Tire extends BaseTimeEntity {
         this.tireGroup = tireRequest.getTireGroup();
         this.pr = tireRequest.getPr();
         this.lr = tireRequest.getLr();
+        this.tireRoId = tireRequest.getTireRoId();
         return this;
+    }
+
+    public Long getTheNumberOfActiveDots() {
+        return this.tireDots.stream()
+                .filter(TireDot::isActive)
+                .count();
+    }
+
+    public Long getSumOfStock() {
+        return this.tireDots.stream()
+                .mapToLong(TireDot::getSumOfStockQuantity)
+                .sum();
+    }
+
+    public Long getSumOfOpenedStock() {
+        return this.tireDots.stream()
+                .mapToLong(TireDot::getSumOfOpenedStockQuantity)
+                .sum();
+    }
+
+    public Double getAveragePurchasePrice() {
+        return this.tireDots.stream()
+                .mapToDouble(TireDot::getAveragePurchasePrice)
+                .average()
+                .orElse(0);
     }
 }

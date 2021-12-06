@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.entity.management;
 
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
-import com.minsoo.co.tireerpserver.model.management.request.BrandRequest;
+import com.minsoo.co.tireerpserver.model.request.management.BrandRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

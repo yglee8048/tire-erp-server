@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.entity.management;
 
 import com.minsoo.co.tireerpserver.entity.Address;
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
-import com.minsoo.co.tireerpserver.model.management.request.WarehouseRequest;
+import com.minsoo.co.tireerpserver.model.request.management.WarehouseRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

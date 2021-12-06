@@ -4,7 +4,7 @@ import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.account.Client;
 import com.minsoo.co.tireerpserver.entity.account.ClientCompany;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.account.request.ClientRequest;
+import com.minsoo.co.tireerpserver.model.request.account.ClientRequest;
 import com.minsoo.co.tireerpserver.repository.account.ClientCompanyRepository;
 import com.minsoo.co.tireerpserver.repository.account.ClientRepository;
 import lombok.RequiredArgsConstructor;

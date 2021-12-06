@@ -4,7 +4,7 @@ import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.tire.Tire;
 import com.minsoo.co.tireerpserver.entity.tire.TireMemo;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.tire.request.TireMemoRequest;
+import com.minsoo.co.tireerpserver.model.request.tire.TireMemoRequest;
 import com.minsoo.co.tireerpserver.repository.tire.TireMemoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

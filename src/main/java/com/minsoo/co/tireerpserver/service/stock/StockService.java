@@ -1,14 +1,15 @@
 package com.minsoo.co.tireerpserver.service.stock;
 
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
+import com.minsoo.co.tireerpserver.entity.management.Warehouse;
 import com.minsoo.co.tireerpserver.entity.stock.Stock;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.stock.request.StockRequest;
+import com.minsoo.co.tireerpserver.model.request.stock.StockRequest;
+import com.minsoo.co.tireerpserver.repository.management.WarehouseRepository;
 import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
-import com.minsoo.co.tireerpserver.service.management.WarehouseService;
-import com.minsoo.co.tireerpserver.service.tire.TireDotService;
+import com.minsoo.co.tireerpserver.repository.tire.TireDotRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,15 +26,15 @@ import java.util.stream.Collectors;
 public class StockService {
 
     private final StockRepository stockRepository;
-    private final WarehouseService warehouseService;
-    private final TireDotService tireDotService;
+    private final WarehouseRepository warehouseRepository;
+    private final TireDotRepository tireDotRepository;
 
     public List<Stock> findAll() {
         return stockRepository.findAll();
     }
 
     public List<Stock> findAllByTireDot(Long tireDotId) {
-        TireDot tireDot = tireDotService.findById(tireDotId);
+        TireDot tireDot = findTireDotById(tireDotId);
         return stockRepository.findAllByTireDot(tireDot);
     }
 
@@ -45,7 +46,7 @@ public class StockService {
     }
 
     public void modifyStocks(Long tireDotId, List<StockRequest> stockRequests) {
-        TireDot tireDot = tireDotService.findById(tireDotId);
+        TireDot tireDot = findTireDotById(tireDotId);
         if (!tireDot.isValidStockRequests(stockRequests)) {
             throw new BadRequestException(SystemMessage.DISCREPANCY_STOCK_QUANTITY);
         }
@@ -59,8 +60,21 @@ public class StockService {
 
         tireDot.getStocks().clear();
         tireDot.getStocks().addAll(stockRequests.stream()
-                .map(stockRequest -> stockRepository.save(
-                        Stock.of(tireDot, stockRequest.getNickname(), warehouseService.findById(stockRequest.getWarehouseId()), stockRequest.getQuantity(), stockRequest.isLock())))
+                .map(stockRequest -> {
+                    Warehouse warehouse = warehouseRepository.findById(stockRequest.getWarehouseId()).orElseThrow(() -> {
+                        log.error("Can not find warehouse by id: {}", stockRequest.getWarehouseId());
+                        return new NotFoundException(SystemMessage.NOT_FOUND + ": [창고]");
+                    });
+                    return stockRepository.save(
+                            Stock.of(tireDot, stockRequest.getNickname(), warehouse, stockRequest.getQuantity(), stockRequest.isLock()));
+                })
                 .collect(Collectors.toSet()));
+    }
+
+    private TireDot findTireDotById(Long tireDotId) {
+        return tireDotRepository.findById(tireDotId).orElseThrow(() -> {
+            log.error("Can not find tire dot by id: {}", tireDotId);
+            return new NotFoundException(SystemMessage.NOT_FOUND + ": [타이어 DOT]");
+        });
     }
 }
