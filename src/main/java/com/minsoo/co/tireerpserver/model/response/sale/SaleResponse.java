@@ -6,7 +6,7 @@ import com.minsoo.co.tireerpserver.entity.sale.Sale;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -17,9 +17,9 @@ public class SaleResponse {
     private Long deliveryId;
     private SaleSource source;
     private SaleStatus status;
-    private LocalDateTime transactionDate;
-    private LocalDateTime confirmedDate;
-    private LocalDateTime desiredDeliveryDate;
+    private LocalDate transactionDate;
+    private LocalDate confirmedDate;
+    private LocalDate desiredDeliveryDate;
 
     public SaleResponse(Sale sale) {
         this.saleId = sale.getId();
