@@ -54,18 +54,8 @@ public class PurchaseService {
         Purchase purchase = purchaseRepository.save(Purchase.of(vendor, purchaseRequest));
 
         for (PurchaseContentRequest content : purchaseRequest.getContents()) {
-            Tire tire = tireRepository.findById(content.getTireId()).orElseThrow(() -> {
-                log.error("Can not find tire by id: {}", content.getTireId());
-                return new NotFoundException(SystemMessage.NOT_FOUND + ": [타이어]");
-            });
-            TireDot tireDot = tireDotRepository.findByTireAndDot(tire, content.getDot())
-                    .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, content.getDot())));
-            Warehouse warehouse = warehouseRepository.findById(content.getWarehouseId()).orElseThrow(() -> {
-                log.error("Can not find warehouse by id: {}", content.getWarehouseId());
-                return new NotFoundException(SystemMessage.NOT_FOUND + ": [창고]");
-            });
-
-            purchase.getPurchaseContents().add(purchaseContentRepository.save(PurchaseContent.of(purchase, tireDot, warehouse, content)));
+            PurchaseContent purchaseContent = savePurchaseContent(purchase, content);
+            purchase.getPurchaseContents().add(purchaseContent);
         }
         return purchase;
     }
@@ -76,7 +66,28 @@ public class PurchaseService {
             log.error("Can not find vendor by id: {}", purchaseRequest.getVendorId());
             return new NotFoundException(SystemMessage.NOT_FOUND + ": [매입처]");
         });
-        return purchase.update(vendor, purchaseRequest);
+        purchase.update(vendor, purchaseRequest);
+
+        purchase.getPurchaseContents().clear();
+        for (PurchaseContentRequest content : purchaseRequest.getContents()) {
+            PurchaseContent purchaseContent = savePurchaseContent(purchase, content);
+            purchase.getPurchaseContents().add(purchaseContent);
+        }
+        return purchase;
+    }
+
+    private PurchaseContent savePurchaseContent(Purchase purchase, PurchaseContentRequest content) {
+        Tire tire = tireRepository.findById(content.getTireId()).orElseThrow(() -> {
+            log.error("Can not find tire by id: {}", content.getTireId());
+            return new NotFoundException(SystemMessage.NOT_FOUND + ": [타이어]");
+        });
+        TireDot tireDot = tireDotRepository.findByTireAndDot(tire, content.getDot())
+                .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, content.getDot())));
+        Warehouse warehouse = warehouseRepository.findById(content.getWarehouseId()).orElseThrow(() -> {
+            log.error("Can not find warehouse by id: {}", content.getWarehouseId());
+            return new NotFoundException(SystemMessage.NOT_FOUND + ": [창고]");
+        });
+        return purchaseContentRepository.save(PurchaseContent.of(purchase, tireDot, warehouse, content));
     }
 
     public Purchase confirm(Long purchaseId) {
@@ -89,7 +100,8 @@ public class PurchaseService {
             String defaultNickname = DefaultValue.DEFAULT_STOCK_NICKNAME_PREFIX + purchaseContent.getWarehouse().getName();
             stockRepository.findByTireDotAndNickname(purchaseContent.getTireDot(), defaultNickname)
                     .map(stock -> stock.addQuantity(purchaseContent.getQuantity()))
-                    .orElseGet(() -> stockRepository.save(Stock.of(purchaseContent.getTireDot(), defaultNickname, purchaseContent.getWarehouse(), purchaseContent.getQuantity(), false)));
+                    .orElseGet(() -> stockRepository.save(
+                            Stock.of(purchaseContent.getTireDot(), defaultNickname, purchaseContent.getWarehouse(), purchaseContent.getQuantity().longValue(), false)));
         }
         return purchase;
     }

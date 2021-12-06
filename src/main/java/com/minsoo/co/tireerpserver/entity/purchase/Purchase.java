@@ -8,19 +8,7 @@ import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseRequest;
 import lombok.Getter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -46,6 +34,9 @@ public class Purchase extends BaseTimeEntity {
     @Column(name = "transaction_date")
     private LocalDate transactionDate;
 
+    @Column(name = "description")
+    private String description;
+
     @OneToMany(mappedBy = "purchase", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private final Set<PurchaseContent> purchaseContents = new HashSet<>();
 
@@ -64,6 +55,7 @@ public class Purchase extends BaseTimeEntity {
         }
         this.vendor = vendor;
         this.transactionDate = purchaseRequest.getTransactionDate();
+        this.description = purchaseRequest.getDescription();
         return this;
     }
 

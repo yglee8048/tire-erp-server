@@ -24,6 +24,9 @@ public class PurchaseRequest {
     @NotNull(message = "거래 일자는 필수 값입니다.")
     private LocalDate transactionDate;
 
+    @Schema(name = "description", description = "설명")
+    private String description;
+
     @Schema(name = "contents", description = "매입 항목", required = true)
     @NotNull(message = "매입 항목은 필수 값입니다.")
     List<PurchaseContentRequest> contents;

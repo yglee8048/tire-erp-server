@@ -32,10 +32,10 @@ public class PurchaseContent extends BaseTimeEntity {
     private TireDot tireDot;
 
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private Long price;
 
     @Column(name = "quantity", nullable = false)
-    private Long quantity;
+    private Integer quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id")

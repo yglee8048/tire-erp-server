@@ -1,19 +1,12 @@
 package com.minsoo.co.tireerpserver.entity.sale;
 
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,4 +23,24 @@ public class SaleMemo extends BaseTimeEntity {
     @JoinColumn(name = "sale_id", referencedColumnName = "sale_id")
     private Sale sale;
 
+    @Column(name = "memo")
+    private String memo;
+
+    @Column(name = "is_lock")
+    private Boolean lock;
+
+    public SaleMemo(Sale sale) {
+        this.sale = sale;
+    }
+
+    public static SaleMemo of(Sale sale, SaleMemoRequest saleMemoRequest) {
+        SaleMemo saleMemo = new SaleMemo(sale);
+        return saleMemo.update(saleMemoRequest);
+    }
+
+    public SaleMemo update(SaleMemoRequest saleMemoRequest) {
+        this.memo = saleMemoRequest.getMemo();
+        this.lock = saleMemoRequest.isLock();
+        return this;
+    }
 }

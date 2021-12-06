@@ -24,11 +24,11 @@ public class PurchaseContentRequest {
 
     @Schema(name = "price", description = "매입 가격", example = "450000", required = true)
     @NotNull(message = "매입 가격은 필수 값입니다.")
-    private Integer price;
+    private Long price;
 
     @Schema(name = "quantity", description = "매입 수량", example = "45", required = true)
     @NotNull(message = "매입 수량은 필수 값입니다.")
-    private Long quantity;
+    private Integer quantity;
 
     @Schema(name = "warehouse_id", description = "warehouse_id", example = "2", required = true)
     @NotNull(message = "warehouse_id 는 필수 값입니다.")

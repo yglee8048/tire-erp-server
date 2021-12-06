@@ -32,7 +32,7 @@ public class PurchaseApi {
     }
 
     @GetMapping("/purchases/{purchaseId}/purchase-content-grids")
-    public ApiResponse<List<PurchaseContentGridResponse>> findAllPurchaseContents(@PathVariable Long purchaseId) {
+    public ApiResponse<List<PurchaseContentGridResponse>> findPurchaseContentsByPurchaseId(@PathVariable Long purchaseId) {
         return ApiResponse.OK(purchaseContentService.findByPurchase(purchaseId).stream()
                 .map(PurchaseContentGridResponse::new)
                 .collect(Collectors.toList()));

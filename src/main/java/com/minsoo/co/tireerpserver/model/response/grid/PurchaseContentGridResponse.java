@@ -19,15 +19,18 @@ public class PurchaseContentGridResponse {
     private Long purchaseId;
     private LocalDate transactionDate;
     private PurchaseStatus status;
+
     private VendorResponse vendor;
+
     private TireStandardDTO tireInfo;
+
     private Long sumOfOpenedStock;
     private Long sumOfStock;
     private Double averageOfPurchasePrice;
     private String dot;
     private WarehouseResponse warehouse;
-    private Long quantity;
-    private Integer price;
+    private Integer quantity;
+    private Long price;
     private Long purchasePrice;
 
     private String createdBy;

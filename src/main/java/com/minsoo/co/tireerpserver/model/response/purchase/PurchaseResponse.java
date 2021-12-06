@@ -16,6 +16,7 @@ public class PurchaseResponse {
     private Long vendorId;
     private PurchaseStatus status;
     private LocalDate transactionDate;
+    private String description;
 
     private String createdBy;
     private LocalDateTime createdAt;
@@ -27,6 +28,7 @@ public class PurchaseResponse {
         this.vendorId = purchase.getVendor().getId();
         this.status = purchase.getStatus();
         this.transactionDate = purchase.getTransactionDate();
+        this.description = purchase.getDescription();
 
         this.createdAt = purchase.getCreatedAt();
         this.lastModifiedAt = purchase.getLastModifiedAt();
