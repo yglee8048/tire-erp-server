@@ -5,6 +5,7 @@ import com.minsoo.co.tireerpserver.model.request.tire.TireMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.tire.TireRequest;
 import com.minsoo.co.tireerpserver.model.response.grid.TireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.TireGridResponse;
+import com.minsoo.co.tireerpserver.model.response.tire.TireDotResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.TireMemoResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.TireResponse;
 import com.minsoo.co.tireerpserver.service.tire.TireDotService;
@@ -37,10 +38,18 @@ public class TireApi {
                 .collect(Collectors.toList()));
     }
 
+    @GetMapping("/tires/{tireId}/tire-dot-grids")
+    public ApiResponse<List<TireDotGridResponse>> findTireDotsByTire(@PathVariable Long tireId) {
+        return ApiResponse.OK(tireDotService.findAllByTireId(tireId)
+                .stream()
+                .map(TireDotGridResponse::new)
+                .collect(Collectors.toList()));
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/tires")
-    public ApiResponse<TireGridResponse> createTire(@RequestBody @Valid TireRequest tireRequest) {
-        return ApiResponse.CREATED(new TireGridResponse(tireService.create(tireRequest)));
+    public ApiResponse<TireResponse> createTire(@RequestBody @Valid TireRequest tireRequest) {
+        return ApiResponse.CREATED(new TireResponse(tireService.create(tireRequest)));
     }
 
     @GetMapping("/tires/{tireId}")
@@ -61,10 +70,9 @@ public class TireApi {
     }
 
     @GetMapping("/tires/{tireId}/tire-dots")
-    public ApiResponse<List<TireDotGridResponse>> findTireDotsByTire(@PathVariable Long tireId) {
-        return ApiResponse.OK(tireDotService.findAllByTireId(tireId)
-                .stream()
-                .map(TireDotGridResponse::new)
+    public ApiResponse<List<TireDotResponse>> findTireDotsByTireId(@PathVariable Long tireId) {
+        return ApiResponse.OK(tireDotService.findAllByTireId(tireId).stream()
+                .map(TireDotResponse::new)
                 .collect(Collectors.toList()));
     }
 
