@@ -6,7 +6,7 @@ import com.minsoo.co.tireerpserver.entity.stock.Stock;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.request.stock.StockRequest;
+import com.minsoo.co.tireerpserver.model.request.stock.StockMoveRequest;
 import com.minsoo.co.tireerpserver.repository.management.WarehouseRepository;
 import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
 import com.minsoo.co.tireerpserver.repository.tire.TireDotRepository;
@@ -45,28 +45,28 @@ public class StockService {
         });
     }
 
-    public void modifyStocks(Long tireDotId, List<StockRequest> stockRequests) {
+    public void modifyStocks(Long tireDotId, List<StockMoveRequest> stockMoveRequests) {
         TireDot tireDot = findTireDotById(tireDotId);
-        if (!tireDot.isValidStockRequests(stockRequests)) {
+        if (!tireDot.isValidStockRequests(stockMoveRequests)) {
             throw new BadRequestException(SystemMessage.DISCREPANCY_STOCK_QUANTITY);
         }
 
-        Set<String> nicknames = stockRequests.stream()
-                .map(StockRequest::getNickname)
+        Set<String> nicknames = stockMoveRequests.stream()
+                .map(StockMoveRequest::getNickname)
                 .collect(Collectors.toSet());
-        if (nicknames.size() != stockRequests.size()) {
+        if (nicknames.size() != stockMoveRequests.size()) {
             throw new BadRequestException(SystemMessage.NICKNAME_DUPLICATE);
         }
 
         tireDot.getStocks().clear();
-        tireDot.getStocks().addAll(stockRequests.stream()
-                .map(stockRequest -> {
-                    Warehouse warehouse = warehouseRepository.findById(stockRequest.getWarehouseId()).orElseThrow(() -> {
-                        log.error("Can not find warehouse by id: {}", stockRequest.getWarehouseId());
+        tireDot.getStocks().addAll(stockMoveRequests.stream()
+                .map(stockMoveRequest -> {
+                    Warehouse warehouse = warehouseRepository.findById(stockMoveRequest.getWarehouseId()).orElseThrow(() -> {
+                        log.error("Can not find warehouse by id: {}", stockMoveRequest.getWarehouseId());
                         return new NotFoundException(SystemMessage.NOT_FOUND + ": [창고]");
                     });
                     return stockRepository.save(
-                            Stock.of(tireDot, stockRequest.getNickname(), warehouse, stockRequest.getQuantity(), stockRequest.isLock()));
+                            Stock.of(tireDot, stockMoveRequest.getNickname(), warehouse, stockMoveRequest.getQuantity(), stockMoveRequest.isLock()));
                 })
                 .collect(Collectors.toSet()));
     }

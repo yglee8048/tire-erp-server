@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.entity.tire;
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
 import com.minsoo.co.tireerpserver.entity.purchase.PurchaseContent;
 import com.minsoo.co.tireerpserver.entity.stock.Stock;
-import com.minsoo.co.tireerpserver.model.request.stock.StockRequest;
+import com.minsoo.co.tireerpserver.model.request.stock.StockMoveRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,9 +54,9 @@ public class TireDot extends BaseTimeEntity {
                 .sum();
     }
 
-    public boolean isValidStockRequests(List<StockRequest> stockRequests) {
-        long sumOfRequest = stockRequests.stream()
-                .mapToLong(StockRequest::getQuantity)
+    public boolean isValidStockRequests(List<StockMoveRequest> stockMoveRequests) {
+        long sumOfRequest = stockMoveRequests.stream()
+                .mapToLong(StockMoveRequest::getQuantity)
                 .sum();
         return getSumOfStockQuantity() == sumOfRequest;
     }

@@ -97,11 +97,10 @@ public class PurchaseService {
         }
 
         for (PurchaseContent purchaseContent : purchase.getPurchaseContents()) {
-            String defaultNickname = DefaultValue.DEFAULT_STOCK_NICKNAME_PREFIX + purchaseContent.getWarehouse().getName();
-            stockRepository.findByTireDotAndNickname(purchaseContent.getTireDot(), defaultNickname)
+            stockRepository.findByTireDotAndNickname(purchaseContent.getTireDot(), DefaultValue.DEFAULT_STOCK_NICKNAME)
                     .map(stock -> stock.addQuantity(purchaseContent.getQuantity()))
                     .orElseGet(() -> stockRepository.save(
-                            Stock.of(purchaseContent.getTireDot(), defaultNickname, purchaseContent.getWarehouse(), purchaseContent.getQuantity().longValue(), false)));
+                            Stock.of(purchaseContent.getTireDot(), DefaultValue.DEFAULT_STOCK_NICKNAME, purchaseContent.getWarehouse(), purchaseContent.getQuantity().longValue(), false)));
         }
         return purchase;
     }

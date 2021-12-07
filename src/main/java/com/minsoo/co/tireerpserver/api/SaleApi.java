@@ -4,6 +4,7 @@ import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.model.ApiResponse;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleRequest;
+import com.minsoo.co.tireerpserver.model.request.stock.SaleConfirmRequest;
 import com.minsoo.co.tireerpserver.model.response.grid.SaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleMemoResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleResponse;
@@ -64,6 +65,12 @@ public class SaleApi {
     public ApiResponse<Void> deleteSaleById(@PathVariable Long saleId) {
         saleService.deleteById(saleId);
         return ApiResponse.NO_CONTENT();
+    }
+
+    @PostMapping("/sales/{saleId}/confirm")
+    public ApiResponse<SaleResponse> confirmSale(@PathVariable Long saleId,
+                                                 @RequestBody @Valid List<SaleConfirmRequest> saleConfirmRequests) {
+        return ApiResponse.OK(new SaleResponse(saleService.confirm(saleId, saleConfirmRequests)));
     }
 
     @GetMapping("/sales/{saleId}/sale-memos")

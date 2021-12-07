@@ -73,4 +73,9 @@ public class Sale extends BaseTimeEntity {
         this.desiredDeliveryDate = saleRequest.getDesiredDeliveryDate();
         return this;
     }
+
+    public Sale confirm() {
+        this.status = SaleStatus.CONFIRMED;
+        return this;
+    }
 }

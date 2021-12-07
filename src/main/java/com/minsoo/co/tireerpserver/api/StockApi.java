@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.api;
 
 import com.minsoo.co.tireerpserver.model.ApiResponse;
-import com.minsoo.co.tireerpserver.model.request.stock.StockRequest;
+import com.minsoo.co.tireerpserver.model.request.stock.StockMoveRequest;
 import com.minsoo.co.tireerpserver.model.response.stock.StockResponse;
 import com.minsoo.co.tireerpserver.service.stock.StockService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +30,8 @@ public class StockApi {
 
     @PutMapping("/tire-dots/{tireDotId}/stocks")
     public ApiResponse<Void> updateStocks(@PathVariable Long tireDotId,
-                                          @RequestBody @Valid List<StockRequest> stockRequests) {
-        stockService.modifyStocks(tireDotId, stockRequests);
+                                          @RequestBody @Valid List<StockMoveRequest> stockMoveRequests) {
+        stockService.modifyStocks(tireDotId, stockMoveRequests);
         return ApiResponse.NO_CONTENT();
     }
 }

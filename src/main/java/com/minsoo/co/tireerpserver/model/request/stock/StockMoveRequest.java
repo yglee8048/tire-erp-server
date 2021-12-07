@@ -14,7 +14,7 @@ import javax.validation.constraints.Positive;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StockRequest {
+public class StockMoveRequest {
 
     @Schema(name = "warehouse_id", description = "warehouse_id")
     @NotNull(message = "warehouse_id 는 필수 값입니다.")

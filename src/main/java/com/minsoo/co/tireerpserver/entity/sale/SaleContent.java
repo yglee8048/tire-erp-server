@@ -3,11 +3,13 @@ package com.minsoo.co.tireerpserver.entity.sale;
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleContentRequest;
+import com.minsoo.co.tireerpserver.model.request.stock.SaleConfirmStockRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -48,5 +50,12 @@ public class SaleContent extends BaseTimeEntity {
         this.price = saleContentRequest.getPrice();
         this.quantity = saleContentRequest.getQuantity();
         return this;
+    }
+
+    public boolean isValidConfirmRequest(List<SaleConfirmStockRequest> saleConfirmStockRequests) {
+        int sumOfRequest = saleConfirmStockRequests.stream()
+                .mapToInt(SaleConfirmStockRequest::getQuantity)
+                .sum();
+        return this.quantity == sumOfRequest;
     }
 }
