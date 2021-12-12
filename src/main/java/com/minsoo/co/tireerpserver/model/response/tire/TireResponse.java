@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class TireResponse {
 
     private Long tireId;
-    private String tireIdentification;
+    private String tireCode;
     private Boolean onSale;
     private Integer width;
     private Integer flatnessRatio;
@@ -41,7 +41,7 @@ public class TireResponse {
 
     public TireResponse(Tire tire) {
         this.tireId = tire.getId();
-        this.tireIdentification = tire.getTireCode();
+        this.tireCode = tire.getTireCode();
         this.onSale = tire.getOnSale();
         this.width = tire.getWidth();
         this.flatnessRatio = tire.getFlatnessRatio();
