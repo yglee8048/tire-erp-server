@@ -1,7 +1,10 @@
 package com.minsoo.co.tireerpserver.api;
 
 import com.minsoo.co.tireerpserver.constant.SaleSource;
+import com.minsoo.co.tireerpserver.constant.SaleStatus;
+import com.minsoo.co.tireerpserver.entity.sale.Sale;
 import com.minsoo.co.tireerpserver.model.ApiResponse;
+import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleRequest;
 import com.minsoo.co.tireerpserver.model.request.stock.SaleConfirmRequest;
@@ -13,10 +16,12 @@ import com.minsoo.co.tireerpserver.service.sale.SaleMemoService;
 import com.minsoo.co.tireerpserver.service.sale.SaleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,8 +36,39 @@ public class SaleApi {
     private final SaleMemoService saleMemoService;
 
     @GetMapping("/sale-content-grids")
-    public ApiResponse<List<SaleContentGridResponse>> findAllSaleContents() {
+    public ApiResponse<List<SaleContentGridResponse>> findAllSaleContents(@RequestParam(required = false) SaleStatus status,
+                                                                          @RequestParam(required = false) SaleSource source,
+                                                                          @RequestParam SaleDateType saleDateType,
+                                                                          @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
+                                                                          @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
         return ApiResponse.OK(saleContentService.findAll().stream()
+                .filter(saleContent -> {
+                    Sale sale = saleContent.getSale();
+                    switch (saleDateType) {
+                        case RELEASE:
+                            return sale.getReleaseDate().isAfter(from) && sale.getReleaseDate().isBefore(to);
+                        case TRANSACTION:
+                            return sale.getTransactionDate().isAfter(from) && sale.getTransactionDate().isBefore(to);
+                        case DESIRED_DELIVERY:
+                            return sale.getDesiredDeliveryDate().isAfter(from) && sale.getDesiredDeliveryDate().isBefore(to);
+                        default:
+                            throw new IllegalStateException();
+                    }
+                })
+                .filter(saleContent -> {
+                    if (status != null) {
+                        return saleContent.getSale().getStatus().equals(status);
+                    } else {
+                        return true;
+                    }
+                })
+                .filter(saleContent -> {
+                    if (source != null) {
+                        return saleContent.getSale().getSource().equals(source);
+                    } else {
+                        return true;
+                    }
+                })
                 .map(SaleContentGridResponse::new)
                 .collect(Collectors.toList()));
     }

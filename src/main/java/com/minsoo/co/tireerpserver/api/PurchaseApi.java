@@ -8,10 +8,12 @@ import com.minsoo.co.tireerpserver.service.purchase.PurchaseContentService;
 import com.minsoo.co.tireerpserver.service.purchase.PurchaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +27,11 @@ public class PurchaseApi {
     private final PurchaseContentService purchaseContentService;
 
     @GetMapping("/purchase-content-grids")
-    public ApiResponse<List<PurchaseContentGridResponse>> findAllPurchaseContents() {
+    public ApiResponse<List<PurchaseContentGridResponse>> findAllPurchaseContents(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
+                                                                                  @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
         return ApiResponse.OK(purchaseContentService.findAll().stream()
+                .filter(purchaseContent -> purchaseContent.getPurchase().getTransactionDate().isAfter(from))
+                .filter(purchaseContent -> purchaseContent.getPurchase().getTransactionDate().isBefore(to))
                 .map(PurchaseContentGridResponse::new)
                 .collect(Collectors.toList()));
     }
