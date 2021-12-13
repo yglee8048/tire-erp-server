@@ -24,8 +24,8 @@ public class SaleRequest {
     @NotNull(message = "거래 일자는 필수 값입니다.")
     private LocalDate transactionDate;
 
-    @Schema(name = "confirmed_date", description = "확정 일자")
-    private LocalDate confirmedDate;
+    @Schema(name = "release_date", description = "출고 일자")
+    private LocalDate releaseDate;
 
     @Schema(name = "desired_delivery_date", description = "배송 희망 일자")
     private LocalDate desiredDeliveryDate;

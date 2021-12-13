@@ -18,7 +18,7 @@ public class SaleResponse {
     private SaleSource source;
     private SaleStatus status;
     private LocalDate transactionDate;
-    private LocalDate confirmedDate;
+    private LocalDate releaseDate;
     private LocalDate desiredDeliveryDate;
 
     public SaleResponse(Sale sale) {
@@ -28,7 +28,7 @@ public class SaleResponse {
         this.source = sale.getSource();
         this.status = sale.getStatus();
         this.transactionDate = sale.getTransactionDate();
-        this.confirmedDate = sale.getConfirmedDate();
+        this.releaseDate = sale.getReleaseDate();
         this.desiredDeliveryDate = sale.getDesiredDeliveryDate();
     }
 }

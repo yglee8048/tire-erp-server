@@ -44,8 +44,8 @@ public class Sale extends BaseTimeEntity {
     @Column(name = "transaction_date")
     private LocalDate transactionDate;
 
-    @Column(name = "confirmed_date")
-    private LocalDate confirmedDate;
+    @Column(name = "release_date")
+    private LocalDate releaseDate;
 
     @Column(name = "desired_delivery_date")
     private LocalDate desiredDeliveryDate;
@@ -69,7 +69,7 @@ public class Sale extends BaseTimeEntity {
     public Sale update(ClientCompany clientCompany, SaleRequest saleRequest) {
         this.clientCompany = clientCompany;
         this.transactionDate = saleRequest.getTransactionDate();
-        this.confirmedDate = saleRequest.getConfirmedDate();
+        this.releaseDate = saleRequest.getReleaseDate();
         this.desiredDeliveryDate = saleRequest.getDesiredDeliveryDate();
         return this;
     }

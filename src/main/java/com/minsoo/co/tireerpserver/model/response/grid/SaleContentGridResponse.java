@@ -42,7 +42,7 @@ public class SaleContentGridResponse {
         this.saleContentId = saleContent.getId();
         this.saleId = saleContent.getSale().getId();
         this.transactionDate = saleContent.getSale().getTransactionDate();
-        this.confirmedDate = saleContent.getSale().getConfirmedDate();
+        this.confirmedDate = saleContent.getSale().getReleaseDate();
         this.desiredDeliveryDate = saleContent.getSale().getDesiredDeliveryDate();
         this.status = saleContent.getSale().getStatus();
         this.clientCompany = new ClientCompanyResponse(saleContent.getSale().getClientCompany());
