@@ -4,13 +4,16 @@ import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
 import com.minsoo.co.tireerpserver.entity.sale.Sale;
 import com.minsoo.co.tireerpserver.model.ApiResponse;
+import com.minsoo.co.tireerpserver.model.request.sale.DeliveryRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleRequest;
 import com.minsoo.co.tireerpserver.model.request.stock.SaleConfirmRequest;
 import com.minsoo.co.tireerpserver.model.response.grid.SaleContentGridResponse;
+import com.minsoo.co.tireerpserver.model.response.sale.DeliveryResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleMemoResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleResponse;
+import com.minsoo.co.tireerpserver.service.sale.DeliveryService;
 import com.minsoo.co.tireerpserver.service.sale.SaleContentService;
 import com.minsoo.co.tireerpserver.service.sale.SaleMemoService;
 import com.minsoo.co.tireerpserver.service.sale.SaleService;
@@ -34,6 +37,7 @@ public class SaleApi {
     private final SaleService saleService;
     private final SaleContentService saleContentService;
     private final SaleMemoService saleMemoService;
+    private final DeliveryService deliveryService;
 
     @GetMapping("/sale-content-grids")
     public ApiResponse<List<SaleContentGridResponse>> findAllSaleContents(@RequestParam(required = false) SaleStatus status,
@@ -107,6 +111,17 @@ public class SaleApi {
     public ApiResponse<SaleResponse> confirmSale(@PathVariable Long saleId,
                                                  @RequestBody @Valid List<SaleConfirmRequest> saleConfirmRequests) {
         return ApiResponse.OK(new SaleResponse(saleService.confirm(saleId, saleConfirmRequests)));
+    }
+
+    @GetMapping("/sales/{saleId}/delivery")
+    public ApiResponse<DeliveryResponse> findDeliveryBySaleId(@PathVariable Long saleId) {
+        return ApiResponse.OK(new DeliveryResponse(deliveryService.findBySaleId(saleId)));
+    }
+
+    @PutMapping("/sales/{saleId}/delivery")
+    public ApiResponse<DeliveryResponse> updateDelivery(@PathVariable Long saleId,
+                                                        @RequestBody @Valid DeliveryRequest deliveryRequest) {
+        return ApiResponse.OK(new DeliveryResponse(deliveryService.update(saleId, deliveryRequest)));
     }
 
     @GetMapping("/sales/{saleId}/sale-memos")

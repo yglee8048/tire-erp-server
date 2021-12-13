@@ -29,7 +29,7 @@ public class Sale extends BaseTimeEntity {
     @JoinColumn(name = "client_company_id", referencedColumnName = "client_company_id")
     private ClientCompany clientCompany;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id", referencedColumnName = "delivery_id")
     private Delivery delivery;
 
