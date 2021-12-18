@@ -2,7 +2,6 @@ package com.minsoo.co.tireerpserver.api;
 
 import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
-import com.minsoo.co.tireerpserver.entity.sale.Sale;
 import com.minsoo.co.tireerpserver.model.ApiResponse;
 import com.minsoo.co.tireerpserver.model.request.sale.DeliveryRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
@@ -12,6 +11,7 @@ import com.minsoo.co.tireerpserver.model.response.grid.SaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.DeliveryResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleMemoResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleResponse;
+import com.minsoo.co.tireerpserver.service.grid.GridService;
 import com.minsoo.co.tireerpserver.service.sale.DeliveryService;
 import com.minsoo.co.tireerpserver.service.sale.SaleContentService;
 import com.minsoo.co.tireerpserver.service.sale.SaleMemoService;
@@ -37,50 +37,20 @@ public class SaleApi {
     private final SaleContentService saleContentService;
     private final SaleMemoService saleMemoService;
     private final DeliveryService deliveryService;
+    private final GridService gridService;
 
     @GetMapping("/sale-content-grids")
     public ApiResponse<List<SaleContentGridResponse>> findAllSaleContents(@RequestParam(required = false) SaleStatus status,
                                                                           @RequestParam(required = false) SaleSource source,
-                                                                          @RequestParam SaleDateType saleDateType,
-                                                                          @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
-                                                                          @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
-        return ApiResponse.OK(saleContentService.findAll().stream()
-                .filter(saleContent -> {
-                    Sale sale = saleContent.getSale();
-                    switch (saleDateType) {
-                        case RELEASE:
-                            return sale.getReleaseDate().isAfter(from) && sale.getReleaseDate().isBefore(to);
-                        case TRANSACTION:
-                            return sale.getTransactionDate().isAfter(from) && sale.getTransactionDate().isBefore(to);
-                        case DESIRED_DELIVERY:
-                            return sale.getDesiredDeliveryDate().isAfter(from) && sale.getDesiredDeliveryDate().isBefore(to);
-                        default:
-                            throw new IllegalStateException();
-                    }
-                })
-                .filter(saleContent -> {
-                    if (status != null) {
-                        return saleContent.getSale().getStatus().equals(status);
-                    } else {
-                        return true;
-                    }
-                })
-                .filter(saleContent -> {
-                    if (source != null) {
-                        return saleContent.getSale().getSource().equals(source);
-                    } else {
-                        return true;
-                    }
-                })
-                .map(SaleContentGridResponse::new)
-                .collect(Collectors.toList()));
+                                                                          @RequestParam(required = false) SaleDateType saleDateType,
+                                                                          @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
+                                                                          @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
+        return ApiResponse.OK(gridService.findSaleContentGrids(status, source, saleDateType, from, to));
     }
 
     @GetMapping("/sales/{saleId}/sale-content-grids")
     public ApiResponse<List<SaleContentGridResponse>> findSaleContentsBySaleId(@PathVariable Long saleId) {
-        return ApiResponse.OK(saleContentService.findAllBySaleId(saleId).stream()
-                .map(SaleContentGridResponse::new)
-                .collect(Collectors.toList()));
+        return ApiResponse.OK(gridService.findSaleContentsBySaleId(saleId));
     }
 
     @ResponseStatus(HttpStatus.CREATED)

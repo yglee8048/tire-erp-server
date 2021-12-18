@@ -8,6 +8,7 @@ import com.minsoo.co.tireerpserver.model.response.grid.TireGridResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.TireDotResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.TireMemoResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.TireResponse;
+import com.minsoo.co.tireerpserver.service.grid.GridService;
 import com.minsoo.co.tireerpserver.service.tire.TireDotService;
 import com.minsoo.co.tireerpserver.service.tire.TireMemoService;
 import com.minsoo.co.tireerpserver.service.tire.TireService;
@@ -29,21 +30,16 @@ public class TireApi {
     private final TireService tireService;
     private final TireDotService tireDotService;
     private final TireMemoService tireMemoService;
+    private final GridService gridService;
 
     @GetMapping("/tire-grids")
     public ApiResponse<List<TireGridResponse>> findAllTireStocks() {
-        return ApiResponse.OK(tireService.findAll()
-                .stream()
-                .map(TireGridResponse::new)
-                .collect(Collectors.toList()));
+        return ApiResponse.OK(gridService.findAllTireGrids());
     }
 
     @GetMapping("/tires/{tireId}/tire-dot-grids")
     public ApiResponse<List<TireDotGridResponse>> findTireDotsByTire(@PathVariable Long tireId) {
-        return ApiResponse.OK(tireDotService.findAllByTireId(tireId)
-                .stream()
-                .map(TireDotGridResponse::new)
-                .collect(Collectors.toList()));
+        return ApiResponse.OK(gridService.findTireDotGridsByTireId(tireId));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -58,9 +54,9 @@ public class TireApi {
     }
 
     @PutMapping("/tires/{tireId}")
-    public ApiResponse<TireGridResponse> updateTire(@PathVariable Long tireId,
-                                                    @RequestBody @Valid TireRequest tireRequest) {
-        return ApiResponse.OK(new TireGridResponse(tireService.update(tireId, tireRequest)));
+    public ApiResponse<TireResponse> updateTire(@PathVariable Long tireId,
+                                                @RequestBody @Valid TireRequest tireRequest) {
+        return ApiResponse.OK(new TireResponse(tireService.update(tireId, tireRequest)));
     }
 
     @DeleteMapping("/tires/{tireId}")

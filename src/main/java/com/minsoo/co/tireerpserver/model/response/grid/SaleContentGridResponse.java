@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.model.response.grid;
 
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
-import com.minsoo.co.tireerpserver.entity.sale.SaleContent;
 import com.minsoo.co.tireerpserver.model.TireStandardDTO;
 import com.minsoo.co.tireerpserver.model.response.account.ClientCompanyResponse;
 import com.minsoo.co.tireerpserver.model.response.stock.StockResponse;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Data
 @NoArgsConstructor
@@ -27,10 +25,11 @@ public class SaleContentGridResponse {
 
     private TireStandardDTO tireInfo;
 
+    private Long tireDotId;
+    private String dot;
     private Long sumOfOpenedStock;
     private Long sumOfStock;
     private Double averageOfPurchasePrice;
-    private String dot;
     private Integer quantity;
     private Long price;
     private Long salePrice;
@@ -41,25 +40,11 @@ public class SaleContentGridResponse {
     private String lastModifiedBy;
     private LocalDateTime lastModifiedAt;
 
-    public SaleContentGridResponse(SaleContent saleContent) {
-        this.saleContentId = saleContent.getId();
-        this.saleId = saleContent.getSale().getId();
-        this.transactionDate = saleContent.getSale().getTransactionDate();
-        this.confirmedDate = saleContent.getSale().getReleaseDate();
-        this.desiredDeliveryDate = saleContent.getSale().getDesiredDeliveryDate();
-        this.status = saleContent.getSale().getStatus();
-        this.clientCompany = new ClientCompanyResponse(saleContent.getSale().getClientCompany());
-        this.tireInfo = new TireStandardDTO(saleContent.getTireDot().getTire());
-        this.sumOfOpenedStock = saleContent.getTireDot().getSumOfOpenedStockQuantity();
-        this.sumOfStock = saleContent.getTireDot().getSumOfStockQuantity();
-        this.averageOfPurchasePrice = saleContent.getTireDot().getAveragePurchasePrice();
-        this.dot = saleContent.getTireDot().getDot();
-        this.quantity = saleContent.getQuantity();
-        this.price = saleContent.getPrice();
-        this.salePrice = this.quantity * this.price;
-        this.stock = Optional.ofNullable(saleContent.getStock()).map(StockResponse::new).orElse(null);
-
-        this.createdAt = saleContent.getCreatedAt();
-        this.lastModifiedAt = saleContent.getLastModifiedAt();
+    public SaleContentGridResponse setTireDotGrid(TireDotGridResponse tireDotGridResponse) {
+        this.dot = tireDotGridResponse.getDot();
+        this.sumOfOpenedStock = tireDotGridResponse.getSumOfOpenedStock();
+        this.sumOfStock = tireDotGridResponse.getSumOfStock();
+        this.averageOfPurchasePrice = tireDotGridResponse.getAverageOfPurchasePrice();
+        return this;
     }
 }

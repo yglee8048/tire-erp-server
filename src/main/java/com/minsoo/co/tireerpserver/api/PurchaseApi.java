@@ -4,6 +4,7 @@ import com.minsoo.co.tireerpserver.model.ApiResponse;
 import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseRequest;
 import com.minsoo.co.tireerpserver.model.response.grid.PurchaseContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.purchase.PurchaseResponse;
+import com.minsoo.co.tireerpserver.service.grid.GridService;
 import com.minsoo.co.tireerpserver.service.purchase.PurchaseContentService;
 import com.minsoo.co.tireerpserver.service.purchase.PurchaseService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -25,22 +25,17 @@ public class PurchaseApi {
 
     private final PurchaseService purchaseService;
     private final PurchaseContentService purchaseContentService;
+    private final GridService gridService;
 
     @GetMapping("/purchase-content-grids")
-    public ApiResponse<List<PurchaseContentGridResponse>> findAllPurchaseContents(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
-                                                                                  @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
-        return ApiResponse.OK(purchaseContentService.findAll().stream()
-                .filter(purchaseContent -> purchaseContent.getPurchase().getTransactionDate().isAfter(from))
-                .filter(purchaseContent -> purchaseContent.getPurchase().getTransactionDate().isBefore(to))
-                .map(PurchaseContentGridResponse::new)
-                .collect(Collectors.toList()));
+    public ApiResponse<List<PurchaseContentGridResponse>> findAllPurchaseContents(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
+                                                                                  @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
+        return ApiResponse.OK(gridService.findAllPurchaseContentGrids(from, to));
     }
 
     @GetMapping("/purchases/{purchaseId}/purchase-content-grids")
     public ApiResponse<List<PurchaseContentGridResponse>> findPurchaseContentsByPurchaseId(@PathVariable Long purchaseId) {
-        return ApiResponse.OK(purchaseContentService.findByPurchase(purchaseId).stream()
-                .map(PurchaseContentGridResponse::new)
-                .collect(Collectors.toList()));
+        return ApiResponse.OK(gridService.findPurchaseContentGridsByPurchaseId(purchaseId));
     }
 
     @ResponseStatus(HttpStatus.CREATED)

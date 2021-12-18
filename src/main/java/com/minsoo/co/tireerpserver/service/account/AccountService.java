@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.service.account;
 
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.account.Account;
-import com.minsoo.co.tireerpserver.exception.InvalidPasswordException;
+import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.repository.account.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class AccountService {
             return account;
         } else {
             log.error("The password is unmatched: {}", username);
-            throw new InvalidPasswordException(SystemMessage.INVALID_PASSWORD);
+            throw new BadRequestException(SystemMessage.INVALID_PASSWORD);
         }
     }
 }

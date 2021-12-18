@@ -50,4 +50,8 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> CREATED(T data) {
         return new ApiResponse<>(HttpStatus.CREATED, SystemMessage.OK, data);
     }
+
+    public static ApiResponse<Void> ERROR(HttpStatus status, String error, String message, String detail) {
+        return new ApiResponse<>(status, error, message, detail);
+    }
 }
