@@ -13,8 +13,6 @@ import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleContentRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleRequest;
-import com.minsoo.co.tireerpserver.model.request.stock.SaleConfirmRequest;
-import com.minsoo.co.tireerpserver.model.request.stock.SaleConfirmStockRequest;
 import com.minsoo.co.tireerpserver.repository.account.ClientCompanyRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleContentRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleMemoRepository;
@@ -27,7 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -73,36 +71,23 @@ public class SaleService {
         return sale;
     }
 
-    public Sale confirm(Long saleId, List<SaleConfirmRequest> saleConfirmRequests) {
-        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> {
-            log.error("Can not find sale by id: {}", saleId);
-            return new NotFoundException(SystemMessage.NOT_FOUND + ": [매출]");
-        });
+    public Sale confirm(Long saleId) {
+        Sale sale = findById(saleId);
 
-        if (sale.getSaleContents().size() != saleConfirmRequests.size()) {
-            throw new BadRequestException(SystemMessage.SALE_CONTENT_MISSED);
-        }
-
-        for (SaleConfirmRequest saleConfirmRequest : saleConfirmRequests) {
-            SaleContent saleContent = saleContentRepository.findById(saleConfirmRequest.getSaleContentId()).orElseThrow(() -> {
-                log.error("Can not find sale content by id: {}", saleConfirmRequest.getSaleContentId());
-                return new NotFoundException(SystemMessage.NOT_FOUND + ": [매출 항목]");
-            });
-
-            if (!saleContent.isValidConfirmRequest(saleConfirmRequest.getStocks())) {
-                throw new BadRequestException(SystemMessage.DISCREPANCY_STOCK_QUANTITY);
+        for (SaleContent saleContent : sale.getSaleContents()) {
+            Stock stock = saleContent.getStock();
+            if (stock == null) {
+                throw new BadRequestException(SystemMessage.STOCK_NOT_SELECTED);
             }
 
-            for (SaleConfirmStockRequest stockRequest : saleConfirmRequest.getStocks()) {
-                Stock stock = stockRepository.findById(stockRequest.getStockId()).orElseThrow(() -> {
-                    log.error("Can not find stock by id: {}", stockRequest.getStockId());
-                    return new NotFoundException(SystemMessage.NOT_FOUND + ": [재고]");
-                });
-
-                stock.reduceQuantity(stockRequest.getQuantity());
-            }
+            stock.reduceQuantity(saleContent.getQuantity());
         }
         return sale.confirm();
+    }
+
+    public Sale complete(Long saleId) {
+        Sale sale = findById(saleId);
+        return sale.completed();
     }
 
     public void deleteById(Long saleId) {
@@ -116,7 +101,13 @@ public class SaleService {
                 log.error("Can not find tire dot by id: {}", content.getTireDotId());
                 return new NotFoundException(SystemMessage.NOT_FOUND + ": [타이어 DOT]");
             });
-            SaleContent saleContent = saleContentRepository.save(SaleContent.of(sale, tireDot, content));
+            Stock stock = Optional.ofNullable(content.getStockId())
+                    .map(stockId -> stockRepository.findById(stockId).orElseThrow(() -> {
+                        log.error("Can not find stock by id: {}", stockId);
+                        return new NotFoundException(SystemMessage.NOT_FOUND + ": [재고]");
+                    }))
+                    .orElse(null);
+            SaleContent saleContent = saleContentRepository.save(SaleContent.of(sale, tireDot, stock, content));
             sale.getSaleContents().add(saleContent);
         }
     }

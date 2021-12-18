@@ -8,7 +8,6 @@ import com.minsoo.co.tireerpserver.model.request.sale.DeliveryRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleRequest;
-import com.minsoo.co.tireerpserver.model.request.stock.SaleConfirmRequest;
 import com.minsoo.co.tireerpserver.model.response.grid.SaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.DeliveryResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleMemoResponse;
@@ -108,9 +107,13 @@ public class SaleApi {
     }
 
     @PostMapping("/sales/{saleId}/confirm")
-    public ApiResponse<SaleResponse> confirmSale(@PathVariable Long saleId,
-                                                 @RequestBody @Valid List<SaleConfirmRequest> saleConfirmRequests) {
-        return ApiResponse.OK(new SaleResponse(saleService.confirm(saleId, saleConfirmRequests)));
+    public ApiResponse<SaleResponse> confirmSale(@PathVariable Long saleId) {
+        return ApiResponse.OK(new SaleResponse(saleService.confirm(saleId)));
+    }
+
+    @PostMapping("/sales/{saleId}/complete")
+    public ApiResponse<SaleResponse> completeSale(@PathVariable Long saleId) {
+        return ApiResponse.OK(new SaleResponse(saleService.complete(saleId)));
     }
 
     @GetMapping("/sales/{saleId}/delivery")

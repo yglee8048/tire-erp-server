@@ -30,6 +30,10 @@ public class SaleRequest {
     @Schema(name = "desired_delivery_date", description = "배송 희망 일자")
     private LocalDate desiredDeliveryDate;
 
+    @Schema(name = "delivery", description = "배송 정보")
+    @NotNull(message = "배송 정보는 필수 값입니다.")
+    private DeliveryRequest delivery;
+
     @Schema(name = "contents", description = "매출 항목")
     @NotNull(message = "매출 항목은 필수 값입니다.")
     List<SaleContentRequest> contents;

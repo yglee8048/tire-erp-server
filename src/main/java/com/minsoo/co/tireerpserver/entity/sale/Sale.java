@@ -58,7 +58,8 @@ public class Sale extends BaseTimeEntity {
 
     private Sale(SaleSource source) {
         this.source = source;
-        this.status = SaleStatus.REQUESTED;
+        this.status = source.equals(SaleSource.ONLINE) ? SaleStatus.REQUESTED : SaleStatus.COMPLETED;
+        this.delivery = new Delivery(this);
     }
 
     public static Sale of(ClientCompany clientCompany, SaleRequest saleRequest, SaleSource source) {
@@ -71,11 +72,17 @@ public class Sale extends BaseTimeEntity {
         this.transactionDate = saleRequest.getTransactionDate();
         this.releaseDate = saleRequest.getReleaseDate();
         this.desiredDeliveryDate = saleRequest.getDesiredDeliveryDate();
+        this.delivery.update(saleRequest.getDelivery());
         return this;
     }
 
     public Sale confirm() {
         this.status = SaleStatus.CONFIRMED;
+        return this;
+    }
+
+    public Sale completed() {
+        this.status = SaleStatus.COMPLETED;
         return this;
     }
 }

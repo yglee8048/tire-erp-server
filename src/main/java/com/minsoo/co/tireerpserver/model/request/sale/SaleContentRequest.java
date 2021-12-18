@@ -25,4 +25,7 @@ public class SaleContentRequest {
     @Schema(name = "quantity", description = "매출 수량")
     @NotNull(message = "매출 수량은 필수 값입니다.")
     private Integer quantity;
+
+    @Schema(name = "stock_id")
+    private Long stockId;
 }

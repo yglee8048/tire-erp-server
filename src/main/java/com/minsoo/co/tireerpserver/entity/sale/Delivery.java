@@ -43,6 +43,10 @@ public class Delivery extends BaseTimeEntity {
     @Column(name = "invoice_number")
     private String invoiceNumber;
 
+    protected Delivery(Sale sale) {
+        this.sale = sale;
+    }
+
     public Delivery update(DeliveryRequest deliveryRequest) {
         this.recipientName = deliveryRequest.getRecipientName();
         this.address = new Address(deliveryRequest.getAddress());

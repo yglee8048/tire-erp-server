@@ -4,11 +4,13 @@ import com.minsoo.co.tireerpserver.constant.SaleStatus;
 import com.minsoo.co.tireerpserver.entity.sale.SaleContent;
 import com.minsoo.co.tireerpserver.model.TireStandardDTO;
 import com.minsoo.co.tireerpserver.model.response.account.ClientCompanyResponse;
+import com.minsoo.co.tireerpserver.model.response.stock.StockResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Data
 @NoArgsConstructor
@@ -32,6 +34,7 @@ public class SaleContentGridResponse {
     private Integer quantity;
     private Long price;
     private Long salePrice;
+    private StockResponse stock;
 
     private String createdBy;
     private LocalDateTime createdAt;
@@ -54,6 +57,7 @@ public class SaleContentGridResponse {
         this.quantity = saleContent.getQuantity();
         this.price = saleContent.getPrice();
         this.salePrice = this.quantity * this.price;
+        this.stock = Optional.ofNullable(saleContent.getStock()).map(StockResponse::new).orElse(null);
 
         this.createdAt = saleContent.getCreatedAt();
         this.lastModifiedAt = saleContent.getLastModifiedAt();

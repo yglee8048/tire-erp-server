@@ -1,8 +1,10 @@
 package com.minsoo.co.tireerpserver.entity.stock;
 
+import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
 import com.minsoo.co.tireerpserver.entity.management.Warehouse;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
+import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,11 +57,17 @@ public class Stock extends BaseTimeEntity {
     }
 
     public Stock addQuantity(int quantity) {
+        if (this.quantity + quantity < 0) {
+            throw new BadRequestException(SystemMessage.NOT_ENOUGH_STOCK);
+        }
         this.quantity += quantity;
         return this;
     }
 
     public Stock reduceQuantity(int quantity) {
+        if (this.quantity - quantity < 0) {
+            throw new BadRequestException(SystemMessage.NOT_ENOUGH_STOCK);
+        }
         this.quantity -= quantity;
         return this;
     }
