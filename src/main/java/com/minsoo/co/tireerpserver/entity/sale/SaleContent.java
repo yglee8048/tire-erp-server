@@ -1,16 +1,16 @@
 package com.minsoo.co.tireerpserver.entity.sale;
 
+import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
 import com.minsoo.co.tireerpserver.entity.stock.Stock;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
+import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleContentRequest;
-import com.minsoo.co.tireerpserver.model.request.stock.SaleConfirmStockRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -51,17 +51,13 @@ public class SaleContent extends BaseTimeEntity {
     }
 
     public SaleContent update(TireDot tireDot, Stock stock, SaleContentRequest saleContentRequest) {
+        if (!stock.getTireDot().equals(tireDot)) {
+            throw new BadRequestException(SystemMessage.INVALID_STOCK_REQUEST);
+        }
         this.tireDot = tireDot;
         this.price = saleContentRequest.getPrice();
         this.quantity = saleContentRequest.getQuantity();
         this.stock = stock;
         return this;
-    }
-
-    public boolean isValidConfirmRequest(List<SaleConfirmStockRequest> saleConfirmStockRequests) {
-        int sumOfRequest = saleConfirmStockRequests.stream()
-                .mapToInt(SaleConfirmStockRequest::getQuantity)
-                .sum();
-        return this.quantity == sumOfRequest;
     }
 }
