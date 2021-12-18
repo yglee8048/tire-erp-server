@@ -25,9 +25,8 @@ spring:
     property-naming-strategy: SNAKE_CASE
 
 jwt:
-  aws:
-    userPoolId: ap-northeast-2
-    region: ap-northeast-2
+  secret: Y29tLm1pbnNvby5jby50aXJlLWVycC1zZXJ2ZXIuMjAyMS0xMi0xOA==
+  token-expired-in-seconds: 1800
 
 springdoc:
   swagger-ui:

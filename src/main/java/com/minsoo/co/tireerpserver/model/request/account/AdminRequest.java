@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.request.account;
 
-import com.minsoo.co.tireerpserver.constant.AdminRole;
+import com.minsoo.co.tireerpserver.constant.AccountRole;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,5 +39,5 @@ public class AdminRequest {
     private String phoneNumber;
 
     @Schema(name = "role", description = "권한")
-    private AdminRole role;
+    private AccountRole role;
 }

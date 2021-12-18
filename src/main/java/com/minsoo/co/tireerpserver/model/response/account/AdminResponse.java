@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.model.response.account;
 
+import com.minsoo.co.tireerpserver.constant.AccountRole;
 import com.minsoo.co.tireerpserver.entity.account.Admin;
-import com.minsoo.co.tireerpserver.constant.AdminRole;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +17,7 @@ public class AdminResponse {
     private String name;
     private String email;
     private String phoneNumber;
-    private AdminRole role;
+    private AccountRole role;
 
     private String createdBy;
     private LocalDateTime createdAt;

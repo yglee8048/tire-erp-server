@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.request.account;
 
-import com.minsoo.co.tireerpserver.constant.ClientRole;
+import com.minsoo.co.tireerpserver.constant.AccountRole;
 import com.minsoo.co.tireerpserver.model.AddressDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class ClientRequest {
 
     @Schema(name = "role", description = "권한")
     @NotNull(message = "권한은 필수 값입니다.")
-    private ClientRole role;
+    private AccountRole role;
 
     @Schema(name = "nickname", description = "닉네임")
     private String nickname;

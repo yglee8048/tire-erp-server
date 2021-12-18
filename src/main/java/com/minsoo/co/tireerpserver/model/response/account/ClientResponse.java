@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.model.response.account;
 
-import com.minsoo.co.tireerpserver.constant.ClientRole;
+import com.minsoo.co.tireerpserver.constant.AccountRole;
 import com.minsoo.co.tireerpserver.entity.account.Client;
 import com.minsoo.co.tireerpserver.model.AddressDTO;
 import lombok.Data;
@@ -19,7 +19,7 @@ public class ClientResponse {
     private String name;
     private String email;
     private String phoneNumber;
-    private ClientRole role;
+    private AccountRole role;
     private AddressDTO address;
 
     private String createdBy;
