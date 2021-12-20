@@ -1,7 +1,7 @@
-package com.minsoo.co.tireerpserver.model.response.account;
+package com.minsoo.co.tireerpserver.model.response.client;
 
 import com.minsoo.co.tireerpserver.constant.AccountRole;
-import com.minsoo.co.tireerpserver.entity.account.Client;
+import com.minsoo.co.tireerpserver.entity.client.Client;
 import com.minsoo.co.tireerpserver.model.AddressDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;

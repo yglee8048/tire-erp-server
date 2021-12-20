@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.model.response.sale;
 
 import com.minsoo.co.tireerpserver.entity.sale.Delivery;
 import com.minsoo.co.tireerpserver.model.AddressDTO;
-import com.minsoo.co.tireerpserver.model.request.sale.DeliveryOption;
+import com.minsoo.co.tireerpserver.constant.DeliveryOption;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

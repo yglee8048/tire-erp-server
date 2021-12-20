@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.request.sale;
+package com.minsoo.co.tireerpserver.constant;
 
 public enum DeliveryOption {
     PARCEL, REGISTERED, PACKAGE

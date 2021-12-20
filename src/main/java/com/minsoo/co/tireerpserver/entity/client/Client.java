@@ -1,11 +1,12 @@
-package com.minsoo.co.tireerpserver.entity.account;
+package com.minsoo.co.tireerpserver.entity.client;
 
 import com.minsoo.co.tireerpserver.constant.AccountRole;
 import com.minsoo.co.tireerpserver.constant.AccountType;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.Address;
+import com.minsoo.co.tireerpserver.entity.account.Account;
 import com.minsoo.co.tireerpserver.exception.BadRequestException;
-import com.minsoo.co.tireerpserver.model.request.account.ClientRequest;
+import com.minsoo.co.tireerpserver.model.request.client.ClientRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

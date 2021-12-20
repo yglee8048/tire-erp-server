@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.service.sale;
 
 import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
-import com.minsoo.co.tireerpserver.entity.account.ClientCompany;
+import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
 import com.minsoo.co.tireerpserver.entity.sale.Sale;
 import com.minsoo.co.tireerpserver.entity.sale.SaleContent;
 import com.minsoo.co.tireerpserver.entity.sale.SaleMemo;
@@ -13,7 +13,7 @@ import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleContentRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleRequest;
-import com.minsoo.co.tireerpserver.repository.account.ClientCompanyRepository;
+import com.minsoo.co.tireerpserver.repository.client.ClientCompanyRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleContentRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleMemoRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleRepository;

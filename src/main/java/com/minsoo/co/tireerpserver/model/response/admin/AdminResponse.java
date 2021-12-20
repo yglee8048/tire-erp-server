@@ -1,7 +1,7 @@
-package com.minsoo.co.tireerpserver.model.response.account;
+package com.minsoo.co.tireerpserver.model.response.admin;
 
 import com.minsoo.co.tireerpserver.constant.AccountRole;
-import com.minsoo.co.tireerpserver.entity.account.Admin;
+import com.minsoo.co.tireerpserver.entity.admin.Admin;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

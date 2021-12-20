@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.request.sale;
 
+import com.minsoo.co.tireerpserver.constant.DeliveryOption;
 import com.minsoo.co.tireerpserver.model.AddressDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

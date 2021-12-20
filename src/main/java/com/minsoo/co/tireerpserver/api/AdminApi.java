@@ -1,9 +1,9 @@
 package com.minsoo.co.tireerpserver.api;
 
 import com.minsoo.co.tireerpserver.model.ApiResponse;
-import com.minsoo.co.tireerpserver.model.request.account.AdminRequest;
-import com.minsoo.co.tireerpserver.model.response.account.AdminResponse;
-import com.minsoo.co.tireerpserver.service.account.AdminService;
+import com.minsoo.co.tireerpserver.model.request.admin.AdminRequest;
+import com.minsoo.co.tireerpserver.model.response.admin.AdminResponse;
+import com.minsoo.co.tireerpserver.service.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

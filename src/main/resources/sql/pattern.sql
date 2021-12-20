@@ -16,13 +16,14 @@ CREATE TABLE `pattern`
     `breaking_power`   TINYINT(1)   NULL DEFAULT NULL,
     `sports`           TINYINT(1)   NULL DEFAULT NULL,
     `wet_surface`      TINYINT(1)   NULL DEFAULT NULL,
-    `created_at`       DATETIME     NULL DEFAULT NULL,
-    `last_modified_at` DATETIME     NULL DEFAULT NULL,
-    `created_by`       VARCHAR(50)  NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-    `last_modified_by` VARCHAR(50)  NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+    `created_at`       DATETIME     NOT NULL,
+    `last_modified_at` DATETIME     NOT NULL,
+    `created_by`       VARCHAR(50)  NOT NULL COLLATE 'utf8mb4_general_ci',
+    `last_modified_by` VARCHAR(50)  NOT NULL COLLATE 'utf8mb4_general_ci',
     PRIMARY KEY (`pattern_id`) USING BTREE,
-    UNIQUE INDEX `pattern_unique_name` (`brand_id`, `name`) USING BTREE,
-    INDEX `pattern_fk_brand_id` (`brand_id`) USING BTREE
+    UNIQUE INDEX `brand_id_name` (`brand_id`, `name`) USING BTREE,
+    UNIQUE INDEX `pattern_code` (`pattern_code`) USING BTREE,
+    INDEX `brand_id` (`brand_id`) USING BTREE
 )
     COLLATE = 'utf8mb4_general_ci'
     ENGINE = InnoDB

@@ -1,7 +1,7 @@
-package com.minsoo.co.tireerpserver.repository.account;
+package com.minsoo.co.tireerpserver.repository.client;
 
-import com.minsoo.co.tireerpserver.entity.account.Client;
-import com.minsoo.co.tireerpserver.entity.account.ClientCompany;
+import com.minsoo.co.tireerpserver.entity.client.Client;
+import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

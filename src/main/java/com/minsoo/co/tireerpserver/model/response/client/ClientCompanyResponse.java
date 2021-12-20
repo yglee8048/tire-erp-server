@@ -1,6 +1,6 @@
-package com.minsoo.co.tireerpserver.model.response.account;
+package com.minsoo.co.tireerpserver.model.response.client;
 
-import com.minsoo.co.tireerpserver.entity.account.ClientCompany;
+import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
 import com.minsoo.co.tireerpserver.model.BusinessInfoDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;

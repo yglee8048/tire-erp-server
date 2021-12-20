@@ -4,7 +4,7 @@ import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
 import com.minsoo.co.tireerpserver.model.TireStandardDTO;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
-import com.minsoo.co.tireerpserver.model.response.account.ClientCompanyResponse;
+import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.PurchaseContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.SaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.TireDotGridResponse;

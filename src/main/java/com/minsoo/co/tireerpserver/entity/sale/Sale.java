@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.entity.sale;
 import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
 import com.minsoo.co.tireerpserver.entity.BaseEntity;
-import com.minsoo.co.tireerpserver.entity.account.ClientCompany;
+import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleRequest;
 import lombok.AccessLevel;
 import lombok.Getter;

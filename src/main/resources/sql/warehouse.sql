@@ -10,12 +10,12 @@ CREATE TABLE `warehouse`
     `street_address`   VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
     `detail_address`   VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
     `zip_code`         INT(11)      NULL DEFAULT NULL,
-    `created_at`       DATETIME     NULL DEFAULT NULL,
-    `last_modified_at` DATETIME     NULL DEFAULT NULL,
-    `created_by`       VARCHAR(50)  NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-    `last_modified_by` VARCHAR(50)  NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+    `created_at`       DATETIME     NOT NULL,
+    `last_modified_at` DATETIME     NOT NULL,
+    `created_by`       VARCHAR(50)  NOT NULL COLLATE 'utf8mb4_general_ci',
+    `last_modified_by` VARCHAR(50)  NOT NULL COLLATE 'utf8mb4_general_ci',
     PRIMARY KEY (`warehouse_id`) USING BTREE,
-    UNIQUE INDEX `warehouse_unique_name` (`name`) USING BTREE
+    UNIQUE INDEX `name` (`name`) USING BTREE
 )
     COLLATE = 'utf8mb4_general_ci'
     ENGINE = InnoDB

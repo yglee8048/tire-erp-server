@@ -1,12 +1,12 @@
-package com.minsoo.co.tireerpserver.service.account;
+package com.minsoo.co.tireerpserver.service.client;
 
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
-import com.minsoo.co.tireerpserver.entity.account.Client;
-import com.minsoo.co.tireerpserver.entity.account.ClientCompany;
+import com.minsoo.co.tireerpserver.entity.client.Client;
+import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.request.account.ClientRequest;
-import com.minsoo.co.tireerpserver.repository.account.ClientCompanyRepository;
-import com.minsoo.co.tireerpserver.repository.account.ClientRepository;
+import com.minsoo.co.tireerpserver.model.request.client.ClientRequest;
+import com.minsoo.co.tireerpserver.repository.client.ClientCompanyRepository;
+import com.minsoo.co.tireerpserver.repository.client.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

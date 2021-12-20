@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.entity.sale;
 
 import com.minsoo.co.tireerpserver.entity.Address;
 import com.minsoo.co.tireerpserver.entity.BaseEntity;
-import com.minsoo.co.tireerpserver.model.request.sale.DeliveryOption;
+import com.minsoo.co.tireerpserver.constant.DeliveryOption;
 import com.minsoo.co.tireerpserver.model.request.sale.DeliveryRequest;
 import lombok.AccessLevel;
 import lombok.Getter;

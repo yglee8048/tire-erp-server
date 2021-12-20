@@ -14,8 +14,8 @@ CREATE TABLE `delivery`
     `invoice_number`         VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
     `created_at`             DATETIME    NOT NULL,
     `last_modified_at`       DATETIME    NOT NULL,
-    `created_by`             VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-    `last_modified_by`       VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+    `created_by`             VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
+    `last_modified_by`       VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
     PRIMARY KEY (`delivery_id`) USING BTREE
 )
     COLLATE = 'utf8mb4_general_ci'

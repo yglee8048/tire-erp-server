@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.model.response.grid;
 
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
 import com.minsoo.co.tireerpserver.model.TireStandardDTO;
-import com.minsoo.co.tireerpserver.model.response.account.ClientCompanyResponse;
+import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
 import com.minsoo.co.tireerpserver.model.response.stock.StockResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;

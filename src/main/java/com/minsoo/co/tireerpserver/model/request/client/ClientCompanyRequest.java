@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.model.request.account;
+package com.minsoo.co.tireerpserver.model.request.client;
 
 import com.minsoo.co.tireerpserver.model.BusinessInfoDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
