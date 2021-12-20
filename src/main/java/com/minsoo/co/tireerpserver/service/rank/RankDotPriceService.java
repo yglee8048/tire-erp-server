@@ -31,9 +31,9 @@ public class RankDotPriceService {
         return rankDotPriceRepository.findAllByTireDot(tireDot);
     }
 
-    public RankDotPrice modify(RankDotPriceRequest rankDotPriceRequest) {
-        Rank rank = findRankById(rankDotPriceRequest.getRankId());
-        TireDot tireDot = findTireDotById(rankDotPriceRequest.getTireDotId());
+    public RankDotPrice modify(Long tireDotId, Long rankId, RankDotPriceRequest rankDotPriceRequest) {
+        TireDot tireDot = findTireDotById(tireDotId);
+        Rank rank = findRankById(rankId);
 
         return rankDotPriceRepository.findByRankAndTireDot(rank, tireDot)
                 .map(found -> found.update(rankDotPriceRequest.getPrice()))

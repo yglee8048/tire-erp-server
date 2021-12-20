@@ -60,9 +60,10 @@ public class RankApi {
                 .collect(Collectors.toList()));
     }
 
-    @PutMapping("/tire-dots/{tireDotId}/rank-dot-prices/{rankId}")
+    @PutMapping("/tire-dots/{tireDotId}/ranks/{rankId}")
     public ApiResponse<RankDotPriceResponse> modifyRankDotPrice(@PathVariable Long tireDotId,
+                                                                @PathVariable Long rankId,
                                                                 @Valid @RequestBody RankDotPriceRequest rankDotPriceRequest) {
-        return ApiResponse.OK(new RankDotPriceResponse(rankDotPriceService.modify(rankDotPriceRequest)));
+        return ApiResponse.OK(new RankDotPriceResponse(rankDotPriceService.modify(tireDotId, rankId, rankDotPriceRequest)));
     }
 }
