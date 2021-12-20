@@ -9,6 +9,7 @@ import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.PurchaseContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.SaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.TireDotGridResponse;
+import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerTireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.management.VendorResponse;
 import com.minsoo.co.tireerpserver.model.response.management.WarehouseResponse;
 import com.minsoo.co.tireerpserver.model.response.stock.StockResponse;
@@ -17,6 +18,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.QBean;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -34,6 +36,7 @@ import static com.minsoo.co.tireerpserver.entity.management.QVendor.vendor;
 import static com.minsoo.co.tireerpserver.entity.purchase.QPurchase.purchase;
 import static com.minsoo.co.tireerpserver.entity.purchase.QPurchaseContent.purchaseContent;
 import static com.minsoo.co.tireerpserver.entity.rank.QRank.rank;
+import static com.minsoo.co.tireerpserver.entity.rank.QRankDotPrice.rankDotPrice;
 import static com.minsoo.co.tireerpserver.entity.sale.QSale.sale;
 import static com.minsoo.co.tireerpserver.entity.sale.QSaleContent.saleContent;
 import static com.minsoo.co.tireerpserver.entity.stock.QStock.stock;
@@ -130,6 +133,32 @@ public class GridRepository {
                 .fetch();
     }
 
+    public List<SaleContentGridResponse> findSaleContentGridsByClientCompanyId(Long clientCompanyId, SaleStatus saleStatus, SaleSource saleSource, SaleDateType saleDateType, LocalDate from, LocalDate to) {
+        return selectSaleContentGridsQuery()
+                .where(clientCompany.id.eq(clientCompanyId),
+                        saleStatus == null ? null : sale.status.eq(saleStatus),
+                        saleSource == null ? null : sale.source.eq(saleSource),
+                        saleDateCondition(saleDateType, from, to))
+                .fetch();
+    }
+
+    public List<CustomerTireDotGridResponse> findCustomerTireDotGirdsByTireIdAndRankId(Long tireId, Long rankId) {
+        return queryFactory
+                .select(Projections.fields(CustomerTireDotGridResponse.class,
+                        tireDot.id.as("tireDotId"),
+                        tireDot.tire.id.as("tireId"),
+                        tireDot.dot,
+                        rankDotPrice.price.coalesce(tire.retailPrice),
+                        getSumOfOpenedStock().as("sumOfOpenedStock")
+                ))
+                .from(tireDot)
+                .join(tire).on(tireDot.tire.eq(tire))
+                .leftJoin(rankDotPrice).on(rankDotPrice.tireDot.eq(tireDot))
+                .where(tire.id.eq(tireId),
+                        rankDotPrice.rank.id.eq(rankId))
+                .fetch();
+    }
+
     private BooleanExpression saleDateCondition(SaleDateType saleDateType, LocalDate from, LocalDate to) {
         switch (saleDateType) {
             case DESIRED_DELIVERY:
@@ -155,10 +184,7 @@ public class GridRepository {
                         tireDot.id.as("tireDotId"),
                         tireDot.tire.id.as("tireId"),
                         tireDot.dot,
-                        new CaseBuilder()
-                                .when(stock.lock.not())
-                                .then(stock.quantity)
-                                .otherwise(0L).sum().as("sumOfOpenedStock"),
+                        getSumOfOpenedStock().as("sumOfOpenedStock"),
                         stock.quantity.sum().as("sumOfStock"),
                         ExpressionUtils.as(JPAExpressions
                                         .select(purchaseContent.price.avg())
@@ -170,6 +196,13 @@ public class GridRepository {
                 .from(tireDot)
                 .leftJoin(stock).on(stock.tireDot.eq(tireDot))
                 .groupBy(tireDot);
+    }
+
+    private NumberExpression<Long> getSumOfOpenedStock() {
+        return new CaseBuilder()
+                .when(stock.lock.not())
+                .then(stock.quantity)
+                .otherwise(0L).sum();
     }
 
     private JPAQuery<PurchaseContentGridResponse> selectPurchaseContentGridsQuery() {

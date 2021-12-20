@@ -44,6 +44,13 @@ public class ClientService {
         });
     }
 
+    public Client findByUsername(String username) {
+        return clientRepository.findByUsername(username).orElseThrow(() -> {
+            log.error("Can not find client by user_id: {}", username);
+            return new NotFoundException(SystemMessage.NOT_FOUND + ": [고객 계정]");
+        });
+    }
+
     public Client create(Long clientCompanyId, ClientRequest clientRequest) {
         ClientCompany clientCompany = findClientCompanyById(clientCompanyId);
         return clientRepository.save(Client.of(clientCompany, clientRequest, passwordEncoder));
