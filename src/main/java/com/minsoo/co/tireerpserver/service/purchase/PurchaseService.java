@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.service.purchase;
 
-import com.minsoo.co.tireerpserver.constant.DefaultValue;
+import com.minsoo.co.tireerpserver.constant.ConstantValue;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.management.Vendor;
 import com.minsoo.co.tireerpserver.entity.management.Warehouse;
@@ -97,10 +97,10 @@ public class PurchaseService {
         }
 
         for (PurchaseContent purchaseContent : purchase.getPurchaseContents()) {
-            stockRepository.findByTireDotAndNickname(purchaseContent.getTireDot(), DefaultValue.DEFAULT_STOCK_NICKNAME)
+            stockRepository.findByTireDotAndNickname(purchaseContent.getTireDot(), ConstantValue.DEFAULT_STOCK_NICKNAME)
                     .map(stock -> stock.addQuantity(purchaseContent.getQuantity()))
                     .orElseGet(() -> stockRepository.save(
-                            Stock.of(purchaseContent.getTireDot(), DefaultValue.DEFAULT_STOCK_NICKNAME, purchaseContent.getWarehouse(), purchaseContent.getQuantity().longValue(), false)));
+                            Stock.of(purchaseContent.getTireDot(), ConstantValue.DEFAULT_STOCK_NICKNAME, purchaseContent.getWarehouse(), purchaseContent.getQuantity().longValue(), false)));
         }
         return purchase.confirm();
     }

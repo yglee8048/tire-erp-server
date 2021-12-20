@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.security;
 
+import com.minsoo.co.tireerpserver.constant.ConstantValue;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -18,7 +19,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends GenericFilterBean {
 
-    public static final String AUTHORIZATION_HEADER = "Authorization";
     private final TokenProvider tokenProvider;
 
     @Override
@@ -40,7 +40,7 @@ public class JwtFilter extends GenericFilterBean {
     }
 
     private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        String bearerToken = request.getHeader(ConstantValue.AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
