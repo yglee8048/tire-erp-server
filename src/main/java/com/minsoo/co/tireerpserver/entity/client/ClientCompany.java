@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.entity.client;
 
 import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.BusinessInfo;
+import com.minsoo.co.tireerpserver.entity.rank.Rank;
 import com.minsoo.co.tireerpserver.model.request.client.ClientCompanyRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
