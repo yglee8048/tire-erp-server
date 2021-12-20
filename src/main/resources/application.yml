@@ -19,7 +19,7 @@ spring:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 500
-  #    open-in-view: false
+    open-in-view: false
 
   jackson:
     property-naming-strategy: SNAKE_CASE

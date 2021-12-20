@@ -34,13 +34,14 @@ public class ClientCompany extends BaseEntity {
     @Embedded
     private BusinessInfo businessInfo;
 
-    public static ClientCompany of(ClientCompanyRequest clientCompanyRequest) {
+    public static ClientCompany of(Rank rank, ClientCompanyRequest clientCompanyRequest) {
         ClientCompany clientCompany = new ClientCompany();
-        return clientCompany.update(clientCompanyRequest);
+        return clientCompany.update(rank, clientCompanyRequest);
     }
 
-    public ClientCompany update(ClientCompanyRequest clientCompanyRequest) {
+    public ClientCompany update(Rank rank, ClientCompanyRequest clientCompanyRequest) {
         this.name = clientCompanyRequest.getName();
+        this.rank = rank;
         this.description = clientCompanyRequest.getDescription();
         this.businessInfo = new BusinessInfo(clientCompanyRequest.getBusinessInfo());
         return this;

@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.repository.grid;
 
 import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
+import com.minsoo.co.tireerpserver.model.BusinessInfoDTO;
 import com.minsoo.co.tireerpserver.model.TireStandardDTO;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
 import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
@@ -26,12 +27,13 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.minsoo.co.tireerpserver.entity.account.QClientCompany.clientCompany;
+import static com.minsoo.co.tireerpserver.entity.client.QClientCompany.clientCompany;
 import static com.minsoo.co.tireerpserver.entity.management.QBrand.brand;
 import static com.minsoo.co.tireerpserver.entity.management.QPattern.pattern;
 import static com.minsoo.co.tireerpserver.entity.management.QVendor.vendor;
 import static com.minsoo.co.tireerpserver.entity.purchase.QPurchase.purchase;
 import static com.minsoo.co.tireerpserver.entity.purchase.QPurchaseContent.purchaseContent;
+import static com.minsoo.co.tireerpserver.entity.rank.QRank.rank;
 import static com.minsoo.co.tireerpserver.entity.sale.QSale.sale;
 import static com.minsoo.co.tireerpserver.entity.sale.QSaleContent.saleContent;
 import static com.minsoo.co.tireerpserver.entity.stock.QStock.stock;
@@ -207,7 +209,17 @@ public class GridRepository {
                         sale.releaseDate,
                         sale.desiredDeliveryDate,
                         sale.status,
-                        Projections.constructor(ClientCompanyResponse.class, clientCompany).as("clientCompany"),
+                        Projections.fields(ClientCompanyResponse.class,
+                                clientCompany.id.as("clientCompanyId"),
+                                clientCompany.name,
+                                rank.id.as("rankId"),
+                                rank.name.as("rankName"),
+                                clientCompany.description,
+                                Projections.constructor(BusinessInfoDTO.class, clientCompany.businessInfo).as("businessInfo"),
+                                clientCompany.createdBy,
+                                clientCompany.createdAt,
+                                clientCompany.lastModifiedBy,
+                                clientCompany.lastModifiedAt).as("clientCompany"),
                         tireStandardDTOFields().as("tireInfo"),
                         tireDot.id.as("tireDotId"),
                         saleContent.quantity,
@@ -222,6 +234,7 @@ public class GridRepository {
                 .from(saleContent)
                 .join(sale).on(saleContent.sale.eq(sale))
                 .join(clientCompany).on(sale.clientCompany.eq(clientCompany))
+                .join(rank).on(clientCompany.rank.eq(rank))
                 .join(stock).on(saleContent.stock.eq(stock))
                 .join(tireDot).on(saleContent.tireDot.eq(tireDot))
                 .join(tire).on(tireDot.tire.eq(tire))

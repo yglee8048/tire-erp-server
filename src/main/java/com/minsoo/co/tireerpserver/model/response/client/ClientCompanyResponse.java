@@ -13,6 +13,8 @@ public class ClientCompanyResponse {
 
     private Long clientCompanyId;
     private String name;
+    private Long rankId;
+    private String rankName;
     private String description;
     private BusinessInfoDTO businessInfo;
 
@@ -24,6 +26,8 @@ public class ClientCompanyResponse {
     public ClientCompanyResponse(ClientCompany clientCompany) {
         this.clientCompanyId = clientCompany.getId();
         this.name = clientCompany.getName();
+        this.rankId = clientCompany.getRank().getId();
+        this.rankName = clientCompany.getRank().getName();
         this.description = clientCompany.getDescription();
         this.businessInfo = new BusinessInfoDTO(clientCompany.getBusinessInfo());
 
