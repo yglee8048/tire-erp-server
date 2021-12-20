@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.entity.purchase;
 
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.management.Warehouse;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseContentRequest;
@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "purchase_content")
-public class PurchaseContent extends BaseTimeEntity {
+public class PurchaseContent extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.entity.sale;
 
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.stock.Stock;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.BadRequestException;
@@ -16,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "sale_content")
-public class SaleContent extends BaseTimeEntity {
+public class SaleContent extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

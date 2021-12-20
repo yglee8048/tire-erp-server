@@ -32,5 +32,7 @@ public class PurchaseResponse {
 
         this.createdAt = purchase.getCreatedAt();
         this.lastModifiedAt = purchase.getLastModifiedAt();
+        this.createdBy = purchase.getCreatedBy();
+        this.lastModifiedBy = purchase.getLastModifiedBy();
     }
 }

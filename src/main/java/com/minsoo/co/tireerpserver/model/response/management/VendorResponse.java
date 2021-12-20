@@ -29,5 +29,7 @@ public class VendorResponse {
 
         this.createdAt = vendor.getCreatedAt();
         this.lastModifiedAt = vendor.getLastModifiedAt();
+        this.createdBy = vendor.getCreatedBy();
+        this.lastModifiedBy = vendor.getLastModifiedBy();
     }
 }

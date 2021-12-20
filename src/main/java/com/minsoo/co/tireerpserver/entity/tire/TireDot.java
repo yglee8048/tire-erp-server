@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.entity.tire;
 
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.purchase.PurchaseContent;
 import com.minsoo.co.tireerpserver.entity.stock.Stock;
 import com.minsoo.co.tireerpserver.model.request.stock.StockMoveRequest;
@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "tire_dot")
-public class TireDot extends BaseTimeEntity {
+public class TireDot extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,23 +59,5 @@ public class TireDot extends BaseTimeEntity {
                 .mapToLong(StockMoveRequest::getQuantity)
                 .sum();
         return getSumOfStockQuantity() == sumOfRequest;
-    }
-
-    public long getSumOfOpenedStockQuantity() {
-        return stocks.stream()
-                .filter(stock -> !stock.getLock())
-                .mapToLong(Stock::getQuantity)
-                .sum();
-    }
-
-    public boolean isActive() {
-        return getSumOfStockQuantity() > 0;
-    }
-
-    public Double getAveragePurchasePrice() {
-        return this.purchaseContents.stream()
-                .mapToDouble(PurchaseContent::getPrice)
-                .average()
-                .orElse(0);
     }
 }

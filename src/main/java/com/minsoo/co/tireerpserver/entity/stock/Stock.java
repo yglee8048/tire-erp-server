@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.entity.stock;
 
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.management.Warehouse;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.BadRequestException;
@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "stock")
-public class Stock extends BaseTimeEntity {
+public class Stock extends BaseEntity {
 
     @Id
     @Column(name = "stock_id", length = 20)

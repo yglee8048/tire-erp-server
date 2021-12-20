@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.entity.purchase;
 
 import com.minsoo.co.tireerpserver.constant.PurchaseStatus;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.management.Vendor;
 import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseRequest;
@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @Entity
 @Table(name = "purchase")
-public class Purchase extends BaseTimeEntity {
+public class Purchase extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

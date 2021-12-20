@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.entity.sale;
 
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "sale_memo")
-public class SaleMemo extends BaseTimeEntity {
+public class SaleMemo extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

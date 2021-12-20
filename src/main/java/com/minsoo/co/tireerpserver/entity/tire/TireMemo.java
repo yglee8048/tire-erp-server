@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.entity.tire;
 
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.model.request.tire.TireMemoRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "tire_memo")
-public class TireMemo extends BaseTimeEntity {
+public class TireMemo extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -28,5 +28,7 @@ public class TireMemoResponse {
 
         this.createdAt = tireMemo.getCreatedAt();
         this.lastModifiedAt = tireMemo.getLastModifiedAt();
+        this.createdBy = tireMemo.getCreatedBy();
+        this.lastModifiedBy = tireMemo.getLastModifiedBy();
     }
 }

@@ -2,7 +2,7 @@ package com.minsoo.co.tireerpserver.entity.sale;
 
 import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.account.ClientCompany;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleRequest;
 import lombok.AccessLevel;
@@ -18,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "sale")
-public class Sale extends BaseTimeEntity {
+public class Sale extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

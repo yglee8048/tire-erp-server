@@ -35,5 +35,7 @@ public class AdminResponse {
 
         this.createdAt = admin.getCreatedAt();
         this.lastModifiedAt = admin.getLastModifiedAt();
+        this.createdBy = admin.getCreatedBy();
+        this.lastModifiedBy = admin.getLastModifiedBy();
     }
 }

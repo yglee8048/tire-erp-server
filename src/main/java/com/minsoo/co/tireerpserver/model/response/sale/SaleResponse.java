@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +22,11 @@ public class SaleResponse {
     private LocalDate releaseDate;
     private LocalDate desiredDeliveryDate;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime lastModifiedAt;
+    private String createdBy;
+    private String lastModifiedBy;
+
     public SaleResponse(Sale sale) {
         this.saleId = sale.getId();
         this.clientCompanyId = sale.getClientCompany().getId();
@@ -30,5 +36,10 @@ public class SaleResponse {
         this.transactionDate = sale.getTransactionDate();
         this.releaseDate = sale.getReleaseDate();
         this.desiredDeliveryDate = sale.getDesiredDeliveryDate();
+
+        this.createdAt = sale.getCreatedAt();
+        this.lastModifiedAt = sale.getLastModifiedAt();
+        this.createdBy = sale.getCreatedBy();
+        this.lastModifiedBy = sale.getLastModifiedBy();
     }
 }

@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.entity.sale;
 
 import com.minsoo.co.tireerpserver.entity.Address;
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.model.request.sale.DeliveryOption;
 import com.minsoo.co.tireerpserver.model.request.sale.DeliveryRequest;
 import lombok.AccessLevel;
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "delivery")
-public class Delivery extends BaseTimeEntity {
+public class Delivery extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

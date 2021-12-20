@@ -25,8 +25,8 @@ spring:
     property-naming-strategy: SNAKE_CASE
 
 jwt:
-  secret: Y29tLm1pbnNvby5jby50aXJlLWVycC1zZXJ2ZXIuMjAyMS0xMi0xOA==
-  token-expired-in-seconds: 1800
+  secret: Y29tLm1pbnNvby5jby50aXJlLWVycC1zZXJ2ZXIuc2VjcmV0LWtleS4yMDIxLTEyLTIwVDEwOjM0OjQxKzA5OjAw
+  token-expired-in-milli-seconds: 1800000   # 30분
 
 springdoc:
   swagger-ui:

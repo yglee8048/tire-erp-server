@@ -10,6 +10,7 @@ public abstract class SystemMessage {
     public static final String ALREADY_CONFIRMED = "이미 확정된 데이터입니다.";
     public static final String INVALID_PASSWORD = "비밀번호가 일치하지 않습니다.";
 
+    public static final String METHOD_ARGUMENT_INVALID = "잘못된 요청입니다. 누락되었거나, 부적절한 요청 내용이 존재합니다.";
     public static final String STOCK_NOT_SELECTED = "출고 위치가 선택되지 않았습니다.";
     public static final String NOT_ENOUGH_STOCK = "재고가 부족합니다.";
     public static final String INVALID_STOCK_REQUEST = "비정상적인 재고 요청입니다.";

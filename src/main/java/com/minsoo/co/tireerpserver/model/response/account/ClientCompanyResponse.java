@@ -29,5 +29,7 @@ public class ClientCompanyResponse {
 
         this.createdAt = clientCompany.getCreatedAt();
         this.lastModifiedAt = clientCompany.getLastModifiedAt();
+        this.createdBy = clientCompany.getCreatedBy();
+        this.lastModifiedBy = clientCompany.getLastModifiedBy();
     }
 }

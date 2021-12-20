@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 @Data
@@ -32,12 +33,15 @@ public class AdminRequest {
     @Schema(name = "name", description = "이름")
     private String name;
 
+    @Email
     @Schema(name = "email", description = "이메일")
     private String email;
 
     @Schema(name = "phone_number", description = "핸드폰 번호")
     private String phoneNumber;
 
-    @Schema(name = "role", description = "권한")
+    // TODO: custom validation 어노테이션 만들기
+    @Schema(name = "role", description = "계정 권한")
+    @NotEmpty(message = "계정 권한은 필수 값입니다.")
     private AccountRole role;
 }

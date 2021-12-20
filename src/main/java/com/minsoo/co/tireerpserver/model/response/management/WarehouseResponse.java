@@ -29,5 +29,7 @@ public class WarehouseResponse {
 
         this.createdAt = warehouse.getCreatedAt();
         this.lastModifiedAt = warehouse.getLastModifiedAt();
+        this.createdBy = warehouse.getCreatedBy();
+        this.lastModifiedBy = warehouse.getLastModifiedBy();
     }
 }

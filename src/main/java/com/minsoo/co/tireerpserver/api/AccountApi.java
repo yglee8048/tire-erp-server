@@ -5,7 +5,6 @@ import com.minsoo.co.tireerpserver.model.request.account.LoginRequest;
 import com.minsoo.co.tireerpserver.model.response.account.TokenResponse;
 import com.minsoo.co.tireerpserver.security.JwtFilter;
 import com.minsoo.co.tireerpserver.security.TokenProvider;
-import com.minsoo.co.tireerpserver.service.account.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -35,7 +34,7 @@ public class AccountApi {
     public ResponseEntity<ApiResponse<TokenResponse>> authenticate(@Valid @RequestBody LoginRequest loginRequest) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
+                new UsernamePasswordAuthenticationToken(loginRequest.getUserId(), loginRequest.getPassword());
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);

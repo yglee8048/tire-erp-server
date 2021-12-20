@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.entity.tire;
 
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.management.Pattern;
 import com.minsoo.co.tireerpserver.model.request.tire.TireRequest;
 import lombok.AccessLevel;
@@ -15,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "tire")
-public class Tire extends BaseTimeEntity {
+public class Tire extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -118,30 +118,5 @@ public class Tire extends BaseTimeEntity {
         this.lr = tireRequest.getLr();
         this.tireRoId = tireRequest.getTireRoId();
         return this;
-    }
-
-    public Long getTheNumberOfActiveDots() {
-        return this.tireDots.stream()
-                .filter(TireDot::isActive)
-                .count();
-    }
-
-    public Long getSumOfStock() {
-        return this.tireDots.stream()
-                .mapToLong(TireDot::getSumOfStockQuantity)
-                .sum();
-    }
-
-    public Long getSumOfOpenedStock() {
-        return this.tireDots.stream()
-                .mapToLong(TireDot::getSumOfOpenedStockQuantity)
-                .sum();
-    }
-
-    public Double getAveragePurchasePrice() {
-        return this.tireDots.stream()
-                .mapToDouble(TireDot::getAveragePurchasePrice)
-                .average()
-                .orElse(0);
     }
 }

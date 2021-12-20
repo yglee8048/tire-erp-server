@@ -48,5 +48,7 @@ public class PatternResponse {
 
         this.createdAt = pattern.getCreatedAt();
         this.lastModifiedAt = pattern.getLastModifiedAt();
+        this.createdBy = pattern.getCreatedBy();
+        this.lastModifiedBy = pattern.getLastModifiedBy();
     }
 }

@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.entity.account;
 
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.BusinessInfo;
 import com.minsoo.co.tireerpserver.model.request.account.ClientCompanyRequest;
 import lombok.AccessLevel;
@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "client_company")
-public class ClientCompany extends BaseTimeEntity {
+public class ClientCompany extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

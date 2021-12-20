@@ -102,7 +102,7 @@ public class PurchaseService {
                     .orElseGet(() -> stockRepository.save(
                             Stock.of(purchaseContent.getTireDot(), DefaultValue.DEFAULT_STOCK_NICKNAME, purchaseContent.getWarehouse(), purchaseContent.getQuantity().longValue(), false)));
         }
-        return purchase;
+        return purchase.confirm();
     }
 
     public void deleteById(Long purchaseId) {

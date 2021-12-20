@@ -26,13 +26,12 @@ public class AccountService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return accountRepository.findByUsername(username)
-                .map(account -> generateUser(username, account))
+                .map(this::generateUser)
                 .orElseThrow(() -> new UsernameNotFoundException(SystemMessage.USER_NAME_NOT_FOUND));
     }
 
-    private User generateUser(String username, Account account) {
-        return new User(account.getUsername(),
-                account.getPassword(),
+    private User generateUser(Account account) {
+        return new User(account.getUsername(), account.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority(account.getRole().name())));
     }
 }

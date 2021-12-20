@@ -26,5 +26,7 @@ public class BrandResponse {
 
         this.createdAt = brand.getCreatedAt();
         this.lastModifiedAt = brand.getLastModifiedAt();
+        this.createdBy = brand.getCreatedBy();
+        this.lastModifiedBy = brand.getLastModifiedBy();
     }
 }

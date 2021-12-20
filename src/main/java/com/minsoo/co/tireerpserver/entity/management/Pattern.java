@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.entity.management;
 
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.model.request.management.PatternRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "pattern")
-public class Pattern extends BaseTimeEntity {
+public class Pattern extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

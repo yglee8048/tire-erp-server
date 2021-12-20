@@ -185,7 +185,9 @@ public class GridRepository {
                         purchaseContent.price,
                         purchaseContent.quantity.multiply(purchaseContent.price).as("purchasePrice"),
                         purchaseContent.createdAt,
-                        purchaseContent.lastModifiedAt
+                        purchaseContent.lastModifiedAt,
+                        purchaseContent.createdBy,
+                        purchaseContent.lastModifiedBy
                 ))
                 .from(purchaseContent)
                 .join(purchase).on(purchaseContent.purchase.eq(purchase))
@@ -213,7 +215,9 @@ public class GridRepository {
                         saleContent.quantity.multiply(saleContent.price).as("salePrice"),
                         Projections.constructor(StockResponse.class, stock).as("stock"),
                         saleContent.createdAt,
-                        saleContent.lastModifiedAt
+                        saleContent.lastModifiedAt,
+                        saleContent.createdBy,
+                        saleContent.lastModifiedBy
                 ))
                 .from(saleContent)
                 .join(sale).on(saleContent.sale.eq(sale))

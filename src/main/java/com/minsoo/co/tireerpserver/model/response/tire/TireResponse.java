@@ -65,5 +65,7 @@ public class TireResponse {
 
         this.createdAt = tire.getCreatedAt();
         this.lastModifiedAt = tire.getLastModifiedAt();
+        this.createdBy = tire.getCreatedBy();
+        this.lastModifiedBy = tire.getLastModifiedBy();
     }
 }

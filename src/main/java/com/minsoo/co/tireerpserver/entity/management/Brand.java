@@ -1,6 +1,6 @@
 package com.minsoo.co.tireerpserver.entity.management;
 
-import com.minsoo.co.tireerpserver.entity.BaseTimeEntity;
+import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.model.request.management.BrandRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "brand")
-public class Brand extends BaseTimeEntity {
+public class Brand extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

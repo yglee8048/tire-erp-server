@@ -25,12 +25,12 @@ public class TokenProvider implements InitializingBean {
 
     private static final String AUTHORITIES_KEY = "auth";
     private final String secret;
-    private final long tokenExpiredInSeconds;
+    private final long tokenExpiredInMilliSeconds;
     private Key key;
 
-    public TokenProvider(@Value("${jwt.secret}") String secret, @Value("${jwt.token-expired-in-seconds}") long tokenExpiredInSeconds) {
+    public TokenProvider(@Value("${jwt.secret}") String secret, @Value("${jwt.token-expired-in-milli-seconds}") long tokenExpiredInMilliSeconds) {
         this.secret = secret;
-        this.tokenExpiredInSeconds = tokenExpiredInSeconds;
+        this.tokenExpiredInMilliSeconds = tokenExpiredInMilliSeconds;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TokenProvider implements InitializingBean {
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenExpiredInSeconds);
+        Date validity = new Date(now + this.tokenExpiredInMilliSeconds);
 
         return Jwts.builder()
                 .setSubject(authentication.getName())

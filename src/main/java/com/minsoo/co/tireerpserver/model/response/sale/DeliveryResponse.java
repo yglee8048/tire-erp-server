@@ -6,6 +6,8 @@ import com.minsoo.co.tireerpserver.model.request.sale.DeliveryOption;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 public class DeliveryResponse {
@@ -19,6 +21,11 @@ public class DeliveryResponse {
     private String deliveryCompany;
     private String invoiceNumber;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime lastModifiedAt;
+    private String createdBy;
+    private String lastModifiedBy;
+
     public DeliveryResponse(Delivery delivery) {
         this.deliveryId = delivery.getId();
         this.saleId = delivery.getSale().getId();
@@ -28,5 +35,10 @@ public class DeliveryResponse {
         this.deliveryOption = delivery.getDeliveryOption();
         this.deliveryCompany = delivery.getDeliveryCompany();
         this.invoiceNumber = delivery.getInvoiceNumber();
+
+        this.createdAt = delivery.getCreatedAt();
+        this.lastModifiedAt = delivery.getLastModifiedAt();
+        this.createdBy = delivery.getCreatedBy();
+        this.lastModifiedBy = delivery.getLastModifiedBy();
     }
 }
