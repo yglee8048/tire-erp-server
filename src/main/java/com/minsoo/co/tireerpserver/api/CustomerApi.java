@@ -31,7 +31,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/service-portal/api/v1")
+@RequestMapping("/customer/api/v1")
 @RequiredArgsConstructor
 public class CustomerApi {
 
