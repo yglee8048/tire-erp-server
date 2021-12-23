@@ -3,7 +3,6 @@ package com.minsoo.co.tireerpserver.model.response.grid;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
 import com.minsoo.co.tireerpserver.model.TireStandardDTO;
 import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
-import com.minsoo.co.tireerpserver.model.response.stock.StockResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -33,7 +32,10 @@ public class SaleContentGridResponse {
     private Integer quantity;
     private Long price;
     private Long salePrice;
-    private StockResponse stock;
+
+    private Long stockId;
+    private Long warehouseId;
+    private String warehouseName;
 
     private String createdBy;
     private LocalDateTime createdAt;

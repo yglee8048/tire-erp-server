@@ -11,8 +11,6 @@ import com.minsoo.co.tireerpserver.model.response.grid.SaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.TireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerTireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.management.VendorResponse;
-import com.minsoo.co.tireerpserver.model.response.management.WarehouseResponse;
-import com.minsoo.co.tireerpserver.model.response.stock.StockResponse;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.QBean;
@@ -33,6 +31,7 @@ import static com.minsoo.co.tireerpserver.entity.client.QClientCompany.clientCom
 import static com.minsoo.co.tireerpserver.entity.management.QBrand.brand;
 import static com.minsoo.co.tireerpserver.entity.management.QPattern.pattern;
 import static com.minsoo.co.tireerpserver.entity.management.QVendor.vendor;
+import static com.minsoo.co.tireerpserver.entity.management.QWarehouse.warehouse;
 import static com.minsoo.co.tireerpserver.entity.purchase.QPurchase.purchase;
 import static com.minsoo.co.tireerpserver.entity.purchase.QPurchaseContent.purchaseContent;
 import static com.minsoo.co.tireerpserver.entity.rank.QRank.rank;
@@ -211,14 +210,17 @@ public class GridRepository {
                         purchaseContent.id.as("purchaseContentId"),
                         purchase.id.as("purchaseId"),
                         purchase.transactionDate,
-                        purchase.status,
                         Projections.constructor(VendorResponse.class, vendor).as("vendor"),
                         tireStandardDTOFields().as("tireInfo"),
                         tireDot.id.as("tireDotId"),
-                        Projections.constructor(WarehouseResponse.class, purchaseContent.warehouse).as("warehouse"),
                         purchaseContent.quantity,
                         purchaseContent.price,
                         purchaseContent.quantity.multiply(purchaseContent.price).as("purchasePrice"),
+
+                        stock.id.as("stockId"),
+                        warehouse.id.as("warehouseId"),
+                        warehouse.name.as("warehouseName"),
+
                         purchaseContent.createdAt,
                         purchaseContent.lastModifiedAt,
                         purchaseContent.createdBy,
@@ -228,6 +230,8 @@ public class GridRepository {
                 .join(purchase).on(purchaseContent.purchase.eq(purchase))
                 .join(vendor).on(purchase.vendor.eq(vendor))
                 .join(tireDot).on(purchaseContent.tireDot.eq(tireDot))
+                .join(stock).on(purchaseContent.stock.eq(stock))
+                .join(warehouse).on(stock.warehouse.eq(warehouse))
                 .join(tire).on(tireDot.tire.eq(tire))
                 .join(pattern).on(tire.pattern.eq(pattern))
                 .join(brand).on(pattern.brand.eq(brand));
@@ -258,7 +262,11 @@ public class GridRepository {
                         saleContent.quantity,
                         saleContent.price,
                         saleContent.quantity.multiply(saleContent.price).as("salePrice"),
-                        Projections.constructor(StockResponse.class, stock).as("stock"),
+
+                        stock.id.as("stockId"),
+                        warehouse.id.as("warehouseId"),
+                        warehouse.name.as("warehouseName"),
+
                         saleContent.createdAt,
                         saleContent.lastModifiedAt,
                         saleContent.createdBy,
@@ -269,6 +277,7 @@ public class GridRepository {
                 .join(clientCompany).on(sale.clientCompany.eq(clientCompany))
                 .join(rank).on(clientCompany.rank.eq(rank))
                 .join(stock).on(saleContent.stock.eq(stock))
+                .join(warehouse).on(stock.warehouse.eq(warehouse))
                 .join(tireDot).on(saleContent.tireDot.eq(tireDot))
                 .join(tire).on(tireDot.tire.eq(tire))
                 .join(pattern).on(tire.pattern.eq(pattern))

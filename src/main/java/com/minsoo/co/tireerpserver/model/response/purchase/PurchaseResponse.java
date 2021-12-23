@@ -1,6 +1,5 @@
 package com.minsoo.co.tireerpserver.model.response.purchase;
 
-import com.minsoo.co.tireerpserver.constant.PurchaseStatus;
 import com.minsoo.co.tireerpserver.entity.purchase.Purchase;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,6 @@ public class PurchaseResponse {
 
     private Long purchaseId;
     private Long vendorId;
-    private PurchaseStatus status;
     private LocalDate transactionDate;
     private String description;
 
@@ -26,7 +24,6 @@ public class PurchaseResponse {
     public PurchaseResponse(Purchase purchase) {
         this.purchaseId = purchase.getId();
         this.vendorId = purchase.getVendor().getId();
-        this.status = purchase.getStatus();
         this.transactionDate = purchase.getTransactionDate();
         this.description = purchase.getDescription();
 

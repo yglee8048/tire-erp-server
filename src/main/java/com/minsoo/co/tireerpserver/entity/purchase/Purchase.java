@@ -1,17 +1,17 @@
 package com.minsoo.co.tireerpserver.entity.purchase;
 
-import com.minsoo.co.tireerpserver.constant.PurchaseStatus;
-import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.management.Vendor;
-import com.minsoo.co.tireerpserver.exception.BadRequestException;
+import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseRequest;
+import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
+import com.minsoo.co.tireerpserver.repository.tire.TireDotRepository;
 import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Entity
@@ -27,10 +27,6 @@ public class Purchase extends BaseEntity {
     @JoinColumn(name = "vendor_id", referencedColumnName = "vendor_id")
     private Vendor vendor;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private PurchaseStatus status;
-
     @Column(name = "transaction_date")
     private LocalDate transactionDate;
 
@@ -40,31 +36,34 @@ public class Purchase extends BaseEntity {
     @OneToMany(mappedBy = "purchase", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private final Set<PurchaseContent> purchaseContents = new HashSet<>();
 
-    protected Purchase() {
-        this.status = PurchaseStatus.REQUESTED;
-    }
-
-    public static Purchase of(Vendor vendor, PurchaseRequest purchaseRequest) {
+    public static Purchase of(Vendor vendor, PurchaseRequest purchaseRequest, TireDotRepository tireDotRepository, StockRepository stockRepository) {
         Purchase purchase = new Purchase();
-        return purchase.update(vendor, purchaseRequest);
+        return purchase.update(vendor, purchaseRequest, tireDotRepository, stockRepository);
     }
 
-    public Purchase update(Vendor vendor, PurchaseRequest purchaseRequest) {
-        if (this.status.equals(PurchaseStatus.CONFIRMED)) {
-            throw new BadRequestException(SystemMessage.ALREADY_CONFIRMED);
-        }
+    public Purchase update(Vendor vendor, PurchaseRequest purchaseRequest, TireDotRepository tireDotRepository, StockRepository stockRepository) {
         this.vendor = vendor;
         this.transactionDate = purchaseRequest.getTransactionDate();
         this.description = purchaseRequest.getDescription();
+
+        List<Long> removable = this.getPurchaseContents().stream()
+                .map(PurchaseContent::getId)
+                .collect(Collectors.toList());
+        List<Long> stored = new ArrayList<>();
+        for (PurchaseContentRequest purchaseContentRequest : purchaseRequest.getContents()) {
+//            findByTireDotAntWarehouse(purchaseContentRequest)
+//                    .map(purchaseContent -> purchaseContent.update(purchaseContentRequest))
+//                    .orElseGet(() -> {
+//
+//                    });
+        }
+
         return this;
     }
 
-    public Purchase confirm() {
-        this.status = PurchaseStatus.CONFIRMED;
-        return this;
-    }
-
-    public boolean isConfirmed() {
-        return this.status.equals(PurchaseStatus.CONFIRMED);
+    public Optional<PurchaseContent> findByTireDotAntWarehouse(PurchaseContentRequest purchaseContentRequest) {
+        return purchaseContents.stream()
+                .filter(purchaseContent -> purchaseContent.match(purchaseContentRequest.getTireId(), purchaseContentRequest.getDot(), purchaseContentRequest.getStockId()))
+                .findAny();
     }
 }

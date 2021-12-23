@@ -60,9 +60,4 @@ public class PurchaseApi {
         purchaseService.deleteById(purchaseId);
         return ApiResponse.NO_CONTENT();
     }
-
-    @PostMapping("/purchases/{purchaseId}/confirm")
-    public ApiResponse<PurchaseResponse> confirmPurchase(@PathVariable Long purchaseId) {
-        return ApiResponse.OK(new PurchaseResponse(purchaseService.confirm(purchaseId)));
-    }
 }

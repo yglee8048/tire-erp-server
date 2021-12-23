@@ -48,6 +48,8 @@ public class TokenProvider implements InitializingBean {
         Date validity = new Date(now + this.tokenExpiredInMilliSeconds);
 
         return Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .setIssuedAt(new Date())
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(key, SignatureAlgorithm.HS512)

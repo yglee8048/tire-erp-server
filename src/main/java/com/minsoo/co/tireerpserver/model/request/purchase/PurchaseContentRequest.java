@@ -30,7 +30,7 @@ public class PurchaseContentRequest {
     @NotNull(message = "매입 수량은 필수 값입니다.")
     private Integer quantity;
 
-    @Schema(name = "warehouse_id", description = "warehouse_id", example = "2", required = true)
-    @NotNull(message = "warehouse_id 는 필수 값입니다.")
-    private Long warehouseId;
+    @Schema(name = "stock_id", description = "stock_id", example = "2", required = true)
+    @NotNull(message = "stock_id 는 필수 값입니다.")
+    private Long stockId;
 }

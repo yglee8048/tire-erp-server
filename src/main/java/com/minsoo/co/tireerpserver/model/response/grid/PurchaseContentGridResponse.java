@@ -1,9 +1,9 @@
 package com.minsoo.co.tireerpserver.model.response.grid;
 
-import com.minsoo.co.tireerpserver.constant.PurchaseStatus;
 import com.minsoo.co.tireerpserver.model.TireStandardDTO;
 import com.minsoo.co.tireerpserver.model.response.management.VendorResponse;
 import com.minsoo.co.tireerpserver.model.response.management.WarehouseResponse;
+import com.minsoo.co.tireerpserver.model.response.stock.StockResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +17,6 @@ public class PurchaseContentGridResponse {
     private Long purchaseContentId;
     private Long purchaseId;
     private LocalDate transactionDate;
-    private PurchaseStatus status;
 
     private VendorResponse vendor;
 
@@ -28,10 +27,13 @@ public class PurchaseContentGridResponse {
     private Long sumOfOpenedStock;
     private Long sumOfStock;
     private Double averageOfPurchasePrice;
-    private WarehouseResponse warehouse;
     private Integer quantity;
     private Long price;
     private Long purchasePrice;
+
+    private Long stockId;
+    private Long warehouseId;
+    private String warehouseName;
 
     private String createdBy;
     private LocalDateTime createdAt;

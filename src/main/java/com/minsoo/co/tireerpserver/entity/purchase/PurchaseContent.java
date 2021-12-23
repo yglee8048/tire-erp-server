@@ -1,7 +1,7 @@
 package com.minsoo.co.tireerpserver.entity.purchase;
 
 import com.minsoo.co.tireerpserver.entity.BaseEntity;
-import com.minsoo.co.tireerpserver.entity.management.Warehouse;
+import com.minsoo.co.tireerpserver.entity.stock.Stock;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseContentRequest;
 import lombok.AccessLevel;
@@ -31,30 +31,37 @@ public class PurchaseContent extends BaseEntity {
     @JoinColumn(name = "tire_dot_id", nullable = false)
     private TireDot tireDot;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stock_id", referencedColumnName = "stock_id")
+    private Stock stock;
+
     @Column(name = "price", nullable = false)
     private Long price;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id")
-    private Warehouse warehouse;
-
-    public PurchaseContent(Purchase purchase) {
+    private PurchaseContent(Purchase purchase, TireDot tireDot, Stock stock) {
         this.purchase = purchase;
-    }
-
-    public static PurchaseContent of(Purchase purchase, TireDot tireDot, Warehouse warehouse, PurchaseContentRequest purchaseContentRequest) {
-        PurchaseContent purchaseContent = new PurchaseContent(purchase);
-        return purchaseContent.update(tireDot, warehouse, purchaseContentRequest);
-    }
-
-    public PurchaseContent update(TireDot tireDot, Warehouse warehouse, PurchaseContentRequest purchaseContentRequest) {
+        this.purchase.getPurchaseContents().add(this);
         this.tireDot = tireDot;
+        this.stock = stock;
+    }
+
+    public static PurchaseContent of(Purchase purchase, TireDot tireDot, Stock stock, PurchaseContentRequest purchaseContentRequest) {
+        PurchaseContent purchaseContent = new PurchaseContent(purchase, tireDot, stock);
+        return purchaseContent.update(purchaseContentRequest);
+    }
+
+    public PurchaseContent update(PurchaseContentRequest purchaseContentRequest) {
         this.price = purchaseContentRequest.getPrice();
         this.quantity = purchaseContentRequest.getQuantity();
-        this.warehouse = warehouse;
         return this;
+    }
+
+    public boolean match(Long tireId, String dot, Long stockId) {
+        return this.tireDot.getTire().getId().equals(tireId)
+                && this.tireDot.getDot().equals(dot)
+                && this.stock.getId().equals(stockId);
     }
 }
