@@ -199,9 +199,9 @@ public class GridRepository {
 
     private NumberExpression<Long> getSumOfOpenedStock() {
         return new CaseBuilder()
-                .when(stock.lock.not())
+                .when(stock.lock.eq(false))
                 .then(stock.quantity)
-                .otherwise(0L).sum();
+                .otherwise(0L);
     }
 
     private JPAQuery<PurchaseContentGridResponse> selectPurchaseContentGridsQuery() {
