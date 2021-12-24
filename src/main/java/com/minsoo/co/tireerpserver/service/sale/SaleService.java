@@ -49,10 +49,10 @@ public class SaleService {
         return sale;
     }
 
-    public Sale update(Long saleId, SaleUpdateRequest saleUpdateRequest) {
+    public Sale update(Long saleId, SaleUpdateRequest saleUpdateRequest, SaleSource source) {
         Sale sale = findById(saleId);
         ClientCompany clientCompany = findClientCompanyById(saleUpdateRequest.getClientCompanyId());
-        sale.update(clientCompany, saleUpdateRequest);
+        sale.update(clientCompany, saleUpdateRequest, source);
 
         saleContentService.modifySaleContents(sale, saleUpdateRequest.getContents());
 

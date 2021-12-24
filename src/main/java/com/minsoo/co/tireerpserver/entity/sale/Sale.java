@@ -2,8 +2,10 @@ package com.minsoo.co.tireerpserver.entity.sale;
 
 import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
+import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
+import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.model.request.sale.DeliveryRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleUpdateRequest;
@@ -66,10 +68,14 @@ public class Sale extends BaseEntity {
 
     public static Sale of(ClientCompany clientCompany, SaleCreateRequest saleCreateRequest, SaleSource source) {
         Sale sale = new Sale(source, saleCreateRequest.getDelivery());
-        return sale.update(clientCompany, saleCreateRequest.toUpdate());
+        return sale.update(clientCompany, saleCreateRequest.toUpdate(), source);
     }
 
-    public Sale update(ClientCompany clientCompany, SaleUpdateRequest saleUpdateRequest) {
+    public Sale update(ClientCompany clientCompany, SaleUpdateRequest saleUpdateRequest, SaleSource source) {
+        if (source.equals(SaleSource.ONLINE) && !this.status.equals(SaleStatus.REQUESTED)) {
+            throw new BadRequestException(SystemMessage.ALREADY_CONFIRMED);
+        }
+
         this.clientCompany = clientCompany;
         this.transactionDate = saleUpdateRequest.getTransactionDate();
         this.releaseDate = saleUpdateRequest.getReleaseDate();

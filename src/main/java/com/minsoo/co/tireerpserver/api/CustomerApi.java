@@ -6,8 +6,9 @@ import com.minsoo.co.tireerpserver.entity.client.Client;
 import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
 import com.minsoo.co.tireerpserver.exception.UnAuthenticateException;
 import com.minsoo.co.tireerpserver.model.ApiResponse;
-import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleCreateRequest;
+import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
+import com.minsoo.co.tireerpserver.model.request.sale.SaleUpdateRequest;
 import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
 import com.minsoo.co.tireerpserver.model.response.client.ClientResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerSaleContentGridResponse;
@@ -80,8 +81,8 @@ public class CustomerApi {
 
     @PutMapping("/sales/{saleId}")
     public ApiResponse<SaleResponse> updateSale(@PathVariable Long saleId,
-                                                @RequestBody @Valid SaleCreateRequest saleCreateRequest) {
-        return ApiResponse.OK(new SaleResponse(saleService.update(saleId, saleCreateRequest)));
+                                                @RequestBody @Valid SaleUpdateRequest saleUpdateRequest) {
+        return ApiResponse.OK(new SaleResponse(saleService.update(saleId, saleUpdateRequest, SaleSource.ONLINE)));
     }
 
     @DeleteMapping("/sales/{saleId}")

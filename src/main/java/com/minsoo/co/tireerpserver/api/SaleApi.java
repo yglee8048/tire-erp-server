@@ -62,7 +62,7 @@ public class SaleApi {
     @PutMapping("/sales/{saleId}")
     public ApiResponse<SaleResponse> updateSale(@PathVariable Long saleId,
                                                 @RequestBody @Valid SaleUpdateRequest saleUpdateRequest) {
-        return ApiResponse.OK(new SaleResponse(saleService.update(saleId, saleUpdateRequest)));
+        return ApiResponse.OK(new SaleResponse(saleService.update(saleId, saleUpdateRequest, SaleSource.MANUAL)));
     }
 
     @DeleteMapping("/sales/{saleId}")
