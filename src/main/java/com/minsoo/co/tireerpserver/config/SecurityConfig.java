@@ -43,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .httpBasic().disable()
-//                .cors().configurationSource(corsConfigurationSource())
-//                .and()
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .csrf().disable()
 
                 .exceptionHandling()
@@ -58,29 +58,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/api/v1/authenticate").permitAll()
-//                .antMatchers("/api/v1/**").hasAnyAuthority("ROOT", "ADMIN")
-//                .antMatchers("/customer/api/v1/**").hasAuthority("CLIENT")
+                .antMatchers("/api/v1/authenticate").permitAll()
+                .antMatchers("/api/v1/**").hasAnyAuthority("ROOT", "ADMIN")
+                .antMatchers("/customer/api/v1/**").hasAuthority("CLIENT")
 
-                .anyRequest().permitAll()
-//                .anyRequest().authenticated()
+//                .anyRequest().permitAll()
+                .anyRequest().authenticated()
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
     }
-//
-//    // CORS 허용 적용
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//
-//        configuration.addAllowedOrigin("*");
-//        configuration.addAllowedHeader("*");
-//        configuration.addAllowedMethod("*");
-//        configuration.setAllowCredentials(true);
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
+
+    // CORS 허용 적용
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }
