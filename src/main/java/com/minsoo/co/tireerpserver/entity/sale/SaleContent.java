@@ -1,10 +1,8 @@
 package com.minsoo.co.tireerpserver.entity.sale;
 
-import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.stock.Stock;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
-import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleContentRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -31,33 +29,33 @@ public class SaleContent extends BaseEntity {
     @JoinColumn(name = "tire_dot_id", referencedColumnName = "tire_dot_id")
     private TireDot tireDot;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stock_id", referencedColumnName = "stock_id")
+    private Stock stock;
+
     @Column(name = "price")
     private Long price;
 
     @Column(name = "quantity")
     private Integer quantity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stock_id", referencedColumnName = "stock_id")
-    private Stock stock;
-
-    public SaleContent(Sale sale) {
+    private SaleContent(Sale sale, TireDot tireDot, Stock stock) {
         this.sale = sale;
+        this.tireDot = tireDot;
+        this.stock = stock;
     }
 
     public static SaleContent of(Sale sale, TireDot tireDot, Stock stock, SaleContentRequest saleContentRequest) {
-        SaleContent saleContent = new SaleContent(sale);
-        return saleContent.update(tireDot, stock, saleContentRequest);
+        SaleContent saleContent = new SaleContent(sale, tireDot, stock);
+        return saleContent.update(saleContentRequest);
     }
 
-    public SaleContent update(TireDot tireDot, Stock stock, SaleContentRequest saleContentRequest) {
-        if (!stock.getTireDot().equals(tireDot)) {
-            throw new BadRequestException(SystemMessage.INVALID_STOCK_REQUEST);
-        }
-        this.tireDot = tireDot;
+    public SaleContent update(SaleContentRequest saleContentRequest) {
         this.price = saleContentRequest.getPrice();
+
+        this.stock.addQuantity(this.quantity - saleContentRequest.getQuantity());   // 재고 변경 바로 적용
         this.quantity = saleContentRequest.getQuantity();
-        this.stock = stock;
+
         return this;
     }
 }

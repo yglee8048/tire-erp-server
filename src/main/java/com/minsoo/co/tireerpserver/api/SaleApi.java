@@ -3,17 +3,13 @@ package com.minsoo.co.tireerpserver.api;
 import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
 import com.minsoo.co.tireerpserver.model.ApiResponse;
-import com.minsoo.co.tireerpserver.model.request.sale.DeliveryRequest;
-import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
-import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
-import com.minsoo.co.tireerpserver.model.request.sale.SaleRequest;
+import com.minsoo.co.tireerpserver.model.request.sale.*;
 import com.minsoo.co.tireerpserver.model.response.grid.SaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.DeliveryResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleMemoResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleResponse;
 import com.minsoo.co.tireerpserver.service.grid.GridService;
 import com.minsoo.co.tireerpserver.service.sale.DeliveryService;
-import com.minsoo.co.tireerpserver.service.sale.SaleContentService;
 import com.minsoo.co.tireerpserver.service.sale.SaleMemoService;
 import com.minsoo.co.tireerpserver.service.sale.SaleService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +30,6 @@ import java.util.stream.Collectors;
 public class SaleApi {
 
     private final SaleService saleService;
-    private final SaleContentService saleContentService;
     private final SaleMemoService saleMemoService;
     private final DeliveryService deliveryService;
     private final GridService gridService;
@@ -55,8 +50,8 @@ public class SaleApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/sales")
-    public ApiResponse<SaleResponse> createSale(@RequestBody @Valid SaleRequest saleRequest) {
-        return ApiResponse.CREATED(new SaleResponse(saleService.create(saleRequest, SaleSource.MANUAL)));
+    public ApiResponse<SaleResponse> createSale(@RequestBody @Valid SaleCreateRequest saleCreateRequest) {
+        return ApiResponse.CREATED(new SaleResponse(saleService.create(saleCreateRequest, SaleSource.MANUAL)));
     }
 
     @GetMapping("/sales/{saleId}")
@@ -66,8 +61,8 @@ public class SaleApi {
 
     @PutMapping("/sales/{saleId}")
     public ApiResponse<SaleResponse> updateSale(@PathVariable Long saleId,
-                                                @RequestBody @Valid SaleRequest saleRequest) {
-        return ApiResponse.OK(new SaleResponse(saleService.update(saleId, saleRequest)));
+                                                @RequestBody @Valid SaleUpdateRequest saleUpdateRequest) {
+        return ApiResponse.OK(new SaleResponse(saleService.update(saleId, saleUpdateRequest)));
     }
 
     @DeleteMapping("/sales/{saleId}")

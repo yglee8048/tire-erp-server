@@ -56,19 +56,10 @@ public class Stock extends BaseEntity {
         return this;
     }
 
-    public Stock addQuantity(int quantity) {
+    public void addQuantity(int quantity) {
         if (this.quantity + quantity < 0) {
             throw new BadRequestException(SystemMessage.NOT_ENOUGH_STOCK);
         }
         this.quantity += quantity;
-        return this;
-    }
-
-    public Stock reduceQuantity(int quantity) {
-        if (this.quantity - quantity < 0) {
-            throw new BadRequestException(SystemMessage.NOT_ENOUGH_STOCK);
-        }
-        this.quantity -= quantity;
-        return this;
     }
 }

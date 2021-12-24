@@ -5,7 +5,6 @@ import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseRequest;
 import com.minsoo.co.tireerpserver.model.response.grid.PurchaseContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.purchase.PurchaseResponse;
 import com.minsoo.co.tireerpserver.service.grid.GridService;
-import com.minsoo.co.tireerpserver.service.purchase.PurchaseContentService;
 import com.minsoo.co.tireerpserver.service.purchase.PurchaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,6 @@ import java.util.List;
 public class PurchaseApi {
 
     private final PurchaseService purchaseService;
-    private final PurchaseContentService purchaseContentService;
     private final GridService gridService;
 
     @GetMapping("/purchase-content-grids")

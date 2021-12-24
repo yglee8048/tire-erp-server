@@ -55,13 +55,10 @@ public class PurchaseContent extends BaseEntity {
 
     public PurchaseContent update(PurchaseContentRequest purchaseContentRequest) {
         this.price = purchaseContentRequest.getPrice();
-        this.quantity = purchaseContentRequest.getQuantity();
-        return this;
-    }
 
-    public boolean match(Long tireId, String dot, Long stockId) {
-        return this.tireDot.getTire().getId().equals(tireId)
-                && this.tireDot.getDot().equals(dot)
-                && this.stock.getId().equals(stockId);
+        this.stock.addQuantity(purchaseContentRequest.getQuantity() - this.quantity);   // 재고 변경 바로 적용
+        this.quantity = purchaseContentRequest.getQuantity();
+
+        return this;
     }
 }

@@ -2,16 +2,13 @@ package com.minsoo.co.tireerpserver.entity.purchase;
 
 import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.management.Vendor;
-import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseRequest;
-import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
-import com.minsoo.co.tireerpserver.repository.tire.TireDotRepository;
 import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -33,37 +30,18 @@ public class Purchase extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "purchase", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "purchase", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private final Set<PurchaseContent> purchaseContents = new HashSet<>();
 
-    public static Purchase of(Vendor vendor, PurchaseRequest purchaseRequest, TireDotRepository tireDotRepository, StockRepository stockRepository) {
+    public static Purchase of(Vendor vendor, PurchaseRequest purchaseRequest) {
         Purchase purchase = new Purchase();
-        return purchase.update(vendor, purchaseRequest, tireDotRepository, stockRepository);
+        return purchase.update(vendor, purchaseRequest);
     }
 
-    public Purchase update(Vendor vendor, PurchaseRequest purchaseRequest, TireDotRepository tireDotRepository, StockRepository stockRepository) {
+    public Purchase update(Vendor vendor, PurchaseRequest purchaseRequest) {
         this.vendor = vendor;
         this.transactionDate = purchaseRequest.getTransactionDate();
         this.description = purchaseRequest.getDescription();
-
-        List<Long> removable = this.getPurchaseContents().stream()
-                .map(PurchaseContent::getId)
-                .collect(Collectors.toList());
-        List<Long> stored = new ArrayList<>();
-        for (PurchaseContentRequest purchaseContentRequest : purchaseRequest.getContents()) {
-//            findByTireDotAntWarehouse(purchaseContentRequest)
-//                    .map(purchaseContent -> purchaseContent.update(purchaseContentRequest))
-//                    .orElseGet(() -> {
-//
-//                    });
-        }
-
         return this;
-    }
-
-    public Optional<PurchaseContent> findByTireDotAntWarehouse(PurchaseContentRequest purchaseContentRequest) {
-        return purchaseContents.stream()
-                .filter(purchaseContent -> purchaseContent.match(purchaseContentRequest.getTireId(), purchaseContentRequest.getDot(), purchaseContentRequest.getStockId()))
-                .findAny();
     }
 }

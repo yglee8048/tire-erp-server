@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleRequest {
+public class SaleUpdateRequest {
 
     @Schema(name = "client_company_id")
     @NotNull(message = "client_company_id 는 필수 값입니다.")
@@ -30,14 +30,15 @@ public class SaleRequest {
     @Schema(name = "desired_delivery_date", description = "배송 희망 일자")
     private LocalDate desiredDeliveryDate;
 
-    @Schema(name = "delivery", description = "배송 정보")
-    @NotNull(message = "배송 정보는 필수 값입니다.")
-    private DeliveryRequest delivery;
-
     @Schema(name = "contents", description = "매출 항목")
     @NotNull(message = "매출 항목은 필수 값입니다.")
     List<SaleContentRequest> contents;
 
-    @Schema(name = "memos", description = "매출 메모")
-    List<SaleMemoRequest> memos;
+    public SaleUpdateRequest(SaleCreateRequest saleCreateRequest) {
+        this.clientCompanyId = saleCreateRequest.getClientCompanyId();
+        this.transactionDate = saleCreateRequest.getTransactionDate();
+        this.releaseDate = saleCreateRequest.getReleaseDate();
+        this.desiredDeliveryDate = saleCreateRequest.getDesiredDeliveryDate();
+        this.contents = saleCreateRequest.getContents();
+    }
 }

@@ -7,25 +7,19 @@ import com.minsoo.co.tireerpserver.entity.sale.Sale;
 import com.minsoo.co.tireerpserver.entity.sale.SaleContent;
 import com.minsoo.co.tireerpserver.entity.sale.SaleMemo;
 import com.minsoo.co.tireerpserver.entity.stock.Stock;
-import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.request.sale.SaleContentRequest;
+import com.minsoo.co.tireerpserver.model.request.sale.SaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
-import com.minsoo.co.tireerpserver.model.request.sale.SaleRequest;
+import com.minsoo.co.tireerpserver.model.request.sale.SaleUpdateRequest;
 import com.minsoo.co.tireerpserver.repository.client.ClientCompanyRepository;
-import com.minsoo.co.tireerpserver.repository.sale.SaleContentRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleMemoRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleRepository;
-import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
-import com.minsoo.co.tireerpserver.repository.tire.TireDotRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -34,11 +28,9 @@ import java.util.Optional;
 public class SaleService {
 
     private final SaleRepository saleRepository;
-    private final SaleContentRepository saleContentRepository;
-    private final SaleMemoRepository saleMemoRepository;
     private final ClientCompanyRepository clientCompanyRepository;
-    private final TireDotRepository tireDotRepository;
-    private final StockRepository stockRepository;
+    private final SaleContentService saleContentService;
+    private final SaleMemoRepository saleMemoRepository;
 
     public Sale findById(Long saleId) {
         return saleRepository.findById(saleId).orElseThrow(() -> {
@@ -47,26 +39,22 @@ public class SaleService {
         });
     }
 
-    public Sale create(SaleRequest saleRequest, SaleSource source) {
-        ClientCompany clientCompany = findClientCompanyById(saleRequest.getClientCompanyId());
-        Sale sale = saleRepository.save(Sale.of(clientCompany, saleRequest, source));
+    public Sale create(SaleCreateRequest saleCreateRequest, SaleSource source) {
+        ClientCompany clientCompany = findClientCompanyById(saleCreateRequest.getClientCompanyId());
+        Sale sale = saleRepository.save(Sale.of(clientCompany, saleCreateRequest, source));
 
-        addSaleContents(sale, saleRequest);
-        addSaleMemos(sale, saleRequest);
+        saleContentService.modifySaleContents(sale, saleCreateRequest.getContents());
+        addSaleMemos(sale, saleCreateRequest);
 
         return sale;
     }
 
-    public Sale update(Long saleId, SaleRequest saleRequest) {
+    public Sale update(Long saleId, SaleUpdateRequest saleUpdateRequest) {
         Sale sale = findById(saleId);
-        ClientCompany clientCompany = findClientCompanyById(saleRequest.getClientCompanyId());
-        sale.update(clientCompany, saleRequest);
+        ClientCompany clientCompany = findClientCompanyById(saleUpdateRequest.getClientCompanyId());
+        sale.update(clientCompany, saleUpdateRequest);
 
-        sale.getSaleContents().clear();
-        addSaleContents(sale, saleRequest);
-
-        sale.getSaleMemos().clear();
-        addSaleMemos(sale, saleRequest);
+        saleContentService.modifySaleContents(sale, saleUpdateRequest.getContents());
 
         return sale;
     }
@@ -79,8 +67,6 @@ public class SaleService {
             if (stock == null) {
                 throw new BadRequestException(SystemMessage.STOCK_NOT_SELECTED);
             }
-
-            stock.reduceQuantity(saleContent.getQuantity());
         }
         return sale.confirm();
     }
@@ -95,28 +81,10 @@ public class SaleService {
         saleRepository.delete(sale);
     }
 
-    private void addSaleContents(Sale sale, SaleRequest saleRequest) {
-        for (SaleContentRequest content : saleRequest.getContents()) {
-            TireDot tireDot = tireDotRepository.findById(content.getTireDotId()).orElseThrow(() -> {
-                log.error("Can not find tire dot by id: {}", content.getTireDotId());
-                return new NotFoundException(SystemMessage.NOT_FOUND + ": [타이어 DOT]");
-            });
-            Stock stock = Optional.ofNullable(content.getStockId())
-                    .map(stockId -> stockRepository.findById(stockId).orElseThrow(() -> {
-                        log.error("Can not find stock by id: {}", stockId);
-                        return new NotFoundException(SystemMessage.NOT_FOUND + ": [재고]");
-                    }))
-                    .orElse(null);
-            SaleContent saleContent = saleContentRepository.save(SaleContent.of(sale, tireDot, stock, content));
-            sale.getSaleContents().add(saleContent);
-        }
-    }
-
-    private void addSaleMemos(Sale sale, SaleRequest saleRequest) {
-        if (!CollectionUtils.isEmpty(saleRequest.getMemos())) {
-            for (SaleMemoRequest saleMemoRequest : saleRequest.getMemos()) {
-                SaleMemo saleMemo = saleMemoRepository.save(SaleMemo.of(sale, saleMemoRequest));
-                sale.getSaleMemos().add(saleMemo);
+    private void addSaleMemos(Sale sale, SaleCreateRequest saleCreateRequest) {
+        if (!CollectionUtils.isEmpty(saleCreateRequest.getMemos())) {
+            for (SaleMemoRequest saleMemoRequest : saleCreateRequest.getMemos()) {
+                saleMemoRepository.save(SaleMemo.of(sale, saleMemoRequest));
             }
         }
     }

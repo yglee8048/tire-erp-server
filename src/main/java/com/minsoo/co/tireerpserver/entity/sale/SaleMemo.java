@@ -31,6 +31,7 @@ public class SaleMemo extends BaseEntity {
 
     public SaleMemo(Sale sale) {
         this.sale = sale;
+        sale.getSaleMemos().add(this);
     }
 
     public static SaleMemo of(Sale sale, SaleMemoRequest saleMemoRequest) {

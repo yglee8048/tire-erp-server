@@ -3,15 +3,24 @@ package com.minsoo.co.tireerpserver.service.purchase;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.purchase.Purchase;
 import com.minsoo.co.tireerpserver.entity.purchase.PurchaseContent;
+import com.minsoo.co.tireerpserver.entity.stock.Stock;
+import com.minsoo.co.tireerpserver.entity.tire.Tire;
+import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
+import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.repository.pruchase.PurchaseContentRepository;
-import com.minsoo.co.tireerpserver.repository.pruchase.PurchaseRepository;
+import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
+import com.minsoo.co.tireerpserver.repository.tire.TireDotRepository;
+import com.minsoo.co.tireerpserver.repository.tire.TireRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -20,17 +29,54 @@ import java.util.List;
 public class PurchaseContentService {
 
     private final PurchaseContentRepository purchaseContentRepository;
-    private final PurchaseRepository purchaseRepository;
+    private final TireRepository tireRepository;
+    private final TireDotRepository tireDotRepository;
+    private final StockRepository stockRepository;
 
-    public List<PurchaseContent> findAll() {
-        return purchaseContentRepository.findAll();
+    //TODO: purchase-contents 가 tire-dot 와 stock 기준으로 unique 해야함. -> grouping 혹은 validation 할 것
+    public void modifyPurchaseContents(Purchase purchase, List<PurchaseContentRequest> purchaseContentRequests) {
+        List<PurchaseContent> purchaseContents = purchaseContentRepository.findAllByPurchase(purchase);
+
+        List<Long> removable = purchaseContents.stream()
+                .map(PurchaseContent::getId)
+                .collect(Collectors.toList());
+        List<Long> stored = new ArrayList<>();
+
+        // save and update
+        for (PurchaseContentRequest purchaseContentRequest : purchaseContentRequests) {
+            Tire tire = findTireById(purchaseContentRequest.getTireId());
+            TireDot tireDot = findOrGetTireDotByTireAndDot(tire, purchaseContentRequest.getDot());
+            Stock stock = findStockById(purchaseContentRequest.getStockId());
+
+            stored.add(purchaseContentRepository.findByPurchaseAndTireDotAndStock(purchase, tireDot, stock)
+                    .map(found -> found.update(purchaseContentRequest))
+                    .orElseGet(() -> purchaseContentRepository.save(PurchaseContent.of(purchase, tireDot, stock, purchaseContentRequest)))
+                    .getId());
+        }
+
+        // remove
+        removable.removeAll(stored);
+        if (!CollectionUtils.isEmpty(removable)) {
+            purchaseContentRepository.deleteAllByIdIn(removable);
+        }
     }
 
-    public List<PurchaseContent> findByPurchase(Long purchaseId) {
-        Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> {
-            log.error("Can not find purchase by id: {}", purchaseId);
-            return new NotFoundException(SystemMessage.NOT_FOUND + ": [매입]");
+    private Tire findTireById(Long tireId) {
+        return tireRepository.findById(tireId).orElseThrow(() -> {
+            log.error("Can not find tire by id: {}", tireId);
+            return new NotFoundException(SystemMessage.NOT_FOUND + ": [타이어]");
         });
-        return purchaseContentRepository.findAllByPurchase(purchase);
+    }
+
+    private TireDot findOrGetTireDotByTireAndDot(Tire tire, String dot) {
+        return tireDotRepository.findByTireAndDot(tire, dot)
+                .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, dot)));
+    }
+
+    private Stock findStockById(Long stockId) {
+        return stockRepository.findById(stockId).orElseThrow(() -> {
+            log.error("Can not find stock by id: {}", stockId);
+            return new NotFoundException(SystemMessage.NOT_FOUND + ": [재고]");
+        });
     }
 }

@@ -4,7 +4,9 @@ import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
 import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
-import com.minsoo.co.tireerpserver.model.request.sale.SaleRequest;
+import com.minsoo.co.tireerpserver.model.request.sale.DeliveryRequest;
+import com.minsoo.co.tireerpserver.model.request.sale.SaleCreateRequest;
+import com.minsoo.co.tireerpserver.model.request.sale.SaleUpdateRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,23 +58,22 @@ public class Sale extends BaseEntity {
     @OneToMany(mappedBy = "sale", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private final Set<SaleMemo> saleMemos = new HashSet<>();
 
-    private Sale(SaleSource source) {
+    private Sale(SaleSource source, DeliveryRequest deliveryRequest) {
         this.source = source;
         this.status = source.equals(SaleSource.ONLINE) ? SaleStatus.REQUESTED : SaleStatus.COMPLETED;
-        this.delivery = new Delivery(this);
+        this.delivery = new Delivery(this).update(deliveryRequest);
     }
 
-    public static Sale of(ClientCompany clientCompany, SaleRequest saleRequest, SaleSource source) {
-        Sale sale = new Sale(source);
-        return sale.update(clientCompany, saleRequest);
+    public static Sale of(ClientCompany clientCompany, SaleCreateRequest saleCreateRequest, SaleSource source) {
+        Sale sale = new Sale(source, saleCreateRequest.getDelivery());
+        return sale.update(clientCompany, saleCreateRequest.toUpdate());
     }
 
-    public Sale update(ClientCompany clientCompany, SaleRequest saleRequest) {
+    public Sale update(ClientCompany clientCompany, SaleUpdateRequest saleUpdateRequest) {
         this.clientCompany = clientCompany;
-        this.transactionDate = saleRequest.getTransactionDate();
-        this.releaseDate = saleRequest.getReleaseDate();
-        this.desiredDeliveryDate = saleRequest.getDesiredDeliveryDate();
-        this.delivery.update(saleRequest.getDelivery());
+        this.transactionDate = saleUpdateRequest.getTransactionDate();
+        this.releaseDate = saleUpdateRequest.getReleaseDate();
+        this.desiredDeliveryDate = saleUpdateRequest.getDesiredDeliveryDate();
         return this;
     }
 
