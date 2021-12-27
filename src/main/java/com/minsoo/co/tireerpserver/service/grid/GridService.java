@@ -18,10 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -32,20 +33,21 @@ public class GridService {
     private final GridRepository gridRepository;
 
     public List<TireGridResponse> findAllTireGrids() {
-        Map<Long, TireStandardDTO> tireStandardDTOMap = gridRepository.findAllTireStandardDTOs().stream()
-                .collect(Collectors.toMap(TireStandardDTO::getTireId, tireStandardDTO -> tireStandardDTO));
+        Map<Long, List<TireDotGridResponse>> tireDotGridMap = gridRepository.findAllTireDotGrids().stream()
+                .collect(Collectors.groupingBy(TireDotGridResponse::getTireId));
 
-        return gridRepository.findAllTireDotGrids().stream()
-                .collect(Collectors.groupingBy(TireDotGridResponse::getTireId))
+        List<TireStandardDTO> allTireStandardDTOs = gridRepository.findAllTireStandardDTOs();
+        return allTireStandardDTOs.stream()
+                .collect(Collectors.toMap(TireStandardDTO::getTireId, tireStandardDTO -> tireStandardDTO))
                 .entrySet().stream()
-                .map(tireDotGridMap -> {
-                    Stream<TireDotGridResponse> stream = tireDotGridMap.getValue().stream();
+                .map(tireStandardDTOEntry -> {
+                    List<TireDotGridResponse> tireDotGridResponses = Optional.ofNullable(tireDotGridMap.get(tireStandardDTOEntry.getKey())).orElse(Collections.emptyList());
                     return TireGridResponse.builder()
-                            .tireInfo(tireStandardDTOMap.get(tireDotGridMap.getKey()))
-                            .sumOfOpenedStock(stream.mapToLong(TireDotGridResponse::getSumOfOpenedStock).sum())
-                            .sumOfStock(stream.mapToLong(TireDotGridResponse::getSumOfStock).sum())
-                            .averageOfPurchasePrice(stream.mapToDouble(TireDotGridResponse::getAverageOfPurchasePrice).average().orElse(0))
-                            .theNumberOfActiveDots(stream.filter(tireDotGridResponse -> tireDotGridResponse.getSumOfStock() > 0).count())
+                            .tireInfo(tireStandardDTOEntry.getValue())
+                            .sumOfOpenedStock(tireDotGridResponses.stream().mapToLong(TireDotGridResponse::getSumOfOpenedStock).sum())
+                            .sumOfStock(tireDotGridResponses.stream().mapToLong(TireDotGridResponse::getSumOfStock).sum())
+                            .averageOfPurchasePrice(tireDotGridResponses.stream().mapToDouble(TireDotGridResponse::getAverageOfPurchasePrice).average().orElse(0))
+                            .theNumberOfActiveDots(tireDotGridResponses.stream().filter(tireDotGridResponse -> tireDotGridResponse.getSumOfStock() > 0).count())
                             .build();
                 })
                 .collect(Collectors.toList());
