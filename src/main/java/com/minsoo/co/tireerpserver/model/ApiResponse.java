@@ -1,6 +1,7 @@
 package com.minsoo.co.tireerpserver.model;
 
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
+import com.minsoo.co.tireerpserver.utils.DateTimeUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ApiResponse<T> {
 
-    private LocalDateTime timestamp;
+    private String timestamp;
     private int status;
     private String error;
     private String message;
@@ -31,7 +32,7 @@ public class ApiResponse<T> {
     }
 
     private ApiResponse(HttpStatus status, String error, String message, String detail, T data) {
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = DateTimeUtils.toString(LocalDateTime.now());
         this.status = status.value();
         this.error = error;
         this.message = message;

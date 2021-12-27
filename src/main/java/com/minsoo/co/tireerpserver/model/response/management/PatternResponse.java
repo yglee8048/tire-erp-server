@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class PatternResponse {
 
     private Long patternId;
-    private BrandResponse brand;
+    private Long brandId;
     private String name;
     private String patternCode;
     private String carType;
@@ -32,7 +32,7 @@ public class PatternResponse {
 
     public PatternResponse(Pattern pattern) {
         this.patternId = pattern.getId();
-        this.brand = new BrandResponse(pattern.getBrand());
+        this.brandId = pattern.getBrand().getId();
         this.name = pattern.getName();
         this.patternCode = pattern.getPatternCode();
         this.carType = pattern.getCarType();
