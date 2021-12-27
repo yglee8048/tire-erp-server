@@ -13,8 +13,15 @@ echo "> 현재 구동 중인 어플리케이션 pid: $CURRENT_PID"
 if [ -z "$CURRENT_PID" ]; then
   echo "> 현재 구동 중인 어플리케이션이 없으므로 종료하지 않습니다."
 else
-  echo "> kill -15 $CURRENT_PID"
-  kill -15 $CURRENT_PID
+  # shellcheck disable=SC2046
+  # shellcheck disable=SC2006
+  # shellcheck disable=SC2009
+  # shellcheck disable=SC2005
+  echo `ps -ef | grep $PROJECT_NAME | grep -v grep | awk '{print $2}'`
+  # shellcheck disable=SC2046
+  # shellcheck disable=SC2006
+  # shellcheck disable=SC2009
+  kill `ps -ef | grep $PROJECT_NAME | grep -v grep | awk '{print $2}'`
   sleep 5
 fi
 
