@@ -52,7 +52,7 @@ public class Tire extends BaseEntity {
     private String speedIndex;
 
     @Column(name = "retail_price")
-    private Integer retailPrice;
+    private Long retailPrice;
 
     @Column(name = "run_flat")
     private Boolean runFlat;

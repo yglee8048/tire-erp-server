@@ -10,7 +10,7 @@ public class TireDotGridResponse {
     private Long tireDotId;
     private Long tireId;
     private String dot;
-    private Long sumOfOpenedStock;
-    private Long sumOfStock;
+    private Integer sumOfOpenedStock;
+    private Integer sumOfStock;
     private Double averageOfPurchasePrice;
 }

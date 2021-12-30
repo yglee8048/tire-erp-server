@@ -87,6 +87,6 @@ public class PurchaseContentService {
 
     private Stock findDefaultStock(TireDot tireDot, Warehouse warehouse) {
         return stockRepository.findByTireDotAndWarehouseAndNickname(tireDot, warehouse, ConstantValue.DEFAULT_STOCK_NICKNAME)
-                .orElseGet(() -> stockRepository.save(Stock.of(tireDot, ConstantValue.DEFAULT_STOCK_NICKNAME, warehouse, 0L, true)));
+                .orElseGet(() -> stockRepository.save(Stock.of(tireDot, ConstantValue.DEFAULT_STOCK_NICKNAME, warehouse, 0, true)));
     }
 }

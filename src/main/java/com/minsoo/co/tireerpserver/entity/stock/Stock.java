@@ -34,7 +34,7 @@ public class Stock extends BaseEntity {
     private String nickname;
 
     @Column(name = "quantity", nullable = false)
-    private Long quantity;
+    private Integer quantity;
 
     @Column(name = "is_lock", nullable = false)
     private Boolean lock;
@@ -44,19 +44,19 @@ public class Stock extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public static Stock of(TireDot tireDot, String nickname, Warehouse warehouse, Long quantity, boolean lock) {
+    public static Stock of(TireDot tireDot, String nickname, Warehouse warehouse, Integer quantity, boolean lock) {
         Stock stock = new Stock(tireDot, nickname);
         return stock.update(warehouse, quantity, lock);
     }
 
-    public Stock update(Warehouse warehouse, Long quantity, boolean lock) {
+    public Stock update(Warehouse warehouse, Integer quantity, boolean lock) {
         this.warehouse = warehouse;
         this.quantity = quantity;
         this.lock = lock;
         return this;
     }
 
-    public void addQuantity(long quantity) {
+    public void addQuantity(int quantity) {
         if (this.quantity + quantity < 0) {
             throw new BadRequestException(SystemMessage.NOT_ENOUGH_STOCK);
         }

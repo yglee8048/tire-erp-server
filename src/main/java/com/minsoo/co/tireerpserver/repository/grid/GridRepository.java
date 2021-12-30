@@ -198,11 +198,11 @@ public class GridRepository {
                 .groupBy(tireDot);
     }
 
-    private NumberExpression<Long> getSumOfOpenedStock() {
+    private NumberExpression<Integer> getSumOfOpenedStock() {
         return new CaseBuilder()
                 .when(stock.lock.eq(false))
                 .then(stock.quantity)
-                .otherwise(0L);
+                .otherwise(0);
     }
 
     private JPAQuery<PurchaseContentGridResponse> selectPurchaseContentGridsQuery() {

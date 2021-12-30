@@ -11,5 +11,5 @@ public class CustomerTireDotGridResponse {
     private Long tireId;
     private String dot;
     private Integer price;
-    private Long sumOfOpenedStock;
+    private Integer sumOfOpenedStock;
 }

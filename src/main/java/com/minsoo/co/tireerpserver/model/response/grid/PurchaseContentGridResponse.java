@@ -2,8 +2,6 @@ package com.minsoo.co.tireerpserver.model.response.grid;
 
 import com.minsoo.co.tireerpserver.model.TireStandardDTO;
 import com.minsoo.co.tireerpserver.model.response.management.VendorResponse;
-import com.minsoo.co.tireerpserver.model.response.management.WarehouseResponse;
-import com.minsoo.co.tireerpserver.model.response.stock.StockResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,8 +22,8 @@ public class PurchaseContentGridResponse {
 
     private Long tireDotId;
     private String dot;
-    private Long sumOfOpenedStock;
-    private Long sumOfStock;
+    private Integer sumOfOpenedStock;
+    private Integer sumOfStock;
     private Double averageOfPurchasePrice;
     private Integer quantity;
     private Long price;

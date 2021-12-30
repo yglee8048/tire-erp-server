@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class TireGridResponse {
 
     private TireStandardDTO tireInfo;
-    private Long sumOfOpenedStock;
-    private Long sumOfStock;
-    private Long theNumberOfActiveDots;
+    private Integer sumOfOpenedStock;
+    private Integer sumOfStock;
+    private Integer theNumberOfActiveDots;
     private Double averageOfPurchasePrice;
 }

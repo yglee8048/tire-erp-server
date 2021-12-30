@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 public class CustomerTireGridResponse {
 
     private TireStandardDTO tireInfo;
-    private Long sumOfOpenedStock;
-    private Long theNumberOfActiveDots;
+    private Integer sumOfOpenedStock;
+    private Integer theNumberOfActiveDots;
 
     public CustomerTireGridResponse(TireGridResponse tireGridResponse) {
         this.tireInfo = tireGridResponse.getTireInfo();

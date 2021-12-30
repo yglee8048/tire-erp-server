@@ -18,7 +18,6 @@ for ((i = 0; i < 3; i++)); do
     sleep 5
     break
   else
-    # TODO: 위에서 잡은 PID 를 지운다. -15 대신 -9 ?
     kill -15 "$CURRENT_PID"
     echo ">kill -15 $CURRENT_PID"
     sleep 10

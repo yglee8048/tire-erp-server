@@ -44,10 +44,10 @@ public class GridService {
                     List<TireDotGridResponse> tireDotGridResponses = Optional.ofNullable(tireDotGridMap.get(tireStandardDTOEntry.getKey())).orElse(Collections.emptyList());
                     return TireGridResponse.builder()
                             .tireInfo(tireStandardDTOEntry.getValue())
-                            .sumOfOpenedStock(tireDotGridResponses.stream().mapToLong(TireDotGridResponse::getSumOfOpenedStock).sum())
-                            .sumOfStock(tireDotGridResponses.stream().mapToLong(TireDotGridResponse::getSumOfStock).sum())
+                            .sumOfOpenedStock(tireDotGridResponses.stream().mapToInt(TireDotGridResponse::getSumOfOpenedStock).sum())
+                            .sumOfStock(tireDotGridResponses.stream().mapToInt(TireDotGridResponse::getSumOfStock).sum())
                             .averageOfPurchasePrice(tireDotGridResponses.stream().mapToDouble(TireDotGridResponse::getAverageOfPurchasePrice).average().orElse(0))
-                            .theNumberOfActiveDots(tireDotGridResponses.stream().filter(tireDotGridResponse -> tireDotGridResponse.getSumOfStock() > 0).count())
+                            .theNumberOfActiveDots((int) tireDotGridResponses.stream().filter(tireDotGridResponse -> tireDotGridResponse.getSumOfStock() > 0).count())
                             .build();
                 })
                 .collect(Collectors.toList());

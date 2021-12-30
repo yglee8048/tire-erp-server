@@ -14,5 +14,5 @@ public class RankDotPriceRequest {
     @Schema(name = "price", description = "가격")
     @Positive(message = "가격은 양수여야 합니다.")
     @NotNull(message = "가격은 필수 값입니다.")
-    private Integer price;
+    private Long price;
 }

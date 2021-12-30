@@ -12,7 +12,7 @@ public class RankDotPriceResponse {
     private String rankName;
     private Long tireDotId;
     private String dot;
-    private Integer price;
+    private Long price;
 
     public RankDotPriceResponse(RankDotPrice rankDotPrice) {
         this.rankId = rankDotPrice.getRank().getId();

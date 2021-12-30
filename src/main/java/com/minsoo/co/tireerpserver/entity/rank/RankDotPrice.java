@@ -28,19 +28,19 @@ public class RankDotPrice extends BaseEntity {
     private TireDot tireDot;
 
     @Column(name = "price")
-    private Integer price;
+    private Long price;
 
     private RankDotPrice(Rank rank, TireDot tireDot) {
         this.rank = rank;
         this.tireDot = tireDot;
     }
 
-    public static RankDotPrice of(Rank rank, TireDot tireDot, Integer price) {
+    public static RankDotPrice of(Rank rank, TireDot tireDot, Long price) {
         RankDotPrice rankDotPrice = new RankDotPrice(rank, tireDot);
         return rankDotPrice.update(price);
     }
 
-    public RankDotPrice update(Integer price) {
+    public RankDotPrice update(Long price) {
         this.price = price;
         return this;
     }

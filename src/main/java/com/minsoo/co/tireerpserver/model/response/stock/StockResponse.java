@@ -14,7 +14,7 @@ public class StockResponse {
     private Long tireDotId;
     private Long warehouseId;
     private String nickname;
-    private Long quantity;
+    private Integer quantity;
     private Boolean lock;
 
     private LocalDateTime createdAt;

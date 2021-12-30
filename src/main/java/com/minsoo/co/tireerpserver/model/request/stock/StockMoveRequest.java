@@ -27,7 +27,7 @@ public class StockMoveRequest {
     @Schema(name = "quantity", description = "수량")
     @NotNull(message = "수량은 필수 값입니다.")
     @Positive(message = "수량은 양수여야 합니다.")
-    private Long quantity;
+    private Integer quantity;
 
     @Schema(name = "lock", description = "잠금여부")
     @NotNull(message = "잠금여부는 필수 값입니다.")

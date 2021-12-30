@@ -27,7 +27,7 @@ public class TireStandardDTO {
     private String oe;
     private String originalVehicle;
     private String countryOfManufacture;
-    private Integer retailPrice;
+    private Long retailPrice;
 
     private String tireGroup;
     private String note;

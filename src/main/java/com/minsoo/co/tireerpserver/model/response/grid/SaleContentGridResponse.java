@@ -26,8 +26,8 @@ public class SaleContentGridResponse {
 
     private Long tireDotId;
     private String dot;
-    private Long sumOfOpenedStock;
-    private Long sumOfStock;
+    private Integer sumOfOpenedStock;
+    private Integer sumOfStock;
     private Double averageOfPurchasePrice;
     private Integer quantity;
     private Long price;
