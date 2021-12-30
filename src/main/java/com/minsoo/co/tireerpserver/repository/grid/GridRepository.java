@@ -68,6 +68,7 @@ public class GridRepository {
                 tire.width,
                 tire.flatnessRatio,
                 tire.inch,
+                tire.size,
                 tire.loadIndex,
                 tire.speedIndex,
                 pattern.id.as("patternId"),

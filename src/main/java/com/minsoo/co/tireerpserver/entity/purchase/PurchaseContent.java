@@ -36,10 +36,10 @@ public class PurchaseContent extends BaseEntity {
     private Stock stock;
 
     @Column(name = "price", nullable = false)
-    private Long price;
+    private Integer price;
 
     @Column(name = "quantity", nullable = false)
-    private Integer quantity;
+    private Long quantity;
 
     private PurchaseContent(Purchase purchase, TireDot tireDot, Stock stock) {
         this.purchase = purchase;

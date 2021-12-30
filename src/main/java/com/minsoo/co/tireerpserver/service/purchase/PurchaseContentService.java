@@ -1,6 +1,8 @@
 package com.minsoo.co.tireerpserver.service.purchase;
 
+import com.minsoo.co.tireerpserver.constant.ConstantValue;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
+import com.minsoo.co.tireerpserver.entity.management.Warehouse;
 import com.minsoo.co.tireerpserver.entity.purchase.Purchase;
 import com.minsoo.co.tireerpserver.entity.purchase.PurchaseContent;
 import com.minsoo.co.tireerpserver.entity.stock.Stock;
@@ -8,6 +10,7 @@ import com.minsoo.co.tireerpserver.entity.tire.Tire;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseContentRequest;
+import com.minsoo.co.tireerpserver.repository.management.WarehouseRepository;
 import com.minsoo.co.tireerpserver.repository.pruchase.PurchaseContentRepository;
 import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
 import com.minsoo.co.tireerpserver.repository.tire.TireDotRepository;
@@ -31,6 +34,7 @@ public class PurchaseContentService {
     private final PurchaseContentRepository purchaseContentRepository;
     private final TireRepository tireRepository;
     private final TireDotRepository tireDotRepository;
+    private final WarehouseRepository warehouseRepository;
     private final StockRepository stockRepository;
 
     //TODO: purchase-contents 가 tire-dot 와 stock 기준으로 unique 해야함. -> grouping 혹은 validation 할 것
@@ -46,7 +50,8 @@ public class PurchaseContentService {
         for (PurchaseContentRequest purchaseContentRequest : purchaseContentRequests) {
             Tire tire = findTireById(purchaseContentRequest.getTireId());
             TireDot tireDot = findOrGetTireDotByTireAndDot(tire, purchaseContentRequest.getDot());
-            Stock stock = findStockById(purchaseContentRequest.getStockId());
+            Warehouse warehouse = findWarehouseById(purchaseContentRequest.getWarehouseId());
+            Stock stock = findDefaultStock(tireDot, warehouse);
 
             stored.add(purchaseContentRepository.findByPurchaseAndTireDotAndStock(purchase, tireDot, stock)
                     .map(found -> found.update(purchaseContentRequest))
@@ -73,10 +78,15 @@ public class PurchaseContentService {
                 .orElseGet(() -> tireDotRepository.save(TireDot.of(tire, dot)));
     }
 
-    private Stock findStockById(Long stockId) {
-        return stockRepository.findById(stockId).orElseThrow(() -> {
-            log.error("Can not find stock by id: {}", stockId);
-            return new NotFoundException(SystemMessage.NOT_FOUND + ": [재고]");
+    private Warehouse findWarehouseById(Long warehouseId) {
+        return warehouseRepository.findById(warehouseId).orElseThrow(() -> {
+            log.error("Can not find warehouse by id: {}", warehouseId);
+            return new NotFoundException(SystemMessage.NOT_FOUND + ": [창고]");
         });
+    }
+
+    private Stock findDefaultStock(TireDot tireDot, Warehouse warehouse) {
+        return stockRepository.findByTireDotAndWarehouseAndNickname(tireDot, warehouse, ConstantValue.DEFAULT_STOCK_NICKNAME)
+                .orElseGet(() -> stockRepository.save(Stock.of(tireDot, ConstantValue.DEFAULT_STOCK_NICKNAME, warehouse, 0L, true)));
     }
 }

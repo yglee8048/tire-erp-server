@@ -26,7 +26,7 @@ spring:
 
 jwt:
   secret: Y29tLm1pbnNvby5jby50aXJlLWVycC1zZXJ2ZXIuc2VjcmV0LWtleS4yMDIxLTEyLTIwVDEwOjM0OjQxKzA5OjAw
-  token-expired-in-milli-seconds: 1800000   # 30분
+  token-expired-in-milli-seconds: 3600000   # 60분
 
 springdoc:
   swagger-ui:

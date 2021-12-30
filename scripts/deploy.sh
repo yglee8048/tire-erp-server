@@ -7,21 +7,17 @@ echo "> Build 파일 복사"
 cp $REPOSITORY/zip/*.jar $REPOSITORY/
 
 echo "> 현재 구동 중인 어플리케이션 pid 확인"
-CURRENT_PID=$(pgrep -fl $PROJECT_NAME | awk '{print $1}')
+# shellcheck disable=SC2009
+CURRENT_PID=$(ps -ef | grep $PROJECT_NAME | grep -v grep | awk '{print $2}')
 
 echo "> 현재 구동 중인 어플리케이션 pid: $CURRENT_PID"
+
 if [ -z "$CURRENT_PID" ]; then
   echo "> 현재 구동 중인 어플리케이션이 없으므로 종료하지 않습니다."
 else
-  # shellcheck disable=SC2046
-  # shellcheck disable=SC2006
-  # shellcheck disable=SC2009
-  # shellcheck disable=SC2005
-  echo `ps -ef | grep $PROJECT_NAME | grep -v grep | awk '{print $2}'`
-  # shellcheck disable=SC2046
-  # shellcheck disable=SC2006
-  # shellcheck disable=SC2009
-  kill `ps -ef | grep $PROJECT_NAME | grep -v grep | awk '{print $2}'`
+  # TODO: 위에서 잡은 PID 를 지운다. -15 대신 -9 ?
+  kill -9 "$CURRENT_PID"
+  echo ">kill -9 $CURRENT_PID"
   sleep 5
 fi
 
