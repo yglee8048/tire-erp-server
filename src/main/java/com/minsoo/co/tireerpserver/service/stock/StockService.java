@@ -58,6 +58,7 @@ public class StockService {
             throw new BadRequestException(SystemMessage.NICKNAME_DUPLICATE);
         }
 
+        // FIXME:
         tireDot.getStocks().clear();
         tireDot.getStocks().addAll(stockMoveRequests.stream()
                 .map(stockMoveRequest -> {

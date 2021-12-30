@@ -43,6 +43,7 @@ public class SaleContent extends BaseEntity {
         this.sale = sale;
         this.tireDot = tireDot;
         this.stock = stock;
+        this.quantity = 0;
     }
 
     public static SaleContent of(Sale sale, TireDot tireDot, Stock stock, SaleContentRequest saleContentRequest) {

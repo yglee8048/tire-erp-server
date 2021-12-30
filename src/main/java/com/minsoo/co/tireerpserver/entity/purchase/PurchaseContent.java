@@ -46,6 +46,7 @@ public class PurchaseContent extends BaseEntity {
         this.purchase.getPurchaseContents().add(this);
         this.tireDot = tireDot;
         this.stock = stock;
+        this.quantity = 0;
     }
 
     public static PurchaseContent of(Purchase purchase, TireDot tireDot, Stock stock, PurchaseContentRequest purchaseContentRequest) {
