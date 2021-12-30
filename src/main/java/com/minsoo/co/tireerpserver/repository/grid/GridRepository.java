@@ -216,7 +216,7 @@ public class GridRepository {
                         tireDot.id.as("tireDotId"),
                         purchaseContent.quantity,
                         purchaseContent.price,
-                        purchaseContent.quantity.multiply(purchaseContent.price).as("purchasePrice"),
+                        purchaseContent.quantity.longValue().multiply(purchaseContent.price).as("purchasePrice"),
 
                         stock.id.as("stockId"),
                         warehouse.id.as("warehouseId"),
@@ -262,7 +262,7 @@ public class GridRepository {
                         tireDot.id.as("tireDotId"),
                         saleContent.quantity,
                         saleContent.price,
-                        saleContent.quantity.multiply(saleContent.price).as("salePrice"),
+                        saleContent.quantity.longValue().multiply(saleContent.price).as("salePrice"),
 
                         stock.id.as("stockId"),
                         warehouse.id.as("warehouseId"),
