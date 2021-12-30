@@ -202,7 +202,7 @@ public class GridRepository {
         return new CaseBuilder()
                 .when(stock.lock.eq(false))
                 .then(stock.quantity)
-                .otherwise(0);
+                .otherwise(0).sum();
     }
 
     private JPAQuery<PurchaseContentGridResponse> selectPurchaseContentGridsQuery() {
