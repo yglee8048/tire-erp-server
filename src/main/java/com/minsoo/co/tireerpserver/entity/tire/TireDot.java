@@ -48,15 +48,15 @@ public class TireDot extends BaseEntity {
         return this;
     }
 
-    public long getSumOfStockQuantity() {
+    public int getSumOfStockQuantity() {
         return stocks.stream()
-                .mapToLong(Stock::getQuantity)
+                .mapToInt(Stock::getQuantity)
                 .sum();
     }
 
     public boolean isValidStockRequests(List<StockMoveRequest> stockMoveRequests) {
-        long sumOfRequest = stockMoveRequests.stream()
-                .mapToLong(StockMoveRequest::getQuantity)
+        int sumOfRequest = stockMoveRequests.stream()
+                .mapToInt(StockMoveRequest::getQuantity)
                 .sum();
         return getSumOfStockQuantity() == sumOfRequest;
     }

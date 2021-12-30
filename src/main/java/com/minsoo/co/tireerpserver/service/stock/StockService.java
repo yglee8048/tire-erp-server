@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -47,29 +49,49 @@ public class StockService {
 
     public void modifyStocks(Long tireDotId, List<StockMoveRequest> stockMoveRequests) {
         TireDot tireDot = findTireDotById(tireDotId);
+        
+        validateStockQuantity(tireDot, stockMoveRequests);
+        validateNicknameDuplication(stockMoveRequests);
+
+        List<Long> removable = stockRepository.findAllByTireDot(tireDot).stream()
+                .map(Stock::getId)
+                .collect(Collectors.toList());
+        List<Long> stored = new ArrayList<>();
+
+        for (StockMoveRequest stockMoveRequest : stockMoveRequests) {
+            Warehouse warehouse = findWarehouseById(stockMoveRequest);
+            stored.add(stockRepository.findByTireDotAndWarehouseAndNickname(tireDot, warehouse, stockMoveRequest.getNickname())
+                    .map(found -> found.update(warehouse, stockMoveRequest.getQuantity(), stockMoveRequest.isLock()))
+                    .orElseGet(() -> stockRepository.save(Stock.of(tireDot, stockMoveRequest.getNickname(), warehouse, stockMoveRequest.getQuantity(), stockMoveRequest.isLock())))
+                    .getId());
+        }
+
+        removable.removeAll(stored);
+        if (!CollectionUtils.isEmpty(removable)) {
+            stockRepository.deleteAllByIdIn(removable);
+        }
+    }
+
+    private void validateStockQuantity(TireDot tireDot, List<StockMoveRequest> stockMoveRequests) {
         if (!tireDot.isValidStockRequests(stockMoveRequests)) {
             throw new BadRequestException(SystemMessage.DISCREPANCY_STOCK_QUANTITY);
         }
+    }
 
+    private void validateNicknameDuplication(List<StockMoveRequest> stockMoveRequests) {
         Set<String> nicknames = stockMoveRequests.stream()
                 .map(StockMoveRequest::getNickname)
                 .collect(Collectors.toSet());
         if (nicknames.size() != stockMoveRequests.size()) {
             throw new BadRequestException(SystemMessage.NICKNAME_DUPLICATE);
         }
+    }
 
-        // FIXME:
-        tireDot.getStocks().clear();
-        tireDot.getStocks().addAll(stockMoveRequests.stream()
-                .map(stockMoveRequest -> {
-                    Warehouse warehouse = warehouseRepository.findById(stockMoveRequest.getWarehouseId()).orElseThrow(() -> {
-                        log.error("Can not find warehouse by id: {}", stockMoveRequest.getWarehouseId());
-                        return new NotFoundException(SystemMessage.NOT_FOUND + ": [창고]");
-                    });
-                    return stockRepository.save(
-                            Stock.of(tireDot, stockMoveRequest.getNickname(), warehouse, stockMoveRequest.getQuantity(), stockMoveRequest.isLock()));
-                })
-                .collect(Collectors.toSet()));
+    private Warehouse findWarehouseById(StockMoveRequest stockMoveRequest) {
+        return warehouseRepository.findById(stockMoveRequest.getWarehouseId()).orElseThrow(() -> {
+            log.error("Can not find warehouse by id: {}", stockMoveRequest.getWarehouseId());
+            return new NotFoundException(SystemMessage.NOT_FOUND + ": [창고]");
+        });
     }
 
     private TireDot findTireDotById(Long tireDotId) {
