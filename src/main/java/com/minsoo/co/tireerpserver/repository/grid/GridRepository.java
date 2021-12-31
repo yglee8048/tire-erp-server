@@ -160,6 +160,9 @@ public class GridRepository {
     }
 
     private BooleanExpression saleDateCondition(SaleDateType saleDateType, LocalDate from, LocalDate to) {
+        if (saleDateType == null) {
+            return null;
+        }
         switch (saleDateType) {
             case DESIRED_DELIVERY:
                 return sale.desiredDeliveryDate.after(from).and(sale.desiredDeliveryDate.before(to));
