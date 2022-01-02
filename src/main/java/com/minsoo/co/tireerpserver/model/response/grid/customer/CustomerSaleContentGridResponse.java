@@ -37,7 +37,7 @@ public class CustomerSaleContentGridResponse {
         this.saleContentId = saleContentGridResponse.getSaleContentId();
         this.saleId = saleContentGridResponse.getSaleId();
         this.transactionDate = saleContentGridResponse.getTransactionDate();
-        this.confirmedDate = saleContentGridResponse.getConfirmedDate();
+        this.confirmedDate = saleContentGridResponse.getReleaseDate();
         this.desiredDeliveryDate = saleContentGridResponse.getDesiredDeliveryDate();
         this.status = saleContentGridResponse.getStatus();
         this.tireInfo = saleContentGridResponse.getTireInfo();

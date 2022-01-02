@@ -16,7 +16,7 @@ public class SaleContentGridResponse {
     private Long saleContentId;
     private Long saleId;
     private LocalDate transactionDate;
-    private LocalDate confirmedDate;
+    private LocalDate releaseDate;
     private LocalDate desiredDeliveryDate;
     private SaleStatus status;
 
@@ -34,6 +34,7 @@ public class SaleContentGridResponse {
     private Long salePrice;
 
     private Long stockId;
+    private String stockNickname;
     private Long warehouseId;
     private String warehouseName;
 

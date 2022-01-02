@@ -268,6 +268,7 @@ public class GridRepository {
                         saleContent.quantity.longValue().multiply(saleContent.price).as("salePrice"),
 
                         stock.id.as("stockId"),
+                        stock.nickname.as("stockNickname"),
                         warehouse.id.as("warehouseId"),
                         warehouse.name.as("warehouseName"),
 

@@ -3,6 +3,7 @@ package com.minsoo.co.tireerpserver.service.sale;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.sale.Delivery;
 import com.minsoo.co.tireerpserver.entity.sale.Sale;
+import com.minsoo.co.tireerpserver.exception.InternalServerException;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.sale.DeliveryRequest;
 import com.minsoo.co.tireerpserver.repository.sale.DeliveryRepository;
@@ -26,7 +27,10 @@ public class DeliveryService {
             log.error("Can not find sale by id: {}", saleId);
             return new NotFoundException(SystemMessage.NOT_FOUND + ": [매출]");
         });
-        return sale.getDelivery();
+        return deliveryRepository.findBySale(sale).orElseThrow(() -> {
+            log.error("Can not find delivery by sale: {}", sale.getId());
+            return new InternalServerException(SystemMessage.INTERNAL_SERVER_ERROR);
+        });
     }
 
     public Delivery update(Long saleId, DeliveryRequest deliveryRequest) {

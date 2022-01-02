@@ -1,8 +1,8 @@
 package com.minsoo.co.tireerpserver.model.response.sale;
 
+import com.minsoo.co.tireerpserver.constant.DeliveryOption;
 import com.minsoo.co.tireerpserver.entity.sale.Delivery;
 import com.minsoo.co.tireerpserver.model.AddressDTO;
-import com.minsoo.co.tireerpserver.constant.DeliveryOption;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 public class DeliveryResponse {
 
     private Long deliveryId;
-    private Long saleId;
     private String recipientName;
     private AddressDTO address;
     private String recipientPhoneNumber;
@@ -28,7 +27,6 @@ public class DeliveryResponse {
 
     public DeliveryResponse(Delivery delivery) {
         this.deliveryId = delivery.getId();
-        this.saleId = delivery.getSale().getId();
         this.recipientName = delivery.getRecipientName();
         this.address = new AddressDTO(delivery.getAddress());
         this.recipientPhoneNumber = delivery.getRecipientPhoneNumber();
