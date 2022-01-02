@@ -62,7 +62,7 @@ public class CustomerApi {
         return ApiResponse.OK(gridService.findCustomerTireDotGridsByTireIdAndRankId(tireId, clientCompany.getRank().getId()));
     }
 
-    @GetMapping("/sales")
+    @GetMapping("/sale-content-grids")
     public ApiResponse<List<CustomerSaleContentGridResponse>> findCustomerSaleGrids(@RequestParam(required = false) SaleStatus status,
                                                                                     @RequestParam(required = false) SaleSource source,
                                                                                     @RequestParam(required = false) SaleDateType saleDateType,
@@ -89,6 +89,13 @@ public class CustomerApi {
     public ApiResponse<Void> deleteSaleById(@PathVariable Long saleId) {
         saleService.deleteById(saleId);
         return ApiResponse.NO_CONTENT();
+    }
+
+    @GetMapping("/sales/{saleId}/sale-content-grids")
+    public ApiResponse<List<CustomerSaleContentGridResponse>> findSaleContentsBySaleId(@PathVariable Long saleId) {
+        Client client = getClientFromContext();
+        Long clientCompanyId = client.getClientCompany().getId();
+        return ApiResponse.OK(gridService.findCustomerSaleContentGridsByClientCompanyIdAndSaleId(clientCompanyId, saleId));
     }
 
     private Client getClientFromContext() {

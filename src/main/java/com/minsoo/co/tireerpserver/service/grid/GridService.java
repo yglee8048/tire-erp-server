@@ -94,8 +94,16 @@ public class GridService {
     }
 
     public List<CustomerSaleContentGridResponse> findCustomerSaleContentGridsByClientCompanyId(Long clientCompanyId, SaleStatus saleStatus, SaleSource saleSource, SaleDateType saleDateType, LocalDate from, LocalDate to) {
-        List<SaleContentGridResponse> saleContentGridResponses = gridRepository.findSaleContentGrids(saleStatus, saleSource, saleDateType, from, to);
+        List<SaleContentGridResponse> saleContentGridResponses = gridRepository.findSaleContentGridsByClientCompanyId(clientCompanyId, saleStatus, saleSource, saleDateType, from, to);
         return setTireDotGridToSaleContentGrids(saleContentGridResponses).stream()
+                .map(CustomerSaleContentGridResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<CustomerSaleContentGridResponse> findCustomerSaleContentGridsByClientCompanyIdAndSaleId(Long clientCompanyId, Long saleId) {
+        List<SaleContentGridResponse> saleContentGridResponses = gridRepository.findSaleContentGridsBySaleId(saleId);
+        return setTireDotGridToSaleContentGrids(saleContentGridResponses).stream()
+                .filter(saleContentGridResponse -> saleContentGridResponse.getClientCompany().getClientCompanyId().equals(clientCompanyId))
                 .map(CustomerSaleContentGridResponse::new)
                 .collect(Collectors.toList());
     }
