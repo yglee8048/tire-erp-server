@@ -11,6 +11,7 @@ import com.minsoo.co.tireerpserver.model.response.grid.SaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.TireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerTireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.management.VendorResponse;
+import com.minsoo.co.tireerpserver.model.response.sale.DeliveryResponse;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.QBean;
@@ -36,6 +37,7 @@ import static com.minsoo.co.tireerpserver.entity.purchase.QPurchase.purchase;
 import static com.minsoo.co.tireerpserver.entity.purchase.QPurchaseContent.purchaseContent;
 import static com.minsoo.co.tireerpserver.entity.rank.QRank.rank;
 import static com.minsoo.co.tireerpserver.entity.rank.QRankDotPrice.rankDotPrice;
+import static com.minsoo.co.tireerpserver.entity.sale.QDelivery.delivery;
 import static com.minsoo.co.tireerpserver.entity.sale.QSale.sale;
 import static com.minsoo.co.tireerpserver.entity.sale.QSaleContent.saleContent;
 import static com.minsoo.co.tireerpserver.entity.stock.QStock.stock;
@@ -114,8 +116,7 @@ public class GridRepository {
 
     public List<PurchaseContentGridResponse> findPurchaseContentGrids(LocalDate from, LocalDate to) {
         return selectPurchaseContentGridsQuery()
-                .where(from == null ? null : purchase.transactionDate.after(from),
-                        to == null ? null : purchase.transactionDate.before(to))
+                .where(from == null || to == null ? null : purchase.transactionDate.between(from, to))
                 .fetch();
     }
 
@@ -165,11 +166,11 @@ public class GridRepository {
         }
         switch (saleDateType) {
             case DESIRED_DELIVERY:
-                return sale.desiredDeliveryDate.after(from).and(sale.desiredDeliveryDate.before(to));
+                return sale.desiredDeliveryDate.between(from, to);
             case TRANSACTION:
-                return sale.transactionDate.after(from).and(sale.transactionDate.before(to));
+                return sale.transactionDate.between(from, to);
             case RELEASE:
-                return sale.releaseDate.after(from).and(sale.releaseDate.before(to));
+                return sale.releaseDate.between(from, to);
             default:
                 return null;
         }
@@ -272,6 +273,8 @@ public class GridRepository {
                         warehouse.id.as("warehouseId"),
                         warehouse.name.as("warehouseName"),
 
+                        Projections.constructor(DeliveryResponse.class, delivery).as("delivery"),
+
                         saleContent.createdAt,
                         saleContent.lastModifiedAt,
                         saleContent.createdBy,
@@ -279,6 +282,7 @@ public class GridRepository {
                 ))
                 .from(saleContent)
                 .join(sale).on(saleContent.sale.eq(sale))
+                .join(delivery).on(sale.delivery.eq(delivery))
                 .join(clientCompany).on(sale.clientCompany.eq(clientCompany))
                 .join(rank).on(clientCompany.rank.eq(rank))
                 .join(stock).on(saleContent.stock.eq(stock))
