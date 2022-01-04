@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.repository.grid;
 
 import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
+import com.minsoo.co.tireerpserver.model.AddressDTO;
 import com.minsoo.co.tireerpserver.model.BusinessInfoDTO;
 import com.minsoo.co.tireerpserver.model.TireStandardDTO;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
@@ -273,7 +274,18 @@ public class GridRepository {
                         warehouse.id.as("warehouseId"),
                         warehouse.name.as("warehouseName"),
 
-                        Projections.constructor(DeliveryResponse.class, delivery).as("delivery"),
+                        Projections.fields(DeliveryResponse.class,
+                                delivery.id.as("deliveryId"),
+                                delivery.recipientName.as("recipientName"),
+                                Projections.constructor(AddressDTO.class, delivery.address).as("address"),
+                                delivery.recipientPhoneNumber,
+                                delivery.deliveryOption,
+                                delivery.deliveryCompany,
+                                delivery.invoiceNumber,
+                                delivery.createdAt,
+                                delivery.lastModifiedAt,
+                                delivery.createdBy,
+                                delivery.lastModifiedBy).as("delivery"),
 
                         saleContent.createdAt,
                         saleContent.lastModifiedAt,
