@@ -72,10 +72,6 @@ public class Sale extends BaseEntity {
     }
 
     public Sale update(ClientCompany clientCompany, SaleUpdateRequest saleUpdateRequest, SaleSource source) {
-        if (source.equals(SaleSource.ONLINE) && !this.status.equals(SaleStatus.REQUESTED)) {
-            throw new BadRequestException(SystemMessage.ALREADY_CONFIRMED);
-        }
-
         this.clientCompany = clientCompany;
         this.transactionDate = saleUpdateRequest.getTransactionDate();
         this.releaseDate = saleUpdateRequest.getReleaseDate();
@@ -84,11 +80,17 @@ public class Sale extends BaseEntity {
     }
 
     public Sale confirm() {
+        if(!this.status.equals(SaleStatus.REQUESTED)){
+            throw new BadRequestException(SystemMessage.ALREADY_CONFIRMED);
+        }
         this.status = SaleStatus.CONFIRMED;
         return this;
     }
 
     public Sale completed() {
+        if(!this.status.equals(SaleStatus.CONFIRMED)){
+            throw new BadRequestException(SystemMessage.ALREADY_CONFIRMED);
+        }
         this.status = SaleStatus.COMPLETED;
         return this;
     }
