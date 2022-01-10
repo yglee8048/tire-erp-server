@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.service.sale;
 
 import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
+import com.minsoo.co.tireerpserver.entity.client.Client;
 import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
 import com.minsoo.co.tireerpserver.entity.sale.Sale;
 import com.minsoo.co.tireerpserver.entity.sale.SaleContent;
@@ -9,14 +10,18 @@ import com.minsoo.co.tireerpserver.entity.sale.SaleMemo;
 import com.minsoo.co.tireerpserver.entity.stock.Stock;
 import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
+import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleUpdateRequest;
 import com.minsoo.co.tireerpserver.repository.client.ClientCompanyRepository;
+import com.minsoo.co.tireerpserver.repository.client.ClientRepository;
+import com.minsoo.co.tireerpserver.repository.rank.RankDotPriceRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleMemoRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -28,7 +33,9 @@ import org.springframework.util.CollectionUtils;
 public class SaleService {
 
     private final SaleRepository saleRepository;
+    private final ClientRepository clientRepository;
     private final ClientCompanyRepository clientCompanyRepository;
+    private final RankDotPriceRepository rankDotPriceRepository;
     private final SaleContentService saleContentService;
     private final SaleMemoRepository saleMemoRepository;
 
@@ -37,6 +44,11 @@ public class SaleService {
             log.error("Can not find sale by id: {}", saleId);
             return new NotFoundException(SystemMessage.NOT_FOUND + ": [매출]");
         });
+    }
+
+    public Sale createOnline(String username, CustomerSaleCreateRequest customerSaleCreateRequest) {
+        Client client = clientRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(SystemMessage.USER_NAME_NOT_FOUND));
+
     }
 
     public Sale create(SaleCreateRequest saleCreateRequest, SaleSource source) {

@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.request.sale;
 
+import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleCreateRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -41,7 +43,19 @@ public class SaleCreateRequest {
     @Schema(name = "memos", description = "매출 메모")
     List<SaleMemoRequest> memos;
 
-    public SaleUpdateRequest toUpdate(){
+    public SaleUpdateRequest toUpdate() {
         return new SaleUpdateRequest(this);
+    }
+
+    public SaleCreateRequest(Long clientCompanyId, CustomerSaleCreateRequest customerSaleCreateRequest) {
+        this.clientCompanyId = clientCompanyId;
+        this.transactionDate = customerSaleCreateRequest.getTransactionDate();
+        this.releaseDate = customerSaleCreateRequest.getReleaseDate();
+        this.desiredDeliveryDate = customerSaleCreateRequest.getDesiredDeliveryDate();
+        this.delivery = new DeliveryRequest(customerSaleCreateRequest.getDelivery());
+        this.contents = customerSaleCreateRequest.getContents();
+        this.memos = customerSaleCreateRequest.getMemos().stream()
+                .map(SaleMemoRequest::new)
+                .collect(Collectors.toList());
     }
 }

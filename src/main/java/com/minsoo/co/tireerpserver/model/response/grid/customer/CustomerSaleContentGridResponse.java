@@ -3,11 +3,11 @@ package com.minsoo.co.tireerpserver.model.response.grid.customer;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
 import com.minsoo.co.tireerpserver.model.TireStandardDTO;
 import com.minsoo.co.tireerpserver.model.response.grid.SaleContentGridResponse;
+import com.minsoo.co.tireerpserver.model.response.sale.DeliveryResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -28,10 +28,7 @@ public class CustomerSaleContentGridResponse {
     private Long price;
     private Long salePrice;
 
-    private String createdBy;
-    private LocalDateTime createdAt;
-    private String lastModifiedBy;
-    private LocalDateTime lastModifiedAt;
+    private DeliveryResponse delivery;
 
     public CustomerSaleContentGridResponse(SaleContentGridResponse saleContentGridResponse) {
         this.saleContentId = saleContentGridResponse.getSaleContentId();
@@ -46,9 +43,6 @@ public class CustomerSaleContentGridResponse {
         this.quantity = saleContentGridResponse.getQuantity();
         this.price = saleContentGridResponse.getPrice();
         this.salePrice = saleContentGridResponse.getSalePrice();
-        this.createdBy = saleContentGridResponse.getCreatedBy();
-        this.createdAt = saleContentGridResponse.getCreatedAt();
-        this.lastModifiedBy = saleContentGridResponse.getLastModifiedBy();
-        this.lastModifiedAt = saleContentGridResponse.getLastModifiedAt();
+        this.delivery = saleContentGridResponse.getDelivery();
     }
 }

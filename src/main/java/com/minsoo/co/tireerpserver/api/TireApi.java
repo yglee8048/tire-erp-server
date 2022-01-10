@@ -5,9 +5,9 @@ import com.minsoo.co.tireerpserver.model.request.tire.TireMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.tire.TireRequest;
 import com.minsoo.co.tireerpserver.model.response.grid.TireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.TireGridResponse;
-import com.minsoo.co.tireerpserver.model.response.tire.TireDotResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.TireMemoResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.TireResponse;
+import com.minsoo.co.tireerpserver.model.response.tire.query.TireDotPriceResponse;
 import com.minsoo.co.tireerpserver.service.grid.GridService;
 import com.minsoo.co.tireerpserver.service.tire.TireDotService;
 import com.minsoo.co.tireerpserver.service.tire.TireMemoService;
@@ -15,7 +15,16 @@ import com.minsoo.co.tireerpserver.service.tire.TireService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -66,10 +75,9 @@ public class TireApi {
     }
 
     @GetMapping("/tires/{tireId}/tire-dots")
-    public ApiResponse<List<TireDotResponse>> findTireDotsByTireId(@PathVariable Long tireId) {
-        return ApiResponse.OK(tireDotService.findAllByTireId(tireId).stream()
-                .map(TireDotResponse::new)
-                .collect(Collectors.toList()));
+    public ApiResponse<List<TireDotPriceResponse>> findTireDotsByTireId(@PathVariable Long tireId,
+                                                                        @RequestParam(required = false) Long clientCompanyId) {
+        return ApiResponse.OK(tireDotService.findAllByTireIdAndClientCompanyId(tireId, clientCompanyId));
     }
 
     @GetMapping("/tires/{tireId}/tire-memos")

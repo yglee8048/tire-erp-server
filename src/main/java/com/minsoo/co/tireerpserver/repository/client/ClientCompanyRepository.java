@@ -14,5 +14,5 @@ public interface ClientCompanyRepository extends JpaRepository<ClientCompany, Lo
     List<ClientCompany> findAllFetchRank();
 
     @EntityGraph(attributePaths = "rank")
-    Optional<ClientCompany> findFetchRankById(Long aLong);
+    Optional<ClientCompany> findFetchRankById(Long clientCompanyId);
 }

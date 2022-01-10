@@ -1,8 +1,7 @@
-package com.minsoo.co.tireerpserver.model.request.sale;
+package com.minsoo.co.tireerpserver.model.request.customer.sale;
 
 import com.minsoo.co.tireerpserver.constant.DeliveryOption;
 import com.minsoo.co.tireerpserver.model.AddressDTO;
-import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerDeliveryRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeliveryRequest {
+public class CustomerDeliveryRequest {
 
     @NotEmpty(message = "수취인 이름은 필수 값입니다.")
     @Schema(name = "recipient_name", description = "수취인 이름")
@@ -37,16 +36,4 @@ public class DeliveryRequest {
 
     @Schema(name = "delivery_company", description = "택배사")
     private String deliveryCompany;
-
-    @Schema(name = "invoice_number", description = "송장번호")
-    private String invoiceNumber;
-
-    public DeliveryRequest(CustomerDeliveryRequest customerDeliveryRequest) {
-        this.recipientName = customerDeliveryRequest.getRecipientName();
-        this.address = customerDeliveryRequest.getAddress();
-        this.recipientPhoneNumber = customerDeliveryRequest.getRecipientPhoneNumber();
-        this.deliveryOption = customerDeliveryRequest.getDeliveryOption();
-        this.deliveryCompany = customerDeliveryRequest.getDeliveryCompany();
-        this.invoiceNumber = null;
-    }
 }

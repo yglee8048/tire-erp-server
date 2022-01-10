@@ -1,5 +1,6 @@
-package com.minsoo.co.tireerpserver.model.request.sale;
+package com.minsoo.co.tireerpserver.model.request.customer.sale;
 
+import com.minsoo.co.tireerpserver.model.request.sale.SaleContentRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,11 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleUpdateRequest {
-
-    @Schema(name = "client_company_id")
-    @NotNull(message = "client_company_id 는 필수 값입니다.")
-    private Long clientCompanyId;
+public class CustomerSaleUpdateRequest {
 
     @Schema(name = "transaction_date", description = "거래 일자")
     @NotNull(message = "거래 일자는 필수 값입니다.")
@@ -34,19 +31,10 @@ public class SaleUpdateRequest {
     @NotNull(message = "매출 항목은 필수 값입니다.")
     List<SaleContentRequest> contents;
 
-    public SaleUpdateRequest(SaleCreateRequest saleCreateRequest) {
-        this.clientCompanyId = saleCreateRequest.getClientCompanyId();
+    public CustomerSaleUpdateRequest(CustomerSaleCreateRequest saleCreateRequest) {
         this.transactionDate = saleCreateRequest.getTransactionDate();
         this.releaseDate = saleCreateRequest.getReleaseDate();
         this.desiredDeliveryDate = saleCreateRequest.getDesiredDeliveryDate();
         this.contents = saleCreateRequest.getContents();
-    }
-
-    public SaleUpdateRequest() {
-        this.clientCompanyId = clientCompanyId;
-        this.transactionDate = transactionDate;
-        this.releaseDate = releaseDate;
-        this.desiredDeliveryDate = desiredDeliveryDate;
-        this.contents = contents;
     }
 }
