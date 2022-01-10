@@ -1,6 +1,5 @@
 package com.minsoo.co.tireerpserver.model.request.customer.sale;
 
-import com.minsoo.co.tireerpserver.model.request.sale.SaleContentRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

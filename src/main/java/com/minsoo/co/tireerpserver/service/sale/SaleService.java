@@ -48,7 +48,8 @@ public class SaleService {
 
     public Sale createOnline(String username, CustomerSaleCreateRequest customerSaleCreateRequest) {
         Client client = clientRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(SystemMessage.USER_NAME_NOT_FOUND));
-
+        ClientCompany clientCompany = clientCompanyRepository.findById(client.getClientCompany().getId()).orElseThrow(() -> new UsernameNotFoundException(SystemMessage.USER_NAME_NOT_FOUND));
+        
     }
 
     public Sale create(SaleCreateRequest saleCreateRequest, SaleSource source) {
