@@ -10,7 +10,6 @@ import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.PurchaseContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.SaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.TireDotGridResponse;
-import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerTireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.management.VendorResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.DeliveryResponse;
 import com.querydsl.core.types.ExpressionUtils;
@@ -37,7 +36,6 @@ import static com.minsoo.co.tireerpserver.entity.management.QWarehouse.warehouse
 import static com.minsoo.co.tireerpserver.entity.purchase.QPurchase.purchase;
 import static com.minsoo.co.tireerpserver.entity.purchase.QPurchaseContent.purchaseContent;
 import static com.minsoo.co.tireerpserver.entity.rank.QRank.rank;
-import static com.minsoo.co.tireerpserver.entity.rank.QRankDotPrice.rankDotPrice;
 import static com.minsoo.co.tireerpserver.entity.sale.QDelivery.delivery;
 import static com.minsoo.co.tireerpserver.entity.sale.QSale.sale;
 import static com.minsoo.co.tireerpserver.entity.sale.QSaleContent.saleContent;
@@ -141,23 +139,6 @@ public class GridRepository {
                         saleStatus == null ? null : sale.status.eq(saleStatus),
                         saleSource == null ? null : sale.source.eq(saleSource),
                         saleDateCondition(saleDateType, from, to))
-                .fetch();
-    }
-
-    public List<CustomerTireDotGridResponse> findCustomerTireDotGirdsByTireIdAndRankId(Long tireId, Long rankId) {
-        return queryFactory
-                .select(Projections.fields(CustomerTireDotGridResponse.class,
-                        tireDot.id.as("tireDotId"),
-                        tireDot.tire.id.as("tireId"),
-                        tireDot.dot,
-                        rankDotPrice.price.coalesce(tire.retailPrice),
-                        getSumOfOpenedStock().as("sumOfOpenedStock")
-                ))
-                .from(tireDot)
-                .join(tire).on(tireDot.tire.eq(tire))
-                .leftJoin(rankDotPrice).on(rankDotPrice.tireDot.eq(tireDot))
-                .where(tire.id.eq(tireId),
-                        rankDotPrice.rank.id.eq(rankId))
                 .fetch();
     }
 

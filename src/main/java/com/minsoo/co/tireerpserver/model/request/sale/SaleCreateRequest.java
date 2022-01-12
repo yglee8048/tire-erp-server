@@ -47,13 +47,13 @@ public class SaleCreateRequest {
         return new SaleUpdateRequest(this);
     }
 
-    public SaleCreateRequest(Long clientCompanyId, CustomerSaleCreateRequest customerSaleCreateRequest) {
+    public SaleCreateRequest(Long clientCompanyId, CustomerSaleCreateRequest customerSaleCreateRequest, List<SaleContentRequest> contents) {
         this.clientCompanyId = clientCompanyId;
         this.transactionDate = customerSaleCreateRequest.getTransactionDate();
         this.releaseDate = customerSaleCreateRequest.getReleaseDate();
         this.desiredDeliveryDate = customerSaleCreateRequest.getDesiredDeliveryDate();
         this.delivery = new DeliveryRequest(customerSaleCreateRequest.getDelivery());
-        this.contents = customerSaleCreateRequest.getContents();
+        this.contents = contents;
         this.memos = customerSaleCreateRequest.getMemos().stream()
                 .map(SaleMemoRequest::new)
                 .collect(Collectors.toList());

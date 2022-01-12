@@ -1,11 +1,14 @@
 package com.minsoo.co.tireerpserver.service.rank;
 
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
+import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
 import com.minsoo.co.tireerpserver.entity.rank.Rank;
 import com.minsoo.co.tireerpserver.entity.rank.RankDotPrice;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.rank.RankDotPriceRequest;
+import com.minsoo.co.tireerpserver.model.response.tire.query.TireDotPriceResponse;
+import com.minsoo.co.tireerpserver.repository.client.ClientCompanyRepository;
 import com.minsoo.co.tireerpserver.repository.rank.RankDotPriceRepository;
 import com.minsoo.co.tireerpserver.repository.rank.RankRepository;
 import com.minsoo.co.tireerpserver.repository.tire.TireDotRepository;
@@ -25,6 +28,7 @@ public class RankDotPriceService {
     private final RankDotPriceRepository rankDotPriceRepository;
     private final RankRepository rankRepository;
     private final TireDotRepository tireDotRepository;
+    private final ClientCompanyRepository clientCompanyRepository;
 
     public List<RankDotPrice> findAllByTireDotId(Long tireDotId) {
         TireDot tireDot = findTireDotById(tireDotId);
@@ -52,5 +56,18 @@ public class RankDotPriceService {
             log.error("Can not find tire-dot by id: {}", tireDotId);
             return new NotFoundException(SystemMessage.NOT_FOUND + ": [타이어 DOT]");
         });
+    }
+
+    public List<TireDotPriceResponse> findAllTireDotPricesByTireIdAndClientCompanyId(Long tireId, Long clientCompanyId) {
+        Long rankId = null;
+        if (clientCompanyId != null) {
+            ClientCompany clientCompany = clientCompanyRepository.findById(clientCompanyId).orElseThrow(() -> {
+                log.error("Can not find client-company by id: {}", clientCompanyId);
+                return new NotFoundException(SystemMessage.NOT_FOUND + ": [고객사]");
+            });
+            rankId = clientCompany.getRank().getId();
+        }
+
+        return rankDotPriceRepository.findTireDotPricesByTireIdAndRankId(tireId, rankId);
     }
 }

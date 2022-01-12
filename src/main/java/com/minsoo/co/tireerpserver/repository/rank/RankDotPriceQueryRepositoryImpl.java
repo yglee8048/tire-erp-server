@@ -1,4 +1,4 @@
-package com.minsoo.co.tireerpserver.repository.tire;
+package com.minsoo.co.tireerpserver.repository.rank;
 
 import com.minsoo.co.tireerpserver.model.response.tire.query.TireDotPriceResponse;
 import com.querydsl.core.types.Projections;
@@ -16,10 +16,11 @@ import static com.minsoo.co.tireerpserver.entity.tire.QTireDot.tireDot;
 @Slf4j
 @Repository
 @RequiredArgsConstructor
-public class TireDotQueryRepositoryImpl {
+public class RankDotPriceQueryRepositoryImpl implements RankDotPriceQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
+    @Override
     public List<TireDotPriceResponse> findTireDotPricesByTireIdAndRankId(Long tireId, Long rankId) {
         return queryFactory
                 .select(Projections.fields(TireDotPriceResponse.class,
@@ -34,9 +35,19 @@ public class TireDotQueryRepositoryImpl {
                 ))
                 .from(tireDot)
                 .join(tire).on(tireDot.tire.eq(tire))
-                .leftJoin(rankDotPrice).on(rankDotPrice.tireDot.eq(tireDot))
-                .where(tire.id.eq(tireId),
-                        rankId == null ? null : rankDotPrice.rank.id.eq(rankId))
+                .leftJoin(rankDotPrice).on(rankDotPrice.tireDot.eq(tireDot), rankId == null ? null : rankDotPrice.rank.id.eq(rankId))
+                .where(tire.id.eq(tireId))
                 .fetch();
+    }
+
+    @Override
+    public Long getPriceByTireDotIdAndClientId(Long tireDotId, Long rankId) {
+        return queryFactory
+                .select(rankDotPrice.price.coalesce(tire.retailPrice))
+                .from(tireDot)
+                .join(tire).on(tireDot.tire.eq(tire))
+                .leftJoin(rankDotPrice).on(rankDotPrice.tireDot.eq(tireDot), rankDotPrice.rank.id.eq(rankId))
+                .where(tireDot.id.eq(tireDotId))
+                .fetchOne();
     }
 }

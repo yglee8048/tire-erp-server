@@ -41,12 +41,4 @@ public class SaleUpdateRequest {
         this.desiredDeliveryDate = saleCreateRequest.getDesiredDeliveryDate();
         this.contents = saleCreateRequest.getContents();
     }
-
-    public SaleUpdateRequest() {
-        this.clientCompanyId = clientCompanyId;
-        this.transactionDate = transactionDate;
-        this.releaseDate = releaseDate;
-        this.desiredDeliveryDate = desiredDeliveryDate;
-        this.contents = contents;
-    }
 }

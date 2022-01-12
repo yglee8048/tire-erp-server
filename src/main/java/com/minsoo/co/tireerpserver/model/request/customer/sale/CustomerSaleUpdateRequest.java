@@ -1,6 +1,5 @@
 package com.minsoo.co.tireerpserver.model.request.customer.sale;
 
-import com.minsoo.co.tireerpserver.model.request.sale.SaleContentRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,12 +28,5 @@ public class CustomerSaleUpdateRequest {
 
     @Schema(name = "contents", description = "매출 항목")
     @NotNull(message = "매출 항목은 필수 값입니다.")
-    List<SaleContentRequest> contents;
-
-    public CustomerSaleUpdateRequest(CustomerSaleCreateRequest saleCreateRequest) {
-        this.transactionDate = saleCreateRequest.getTransactionDate();
-        this.releaseDate = saleCreateRequest.getReleaseDate();
-        this.desiredDeliveryDate = saleCreateRequest.getDesiredDeliveryDate();
-        this.contents = saleCreateRequest.getContents();
-    }
+    List<CustomerSaleContentRequest> contents;
 }

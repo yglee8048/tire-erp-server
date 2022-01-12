@@ -9,7 +9,7 @@ import com.minsoo.co.tireerpserver.model.response.tire.TireMemoResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.TireResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.query.TireDotPriceResponse;
 import com.minsoo.co.tireerpserver.service.grid.GridService;
-import com.minsoo.co.tireerpserver.service.tire.TireDotService;
+import com.minsoo.co.tireerpserver.service.rank.RankDotPriceService;
 import com.minsoo.co.tireerpserver.service.tire.TireMemoService;
 import com.minsoo.co.tireerpserver.service.tire.TireService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 public class TireApi {
 
     private final TireService tireService;
-    private final TireDotService tireDotService;
+    private final RankDotPriceService rankDotPriceService;
     private final TireMemoService tireMemoService;
     private final GridService gridService;
 
@@ -77,7 +77,7 @@ public class TireApi {
     @GetMapping("/tires/{tireId}/tire-dots")
     public ApiResponse<List<TireDotPriceResponse>> findTireDotsByTireId(@PathVariable Long tireId,
                                                                         @RequestParam(required = false) Long clientCompanyId) {
-        return ApiResponse.OK(tireDotService.findAllByTireIdAndClientCompanyId(tireId, clientCompanyId));
+        return ApiResponse.OK(rankDotPriceService.findAllTireDotPricesByTireIdAndClientCompanyId(tireId, clientCompanyId));
     }
 
     @GetMapping("/tires/{tireId}/tire-memos")

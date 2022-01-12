@@ -11,20 +11,22 @@ import com.minsoo.co.tireerpserver.entity.stock.Stock;
 import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleCreateRequest;
+import com.minsoo.co.tireerpserver.model.request.sale.SaleContentRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleUpdateRequest;
 import com.minsoo.co.tireerpserver.repository.client.ClientCompanyRepository;
-import com.minsoo.co.tireerpserver.repository.client.ClientRepository;
 import com.minsoo.co.tireerpserver.repository.rank.RankDotPriceRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleMemoRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -33,7 +35,6 @@ import org.springframework.util.CollectionUtils;
 public class SaleService {
 
     private final SaleRepository saleRepository;
-    private final ClientRepository clientRepository;
     private final ClientCompanyRepository clientCompanyRepository;
     private final RankDotPriceRepository rankDotPriceRepository;
     private final SaleContentService saleContentService;
@@ -46,10 +47,15 @@ public class SaleService {
         });
     }
 
-    public Sale createOnline(String username, CustomerSaleCreateRequest customerSaleCreateRequest) {
-        Client client = clientRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(SystemMessage.USER_NAME_NOT_FOUND));
-        ClientCompany clientCompany = clientCompanyRepository.findById(client.getClientCompany().getId()).orElseThrow(() -> new UsernameNotFoundException(SystemMessage.USER_NAME_NOT_FOUND));
-        
+    public Sale createOnline(Client client, CustomerSaleCreateRequest customerSaleCreateRequest) {
+        ClientCompany clientCompany = client.getClientCompany();
+        List<SaleContentRequest> contents = customerSaleCreateRequest.getContents().stream()
+                .map(customerSaleContentRequest -> {
+                    Long price = rankDotPriceRepository.getPriceByTireDotIdAndClientId(customerSaleContentRequest.getTireDotId(), clientCompany.getRank().getId());
+                    return new SaleContentRequest(customerSaleContentRequest, price);
+                })
+                .collect(Collectors.toList());
+        return create(new SaleCreateRequest(clientCompany.getId(), customerSaleCreateRequest, contents), SaleSource.ONLINE);
     }
 
     public Sale create(SaleCreateRequest saleCreateRequest, SaleSource source) {

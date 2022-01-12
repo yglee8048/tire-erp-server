@@ -8,17 +8,17 @@ import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
 import com.minsoo.co.tireerpserver.model.ApiResponse;
 import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleUpdateRequest;
-import com.minsoo.co.tireerpserver.model.request.sale.SaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
 import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
 import com.minsoo.co.tireerpserver.model.response.client.ClientResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerSaleContentGridResponse;
-import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerTireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerTireGridResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleResponse;
+import com.minsoo.co.tireerpserver.model.response.tire.query.TireDotPriceResponse;
 import com.minsoo.co.tireerpserver.service.client.ClientCompanyService;
 import com.minsoo.co.tireerpserver.service.client.ClientService;
 import com.minsoo.co.tireerpserver.service.grid.GridService;
+import com.minsoo.co.tireerpserver.service.rank.RankDotPriceService;
 import com.minsoo.co.tireerpserver.service.sale.SaleService;
 import com.minsoo.co.tireerpserver.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +51,7 @@ public class CustomerApi {
     private final ClientCompanyService clientCompanyService;
     private final ClientService clientService;
     private final SaleService saleService;
+    private final RankDotPriceService rankDotPriceService;
 
     @GetMapping("/client")
     public ApiResponse<ClientResponse> findClient() {
@@ -67,10 +68,10 @@ public class CustomerApi {
         return ApiResponse.OK(gridService.findAllCustomerTireGrids());
     }
 
-    @GetMapping("/tires/{tireId}/tire-dot-grids")
-    public ApiResponse<List<CustomerTireDotGridResponse>> findCustomerTireDotGrids(@PathVariable Long tireId) {
-        ClientCompany clientCompany = getClientCompanyFromContext();
-        return ApiResponse.OK(gridService.findCustomerTireDotGridsByTireIdAndRankId(tireId, clientCompany.getRank().getId()));
+    @GetMapping("/tires/{tireId}/tire-dots")
+    public ApiResponse<List<TireDotPriceResponse>> findCustomerTireDotGrids(@PathVariable Long tireId) {
+        Client client = getClientFromContext();
+        return ApiResponse.OK(rankDotPriceService.findAllTireDotPricesByTireIdAndClientCompanyId(tireId, client.getClientCompany().getId()));
     }
 
     @GetMapping("/sale-content-grids")
@@ -88,15 +89,14 @@ public class CustomerApi {
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<SaleResponse> createSale(@RequestBody @Valid CustomerSaleCreateRequest customerSaleCreateRequest) {
         Client clientFromContext = getClientFromContext();
-        SaleCreateRequest saleCreateRequest = new SaleCreateRequest(clientFromContext.getClientCompany().getId(), customerSaleCreateRequest);
-        return ApiResponse.CREATED(new SaleResponse(saleService.create(saleCreateRequest, SaleSource.ONLINE)));
+        return ApiResponse.CREATED(new SaleResponse(saleService.createOnline(clientFromContext, customerSaleCreateRequest)));
     }
 
     @PutMapping("/sales/{saleId}")
     public ApiResponse<SaleResponse> updateSale(@PathVariable Long saleId,
                                                 @RequestBody @Valid CustomerSaleUpdateRequest saleUpdateRequest) {
         Client clientFromContext = getClientFromContext();
-        return ApiResponse.OK(new SaleResponse(saleService.update(saleId, saleUpdateRequest, SaleSource.ONLINE)));
+        return ApiResponse.OK(new SaleResponse(saleService.update(saleId, null, SaleSource.ONLINE)));
     }
 
     @DeleteMapping("/sales/{saleId}")

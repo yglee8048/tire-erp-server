@@ -9,7 +9,6 @@ import com.minsoo.co.tireerpserver.model.response.grid.SaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.TireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.TireGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerSaleContentGridResponse;
-import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerTireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerTireGridResponse;
 import com.minsoo.co.tireerpserver.repository.grid.GridRepository;
 import lombok.RequiredArgsConstructor;
@@ -61,10 +60,6 @@ public class GridService {
 
     public List<TireDotGridResponse> findTireDotGridsByTireId(Long tireId) {
         return gridRepository.findTireDotGridsByTireId(tireId);
-    }
-
-    public List<CustomerTireDotGridResponse> findCustomerTireDotGridsByTireIdAndRankId(Long tireId, Long rankId) {
-        return gridRepository.findCustomerTireDotGirdsByTireIdAndRankId(tireId, rankId);
     }
 
     public List<PurchaseContentGridResponse> findAllPurchaseContentGrids(LocalDate from, LocalDate to) {

@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.request.sale;
 
+import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleContentRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,5 +30,10 @@ public class SaleContentRequest {
     @Schema(name = "stock_id")
     private Long stockId;
 
-
+    public SaleContentRequest(CustomerSaleContentRequest customerSaleContentRequest, Long price) {
+        this.tireDotId = customerSaleContentRequest.getTireDotId();
+        this.price = price;
+        this.quantity = customerSaleContentRequest.getQuantity();
+        this.stockId = null;
+    }
 }
