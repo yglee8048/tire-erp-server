@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
@@ -27,11 +28,13 @@ public class CustomerSaleCreateRequest {
     private LocalDate desiredDeliveryDate;
 
     @Schema(name = "delivery", description = "배송 정보")
-    @NotNull(message = "배송 정보는 필수 값입니다.")
+    @Valid
+    @NotNull(message = "배송 정보는 필수 값 입니다.")
     private CustomerDeliveryRequest delivery;
 
     @Schema(name = "contents", description = "매출 항목")
-    @NotNull(message = "매출 항목은 필수 값입니다.")
+    @Valid
+    @NotNull(message = "매출 항목은 필수 값 입니다.")
     List<CustomerSaleContentRequest> contents;
 
     @Schema(name = "memos", description = "매출 메모")

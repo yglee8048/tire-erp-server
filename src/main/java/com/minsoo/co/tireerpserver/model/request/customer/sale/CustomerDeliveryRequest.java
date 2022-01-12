@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -22,7 +21,6 @@ public class CustomerDeliveryRequest {
     @Schema(name = "recipient_name", description = "수취인 이름")
     private String recipientName;
 
-    @Valid
     @NotNull(message = "address 는 필수값입니다.")
     @Schema(name = "address", description = "배송 주소")
     private AddressDTO address;

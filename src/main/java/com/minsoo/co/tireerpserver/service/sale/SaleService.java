@@ -48,7 +48,7 @@ public class SaleService {
     }
 
     public Sale createOnline(Client client, CustomerSaleCreateRequest customerSaleCreateRequest) {
-        ClientCompany clientCompany = client.getClientCompany();
+        ClientCompany clientCompany = clientCompanyRepository.findById(client.getClientCompany().getId()).orElseThrow(() -> new NotFoundException(SystemMessage.NOT_FOUND + ": [고객사]"));
         List<SaleContentRequest> contents = customerSaleCreateRequest.getContents().stream()
                 .map(customerSaleContentRequest -> {
                     Long price = rankDotPriceRepository.getPriceByTireDotIdAndClientId(customerSaleContentRequest.getTireDotId(), clientCompany.getRank().getId());

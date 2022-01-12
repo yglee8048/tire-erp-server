@@ -15,10 +15,14 @@ import javax.validation.constraints.NotNull;
 public class CustomerSaleContentRequest {
 
     @Schema(name = "tire_dot_id")
-    @NotNull(message = "tire_dot_id 는 필수 값입니다.")
+    @NotNull(message = "tire_dot_id 는 필수 값 입니다.")
     private Long tireDotId;
 
+    @Schema(name = "stock_id")
+    @NotNull(message = "stock_id 는 필수 값 입니다.")
+    private Long stockId;
+
     @Schema(name = "quantity", description = "매출 수량")
-    @NotNull(message = "매출 수량은 필수 값입니다.")
+    @NotNull(message = "매출 수량은 필수 값 입니다.")
     private Integer quantity;
 }

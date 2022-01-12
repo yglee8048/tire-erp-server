@@ -18,7 +18,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,9 +42,7 @@ public class SaleContentService {
         // save and update
         for (SaleContentRequest saleContentRequest : saleContentRequests) {
             TireDot tireDot = findTireDotById(saleContentRequest.getTireDotId());
-            Stock stock = Optional.ofNullable(saleContentRequest.getStockId())
-                    .map(this::findStockById)
-                    .orElse(null);
+            Stock stock = findStockById(saleContentRequest.getStockId());
 
             stored.add(saleContentRepository.findBySaleAndTireDotAndStock(sale, tireDot, stock)
                     .map(found -> found.update(saleContentRequest))

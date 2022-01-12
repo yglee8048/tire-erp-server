@@ -60,11 +60,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return new ResponseEntity<>(
-                ApiResponse.ERROR(status, ex.getMessage(),
-                        Optional.ofNullable(ex.getBindingResult().getAllErrors().get(0))
-                                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                                .orElse(SystemMessage.METHOD_ARGUMENT_INVALID),
-                        request.getDescription(false)), HttpStatus.BAD_REQUEST);
+        String validMessage = Optional.ofNullable(ex.getBindingResult().getAllErrors().get(0))
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .orElse(SystemMessage.METHOD_ARGUMENT_INVALID);
+        log.error("MethodArgument is not valid: {}", validMessage);
+
+        return new ResponseEntity<>(ApiResponse.ERROR(status, ex.getMessage(), validMessage, request.getDescription(false)), HttpStatus.BAD_REQUEST);
     }
 }

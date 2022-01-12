@@ -19,26 +19,26 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class DeliveryRequest {
 
-    @NotEmpty(message = "수취인 이름은 필수 값입니다.")
+    @NotEmpty(message = "수취인 이름은 필수 값 입니다.")
     @Schema(name = "recipient_name", description = "수취인 이름")
     private String recipientName;
 
     @Valid
-    @NotNull(message = "address 는 필수값입니다.")
+    @NotNull(message = "address 는 필수 값 입니다.")
     @Schema(name = "address", description = "배송 주소")
     private AddressDTO address;
 
-    @NotEmpty(message = "수취인 전화번호는 필수 값입니다.")
-    @Schema(name = "recipient_phone_number", description = "수취인 전화번호")
+    @NotEmpty(message = "수취인 전화 번호는 필수 값 입니다.")
+    @Schema(name = "recipient_phone_number", description = "수취인 전화 번호")
     private String recipientPhoneNumber;
 
-    @Schema(name = "delivery_option", description = "배송방법")
+    @Schema(name = "delivery_option", description = "배송 방법")
     private DeliveryOption deliveryOption;
 
     @Schema(name = "delivery_company", description = "택배사")
     private String deliveryCompany;
 
-    @Schema(name = "invoice_number", description = "송장번호")
+    @Schema(name = "invoice_number", description = "송장 번호")
     private String invoiceNumber;
 
     public DeliveryRequest(CustomerDeliveryRequest customerDeliveryRequest) {

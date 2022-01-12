@@ -34,6 +34,6 @@ public class SaleContentRequest {
         this.tireDotId = customerSaleContentRequest.getTireDotId();
         this.price = price;
         this.quantity = customerSaleContentRequest.getQuantity();
-        this.stockId = null;
+        this.stockId = customerSaleContentRequest.getStockId();
     }
 }

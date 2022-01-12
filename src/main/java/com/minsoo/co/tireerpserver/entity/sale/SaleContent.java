@@ -54,6 +54,7 @@ public class SaleContent extends BaseEntity {
     public SaleContent update(SaleContentRequest saleContentRequest) {
         this.price = saleContentRequest.getPrice();
 
+
         this.stock.addQuantity(this.quantity - saleContentRequest.getQuantity());   // 재고 변경 바로 적용
         this.quantity = saleContentRequest.getQuantity();
 

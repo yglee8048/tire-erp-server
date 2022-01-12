@@ -14,12 +14,14 @@ import com.minsoo.co.tireerpserver.model.response.client.ClientResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerSaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.grid.customer.CustomerTireGridResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleResponse;
+import com.minsoo.co.tireerpserver.model.response.stock.StockResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.query.TireDotPriceResponse;
 import com.minsoo.co.tireerpserver.service.client.ClientCompanyService;
 import com.minsoo.co.tireerpserver.service.client.ClientService;
 import com.minsoo.co.tireerpserver.service.grid.GridService;
 import com.minsoo.co.tireerpserver.service.rank.RankDotPriceService;
 import com.minsoo.co.tireerpserver.service.sale.SaleService;
+import com.minsoo.co.tireerpserver.service.stock.StockService;
 import com.minsoo.co.tireerpserver.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -51,6 +54,7 @@ public class CustomerApi {
     private final ClientCompanyService clientCompanyService;
     private final ClientService clientService;
     private final SaleService saleService;
+    private final StockService stockService;
     private final RankDotPriceService rankDotPriceService;
 
     @GetMapping("/client")
@@ -72,6 +76,14 @@ public class CustomerApi {
     public ApiResponse<List<TireDotPriceResponse>> findCustomerTireDotGrids(@PathVariable Long tireId) {
         Client client = getClientFromContext();
         return ApiResponse.OK(rankDotPriceService.findAllTireDotPricesByTireIdAndClientCompanyId(tireId, client.getClientCompany().getId()));
+    }
+
+    @GetMapping("/tire-dots/{tireDotId}/stocks")
+    public ApiResponse<List<StockResponse>> findStocks(@PathVariable Long tireDotId) {
+        return ApiResponse.OK(stockService.findAllByTireDot(tireDotId).stream()
+                .filter(stock -> !stock.getLock())
+                .map(StockResponse::new)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/sale-content-grids")
