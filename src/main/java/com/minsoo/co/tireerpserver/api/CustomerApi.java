@@ -5,6 +5,8 @@ import com.minsoo.co.tireerpserver.constant.SaleStatus;
 import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.client.Client;
 import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
+import com.minsoo.co.tireerpserver.entity.sale.Sale;
+import com.minsoo.co.tireerpserver.exception.ForbiddenException;
 import com.minsoo.co.tireerpserver.model.ApiResponse;
 import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleUpdateRequest;
@@ -95,6 +97,17 @@ public class CustomerApi {
         Client client = getClientFromContext();
         Long clientCompanyId = client.getClientCompany().getId();
         return ApiResponse.OK(gridService.findCustomerSaleContentGridsByClientCompanyId(clientCompanyId, status, source, saleDateType, from, to));
+    }
+
+    @GetMapping("/sales/{saleId}")
+    public ApiResponse<SaleResponse> findSaleById(@PathVariable Long saleId) {
+        ClientCompany clientCompanyFromContext = getClientCompanyFromContext();
+        Sale sale = saleService.findById(saleId);
+        if (!sale.getClientCompany().getId().equals(clientCompanyFromContext.getId())) {
+            throw new ForbiddenException();
+        }
+
+        return ApiResponse.OK(new SaleResponse(sale));
     }
 
     @PostMapping("/sales")
