@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.repository.rank;
 
 import com.minsoo.co.tireerpserver.model.response.tire.query.TireDotPriceResponse;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,9 +36,16 @@ public class RankDotPriceQueryRepositoryImpl implements RankDotPriceQueryReposit
                 ))
                 .from(tireDot)
                 .join(tire).on(tireDot.tire.eq(tire))
-                .leftJoin(rankDotPrice).on(rankDotPrice.tireDot.eq(tireDot), rankId == null ? null : rankDotPrice.rank.id.eq(rankId))
+                .leftJoin(rankDotPrice).on(rankDotPriceJoin(rankId))
                 .where(tire.id.eq(tireId))
                 .fetch();
+    }
+
+    private BooleanExpression rankDotPriceJoin(Long rankId) {
+        if (rankId == null) {
+            return tireDot.eq(rankDotPrice.tireDot);
+        }
+        return tireDot.eq(rankDotPrice.tireDot).and(rankDotPrice.rank.id.eq(rankId));
     }
 
     @Override
@@ -46,7 +54,7 @@ public class RankDotPriceQueryRepositoryImpl implements RankDotPriceQueryReposit
                 .select(rankDotPrice.price.coalesce(tire.retailPrice))
                 .from(tireDot)
                 .join(tire).on(tireDot.tire.eq(tire))
-                .leftJoin(rankDotPrice).on(rankDotPrice.tireDot.eq(tireDot), rankDotPrice.rank.id.eq(rankId))
+                .leftJoin(rankDotPrice).on(tireDot.eq(rankDotPrice.tireDot).and(rankDotPrice.rank.id.eq(rankId)))
                 .where(tireDot.id.eq(tireDotId))
                 .fetchOne();
     }
