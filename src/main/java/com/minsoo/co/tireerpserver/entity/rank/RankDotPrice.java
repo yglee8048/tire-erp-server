@@ -37,10 +37,10 @@ public class RankDotPrice extends BaseEntity {
 
     public static RankDotPrice of(Rank rank, TireDot tireDot, Long price) {
         RankDotPrice rankDotPrice = new RankDotPrice(rank, tireDot);
-        return rankDotPrice.update(price);
+        return rankDotPrice.updatePrice(price);
     }
 
-    public RankDotPrice update(Long price) {
+    public RankDotPrice updatePrice(Long price) {
         this.price = price;
         return this;
     }

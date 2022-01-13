@@ -2,15 +2,19 @@ package com.minsoo.co.tireerpserver.api;
 
 import com.minsoo.co.tireerpserver.model.ApiResponse;
 import com.minsoo.co.tireerpserver.model.request.stock.StockMoveRequest;
-import com.minsoo.co.tireerpserver.model.response.stock.StockResponse;
+import com.minsoo.co.tireerpserver.model.response.stock.StockGridResponse;
 import com.minsoo.co.tireerpserver.service.stock.StockService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -20,12 +24,9 @@ public class StockApi {
 
     private final StockService stockService;
 
-    @GetMapping("/tire-dots/{tireDotId}/stocks")
-    public ApiResponse<List<StockResponse>> findStocksByTireDotId(@PathVariable Long tireDotId) {
-        return ApiResponse.OK(stockService.findAllByTireDot(tireDotId)
-                .stream()
-                .map(StockResponse::new)
-                .collect(Collectors.toList()));
+    @GetMapping("/tire-dots/{tireDotId}/stock-grids")
+    public ApiResponse<List<StockGridResponse>> findStockGridsByTireDotId(@PathVariable Long tireDotId) {
+        return ApiResponse.OK(stockService.findStockGridsByTireDotId(tireDotId));
     }
 
     @PutMapping("/tire-dots/{tireDotId}/stocks")

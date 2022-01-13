@@ -4,6 +4,7 @@ import com.minsoo.co.tireerpserver.entity.purchase.Purchase;
 import com.minsoo.co.tireerpserver.entity.purchase.PurchaseContent;
 import com.minsoo.co.tireerpserver.entity.stock.Stock;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
+import com.minsoo.co.tireerpserver.repository.pruchase.query.PurchaseContentQueryRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface PurchaseContentRepository extends JpaRepository<PurchaseContent, Long> {
+public interface PurchaseContentRepository extends JpaRepository<PurchaseContent, Long>, PurchaseContentQueryRepository {
 
     List<PurchaseContent> findAllByPurchase(Purchase purchase);
 

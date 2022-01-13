@@ -9,11 +9,17 @@ import com.minsoo.co.tireerpserver.service.rank.RankDotPriceService;
 import com.minsoo.co.tireerpserver.service.rank.RankService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -26,25 +32,23 @@ public class RankApi {
 
     @GetMapping("/ranks")
     public ApiResponse<List<RankResponse>> findAllRanks() {
-        return ApiResponse.OK(rankService.findAll().stream()
-                .map(RankResponse::new)
-                .collect(Collectors.toList()));
+        return ApiResponse.OK(rankService.findAll());
     }
 
     @GetMapping("/ranks/{rankId}")
     public ApiResponse<RankResponse> findRankById(@PathVariable Long rankId) {
-        return ApiResponse.OK(new RankResponse(rankService.findById(rankId)));
+        return ApiResponse.OK(rankService.findById(rankId));
     }
 
     @PostMapping("/ranks")
     public ApiResponse<RankResponse> createRank(@RequestBody @Valid RankRequest rankRequest) {
-        return ApiResponse.CREATED(new RankResponse(rankService.create(rankRequest)));
+        return ApiResponse.CREATED(rankService.create(rankRequest));
     }
 
     @PutMapping("/ranks/{rankId}")
     public ApiResponse<RankResponse> updateRank(@PathVariable Long rankId,
                                                 @RequestBody @Valid RankRequest rankRequest) {
-        return ApiResponse.CREATED(new RankResponse(rankService.update(rankId, rankRequest)));
+        return ApiResponse.CREATED(rankService.update(rankId, rankRequest));
     }
 
     @DeleteMapping("/ranks/{rankId}")
@@ -55,15 +59,13 @@ public class RankApi {
 
     @GetMapping("/tire-dots/{tireDotId}/rank-dot-prices")
     public ApiResponse<List<RankDotPriceResponse>> findRankDotPrices(@PathVariable Long tireDotId) {
-        return ApiResponse.OK(rankDotPriceService.findAllByTireDotId(tireDotId).stream()
-                .map(RankDotPriceResponse::new)
-                .collect(Collectors.toList()));
+        return ApiResponse.OK(rankDotPriceService.findAllByTireDotId(tireDotId));
     }
 
-    @PutMapping("/tire-dots/{tireDotId}/ranks/{rankId}")
-    public ApiResponse<RankDotPriceResponse> modifyRankDotPrice(@PathVariable Long tireDotId,
-                                                                @PathVariable Long rankId,
-                                                                @Valid @RequestBody RankDotPriceRequest rankDotPriceRequest) {
-        return ApiResponse.OK(new RankDotPriceResponse(rankDotPriceService.modify(tireDotId, rankId, rankDotPriceRequest)));
+    @PutMapping("/tire-dots/{tireDotId}/ranks")
+    public ApiResponse<Void> modifyRankDotPrice(@PathVariable Long tireDotId,
+                                                @Valid @RequestBody List<RankDotPriceRequest> rankDotPriceRequests) {
+        rankDotPriceService.modify(tireDotId, rankDotPriceRequests);
+        return ApiResponse.NO_CONTENT();
     }
 }

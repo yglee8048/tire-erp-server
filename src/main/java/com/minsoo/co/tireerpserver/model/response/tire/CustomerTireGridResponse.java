@@ -1,7 +1,7 @@
-package com.minsoo.co.tireerpserver.model.response.grid.customer;
+package com.minsoo.co.tireerpserver.model.response.tire;
 
-import com.minsoo.co.tireerpserver.model.TireStandardDTO;
-import com.minsoo.co.tireerpserver.model.response.grid.TireGridResponse;
+import com.minsoo.co.tireerpserver.model.TireInfoResponse;
+import com.minsoo.co.tireerpserver.model.response.tire.TireGridResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CustomerTireGridResponse {
 
-    private TireStandardDTO tireInfo;
+    private TireInfoResponse tireInfo;
     private Integer sumOfOpenedStock;
     private Integer theNumberOfActiveDots;
 

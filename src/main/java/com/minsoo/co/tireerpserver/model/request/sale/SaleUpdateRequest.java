@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.request.sale;
 
+import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleUpdateRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,5 +41,13 @@ public class SaleUpdateRequest {
         this.releaseDate = saleCreateRequest.getReleaseDate();
         this.desiredDeliveryDate = saleCreateRequest.getDesiredDeliveryDate();
         this.contents = saleCreateRequest.getContents();
+    }
+
+    public SaleUpdateRequest(Long clientCompanyId, CustomerSaleUpdateRequest customerSaleUpdateRequest, List<SaleContentRequest> contents) {
+        this.clientCompanyId = clientCompanyId;
+        this.transactionDate = customerSaleUpdateRequest.getTransactionDate();
+        this.releaseDate = customerSaleUpdateRequest.getReleaseDate();
+        this.desiredDeliveryDate = customerSaleUpdateRequest.getDesiredDeliveryDate();
+        this.contents = contents;
     }
 }

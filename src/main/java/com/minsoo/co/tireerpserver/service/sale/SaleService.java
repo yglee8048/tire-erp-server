@@ -15,10 +15,13 @@ import com.minsoo.co.tireerpserver.model.request.sale.SaleContentRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleUpdateRequest;
+import com.minsoo.co.tireerpserver.model.response.sale.SaleResponse;
 import com.minsoo.co.tireerpserver.repository.client.ClientCompanyRepository;
+import com.minsoo.co.tireerpserver.repository.client.ClientRepository;
 import com.minsoo.co.tireerpserver.repository.rank.RankDotPriceRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleMemoRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleRepository;
+import com.minsoo.co.tireerpserver.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,51 +38,38 @@ import java.util.stream.Collectors;
 public class SaleService {
 
     private final SaleRepository saleRepository;
+    private final ClientRepository clientRepository;
     private final ClientCompanyRepository clientCompanyRepository;
     private final RankDotPriceRepository rankDotPriceRepository;
     private final SaleContentService saleContentService;
     private final SaleMemoRepository saleMemoRepository;
 
-    public Sale findById(Long saleId) {
-        return saleRepository.findById(saleId).orElseThrow(() -> {
-            log.error("Can not find sale by id: {}", saleId);
-            return new NotFoundException(SystemMessage.NOT_FOUND + ": [매출]");
-        });
+    public SaleResponse findById(Long saleId) {
+        return new SaleResponse(findSaleById(saleId));
     }
 
-    public Sale createOnline(Client client, CustomerSaleCreateRequest customerSaleCreateRequest) {
-        ClientCompany clientCompany = clientCompanyRepository.findById(client.getClientCompany().getId()).orElseThrow(() -> new NotFoundException(SystemMessage.NOT_FOUND + ": [고객사]"));
-        List<SaleContentRequest> contents = customerSaleCreateRequest.getContents().stream()
-                .map(customerSaleContentRequest -> {
-                    Long price = rankDotPriceRepository.getPriceByTireDotIdAndClientId(customerSaleContentRequest.getTireDotId(), clientCompany.getRank().getId());
-                    return new SaleContentRequest(customerSaleContentRequest, price);
-                })
-                .collect(Collectors.toList());
-        return create(new SaleCreateRequest(clientCompany.getId(), customerSaleCreateRequest, contents), SaleSource.ONLINE);
-    }
-
-    public Sale create(SaleCreateRequest saleCreateRequest, SaleSource source) {
+    public SaleResponse create(SaleCreateRequest saleCreateRequest, SaleSource source) {
         ClientCompany clientCompany = findClientCompanyById(saleCreateRequest.getClientCompanyId());
         Sale sale = saleRepository.save(Sale.of(clientCompany, saleCreateRequest, source));
 
         saleContentService.modifySaleContents(sale, saleCreateRequest.getContents());
         addSaleMemos(sale, saleCreateRequest);
 
-        return sale;
+        return new SaleResponse(sale);
     }
 
-    public Sale update(Long saleId, SaleUpdateRequest saleUpdateRequest, SaleSource source) {
-        Sale sale = findById(saleId);
+    public SaleResponse update(Long saleId, SaleUpdateRequest saleUpdateRequest, SaleSource source) {
+        Sale sale = findSaleById(saleId);
         ClientCompany clientCompany = findClientCompanyById(saleUpdateRequest.getClientCompanyId());
         sale.update(clientCompany, saleUpdateRequest, source);
 
         saleContentService.modifySaleContents(sale, saleUpdateRequest.getContents());
 
-        return sale;
+        return new SaleResponse(sale);
     }
 
-    public Sale confirm(Long saleId) {
-        Sale sale = findById(saleId);
+    public SaleResponse confirm(Long saleId) {
+        Sale sale = findSaleById(saleId);
 
         for (SaleContent saleContent : sale.getSaleContents()) {
             Stock stock = saleContent.getStock();
@@ -87,17 +77,25 @@ public class SaleService {
                 throw new BadRequestException(SystemMessage.STOCK_NOT_SELECTED);
             }
         }
-        return sale.confirm();
+        return new SaleResponse(sale.confirm());
     }
 
-    public Sale complete(Long saleId) {
-        Sale sale = findById(saleId);
-        return sale.completed();
+    public SaleResponse complete(Long saleId) {
+        Sale sale = findSaleById(saleId);
+        return new SaleResponse(sale.completed());
     }
 
     public void deleteById(Long saleId) {
-        Sale sale = findById(saleId);
+        Sale sale = findSaleById(saleId);
         saleRepository.delete(sale);
+    }
+
+    private Sale findSaleById(Long saleId) {
+        return saleRepository.findById(saleId).orElseThrow(() -> new NotFoundException("매출", saleId));
+    }
+
+    private ClientCompany findClientCompanyById(Long clientCompanyId) {
+        return clientCompanyRepository.findById(clientCompanyId).orElseThrow(() -> new NotFoundException("고객사", clientCompanyId));
     }
 
     private void addSaleMemos(Sale sale, SaleCreateRequest saleCreateRequest) {
@@ -106,12 +104,5 @@ public class SaleService {
                 saleMemoRepository.save(SaleMemo.of(sale, saleMemoRequest));
             }
         }
-    }
-
-    private ClientCompany findClientCompanyById(Long clientCompanyId) {
-        return clientCompanyRepository.findById(clientCompanyId).orElseThrow(() -> {
-            log.error("Can not find client company by id: {}", clientCompanyId);
-            return new NotFoundException(SystemMessage.NOT_FOUND + ": [고객사]");
-        });
     }
 }

@@ -12,7 +12,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.Arrays;
 
 @Getter
@@ -29,19 +35,22 @@ public class Client extends Account {
     @Embedded
     private Address address;
 
-    public static Client of(ClientCompany clientCompany, ClientRequest clientRequest, PasswordEncoder passwordEncoder) {
-        Client client = new Client();
-        return client.update(clientCompany, clientRequest, passwordEncoder);
+    private Client(ClientCompany clientCompany) {
+        this.clientCompany = clientCompany;
     }
 
-    public Client update(ClientCompany clientCompany, ClientRequest clientRequest, PasswordEncoder passwordEncoder) {
+    public static Client of(ClientCompany clientCompany, ClientRequest clientRequest, PasswordEncoder passwordEncoder) {
+        Client client = new Client(clientCompany);
+        return client.update(clientRequest, passwordEncoder);
+    }
+
+    public Client update(ClientRequest clientRequest, PasswordEncoder passwordEncoder) {
         this.username = clientRequest.getUserId();
         this.password = passwordEncoder.encode(clientRequest.getPassword());
         this.description = clientRequest.getDescription();
         this.name = clientRequest.getName();
         this.email = clientRequest.getEmail();
         this.phoneNumber = clientRequest.getPhoneNumber();
-        this.clientCompany = clientCompany;
         if (!Arrays.asList(AccountRole.CLIENT, AccountRole.GUEST).contains(clientRequest.getRole())) {
             throw new BadRequestException(SystemMessage.INVALID_ROLE);
         }

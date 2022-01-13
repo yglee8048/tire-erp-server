@@ -4,6 +4,7 @@ import com.minsoo.co.tireerpserver.entity.sale.Sale;
 import com.minsoo.co.tireerpserver.entity.sale.SaleContent;
 import com.minsoo.co.tireerpserver.entity.stock.Stock;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
+import com.minsoo.co.tireerpserver.repository.sale.query.SaleContentQueryRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface SaleContentRepository extends JpaRepository<SaleContent, Long> {
+public interface SaleContentRepository extends JpaRepository<SaleContent, Long>, SaleContentQueryRepository {
 
     List<SaleContent> findAllBySale(Sale sale);
 

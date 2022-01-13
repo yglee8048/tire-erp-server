@@ -17,6 +17,7 @@ public abstract class SystemMessage {
     public static final String INVALID_ROLE = "부적절한 권한 요청 입니다.";
 
     public static final String USER_NAME_NOT_FOUND = "존재 하지 않는 사용자 입니다.";
+    public static final String UNAUTHENTICATED = "인증 되지 않은 사용자 입니다.";
     public static final String FORBIDDEN = "해당 요청에 대한 권한이 없습니다.";
 
     public static final String OK = "요청이 성공했습니다.";

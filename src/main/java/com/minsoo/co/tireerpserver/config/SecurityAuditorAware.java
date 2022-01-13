@@ -13,6 +13,6 @@ public class SecurityAuditorAware implements AuditorAware<String> {
 
     @Override
     public Optional<String> getCurrentAuditor() {
-        return SecurityUtils.getUserName();
+        return SecurityUtils.getOptionalUsername();
     }
 }

@@ -1,7 +1,6 @@
 package com.minsoo.co.tireerpserver.service.purchase;
 
 import com.minsoo.co.tireerpserver.constant.ConstantValue;
-import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.management.Warehouse;
 import com.minsoo.co.tireerpserver.entity.purchase.Purchase;
 import com.minsoo.co.tireerpserver.entity.purchase.PurchaseContent;
@@ -10,6 +9,8 @@ import com.minsoo.co.tireerpserver.entity.tire.Tire;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseContentRequest;
+import com.minsoo.co.tireerpserver.model.response.purchase.PurchaseContentGridResponse;
+import com.minsoo.co.tireerpserver.model.response.tire.TireDotGridResponse;
 import com.minsoo.co.tireerpserver.repository.management.WarehouseRepository;
 import com.minsoo.co.tireerpserver.repository.pruchase.PurchaseContentRepository;
 import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
@@ -21,8 +22,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -36,6 +39,16 @@ public class PurchaseContentService {
     private final TireDotRepository tireDotRepository;
     private final WarehouseRepository warehouseRepository;
     private final StockRepository stockRepository;
+
+    public List<PurchaseContentGridResponse> findAllPurchaseContentGrids(LocalDate from, LocalDate to) {
+        List<PurchaseContentGridResponse> purchaseContentGrids = purchaseContentRepository.findPurchaseContentGrids(from, to);
+        return setTireDotGridToPurchaseContentGrids(purchaseContentGrids);
+    }
+
+    public List<PurchaseContentGridResponse> findPurchaseContentGridsByPurchaseId(Long purchaseId) {
+        List<PurchaseContentGridResponse> purchaseContentGrids = purchaseContentRepository.findPurchaseContentGridsByPurchaseId(purchaseId);
+        return setTireDotGridToPurchaseContentGrids(purchaseContentGrids);
+    }
 
     //TODO: purchase-contents 가 tire-dot 와 stock 기준으로 unique 해야함. -> grouping 혹은 validation 할 것
     public void modifyPurchaseContents(Purchase purchase, List<PurchaseContentRequest> purchaseContentRequests) {
@@ -67,10 +80,7 @@ public class PurchaseContentService {
     }
 
     private Tire findTireById(Long tireId) {
-        return tireRepository.findById(tireId).orElseThrow(() -> {
-            log.error("Can not find tire by id: {}", tireId);
-            return new NotFoundException(SystemMessage.NOT_FOUND + ": [타이어]");
-        });
+        return tireRepository.findById(tireId).orElseThrow(() -> new NotFoundException("타이어", tireId));
     }
 
     private TireDot findOrGetTireDotByTireAndDot(Tire tire, String dot) {
@@ -79,14 +89,29 @@ public class PurchaseContentService {
     }
 
     private Warehouse findWarehouseById(Long warehouseId) {
-        return warehouseRepository.findById(warehouseId).orElseThrow(() -> {
-            log.error("Can not find warehouse by id: {}", warehouseId);
-            return new NotFoundException(SystemMessage.NOT_FOUND + ": [창고]");
-        });
+        return warehouseRepository.findById(warehouseId).orElseThrow(() -> new NotFoundException("창고", warehouseId));
     }
 
     private Stock findDefaultStock(TireDot tireDot, Warehouse warehouse) {
         return stockRepository.findByTireDotAndWarehouseAndNickname(tireDot, warehouse, ConstantValue.DEFAULT_STOCK_NICKNAME)
                 .orElseGet(() -> stockRepository.save(Stock.of(tireDot, ConstantValue.DEFAULT_STOCK_NICKNAME, warehouse, 0, true)));
+    }
+
+    private List<PurchaseContentGridResponse> setTireDotGridToPurchaseContentGrids(List<PurchaseContentGridResponse> purchaseContentGridResponses) {
+        List<Long> tireDotIds = purchaseContentGridResponses.stream()
+                .map(PurchaseContentGridResponse::getTireDot)
+                .map(TireDotGridResponse::getTireDotId)
+                .collect(Collectors.toList());
+        Map<Long, TireDotGridResponse> tireDotGridResponseMap = getTireDotGridMap(tireDotIds);
+
+        return purchaseContentGridResponses.stream()
+                .map(purchaseContentGridResponse -> purchaseContentGridResponse.setTireDotGrid(tireDotGridResponseMap.get(purchaseContentGridResponse.getTireDotId())))
+                .collect(Collectors.toList());
+    }
+
+    private Map<Long, TireDotGridResponse> getTireDotGridMap(List<Long> tireDotIds) {
+        return tireDotRepository.findTireDotGridsByTireDotIdsIn(tireDotIds, null)
+                .stream()
+                .collect(Collectors.toMap(TireDotGridResponse::getTireDotId, tireDotGridResponse -> tireDotGridResponse));
     }
 }

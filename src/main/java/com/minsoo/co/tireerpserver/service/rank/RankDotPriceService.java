@@ -1,13 +1,12 @@
 package com.minsoo.co.tireerpserver.service.rank;
 
-import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
 import com.minsoo.co.tireerpserver.entity.rank.Rank;
 import com.minsoo.co.tireerpserver.entity.rank.RankDotPrice;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.rank.RankDotPriceRequest;
-import com.minsoo.co.tireerpserver.model.response.tire.query.TireDotPriceResponse;
+import com.minsoo.co.tireerpserver.model.response.rank.RankDotPriceResponse;
 import com.minsoo.co.tireerpserver.repository.client.ClientCompanyRepository;
 import com.minsoo.co.tireerpserver.repository.rank.RankDotPriceRepository;
 import com.minsoo.co.tireerpserver.repository.rank.RankRepository;
@@ -16,8 +15,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -30,44 +32,51 @@ public class RankDotPriceService {
     private final TireDotRepository tireDotRepository;
     private final ClientCompanyRepository clientCompanyRepository;
 
-    public List<RankDotPrice> findAllByTireDotId(Long tireDotId) {
+    public List<RankDotPriceResponse> findAllByTireDotId(Long tireDotId) {
         TireDot tireDot = findTireDotById(tireDotId);
-        return rankDotPriceRepository.findAllByTireDot(tireDot);
+        return rankDotPriceRepository.findAllByTireDot(tireDot).stream()
+                .map(RankDotPriceResponse::new)
+                .collect(Collectors.toList());
     }
 
-    public RankDotPrice modify(Long tireDotId, Long rankId, RankDotPriceRequest rankDotPriceRequest) {
+    public void modify(Long tireDotId, List<RankDotPriceRequest> rankDotPriceRequests) {
         TireDot tireDot = findTireDotById(tireDotId);
-        Rank rank = findRankById(rankId);
+        modifyRankDotPrices(tireDot, rankDotPriceRequests);
+    }
 
-        return rankDotPriceRepository.findByRankAndTireDot(rank, tireDot)
-                .map(found -> found.update(rankDotPriceRequest.getPrice()))
-                .orElseGet(() -> rankDotPriceRepository.save(RankDotPrice.of(rank, tireDot, rankDotPriceRequest.getPrice())));
+    private void modifyRankDotPrices(TireDot tireDot, List<RankDotPriceRequest> rankDotPriceRequests) {
+        List<RankDotPrice> rankDotPrices = rankDotPriceRepository.findAllByTireDot(tireDot);
+
+        List<Long> removable = rankDotPrices.stream()
+                .map(RankDotPrice::getId)
+                .collect(Collectors.toList());
+        List<Long> stored = new ArrayList<>();
+
+        // save and update
+        for (RankDotPriceRequest rankDotPriceRequest : rankDotPriceRequests) {
+            Rank rank = findRankById(rankDotPriceRequest.getRankId());
+
+            stored.add(rankDotPriceRepository.findByRankAndTireDot(rank, tireDot)
+                    .map(found -> found.updatePrice(rankDotPriceRequest.getPrice()))
+                    .orElseGet(() -> rankDotPriceRepository.save(RankDotPrice.of(rank, tireDot, rankDotPriceRequest.getPrice())))
+                    .getId());
+        }
+
+        removable.removeAll(stored);
+        if (!CollectionUtils.isEmpty(removable)) {
+            rankDotPriceRepository.deleteAllById(removable);
+        }
+    }
+
+    private ClientCompany findClientCompanyById(Long clientCompanyId) {
+        return clientCompanyRepository.findById(clientCompanyId).orElseThrow(() -> new NotFoundException("고객사", clientCompanyId));
     }
 
     private Rank findRankById(Long rankId) {
-        return rankRepository.findById(rankId).orElseThrow(() -> {
-            log.error("Can not find rank by id: {}", rankId);
-            return new NotFoundException(SystemMessage.NOT_FOUND + ": [등급]");
-        });
+        return rankRepository.findById(rankId).orElseThrow(() -> new NotFoundException("고객사 등급", rankId));
     }
 
     private TireDot findTireDotById(Long tireDotId) {
-        return tireDotRepository.findById(tireDotId).orElseThrow(() -> {
-            log.error("Can not find tire-dot by id: {}", tireDotId);
-            return new NotFoundException(SystemMessage.NOT_FOUND + ": [타이어 DOT]");
-        });
-    }
-
-    public List<TireDotPriceResponse> findAllTireDotPricesByTireIdAndClientCompanyId(Long tireId, Long clientCompanyId) {
-        Long rankId = null;
-        if (clientCompanyId != null) {
-            ClientCompany clientCompany = clientCompanyRepository.findById(clientCompanyId).orElseThrow(() -> {
-                log.error("Can not find client-company by id: {}", clientCompanyId);
-                return new NotFoundException(SystemMessage.NOT_FOUND + ": [고객사]");
-            });
-            rankId = clientCompany.getRank().getId();
-        }
-
-        return rankDotPriceRepository.findTireDotPricesByTireIdAndRankId(tireId, rankId);
+        return tireDotRepository.findById(tireDotId).orElseThrow(() -> new NotFoundException("타이어 DOT", tireDotId));
     }
 }

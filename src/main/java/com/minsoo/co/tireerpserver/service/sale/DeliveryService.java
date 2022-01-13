@@ -1,11 +1,11 @@
 package com.minsoo.co.tireerpserver.service.sale;
 
-import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.sale.Delivery;
 import com.minsoo.co.tireerpserver.entity.sale.Sale;
 import com.minsoo.co.tireerpserver.exception.InternalServerException;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.sale.DeliveryRequest;
+import com.minsoo.co.tireerpserver.model.response.sale.DeliveryResponse;
 import com.minsoo.co.tireerpserver.repository.sale.DeliveryRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,19 +22,24 @@ public class DeliveryService {
     private final DeliveryRepository deliveryRepository;
     private final SaleRepository saleRepository;
 
-    public Delivery findBySaleId(Long saleId) {
-        Sale sale = saleRepository.findById(saleId).orElseThrow(() -> {
-            log.error("Can not find sale by id: {}", saleId);
-            return new NotFoundException(SystemMessage.NOT_FOUND + ": [매출]");
-        });
-        return deliveryRepository.findBySale(sale).orElseThrow(() -> {
-            log.error("Can not find delivery by sale: {}", sale.getId());
-            return new InternalServerException(SystemMessage.INTERNAL_SERVER_ERROR);
-        });
+    public DeliveryResponse findBySaleId(Long saleId) {
+        return new DeliveryResponse(findDeliveryBySaleId(saleId));
     }
 
-    public Delivery update(Long saleId, DeliveryRequest deliveryRequest) {
-        Delivery delivery = findBySaleId(saleId);
-        return delivery.update(deliveryRequest);
+    public DeliveryResponse update(Long saleId, DeliveryRequest deliveryRequest) {
+        Delivery delivery = findDeliveryBySaleId(saleId);
+        return new DeliveryResponse(delivery.update(deliveryRequest));
+    }
+
+    private Sale findSaleById(Long saleId) {
+        return saleRepository.findById(saleId).orElseThrow(() -> new NotFoundException("매출", saleId));
+    }
+
+    private Delivery findDeliveryBySaleId(Long saleId) {
+        Sale sale = findSaleById(saleId);
+        return deliveryRepository.findBySale(sale).orElseThrow(() -> {
+            log.error("The delivery does not exist for sale: {}", saleId);
+            return new InternalServerException();
+        });
     }
 }

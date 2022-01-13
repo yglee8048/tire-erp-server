@@ -1,8 +1,10 @@
 package com.minsoo.co.tireerpserver.exception;
 
+import com.minsoo.co.tireerpserver.constant.SystemMessage;
+
 public class InternalServerException extends RuntimeException {
 
-    public InternalServerException(String message) {
-        super(message);
+    public InternalServerException() {
+        super(SystemMessage.INTERNAL_SERVER_ERROR);
     }
 }

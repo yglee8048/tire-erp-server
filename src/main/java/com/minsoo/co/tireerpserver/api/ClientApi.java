@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -35,27 +34,24 @@ public class ClientApi {
 
     @GetMapping("/client-companies")
     public ApiResponse<List<ClientCompanyResponse>> findAllClientCompanies() {
-        return ApiResponse.OK(clientCompanyService.findAll()
-                .stream()
-                .map(ClientCompanyResponse::new)
-                .collect(Collectors.toList()));
+        return ApiResponse.OK(clientCompanyService.findAll());
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/client-companies")
     public ApiResponse<ClientCompanyResponse> createClientCompany(@RequestBody @Valid ClientCompanyRequest clientCompanyRequest) {
-        return ApiResponse.CREATED(new ClientCompanyResponse(clientCompanyService.create(clientCompanyRequest)));
+        return ApiResponse.CREATED(clientCompanyService.create(clientCompanyRequest));
     }
 
     @GetMapping("/client-companies/{clientCompanyId}")
     public ApiResponse<ClientCompanyResponse> findClientCompanyById(@PathVariable Long clientCompanyId) {
-        return ApiResponse.OK(new ClientCompanyResponse(clientCompanyService.findById(clientCompanyId)));
+        return ApiResponse.OK(clientCompanyService.findById(clientCompanyId));
     }
 
     @PutMapping("/client-companies/{clientCompanyId}")
     public ApiResponse<ClientCompanyResponse> updateClientCompany(@PathVariable Long clientCompanyId,
                                                                   @RequestBody @Valid ClientCompanyRequest clientCompanyRequest) {
-        return ApiResponse.OK(new ClientCompanyResponse(clientCompanyService.update(clientCompanyId, clientCompanyRequest)));
+        return ApiResponse.OK(clientCompanyService.update(clientCompanyId, clientCompanyRequest));
     }
 
     @DeleteMapping("/client-companies/{clientCompanyId}")
@@ -66,29 +62,27 @@ public class ClientApi {
 
     @GetMapping("/client-companies/{clientCompanyId}/clients")
     public ApiResponse<List<ClientResponse>> findAllClientsByClientCompany(@PathVariable Long clientCompanyId) {
-        return ApiResponse.OK(clientService.findAllByClientCompany(clientCompanyId).stream()
-                .map(ClientResponse::new)
-                .collect(Collectors.toList()));
+        return ApiResponse.OK(clientService.findAllByClientCompany(clientCompanyId));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/client-companies/{clientCompanyId}/clients")
     public ApiResponse<ClientResponse> createClient(@PathVariable Long clientCompanyId,
                                                     @RequestBody @Valid ClientRequest clientRequest) {
-        return ApiResponse.CREATED(new ClientResponse(clientService.create(clientCompanyId, clientRequest)));
+        return ApiResponse.CREATED(clientService.create(clientCompanyId, clientRequest));
     }
 
     @GetMapping("/client-companies/{clientCompanyId}/clients/{clientId}")
     public ApiResponse<ClientResponse> findClientById(@PathVariable Long clientCompanyId,
                                                       @PathVariable Long clientId) {
-        return ApiResponse.OK(new ClientResponse(clientService.findById(clientId)));
+        return ApiResponse.OK(clientService.findById(clientId));
     }
 
     @PutMapping("/client-companies/{clientCompanyId}/clients/{clientId}")
     public ApiResponse<ClientResponse> updateClient(@PathVariable Long clientCompanyId,
                                                     @PathVariable Long clientId,
                                                     @RequestBody @Valid ClientRequest clientRequest) {
-        return ApiResponse.OK(new ClientResponse(clientService.update(clientCompanyId, clientId, clientRequest)));
+        return ApiResponse.OK(clientService.update(clientId, clientRequest));
     }
 
     @DeleteMapping("/client-companies/{clientCompanyId}/clients/{clientId}")
