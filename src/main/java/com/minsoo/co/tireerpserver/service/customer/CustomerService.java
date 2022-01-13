@@ -17,18 +17,18 @@ import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleUpdateRequest;
 import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
 import com.minsoo.co.tireerpserver.model.response.client.ClientResponse;
-import com.minsoo.co.tireerpserver.model.response.tire.TireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.CustomerSaleContentGridResponse;
-import com.minsoo.co.tireerpserver.model.response.tire.CustomerTireGridResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleResponse;
 import com.minsoo.co.tireerpserver.model.response.stock.StockGridResponse;
+import com.minsoo.co.tireerpserver.model.response.tire.CustomerTireDotGridResponse;
+import com.minsoo.co.tireerpserver.model.response.tire.CustomerTireGridResponse;
 import com.minsoo.co.tireerpserver.repository.client.ClientCompanyRepository;
 import com.minsoo.co.tireerpserver.repository.client.ClientRepository;
 import com.minsoo.co.tireerpserver.repository.rank.RankDotPriceRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleContentRepository;
 import com.minsoo.co.tireerpserver.repository.sale.SaleRepository;
+import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
 import com.minsoo.co.tireerpserver.service.sale.SaleService;
-import com.minsoo.co.tireerpserver.service.stock.StockService;
 import com.minsoo.co.tireerpserver.service.tire.TireDotService;
 import com.minsoo.co.tireerpserver.service.tire.TireService;
 import com.minsoo.co.tireerpserver.utils.SecurityUtils;
@@ -50,9 +50,9 @@ public class CustomerService {
     private final TireService tireService;
     private final TireDotService tireDotService;
     private final SaleService saleService;
-    private final StockService stockService;
 
     private final SaleRepository saleRepository;
+    private final StockRepository stockRepository;
     private final ClientRepository clientRepository;
     private final ClientCompanyRepository clientCompanyRepository;
     private final SaleContentRepository saleContentRepository;
@@ -76,18 +76,17 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public List<TireDotGridResponse> findTireDotGridsByTireId(Long tireId) {
+    public List<CustomerTireDotGridResponse> findTireDotGridsByTireId(Long tireId) {
         Client client = findClientByUsername(SecurityUtils.getContextUsername());
-        return tireDotService.findTireDotGridsByTireIdAndOptionalClientCompanyId(tireId, client.getClientCompany().getId());
+        return tireDotService.findTireDotGridsByTireIdAndOptionalClientCompanyId(tireId, client.getClientCompany().getId())
+                .stream()
+                .map(CustomerTireDotGridResponse::new)
+                .collect(Collectors.toList());
     }
 
     // STOCK
-    public List<StockGridResponse> findStockGridsByTireDotId(Long tireDotId) {
-        return stockService.findStockGridsByTireDotId(tireDotId)
-                .stream()
-                .filter(stockGridResponse -> !stockGridResponse.getLock())
-                .filter(stockGridResponse -> stockGridResponse.getQuantity() > 0)
-                .collect(Collectors.toList());
+    public List<StockGridResponse> findOpenAndHasQuantityStockGridsByTireDotId(Long tireDotId) {
+        return stockRepository.findOpenAndHasQuantityStockGridsByTireDotId(tireDotId);
     }
 
     // SALE

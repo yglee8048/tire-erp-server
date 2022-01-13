@@ -3,20 +3,22 @@ package com.minsoo.co.tireerpserver.api;
 import com.minsoo.co.tireerpserver.constant.SaleSource;
 import com.minsoo.co.tireerpserver.constant.SaleStatus;
 import com.minsoo.co.tireerpserver.model.ApiResponse;
+import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerDeliveryRequest;
 import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleCreateRequest;
 import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleUpdateRequest;
+import com.minsoo.co.tireerpserver.model.request.sale.DeliveryRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
 import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
 import com.minsoo.co.tireerpserver.model.response.client.ClientResponse;
-import com.minsoo.co.tireerpserver.model.response.tire.TireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.CustomerSaleContentGridResponse;
-import com.minsoo.co.tireerpserver.model.response.tire.CustomerTireGridResponse;
+import com.minsoo.co.tireerpserver.model.response.sale.DeliveryResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleResponse;
 import com.minsoo.co.tireerpserver.model.response.stock.StockGridResponse;
-import com.minsoo.co.tireerpserver.model.response.tire.TireResponse;
+import com.minsoo.co.tireerpserver.model.response.tire.CustomerTireDotGridResponse;
+import com.minsoo.co.tireerpserver.model.response.tire.CustomerTireGridResponse;
 import com.minsoo.co.tireerpserver.service.customer.CustomerService;
+import com.minsoo.co.tireerpserver.service.sale.DeliveryService;
 import com.minsoo.co.tireerpserver.service.sale.SaleService;
-import com.minsoo.co.tireerpserver.service.tire.TireService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,7 +46,7 @@ public class CustomerApi {
 
     private final CustomerService customerService;
     private final SaleService saleService;
-    private final TireService tireService;
+    private final DeliveryService deliveryService;
 
     @GetMapping("/client")
     public ApiResponse<ClientResponse> findClient() {
@@ -61,19 +63,14 @@ public class CustomerApi {
         return ApiResponse.OK(customerService.findCustomerTireGrids());
     }
 
-    @GetMapping("/tires/{tireId}")
-    public ApiResponse<TireResponse> findTireByTireId(@PathVariable Long tireId) {
-        return ApiResponse.OK(tireService.findById(tireId));
-    }
-
     @GetMapping("/tires/{tireId}/tire-dot-grids")
-    public ApiResponse<List<TireDotGridResponse>> findCustomerTireDotGrids(@PathVariable Long tireId) {
+    public ApiResponse<List<CustomerTireDotGridResponse>> findCustomerTireDotGrids(@PathVariable Long tireId) {
         return ApiResponse.OK(customerService.findTireDotGridsByTireId(tireId));
     }
 
     @GetMapping("/tire-dots/{tireDotId}/stocks")
     public ApiResponse<List<StockGridResponse>> findStocks(@PathVariable Long tireDotId) {
-        return ApiResponse.OK(customerService.findStockGridsByTireDotId(tireDotId));
+        return ApiResponse.OK(customerService.findOpenAndHasQuantityStockGridsByTireDotId(tireDotId));
     }
 
     @GetMapping("/sale-content-grids")
@@ -111,5 +108,16 @@ public class CustomerApi {
     @GetMapping("/sales/{saleId}/sale-content-grids")
     public ApiResponse<List<CustomerSaleContentGridResponse>> findSaleContentsBySaleId(@PathVariable Long saleId) {
         return ApiResponse.OK(customerService.findCustomerSaleContentGridsBySaleId(saleId));
+    }
+
+    @GetMapping("/sales/{saleId}/delivery")
+    public ApiResponse<DeliveryResponse> findDeliveryBySaleId(@PathVariable Long saleId) {
+        return ApiResponse.OK(deliveryService.findBySaleId(saleId));
+    }
+
+    @PutMapping("/sales/{saleId}/delivery")
+    public ApiResponse<DeliveryResponse> updateDeliveryBySaleId(@PathVariable Long saleId,
+                                                                @RequestBody CustomerDeliveryRequest customerDeliveryRequest) {
+        return ApiResponse.OK(deliveryService.update(saleId, new DeliveryRequest(customerDeliveryRequest)));
     }
 }

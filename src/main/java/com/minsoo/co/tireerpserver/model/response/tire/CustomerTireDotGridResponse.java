@@ -9,8 +9,11 @@ public class CustomerTireDotGridResponse {
 
     private Long tireDotId;
     private Long tireId;
+
     private String dot;
+
     private Long price;
+
     private Integer sumOfOpenedStock;
 
     public CustomerTireDotGridResponse(TireDotGridResponse tireDotGridResponse) {

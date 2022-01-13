@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.repository.stock.query;
 
 import com.minsoo.co.tireerpserver.model.response.stock.StockGridResponse;
 import com.minsoo.co.tireerpserver.repository.JPAQuerySnippet;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +22,23 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
 
     @Override
     public List<StockGridResponse> findStockGridsByTireDotId(Long tireDotId) {
-        return queryFactory.select(JPAQuerySnippet.stockGridResponse(stock, warehouse))
-                .from(stock)
-                .join(warehouse).on(stock.warehouse.eq(warehouse))
+        return selectStockGrids()
                 .where(stock.tireDot.id.eq(tireDotId))
                 .fetch();
+    }
+
+    @Override
+    public List<StockGridResponse> findOpenAndHasQuantityStockGridsByTireDotId(Long tireDotId) {
+        return selectStockGrids()
+                .where(stock.tireDot.id.eq(tireDotId),
+                        stock.lock.not(),
+                        stock.quantity.gt(0))
+                .fetch();
+    }
+
+    private JPAQuery<StockGridResponse> selectStockGrids() {
+        return queryFactory.select(JPAQuerySnippet.stockGridResponse(stock, warehouse))
+                .from(stock)
+                .join(warehouse).on(stock.warehouse.eq(warehouse));
     }
 }

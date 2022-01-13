@@ -7,4 +7,6 @@ import java.util.List;
 public interface StockQueryRepository {
 
     List<StockGridResponse> findStockGridsByTireDotId(Long tireDotId);
+
+    List<StockGridResponse> findOpenAndHasQuantityStockGridsByTireDotId(Long tireDotId);
 }
