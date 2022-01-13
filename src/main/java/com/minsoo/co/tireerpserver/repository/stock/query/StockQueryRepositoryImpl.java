@@ -31,7 +31,7 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     public List<StockGridResponse> findOpenAndHasQuantityStockGridsByTireDotId(Long tireDotId) {
         return selectStockGrids()
                 .where(stock.tireDot.id.eq(tireDotId),
-                        stock.lock.not(),
+                        stock.lock.eq(false),
                         stock.quantity.gt(0))
                 .fetch();
     }
