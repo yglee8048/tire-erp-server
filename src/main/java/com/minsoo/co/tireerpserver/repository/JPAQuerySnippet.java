@@ -19,22 +19,25 @@ import com.minsoo.co.tireerpserver.model.AddressDTO;
 import com.minsoo.co.tireerpserver.model.BusinessInfoDTO;
 import com.minsoo.co.tireerpserver.model.TireInfoResponse;
 import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
-import com.minsoo.co.tireerpserver.model.response.purchase.PurchaseContentGridResponse;
-import com.minsoo.co.tireerpserver.model.response.sale.SaleContentGridResponse;
-import com.minsoo.co.tireerpserver.model.response.tire.TireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.management.PatternResponse;
 import com.minsoo.co.tireerpserver.model.response.management.VendorResponse;
 import com.minsoo.co.tireerpserver.model.response.management.WarehouseResponse;
+import com.minsoo.co.tireerpserver.model.response.purchase.PurchaseContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.purchase.PurchaseResponse;
+import com.minsoo.co.tireerpserver.model.response.rank.RankDotPriceGridResponse;
 import com.minsoo.co.tireerpserver.model.response.rank.RankResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.DeliveryResponse;
+import com.minsoo.co.tireerpserver.model.response.sale.SaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleResponse;
 import com.minsoo.co.tireerpserver.model.response.stock.StockGridResponse;
+import com.minsoo.co.tireerpserver.model.response.tire.TireDotGridResponse;
+import com.minsoo.co.tireerpserver.model.response.tire.TireDotResponse;
 import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.QBean;
 import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.MathExpressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
 
@@ -98,12 +101,9 @@ public class JPAQuerySnippet {
                                                                  QStock stock, QPurchaseContent purchaseContent) {
 
         return Projections.fields(TireDotGridResponse.class,
-                tireDot.id.as("tireDotId"),
-                tireDot.tire.id.as("tireId"),
+                tireDotResponse(tireDot).as("tireDot"),
 
-                tireDot.dot,
-
-                rankDotPrice.price.coalesce(tire.retailPrice).as("price"),
+                getRankDotPrice(tire, rankDotPrice).as("price"),
 
                 getSumOfOpenedStock(stock).as("sumOfOpenedStock"),
                 stock.quantity.sum().as("sumOfStock"),
@@ -125,38 +125,40 @@ public class JPAQuerySnippet {
     public static QBean<TireInfoResponse> tireInfoResponse(QTire tire, QPattern pattern, QBrand brand) {
         return Projections.fields(TireInfoResponse.class,
                 tire.id.as("tireId"),
-                tire.tireCode,
+
                 brand.id.as("brandId"),
                 brand.name.as("brandName"),
-                tire.onSale,
+
+                pattern.id.as("patternId"),
+                pattern.name.as("patternName"),
+                pattern.englishName.as("patternEnglishName"),
+
                 tire.width,
                 tire.flatnessRatio,
                 tire.inch,
                 tire.size,
+                tire.oe,
                 tire.loadIndex,
                 tire.speedIndex,
-                pattern.id.as("patternId"),
-                pattern.name.as("patternName"),
+
                 tire.runFlat,
                 tire.sponge,
                 tire.sealing,
-                tire.oe,
-                tire.originalVehicle,
+
+                tire.factoryPrice,
                 tire.countryOfManufacture,
-                tire.retailPrice,
-                tire.tireGroup,
-                tire.note,
+
                 pattern.season,
                 pattern.quietness,
                 pattern.rideQuality,
                 pattern.mileage,
                 pattern.handling,
                 pattern.breakingPower,
-                pattern.sports,
                 pattern.wetSurface,
-                tire.pr,
-                tire.lr,
-                tire.tireRoId,
+                pattern.snowPerformance,
+
+                tire.tireCode,
+
                 tire.createdBy,
                 tire.createdAt,
                 tire.lastModifiedBy,
@@ -175,6 +177,13 @@ public class JPAQuerySnippet {
                 stock.lastModifiedAt,
                 stock.createdBy,
                 stock.lastModifiedBy);
+    }
+
+    public static QBean<RankDotPriceGridResponse> rankDotPriceResponse(QRankDotPrice rankDotPrice, QRank rank, QTireDot tireDot) {
+        return Projections.fields(RankDotPriceGridResponse.class,
+                rankResponse(rank).as("rank"),
+                tireDotResponse(tireDot).as("tireDot"),
+                rankDotPrice.discountRate);
     }
 
     public static QBean<ClientCompanyResponse> clientCompanyResponse(QClientCompany clientCompany) {
@@ -229,12 +238,20 @@ public class JPAQuerySnippet {
                 vendor.lastModifiedAt);
     }
 
+    public static NumberExpression<Long> getRankDotPrice(QTire tire, QRankDotPrice rankDotPrice) {
+        return MathExpressions.round(tire.factoryPrice.multiply(rankDotPrice.discountRate.coalesce(1F)), 3);
+    }
+
     public static ConstructorExpression<SaleResponse> saleResponse(QSale sale) {
         return Projections.constructor(SaleResponse.class, sale);
     }
 
     public static ConstructorExpression<PurchaseResponse> purchaseResponse(QPurchase purchase) {
         return Projections.constructor(PurchaseResponse.class, purchase);
+    }
+
+    public static ConstructorExpression<TireDotResponse> tireDotResponse(QTireDot tireDot) {
+        return Projections.constructor(TireDotResponse.class, tireDot);
     }
 
     public static ConstructorExpression<PatternResponse> patternResponse(QPattern pattern) {

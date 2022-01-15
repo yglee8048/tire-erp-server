@@ -1,5 +1,6 @@
 package com.minsoo.co.tireerpserver.model.request.management;
 
+import com.minsoo.co.tireerpserver.constant.PatternSeason;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,21 +15,18 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class PatternRequest {
 
-    @Schema(name = "name", description = "패턴 이름")
-    @NotEmpty(message = "패턴 이름은 필수 값입니다.")
+    @Schema(name = "name", description = "패턴명")
+    @NotEmpty(message = "패턴명은 필수 값입니다.")
     private String name;
 
-    @Schema(name = "pattern_code", description = "패턴 ID")
-    private String patternCode;
+    @Schema(name = "english_name", description = "영문 패턴명")
+    private String englishName;
 
-    @Schema(name = "car_type", description = "차종")
-    private String carType;
+    @Schema(name = "description", description = "설명")
+    private String description;
 
-    @Schema(name = "rank", description = "등급")
-    private String rank;
-
-    @Schema(name = "season", description = "계절")
-    private String season;
+    @Schema(name = "season", description = "계절", example = "ALL_SEASON")
+    private PatternSeason season;
 
     @Schema(name = "quietness", description = "정숙성")
     private Boolean quietness;
@@ -45,9 +43,9 @@ public class PatternRequest {
     @Schema(name = "breaking_power", description = "제동력")
     private Boolean breakingPower;
 
-    @Schema(name = "sports", description = "스포츠")
-    private Boolean sports;
-
-    @Schema(name = "wet_surface", description = "젖은노면")
+    @Schema(name = "wet_surface", description = "젖은 노면")
     private Boolean wetSurface;
+
+    @Schema(name = "snow_performance", description = "눈길 성능")
+    private Boolean snowPerformance;
 }

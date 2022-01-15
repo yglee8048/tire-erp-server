@@ -15,8 +15,8 @@ public class RankDotPriceRequest {
     @NotNull(message = "rank_id 는 필수 값입니다.")
     private Long rankId;
 
-    @Schema(name = "price", description = "가격")
-    @Positive(message = "가격은 양수여야 합니다.")
-    @NotNull(message = "가격은 필수 값입니다.")
-    private Long price;
+    @Schema(name = "discount_rate", description = "할인율")
+    @Positive(message = "할인율은 양수여야 합니다.")
+    @NotNull(message = "할인율은 필수 값입니다.")
+    private Float discountRate;
 }

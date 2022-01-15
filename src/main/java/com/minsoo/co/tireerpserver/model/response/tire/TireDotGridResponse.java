@@ -9,10 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class TireDotGridResponse {
 
-    private Long tireDotId;
-    private Long tireId;
-
-    private String dot;
+    private TireDotResponse tireDot;
 
     private Long price;
 

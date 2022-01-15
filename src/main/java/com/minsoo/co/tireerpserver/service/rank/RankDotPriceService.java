@@ -6,7 +6,7 @@ import com.minsoo.co.tireerpserver.entity.rank.RankDotPrice;
 import com.minsoo.co.tireerpserver.entity.tire.TireDot;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.rank.RankDotPriceRequest;
-import com.minsoo.co.tireerpserver.model.response.rank.RankDotPriceResponse;
+import com.minsoo.co.tireerpserver.model.response.rank.RankDotPriceGridResponse;
 import com.minsoo.co.tireerpserver.repository.client.ClientCompanyRepository;
 import com.minsoo.co.tireerpserver.repository.rank.RankDotPriceRepository;
 import com.minsoo.co.tireerpserver.repository.rank.RankRepository;
@@ -32,11 +32,8 @@ public class RankDotPriceService {
     private final TireDotRepository tireDotRepository;
     private final ClientCompanyRepository clientCompanyRepository;
 
-    public List<RankDotPriceResponse> findAllByTireDotId(Long tireDotId) {
-        TireDot tireDot = findTireDotById(tireDotId);
-        return rankDotPriceRepository.findAllByTireDot(tireDot).stream()
-                .map(RankDotPriceResponse::new)
-                .collect(Collectors.toList());
+    public List<RankDotPriceGridResponse> findAllByTireDotId(Long tireDotId) {
+        return rankDotPriceRepository.findRankDotPricesByTireDotId(tireDotId);
     }
 
     public void modify(Long tireDotId, List<RankDotPriceRequest> rankDotPriceRequests) {
@@ -57,8 +54,8 @@ public class RankDotPriceService {
             Rank rank = findRankById(rankDotPriceRequest.getRankId());
 
             stored.add(rankDotPriceRepository.findByRankAndTireDot(rank, tireDot)
-                    .map(found -> found.updatePrice(rankDotPriceRequest.getPrice()))
-                    .orElseGet(() -> rankDotPriceRepository.save(RankDotPrice.of(rank, tireDot, rankDotPriceRequest.getPrice())))
+                    .map(found -> found.updateDiscountPrice(rankDotPriceRequest.getDiscountRate()))
+                    .orElseGet(() -> rankDotPriceRepository.save(RankDotPrice.of(rank, tireDot, rankDotPriceRequest.getDiscountRate())))
                     .getId());
         }
 

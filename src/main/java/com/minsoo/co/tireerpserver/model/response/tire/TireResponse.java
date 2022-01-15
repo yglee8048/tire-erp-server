@@ -11,28 +11,21 @@ import java.time.LocalDateTime;
 public class TireResponse {
 
     private Long tireId;
+    private Long patternId;
+
     private String tireCode;
-    private Boolean onSale;
     private Integer width;
     private Integer flatnessRatio;
     private Integer inch;
     private String size;
+    private String oe;
     private Integer loadIndex;
     private String speedIndex;
-    private Long patternId;
     private Boolean runFlat;
     private Boolean sponge;
     private Boolean sealing;
-    private String oe;
-    private String originalVehicle;
+    private Long factoryPrice;
     private String countryOfManufacture;
-    private Long retailPrice;
-
-    private String tireGroup;
-    private String note;
-    private String pr;
-    private String lr;
-    private String tireRoId;
 
     private String createdBy;
     private LocalDateTime createdAt;
@@ -41,27 +34,21 @@ public class TireResponse {
 
     public TireResponse(Tire tire) {
         this.tireId = tire.getId();
+        this.patternId = tire.getPattern().getId();
+
         this.tireCode = tire.getTireCode();
-        this.onSale = tire.getOnSale();
         this.width = tire.getWidth();
         this.flatnessRatio = tire.getFlatnessRatio();
         this.inch = tire.getInch();
         this.size = tire.getSize();
+        this.oe = tire.getOe();
         this.loadIndex = tire.getLoadIndex();
         this.speedIndex = tire.getSpeedIndex();
-        this.patternId = tire.getPattern().getId();
         this.runFlat = tire.getRunFlat();
         this.sponge = tire.getSponge();
         this.sealing = tire.getSealing();
-        this.oe = tire.getOe();
-        this.originalVehicle = tire.getOriginalVehicle();
+        this.factoryPrice = tire.getFactoryPrice();
         this.countryOfManufacture = tire.getCountryOfManufacture();
-        this.retailPrice = tire.getRetailPrice();
-        this.tireGroup = tire.getTireGroup();
-        this.note = tire.getNote();
-        this.pr = tire.getPr();
-        this.lr = tire.getLr();
-        this.tireRoId = tire.getTireRoId();
 
         this.createdAt = tire.getCreatedAt();
         this.lastModifiedAt = tire.getLastModifiedAt();

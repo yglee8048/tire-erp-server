@@ -133,6 +133,6 @@ public class SaleContentQueryRepositoryImpl implements SaleContentQueryRepositor
     private Map<Long, TireDotGridResponse> getTireDotGridMap(List<Long> tireDotIds, Long rankId) {
         return tireDotRepository.findTireDotGridsByTireDotIdsIn(tireDotIds, rankId)
                 .stream()
-                .collect(Collectors.toMap(TireDotGridResponse::getTireDotId, tireDotGrid -> tireDotGrid));
+                .collect(Collectors.toMap(tireDotGrid -> tireDotGrid.getTireDot().getTireDotId(), tireDotGrid -> tireDotGrid));
     }
 }

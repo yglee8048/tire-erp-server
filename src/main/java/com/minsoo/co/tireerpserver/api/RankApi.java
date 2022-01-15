@@ -3,7 +3,7 @@ package com.minsoo.co.tireerpserver.api;
 import com.minsoo.co.tireerpserver.model.ApiResponse;
 import com.minsoo.co.tireerpserver.model.request.rank.RankDotPriceRequest;
 import com.minsoo.co.tireerpserver.model.request.rank.RankRequest;
-import com.minsoo.co.tireerpserver.model.response.rank.RankDotPriceResponse;
+import com.minsoo.co.tireerpserver.model.response.rank.RankDotPriceGridResponse;
 import com.minsoo.co.tireerpserver.model.response.rank.RankResponse;
 import com.minsoo.co.tireerpserver.service.rank.RankDotPriceService;
 import com.minsoo.co.tireerpserver.service.rank.RankService;
@@ -58,7 +58,7 @@ public class RankApi {
     }
 
     @GetMapping("/tire-dots/{tireDotId}/rank-dot-prices")
-    public ApiResponse<List<RankDotPriceResponse>> findRankDotPrices(@PathVariable Long tireDotId) {
+    public ApiResponse<List<RankDotPriceGridResponse>> findRankDotPrices(@PathVariable Long tireDotId) {
         return ApiResponse.OK(rankDotPriceService.findAllByTireDotId(tireDotId));
     }
 

@@ -7,20 +7,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CustomerTireDotGridResponse {
 
-    private Long tireDotId;
-    private Long tireId;
-
-    private String dot;
+    private TireDotResponse tireDot;
 
     private Long price;
 
     private Integer sumOfOpenedStock;
 
     public CustomerTireDotGridResponse(TireDotGridResponse tireDotGridResponse) {
-        this.tireDotId = tireDotGridResponse.getTireDotId();
-        this.tireId = tireDotGridResponse.getTireId();
-        this.dot = tireDotGridResponse.getDot();
+        this.tireDot = tireDotGridResponse.getTireDot();
+
         this.price = tireDotGridResponse.getPrice();
+
         this.sumOfOpenedStock = tireDotGridResponse.getSumOfOpenedStock();
     }
 }

@@ -55,7 +55,7 @@ public class TireService {
     public List<TireGridResponse> findAllTireGrids() {
         Map<Long, List<TireDotGridResponse>> tireDotGridMap = tireDotRepository.findAllTireDotGrids()
                 .stream()
-                .collect(Collectors.groupingBy(TireDotGridResponse::getTireId));
+                .collect(Collectors.groupingBy(tireDotGridResponse -> tireDotGridResponse.getTireDot().getTireId()));
 
         List<TireInfoResponse> tireInfos = tireRepository.findAllTireInfos();
         return tireInfos.stream()

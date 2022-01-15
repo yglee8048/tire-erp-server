@@ -6,7 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Data
 @Builder
@@ -21,9 +25,6 @@ public class TireRequest {
     @Schema(name = "tire_code", description = "타이어 ID")
     @NotEmpty(message = "타이어 ID 는 필수 값입니다.")
     private String tireCode;
-
-    @Schema(name = "on_sale", description = "판매상태")
-    private Boolean onSale;
 
     @Schema(name = "width", description = "단면폭")
     @NotNull(message = "단면폭은 필수 값입니다.")
@@ -46,16 +47,19 @@ public class TireRequest {
     @Min(value = 10, message = "인치는 2자리 숫자여야 합니다.")
     private Integer inch;
 
+    @Schema(name = "size", description = "사이즈")
+    @NotEmpty(message = "사이즈는 필수 값입니다.")
+    private String size;
+
+    @Schema(name = "oe", description = "OE 마크")
+    private String oe;
+
     @Schema(name = "load_index", description = "하중지수")
     @Positive(message = "하중지수는 양수여야 합니다.")
     private Integer loadIndex;
 
     @Schema(name = "speed_index", description = "속도지수")
     private String speedIndex;
-
-    @Schema(name = "retail_price", description = "소비자금액")
-    @Positive(message = "소비자금액은 양수여야 합니다.")
-    private Long retailPrice;
 
     @Schema(name = "run_flat", description = "런플렛")
     private Boolean runFlat;
@@ -66,27 +70,10 @@ public class TireRequest {
     @Schema(name = "sealing", description = "실링")
     private Boolean sealing;
 
-    @Schema(name = "oe", description = "OE 마크")
-    private String oe;
+    @Schema(name = "factory_price", description = "공장도가")
+    @Positive(message = "공장도가는 양수여야 합니다.")
+    private Long factoryPrice;
 
     @Schema(name = "country_of_manufacture", description = "제조국")
     private String countryOfManufacture;
-
-    @Schema(name = "original_vehicle", description = "순정 차량")
-    private String originalVehicle;
-
-    @Schema(name = "note", description = "비고")
-    private String note;
-
-    @Schema(name = "tire_group", description = "그룹")
-    private String tireGroup;
-
-    @Schema(name = "pr", description = "pr")
-    private String pr;
-
-    @Schema(name = "lr", description = "lr")
-    private String lr;
-
-    @Schema(name = "tire_ro_id", description = "타이어로 ID")
-    private String tireRoId;
 }

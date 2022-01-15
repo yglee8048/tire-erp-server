@@ -11,6 +11,7 @@ import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.purchase.PurchaseContentRequest;
 import com.minsoo.co.tireerpserver.model.response.purchase.PurchaseContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.TireDotGridResponse;
+import com.minsoo.co.tireerpserver.model.response.tire.TireDotResponse;
 import com.minsoo.co.tireerpserver.repository.management.WarehouseRepository;
 import com.minsoo.co.tireerpserver.repository.pruchase.PurchaseContentRepository;
 import com.minsoo.co.tireerpserver.repository.stock.StockRepository;
@@ -100,7 +101,8 @@ public class PurchaseContentService {
     private List<PurchaseContentGridResponse> setTireDotGridToPurchaseContentGrids(List<PurchaseContentGridResponse> purchaseContentGridResponses) {
         List<Long> tireDotIds = purchaseContentGridResponses.stream()
                 .map(PurchaseContentGridResponse::getTireDot)
-                .map(TireDotGridResponse::getTireDotId)
+                .map(TireDotGridResponse::getTireDot)
+                .map(TireDotResponse::getTireDotId)
                 .collect(Collectors.toList());
         Map<Long, TireDotGridResponse> tireDotGridResponseMap = getTireDotGridMap(tireDotIds);
 
@@ -112,6 +114,6 @@ public class PurchaseContentService {
     private Map<Long, TireDotGridResponse> getTireDotGridMap(List<Long> tireDotIds) {
         return tireDotRepository.findTireDotGridsByTireDotIdsIn(tireDotIds, null)
                 .stream()
-                .collect(Collectors.toMap(TireDotGridResponse::getTireDotId, tireDotGridResponse -> tireDotGridResponse));
+                .collect(Collectors.toMap(tireDotGrid -> tireDotGrid.getTireDot().getTireDotId(), tireDotGrid -> tireDotGrid));
     }
 }

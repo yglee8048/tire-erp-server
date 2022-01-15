@@ -1,12 +1,23 @@
 package com.minsoo.co.tireerpserver.entity.management;
 
+import com.minsoo.co.tireerpserver.constant.PatternSeason;
 import com.minsoo.co.tireerpserver.entity.BaseEntity;
 import com.minsoo.co.tireerpserver.model.request.management.PatternRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,17 +37,15 @@ public class Pattern extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "pattern_code")
-    private String patternCode;
+    @Column(name = "english_name")
+    private String englishName;
 
-    @Column(name = "car_type")
-    private String carType;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "rank")
-    private String rank;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "season")
-    private String season;
+    private PatternSeason season;
 
     @Column(name = "quietness")
     private Boolean quietness;
@@ -53,11 +62,11 @@ public class Pattern extends BaseEntity {
     @Column(name = "breaking_power")
     private Boolean breakingPower;
 
-    @Column(name = "sports")
-    private Boolean sports;
-
     @Column(name = "wet_surface")
     private Boolean wetSurface;
+
+    @Column(name = "snow_performance")
+    private Boolean snowPerformance;
 
     public static Pattern of(Brand brand, PatternRequest request) {
         Pattern pattern = new Pattern();
@@ -67,17 +76,16 @@ public class Pattern extends BaseEntity {
     public Pattern update(Brand brand, PatternRequest request) {
         this.brand = brand;
         this.name = request.getName();
-        this.patternCode = request.getPatternCode();
-        this.carType = request.getCarType();
-        this.rank = request.getRank();
+        this.englishName = request.getEnglishName();
+        this.description = request.getDescription();
         this.season = request.getSeason();
         this.quietness = request.getQuietness();
         this.rideQuality = request.getRideQuality();
         this.mileage = request.getMileage();
         this.handling = request.getHandling();
         this.breakingPower = request.getBreakingPower();
-        this.sports = request.getSports();
         this.wetSurface = request.getWetSurface();
+        this.snowPerformance = request.getSnowPerformance();
         return this;
     }
 }
