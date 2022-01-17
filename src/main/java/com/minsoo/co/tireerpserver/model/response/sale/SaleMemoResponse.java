@@ -13,7 +13,7 @@ public class SaleMemoResponse {
     private Long saleMemoId;
     private Long saleId;
     private String memo;
-    private boolean lock;
+    private Boolean lock;
 
     private LocalDateTime createdAt;
     private LocalDateTime lastModifiedAt;

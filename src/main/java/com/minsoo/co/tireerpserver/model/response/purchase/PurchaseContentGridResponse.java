@@ -27,7 +27,7 @@ public class PurchaseContentGridResponse {
     private Long price;
     private Long purchasePrice;
 
-    private StockGridResponse stockGrid;
+    private StockGridResponse stockInfo;
 
     private String createdBy;
     private LocalDateTime createdAt;

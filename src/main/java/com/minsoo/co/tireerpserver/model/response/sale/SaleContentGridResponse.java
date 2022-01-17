@@ -27,7 +27,7 @@ public class SaleContentGridResponse {
     private Long price;
     private Long salePrice;
 
-    private StockGridResponse stockGridResponse;
+    private StockGridResponse stockInfo;
 
     private DeliveryResponse delivery;
 

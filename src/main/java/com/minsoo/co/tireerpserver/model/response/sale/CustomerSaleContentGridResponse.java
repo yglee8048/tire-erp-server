@@ -21,13 +21,13 @@ public class CustomerSaleContentGridResponse {
     private TireInfoResponse tireInfo;
 
     private Long tireDotId;
-    private CustomerTireDotGridResponse tireDot;
+    private CustomerTireDotGridResponse tireDotInfo;
 
     private Integer quantity;
     private Long price;
     private Long salePrice;
 
-    private StockGridResponse stockGridResponse;
+    private StockGridResponse stockInfo;
 
     private DeliveryResponse delivery;
 
@@ -42,11 +42,11 @@ public class CustomerSaleContentGridResponse {
         this.clientCompany = saleContentGridResponse.getClientCompany();
         this.tireInfo = saleContentGridResponse.getTireInfo();
         this.tireDotId = saleContentGridResponse.getTireDotId();
-        this.tireDot = new CustomerTireDotGridResponse(saleContentGridResponse.getTireDotInfo());
+        this.tireDotInfo = new CustomerTireDotGridResponse(saleContentGridResponse.getTireDotInfo());
         this.quantity = saleContentGridResponse.getQuantity();
         this.price = saleContentGridResponse.getPrice();
         this.salePrice = saleContentGridResponse.getSalePrice();
-        this.stockGridResponse = saleContentGridResponse.getStockGridResponse();
+        this.stockInfo = saleContentGridResponse.getStockInfo();
         this.delivery = saleContentGridResponse.getDelivery();
         this.createdBy = saleContentGridResponse.getCreatedBy();
         this.createdAt = saleContentGridResponse.getCreatedAt();
