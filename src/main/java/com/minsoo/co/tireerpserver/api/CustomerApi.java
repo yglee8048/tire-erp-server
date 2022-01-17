@@ -5,6 +5,7 @@ import com.minsoo.co.tireerpserver.constant.SaleStatus;
 import com.minsoo.co.tireerpserver.model.ApiResponse;
 import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerDeliveryRequest;
 import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleCreateRequest;
+import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleUpdateRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.DeliveryRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleDateType;
@@ -12,12 +13,14 @@ import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
 import com.minsoo.co.tireerpserver.model.response.client.ClientResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.CustomerSaleContentGridResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.DeliveryResponse;
+import com.minsoo.co.tireerpserver.model.response.sale.SaleMemoResponse;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleResponse;
 import com.minsoo.co.tireerpserver.model.response.stock.StockGridResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.CustomerTireDotGridResponse;
 import com.minsoo.co.tireerpserver.model.response.tire.CustomerTireGridResponse;
 import com.minsoo.co.tireerpserver.service.customer.CustomerService;
 import com.minsoo.co.tireerpserver.service.sale.DeliveryService;
+import com.minsoo.co.tireerpserver.service.sale.SaleMemoService;
 import com.minsoo.co.tireerpserver.service.sale.SaleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -47,6 +51,7 @@ public class CustomerApi {
     private final CustomerService customerService;
     private final SaleService saleService;
     private final DeliveryService deliveryService;
+    private final SaleMemoService saleMemoService;
 
     @GetMapping("/client")
     public ApiResponse<ClientResponse> findClient() {
@@ -119,5 +124,32 @@ public class CustomerApi {
     public ApiResponse<DeliveryResponse> updateDeliveryBySaleId(@PathVariable Long saleId,
                                                                 @RequestBody CustomerDeliveryRequest customerDeliveryRequest) {
         return ApiResponse.OK(deliveryService.update(saleId, new DeliveryRequest(customerDeliveryRequest)));
+    }
+
+    @GetMapping("/sales/{saleId}/sale-memos")
+    public ApiResponse<List<SaleMemoResponse>> findSaleMemosBySaleId(@PathVariable Long saleId) {
+        return ApiResponse.OK(saleMemoService.findAllBySale(saleId).stream()
+                .filter(saleMemoResponse -> !saleMemoResponse.getLock())
+                .collect(Collectors.toList()));
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/sales/{saleId}/sale-memos")
+    public ApiResponse<SaleMemoResponse> createSaleMemo(@PathVariable Long saleId,
+                                                        @RequestBody CustomerSaleMemoRequest customerSaleMemoRequest) {
+        return ApiResponse.CREATED(saleMemoService.create(saleId, customerSaleMemoRequest));
+    }
+
+    @PutMapping("/sales/{saleId}/sale-memos/{saleMemoId}")
+    public ApiResponse<SaleMemoResponse> updateSaleMemo(@PathVariable Long saleId,
+                                                        @PathVariable Long saleMemoId,
+                                                        @RequestBody CustomerSaleMemoRequest customerSaleMemoRequest) {
+        return ApiResponse.OK(saleMemoService.update(saleMemoId, customerSaleMemoRequest));
+    }
+
+    @DeleteMapping("/sales/{saleId}/sale-memos/{saleMemoId}")
+    public ApiResponse<Void> deleteSaleMemo(@PathVariable Long saleId, @PathVariable Long saleMemoId) {
+        saleMemoService.deleteById(saleMemoId);
+        return ApiResponse.NO_CONTENT();
     }
 }

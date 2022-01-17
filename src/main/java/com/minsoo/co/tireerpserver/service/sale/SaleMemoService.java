@@ -3,6 +3,7 @@ package com.minsoo.co.tireerpserver.service.sale;
 import com.minsoo.co.tireerpserver.entity.sale.Sale;
 import com.minsoo.co.tireerpserver.entity.sale.SaleMemo;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
+import com.minsoo.co.tireerpserver.model.request.customer.sale.CustomerSaleMemoRequest;
 import com.minsoo.co.tireerpserver.model.request.sale.SaleMemoRequest;
 import com.minsoo.co.tireerpserver.model.response.sale.SaleMemoResponse;
 import com.minsoo.co.tireerpserver.repository.sale.SaleMemoRepository;
@@ -36,9 +37,19 @@ public class SaleMemoService {
         return new SaleMemoResponse(saleMemoRepository.save(SaleMemo.of(sale, saleMemoRequest)));
     }
 
+    public SaleMemoResponse create(Long saleId, CustomerSaleMemoRequest customerSaleMemoRequest) {
+        Sale sale = findSaleById(saleId);
+        return new SaleMemoResponse(saleMemoRepository.save(SaleMemo.of(sale, customerSaleMemoRequest)));
+    }
+
     public SaleMemoResponse update(Long saleMemoId, SaleMemoRequest saleMemoRequest) {
         SaleMemo saleMemo = findSaleMemoById(saleMemoId);
-        return new SaleMemoResponse(saleMemo.update(saleMemoRequest));
+        return new SaleMemoResponse(saleMemo.update(saleMemoRequest.getMemo(), saleMemoRequest.isLock()));
+    }
+
+    public SaleMemoResponse update(Long saleMemoId, CustomerSaleMemoRequest customerSaleMemoRequest) {
+        SaleMemo saleMemo = findSaleMemoById(saleMemoId);
+        return new SaleMemoResponse(saleMemo.update(customerSaleMemoRequest.getMemo(), false));
     }
 
     public void deleteById(Long saleMemoId) {
