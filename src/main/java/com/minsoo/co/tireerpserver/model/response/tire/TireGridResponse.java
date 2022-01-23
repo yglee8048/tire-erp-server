@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -21,16 +22,24 @@ public class TireGridResponse {
     public TireGridResponse(TireInfoResponse tireInfo, List<TireDotGridResponse> tireDotInfos) {
         this.tireInfo = tireInfo;
         this.sumOfOpenedStock = tireDotInfos.stream()
-                .mapToInt(TireDotGridResponse::getSumOfOpenedStock)
+                .map(TireDotGridResponse::getSumOfOpenedStock)
+                .filter(Objects::nonNull)
+                .mapToInt(value -> value)
                 .sum();
         this.sumOfStock = tireDotInfos.stream()
-                .mapToInt(TireDotGridResponse::getSumOfStock)
+                .map(TireDotGridResponse::getSumOfStock)
+                .filter(Objects::nonNull)
+                .mapToInt(value -> value)
                 .sum();
         this.theNumberOfActiveDots = Long.valueOf(tireDotInfos.stream()
-                .filter(tireDotGridResponse -> tireDotGridResponse.getSumOfStock() > 0)
+                .map(TireDotGridResponse::getSumOfStock)
+                .filter(Objects::nonNull)
+                .filter(value -> value > 0)
                 .count()).intValue();
         this.averageOfPurchasePrice = tireDotInfos.stream()
-                .mapToDouble(TireDotGridResponse::getAverageOfPurchasePrice)
+                .map(TireDotGridResponse::getAverageOfPurchasePrice)
+                .filter(Objects::nonNull)
+                .mapToDouble(value -> value)
                 .average().orElse(0);
     }
 }

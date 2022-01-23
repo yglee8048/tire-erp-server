@@ -2,6 +2,7 @@ package com.minsoo.co.tireerpserver.repository.pruchase.query;
 
 import com.minsoo.co.tireerpserver.model.response.purchase.PurchaseContentGridResponse;
 import com.minsoo.co.tireerpserver.repository.JPAQuerySnippet;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,12 @@ public class PurchaseContentQueryRepositoryImpl implements PurchaseContentQueryR
     @Override
     public List<PurchaseContentGridResponse> findPurchaseContentGrids(LocalDate from, LocalDate to) {
         return selectPurchaseContentGridsQuery()
-                .where(from == null || to == null ? null : purchase.transactionDate.between(from, to))
+                .where(betweenFromTo(from, to))
                 .fetch();
+    }
+
+    private BooleanExpression betweenFromTo(LocalDate from, LocalDate to) {
+        return (from == null || to == null) ? null : purchase.transactionDate.between(from, to);
     }
 
     @Override

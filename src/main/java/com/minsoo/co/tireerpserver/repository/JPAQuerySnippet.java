@@ -40,6 +40,7 @@ import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.MathExpressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 
 public class JPAQuerySnippet {
 
@@ -106,20 +107,23 @@ public class JPAQuerySnippet {
                 getRankDotPrice(tire, rankDotPrice).as("price"),
 
                 getSumOfOpenedStock(stock).as("sumOfOpenedStock"),
-                stock.quantity.sum().as("sumOfStock"),
+                stock.quantity.sum().coalesce(0).as("sumOfStock"),
 
-                ExpressionUtils.as(JPAExpressions
-                                .select(purchaseContent.price.avg())
-                                .from(purchaseContent)
-                                .where(purchaseContent.tireDot.eq(tireDot))
-                                .groupBy(tireDot),
-                        "averageOfPurchasePrice"),
+                ExpressionUtils.as(getAvgPurchasePrice(tireDot, purchaseContent), "averageOfPurchasePrice"),
 
                 tireDot.createdAt,
                 tireDot.lastModifiedAt,
                 tireDot.createdBy,
                 tireDot.lastModifiedBy
         );
+    }
+
+    private static JPQLQuery<Double> getAvgPurchasePrice(QTireDot tireDot, QPurchaseContent purchaseContent) {
+        return JPAExpressions
+                .select(purchaseContent.price.avg().coalesce(0d))
+                .from(purchaseContent)
+                .where(purchaseContent.tireDot.eq(tireDot))
+                .groupBy(tireDot);
     }
 
     public static QBean<TireInfoResponse> tireInfoResponse(QTire tire, QPattern pattern, QBrand brand) {
@@ -231,7 +235,7 @@ public class JPAQuerySnippet {
                 vendor.id.as("vendorId"),
                 vendor.name,
                 vendor.description,
-                Projections.constructor(BusinessInfoDTO.class, vendor.businessInfo),
+                Projections.constructor(BusinessInfoDTO.class, vendor.businessInfo).as("businessInfo"),
                 vendor.createdBy,
                 vendor.createdAt,
                 vendor.lastModifiedBy,
