@@ -21,7 +21,7 @@ public class PurchaseContentGridResponse {
     private TireInfoResponse tireInfo;
 
     private Long tireDotId;
-    private TireDotGridResponse tireDot;
+    private TireDotGridResponse tireDotInfo;
 
     private Integer quantity;
     private Long price;
@@ -35,7 +35,7 @@ public class PurchaseContentGridResponse {
     private LocalDateTime lastModifiedAt;
 
     public PurchaseContentGridResponse setTireDotGrid(TireDotGridResponse tireDotGridResponse) {
-        this.tireDot = tireDotGridResponse;
+        this.tireDotInfo = tireDotGridResponse;
         return this;
     }
 }
