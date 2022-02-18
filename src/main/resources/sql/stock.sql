@@ -6,7 +6,7 @@ CREATE TABLE `stock`
     `tire_dot_id`      BIGINT(20)  NOT NULL,
     `warehouse_id`     BIGINT(20)  NOT NULL,
     `nickname`         VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
-    `quantity`         BIGINT(20)  NOT NULL,
+    `quantity`         INT(11)     NOT NULL,
     `is_lock`          TINYINT(1)  NOT NULL,
     `created_at`       DATETIME    NOT NULL,
     `last_modified_at` DATETIME    NOT NULL,
@@ -20,4 +20,3 @@ CREATE TABLE `stock`
     COLLATE = 'utf8mb4_general_ci'
     ENGINE = InnoDB
 ;
-

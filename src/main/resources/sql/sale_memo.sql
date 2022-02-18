@@ -6,6 +6,7 @@ CREATE TABLE `sale_memo`
     `sale_id`          BIGINT(20)   NOT NULL,
     `memo`             VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
     `is_lock`          TINYINT(1)   NOT NULL,
+    `is_admin`         TINYINT(1)   NOT NULL,
     `created_at`       DATETIME     NOT NULL,
     `last_modified_at` DATETIME     NOT NULL,
     `created_by`       VARCHAR(50)  NOT NULL COLLATE 'utf8mb4_general_ci',

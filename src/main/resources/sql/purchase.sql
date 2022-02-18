@@ -4,7 +4,6 @@ CREATE TABLE `purchase`
 (
     `purchase_id`      BIGINT(20)   NOT NULL AUTO_INCREMENT,
     `vendor_id`        BIGINT(20)   NOT NULL,
-    `status`           VARCHAR(50)  NOT NULL COLLATE 'utf8mb4_general_ci',
     `transaction_date` DATE         NOT NULL,
     `description`      VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
     `created_at`       DATETIME     NOT NULL,

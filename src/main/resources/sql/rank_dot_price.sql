@@ -5,7 +5,7 @@ CREATE TABLE `rank_dot_price`
     `rank_dot_price_id` BIGINT(20)  NOT NULL AUTO_INCREMENT,
     `rank_id`           BIGINT(20)  NOT NULL,
     `tire_dot_id`       BIGINT(20)  NOT NULL,
-    `price`             INT(11)     NOT NULL,
+    `discount_rate`     FLOAT       NOT NULL,
     `created_at`        DATETIME    NOT NULL,
     `last_modified_at`  DATETIME    NOT NULL,
     `created_by`        VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',

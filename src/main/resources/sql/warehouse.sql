@@ -5,7 +5,6 @@ CREATE TABLE `warehouse`
     `warehouse_id`     BIGINT(20)   NOT NULL AUTO_INCREMENT,
     `name`             VARCHAR(255) NOT NULL COLLATE 'utf8mb4_general_ci',
     `description`      VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
-    `capacity`         INT(11)      NULL DEFAULT NULL,
     `city`             VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
     `street_address`   VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
     `detail_address`   VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
