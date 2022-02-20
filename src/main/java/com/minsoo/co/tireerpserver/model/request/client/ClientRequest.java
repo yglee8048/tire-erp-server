@@ -29,9 +29,6 @@ public class ClientRequest {
     @NotNull(message = "권한은 필수 값입니다.")
     private AccountRole role;
 
-    @Schema(name = "nickname", description = "닉네임")
-    private String nickname;
-
     @Schema(name = "description", description = "설명")
     private String description;
 
