@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.1'
+    id 'org.springframework.boot' version '2.6.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.8'
     id 'java'
@@ -39,7 +39,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
-    implementation 'org.springdoc:springdoc-openapi-ui:1.5.12'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -56,12 +56,12 @@ dependencies {
     annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 }
 
-test {
+tasks.named('test') {
     outputs.dir snippetsDir
     useJUnitPlatform()
 }
 
-asciidoctor {
+tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
 }
