@@ -7,7 +7,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://dev-erp-rds.cztekutconfc.ap-northeast-2.rds.amazonaws.com/erp_db?autoReconnect=true
+    url: jdbc:mariadb://tire-db.cvwipzumkn8l.ap-northeast-2.rds.amazonaws.com/erp_db?autoReconnect=true
     username: root
     password: minsooco
     driver-class-name: org.mariadb.jdbc.Driver
