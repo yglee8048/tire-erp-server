@@ -7,7 +7,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://dev-erp-rds.cztekutconfc.ap-northeast-2.rds.amazonaws.com/erp_db?autoReconnect=true
+    url: jdbc:mariadb://tire-db.cvwipzumkn8l.ap-northeast-2.rds.amazonaws.com/erp_db?autoReconnect=true
     username: root
     password: minsooco
     driver-class-name: org.mariadb.jdbc.Driver
@@ -17,17 +17,19 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
+        discriminator:
+          ignore_explicit_for_joined: false
         format_sql: true
         default_batch_fetch_size: 500
-  #    open-in-view: false
+        globally_quoted_identifiers: true
+    open-in-view: false
 
   jackson:
     property-naming-strategy: SNAKE_CASE
 
 jwt:
-  aws:
-    userPoolId: ap-northeast-2
-    region: ap-northeast-2
+  secret: Y29tLm1pbnNvby5jby50aXJlLWVycC1zZXJ2ZXIuc2VjcmV0LWtleS4yMDIxLTEyLTIwVDEwOjM0OjQxKzA5OjAw
+  token-expired-in-milli-seconds: 3600000   # 60분
 
 springdoc:
   swagger-ui:
