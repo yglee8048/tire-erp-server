@@ -243,7 +243,7 @@ public class JPAQuerySnippet {
     }
 
     public static NumberExpression<Long> getRankDotPrice(QTire tire, QRankDotPrice rankDotPrice) {
-        return MathExpressions.round(tire.factoryPrice.multiply(rankDotPrice.discountRate.coalesce(1F)), 3);
+        return MathExpressions.round(tire.factoryPrice.multiply(rankDotPrice.discountRate.coalesce(1F).divide(100)), 3);
     }
 
     public static ConstructorExpression<SaleResponse> saleResponse(QSale sale) {
