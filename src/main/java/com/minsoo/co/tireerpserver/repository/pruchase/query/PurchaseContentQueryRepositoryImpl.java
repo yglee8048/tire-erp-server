@@ -58,6 +58,7 @@ public class PurchaseContentQueryRepositoryImpl implements PurchaseContentQueryR
                 .join(warehouse).on(stock.warehouse.eq(warehouse))
                 .join(tire).on(tireDot.tire.eq(tire))
                 .join(pattern).on(tire.pattern.eq(pattern))
-                .join(brand).on(pattern.brand.eq(brand));
+                .join(brand).on(pattern.brand.eq(brand))
+                .orderBy(purchase.id.desc());
     }
 }
