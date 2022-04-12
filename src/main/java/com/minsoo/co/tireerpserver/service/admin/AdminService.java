@@ -1,9 +1,12 @@
 package com.minsoo.co.tireerpserver.service.admin;
 
+import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.admin.Admin;
+import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.admin.AdminRequest;
 import com.minsoo.co.tireerpserver.model.response.admin.AdminResponse;
+import com.minsoo.co.tireerpserver.repository.account.AccountRepository;
 import com.minsoo.co.tireerpserver.repository.admin.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminService {
 
+    private final AccountRepository accountRepository;
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -34,11 +38,17 @@ public class AdminService {
     }
 
     public AdminResponse create(AdminRequest adminRequest) {
+        if (accountRepository.existsByUsername(adminRequest.getUserId())) {
+            throw new BadRequestException(SystemMessage.USERNAME_DUPLICATE);
+        }
         return new AdminResponse(adminRepository.save(Admin.of(adminRequest, passwordEncoder)));
     }
 
     public AdminResponse update(Long adminId, AdminRequest adminRequest) {
         Admin admin = findAdminById(adminId);
+        if (!admin.getUsername().equals(adminRequest.getUserId()) && accountRepository.existsByUsername(adminRequest.getUserId())) {
+            throw new BadRequestException(SystemMessage.USERNAME_DUPLICATE);
+        }
         return new AdminResponse(admin.update(adminRequest, passwordEncoder));
     }
 
