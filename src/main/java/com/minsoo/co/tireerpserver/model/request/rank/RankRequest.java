@@ -13,4 +13,7 @@ public class RankRequest {
     @Schema(name = "name", description = "이름")
     @NotEmpty(message = "이름은 필수 값입니다.")
     private String name;
+    
+    @Schema(name = "description", description = "설명")
+    private String description;
 }

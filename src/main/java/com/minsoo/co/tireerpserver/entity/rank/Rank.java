@@ -6,7 +6,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,6 +27,9 @@ public class Rank extends BaseEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     public static Rank of(RankRequest rankRequest) {
         Rank rank = new Rank();
         return rank.update(rankRequest);
@@ -29,6 +37,7 @@ public class Rank extends BaseEntity {
 
     public Rank update(RankRequest rankRequest) {
         this.name = rankRequest.getName();
+        this.description = rankRequest.getDescription();
         return this;
     }
 }

@@ -6,9 +6,10 @@ public abstract class SystemMessage {
 
     public static final String NOT_FOUND = "존재하지 않는 데이터입니다.";
     public static final String DISCREPANCY_STOCK_QUANTITY = "재고의 수량이 일치하지 않습니다.";
-    public static final String NICKNAME_DUPLICATE = "재고의 별칭은 중복될 수 없습니다.";
+    public static final String NICKNAME_DUPLICATE = "재고의 별칭은 중복 될 수 없습니다.";
     public static final String ALREADY_CONFIRMED = "이미 확정된 데이터입니다.";
     public static final String INVALID_PASSWORD = "비밀번호가 일치하지 않습니다.";
+    public static final String USERNAME_DUPLICATE = "계정의 ID 는 중복 될 수 없습니다.";
 
     public static final String METHOD_ARGUMENT_INVALID = "잘못된 요청입니다. 누락되었거나, 부적절한 요청 내용이 존재합니다.";
     public static final String STOCK_NOT_SELECTED = "출고 위치가 선택 되지 않았습니다.";

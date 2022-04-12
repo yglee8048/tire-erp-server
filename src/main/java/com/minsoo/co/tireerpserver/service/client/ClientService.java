@@ -1,14 +1,15 @@
 package com.minsoo.co.tireerpserver.service.client;
 
+import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.client.Client;
 import com.minsoo.co.tireerpserver.entity.client.ClientCompany;
+import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
 import com.minsoo.co.tireerpserver.model.request.client.ClientRequest;
-import com.minsoo.co.tireerpserver.model.response.client.ClientCompanyResponse;
 import com.minsoo.co.tireerpserver.model.response.client.ClientResponse;
+import com.minsoo.co.tireerpserver.repository.account.AccountRepository;
 import com.minsoo.co.tireerpserver.repository.client.ClientCompanyRepository;
 import com.minsoo.co.tireerpserver.repository.client.ClientRepository;
-import com.minsoo.co.tireerpserver.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +27,7 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
     private final ClientCompanyRepository clientCompanyRepository;
+    private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
 
     public List<ClientResponse> findAllByClientCompany(Long clientCompanyId) {
@@ -40,12 +42,18 @@ public class ClientService {
     }
 
     public ClientResponse create(Long clientCompanyId, ClientRequest clientRequest) {
+        if (accountRepository.existsByUsername(clientRequest.getUserId())) {
+            throw new BadRequestException(SystemMessage.USERNAME_DUPLICATE);
+        }
         ClientCompany clientCompany = findClientCompanyById(clientCompanyId);
         return new ClientResponse(clientRepository.save(Client.of(clientCompany, clientRequest, passwordEncoder)));
     }
 
     public ClientResponse update(Long clientId, ClientRequest clientRequest) {
         Client client = findClientById(clientId);
+        if (!client.getUsername().equals(clientRequest.getUserId()) && accountRepository.existsByUsername(clientRequest.getUserId())) {
+            throw new BadRequestException(SystemMessage.USERNAME_DUPLICATE);
+        }
         return new ClientResponse(client.update(clientRequest, passwordEncoder));
     }
 
