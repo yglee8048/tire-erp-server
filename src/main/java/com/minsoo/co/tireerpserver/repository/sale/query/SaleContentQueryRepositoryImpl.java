@@ -100,7 +100,8 @@ public class SaleContentQueryRepositoryImpl implements SaleContentQueryRepositor
                 .join(tireDot).on(saleContent.tireDot.eq(tireDot))
                 .join(tire).on(tireDot.tire.eq(tire))
                 .join(pattern).on(tire.pattern.eq(pattern))
-                .join(brand).on(pattern.brand.eq(brand));
+                .join(brand).on(pattern.brand.eq(brand))
+                .orderBy(sale.id.desc());
     }
 
     private BooleanExpression saleDateCondition(SaleDateType saleDateType, LocalDate from, LocalDate to) {
