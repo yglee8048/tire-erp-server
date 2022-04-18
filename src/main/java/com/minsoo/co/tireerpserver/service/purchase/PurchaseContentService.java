@@ -42,11 +42,17 @@ public class PurchaseContentService {
 
     public List<PurchaseContentGridResponse> findAllPurchaseContentGrids(LocalDate from, LocalDate to) {
         List<PurchaseContentGridResponse> purchaseContentGrids = purchaseContentRepository.findPurchaseContentGrids(from, to);
+        if (CollectionUtils.isEmpty(purchaseContentGrids)) {
+            return new ArrayList<>();
+        }
         return setTireDotGridToPurchaseContentGrids(purchaseContentGrids);
     }
 
     public List<PurchaseContentGridResponse> findPurchaseContentGridsByPurchaseId(Long purchaseId) {
         List<PurchaseContentGridResponse> purchaseContentGrids = purchaseContentRepository.findPurchaseContentGridsByPurchaseId(purchaseId);
+        if (CollectionUtils.isEmpty(purchaseContentGrids)) {
+            return new ArrayList<>();
+        }
         return setTireDotGridToPurchaseContentGrids(purchaseContentGrids);
     }
 

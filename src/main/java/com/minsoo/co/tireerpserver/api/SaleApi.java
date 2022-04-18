@@ -49,7 +49,7 @@ public class SaleApi {
     @GetMapping("/sale-content-grids")
     public ApiResponse<List<SaleContentGridResponse>> findAllSaleContents(@RequestParam(required = false) SaleStatus status,
                                                                           @RequestParam(required = false) SaleSource source,
-                                                                          @RequestParam(required = false) SaleDateType saleDateType,
+                                                                          @RequestParam(required = false, name = "sale_date_type") SaleDateType saleDateType,
                                                                           @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate from,
                                                                           @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate to) {
         return ApiResponse.OK(saleContentService.findAllSaleContentGrids(status, source, saleDateType, from, to));

@@ -15,8 +15,10 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -48,6 +50,10 @@ public class SaleContentQueryRepositoryImpl implements SaleContentQueryRepositor
                         saleSource == null ? null : sale.source.eq(saleSource),
                         saleDateCondition(saleDateType, from, to))
                 .fetch();
+
+        if (CollectionUtils.isEmpty(saleContentGrids)) {
+            return new ArrayList<>();
+        }
         return setTireDotGridToSaleContentGrids(saleContentGrids, null);
     }
 
@@ -60,8 +66,10 @@ public class SaleContentQueryRepositoryImpl implements SaleContentQueryRepositor
                         saleDateCondition(saleDateType, from, to))
                 .fetch();
 
+        if (CollectionUtils.isEmpty(saleContentGrids)) {
+            return new ArrayList<>();
+        }
         Long rankId = getAnyRankIdFromContentGrids(saleContentGrids);
-
         return setTireDotGridToSaleContentGrids(saleContentGrids, rankId);
     }
 
@@ -71,8 +79,10 @@ public class SaleContentQueryRepositoryImpl implements SaleContentQueryRepositor
                 .where(sale.id.eq(saleId))
                 .fetch();
 
+        if (CollectionUtils.isEmpty(saleContentGrids)) {
+            return new ArrayList<>();
+        }
         Long rankId = getAnyRankIdFromContentGrids(saleContentGrids);
-
         return setTireDotGridToSaleContentGrids(saleContentGrids, rankId);
     }
 
