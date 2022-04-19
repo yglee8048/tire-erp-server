@@ -1,7 +1,8 @@
 package com.minsoo.co.tireerpserver.api;
 
 import com.minsoo.co.tireerpserver.model.ApiResponse;
-import com.minsoo.co.tireerpserver.model.request.admin.AdminRequest;
+import com.minsoo.co.tireerpserver.model.request.admin.AdminCreateRequest;
+import com.minsoo.co.tireerpserver.model.request.admin.AdminUpdateRequest;
 import com.minsoo.co.tireerpserver.model.response.admin.AdminResponse;
 import com.minsoo.co.tireerpserver.service.admin.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +36,8 @@ public class AdminApi {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/admins")
-    public ApiResponse<AdminResponse> createAdmin(@RequestBody @Valid AdminRequest adminRequest) {
-        return ApiResponse.CREATED(adminService.create(adminRequest));
+    public ApiResponse<AdminResponse> createAdmin(@RequestBody @Valid AdminCreateRequest adminCreateRequest) {
+        return ApiResponse.CREATED(adminService.create(adminCreateRequest));
     }
 
     @GetMapping("/admins/{adminId}")
@@ -46,8 +47,8 @@ public class AdminApi {
 
     @PutMapping("/admins/{adminId}")
     public ApiResponse<AdminResponse> updateAdmin(@PathVariable Long adminId,
-                                                  @RequestBody @Valid AdminRequest adminRequest) {
-        return ApiResponse.OK(adminService.update(adminId, adminRequest));
+                                                  @RequestBody @Valid AdminUpdateRequest adminUpdateRequest) {
+        return ApiResponse.OK(adminService.update(adminId, adminUpdateRequest));
     }
 
     @DeleteMapping("/admins/{adminId}")

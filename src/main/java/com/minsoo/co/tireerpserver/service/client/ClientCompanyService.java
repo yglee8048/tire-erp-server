@@ -25,7 +25,7 @@ public class ClientCompanyService {
     private final RankRepository rankRepository;
 
     public List<ClientCompanyResponse> findAll() {
-        return clientCompanyRepository.findAllFetchRank().stream()
+        return clientCompanyRepository.findAll().stream()
                 .map(ClientCompanyResponse::new)
                 .collect(Collectors.toList());
     }
@@ -55,6 +55,7 @@ public class ClientCompanyService {
     }
 
     private ClientCompany findClientCompanyById(Long clientCompanyId) {
-        return clientCompanyRepository.findFetchRankById(clientCompanyId).orElseThrow(() -> new NotFoundException("고객사", clientCompanyId));
+        return clientCompanyRepository.findById(clientCompanyId)
+                .orElseThrow(() -> new NotFoundException("고객사", clientCompanyId));
     }
 }

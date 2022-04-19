@@ -4,7 +4,8 @@ import com.minsoo.co.tireerpserver.constant.SystemMessage;
 import com.minsoo.co.tireerpserver.entity.admin.Admin;
 import com.minsoo.co.tireerpserver.exception.BadRequestException;
 import com.minsoo.co.tireerpserver.exception.NotFoundException;
-import com.minsoo.co.tireerpserver.model.request.admin.AdminRequest;
+import com.minsoo.co.tireerpserver.model.request.admin.AdminCreateRequest;
+import com.minsoo.co.tireerpserver.model.request.admin.AdminUpdateRequest;
 import com.minsoo.co.tireerpserver.model.response.admin.AdminResponse;
 import com.minsoo.co.tireerpserver.repository.account.AccountRepository;
 import com.minsoo.co.tireerpserver.repository.admin.AdminRepository;
@@ -37,19 +38,19 @@ public class AdminService {
         return new AdminResponse(findAdminById(adminId));
     }
 
-    public AdminResponse create(AdminRequest adminRequest) {
-        if (accountRepository.existsByUsername(adminRequest.getUserId())) {
+    public AdminResponse create(AdminCreateRequest adminCreateRequest) {
+        if (accountRepository.existsByUsername(adminCreateRequest.getUserId())) {
             throw new BadRequestException(SystemMessage.USERNAME_DUPLICATE);
         }
-        return new AdminResponse(adminRepository.save(Admin.of(adminRequest, passwordEncoder)));
+        return new AdminResponse(adminRepository.save(Admin.of(adminCreateRequest, passwordEncoder)));
     }
 
-    public AdminResponse update(Long adminId, AdminRequest adminRequest) {
+    public AdminResponse update(Long adminId, AdminUpdateRequest adminUpdateRequest) {
         Admin admin = findAdminById(adminId);
-        if (!admin.getUsername().equals(adminRequest.getUserId()) && accountRepository.existsByUsername(adminRequest.getUserId())) {
+        if (!admin.getUsername().equals(adminUpdateRequest.getUserId()) && accountRepository.existsByUsername(adminUpdateRequest.getUserId())) {
             throw new BadRequestException(SystemMessage.USERNAME_DUPLICATE);
         }
-        return new AdminResponse(admin.update(adminRequest, passwordEncoder));
+        return new AdminResponse(admin.update(adminUpdateRequest, passwordEncoder));
     }
 
     public void deleteById(Long adminId) {

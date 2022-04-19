@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminRequest {
+public class AdminCreateRequest {
 
     @Schema(name = "user_id", description = "계정 아이디")
     @NotEmpty(message = "계정 아이디는 필수 값입니다.")
