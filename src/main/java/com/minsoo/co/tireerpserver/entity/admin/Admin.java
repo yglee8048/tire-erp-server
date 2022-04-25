@@ -32,7 +32,7 @@ public class Admin extends Account {
 
     public Admin update(AdminUpdateRequest adminUpdateRequest, PasswordEncoder passwordEncoder) {
         this.username = adminUpdateRequest.getUserId();
-        if (!StringUtils.hasText(adminUpdateRequest.getPassword())) {
+        if (StringUtils.hasText(adminUpdateRequest.getPassword())) {
             this.password = passwordEncoder.encode(adminUpdateRequest.getPassword());
         }
         this.description = adminUpdateRequest.getDescription();
