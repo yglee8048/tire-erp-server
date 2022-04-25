@@ -43,7 +43,7 @@ public class Tire extends BaseEntity {
     private Integer width;
 
     @Column(name = "flatness_ratio")
-    private Integer flatnessRatio;
+    private String flatnessRatio;
 
     @Column(name = "inch")
     private Integer inch;

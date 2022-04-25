@@ -34,11 +34,8 @@ public class TireRequest {
     private Integer width;
 
     @Schema(name = "flatness_ratio", description = "편평비")
-    @NotNull(message = "편평비는 필수 값입니다.")
-    @Positive(message = "편평비는 양수여야 합니다.")
-    @Max(value = 99, message = "편평비는 2자리 숫자여야 합니다.")
-    @Min(value = 10, message = "편평비는 2자리 숫자여야 합니다.")
-    private Integer flatnessRatio;
+    @NotEmpty(message = "편평비는 필수 값입니다.")
+    private String flatnessRatio;
 
     @Schema(name = "inch", description = "인치")
     @NotNull(message = "인치는 필수 값입니다.")

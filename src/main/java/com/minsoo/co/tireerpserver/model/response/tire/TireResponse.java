@@ -15,7 +15,7 @@ public class TireResponse {
 
     private String tireCode;
     private Integer width;
-    private Integer flatnessRatio;
+    private String flatnessRatio;
     private Integer inch;
     private String size;
     private String oe;
