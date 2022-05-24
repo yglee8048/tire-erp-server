@@ -27,7 +27,7 @@ public class Address {
 
     // 우편번호
     @Column(name = "zip_code")
-    private Integer zipCode;
+    private String zipCode;
 
     public Address(AddressDTO addressDTO) {
         if (addressDTO == null) {

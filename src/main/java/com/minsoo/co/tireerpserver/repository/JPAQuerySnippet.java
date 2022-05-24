@@ -118,6 +118,23 @@ public class JPAQuerySnippet {
         );
     }
 
+    public static QBean<TireDotGridResponse> tireDotGridResponseExceptRank(QTire tire, QTireDot tireDot, QStock stock, QPurchaseContent purchaseContent) {
+
+        return Projections.fields(TireDotGridResponse.class,
+                tireDotResponse(tireDot).as("tireDot"),
+
+                getSumOfOpenedStock(stock).as("sumOfOpenedStock"),
+                stock.quantity.sum().coalesce(0).as("sumOfStock"),
+
+                ExpressionUtils.as(getAvgPurchasePrice(tireDot, purchaseContent), "averageOfPurchasePrice"),
+
+                tireDot.createdAt,
+                tireDot.lastModifiedAt,
+                tireDot.createdBy,
+                tireDot.lastModifiedBy
+        );
+    }
+
     private static JPQLQuery<Double> getAvgPurchasePrice(QTireDot tireDot, QPurchaseContent purchaseContent) {
         return JPAExpressions
                 .select(purchaseContent.price.avg().coalesce(0d))

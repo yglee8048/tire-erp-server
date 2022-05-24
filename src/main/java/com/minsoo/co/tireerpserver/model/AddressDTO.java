@@ -16,7 +16,7 @@ public class AddressDTO {
     @Schema(name = "detail_address", description = "세부 주소")
     private String detailAddress;
     @Schema(name = "zip_code", description = "우편번호")
-    private Integer zipCode;
+    private String zipCode;
 
     public AddressDTO(Address address) {
         if (address == null) {

@@ -2,7 +2,6 @@ package com.minsoo.co.tireerpserver.repository.tire.query;
 
 import com.minsoo.co.tireerpserver.model.response.tire.TireDotGridResponse;
 import com.minsoo.co.tireerpserver.repository.JPAQuerySnippet;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -45,19 +44,20 @@ public class TireDotQueryRepositoryImpl implements TireDotQueryRepository {
     }
 
     private JPAQuery<TireDotGridResponse> selectTireDotInfoQueryByOptionalRankId(Long rankId) {
+        if (rankId == null) {
+            return queryFactory
+                    .select(JPAQuerySnippet.tireDotGridResponseExceptRank(tire, tireDot, stock, purchaseContent))
+                    .from(tireDot)
+                    .join(tire).on(tireDot.tire.eq(tire))
+                    .leftJoin(stock).on(stock.tireDot.eq(tireDot))
+                    .groupBy(tireDot);
+        }
         return queryFactory
                 .select(JPAQuerySnippet.tireDotGridResponse(tire, tireDot, rankDotPrice, stock, purchaseContent))
                 .from(tireDot)
                 .join(tire).on(tireDot.tire.eq(tire))
                 .leftJoin(stock).on(stock.tireDot.eq(tireDot))
-                .leftJoin(rankDotPrice).on(rankDotPriceJoin(rankId))
+                .leftJoin(rankDotPrice).on(tireDot.eq(rankDotPrice.tireDot).and(rankDotPrice.rank.id.eq(rankId)))
                 .groupBy(tireDot);
-    }
-
-    private BooleanExpression rankDotPriceJoin(Long rankId) {
-        if (rankId == null) {
-            return tireDot.eq(rankDotPrice.tireDot);
-        }
-        return tireDot.eq(rankDotPrice.tireDot).and(rankDotPrice.rank.id.eq(rankId));
     }
 }
