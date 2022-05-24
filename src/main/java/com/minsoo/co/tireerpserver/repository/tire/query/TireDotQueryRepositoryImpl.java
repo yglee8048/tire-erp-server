@@ -57,7 +57,7 @@ public class TireDotQueryRepositoryImpl implements TireDotQueryRepository {
                 .from(tireDot)
                 .join(tire).on(tireDot.tire.eq(tire))
                 .leftJoin(stock).on(stock.tireDot.eq(tireDot))
-                .leftJoin(rankDotPrice).on(tireDot.eq(rankDotPrice.tireDot).and(rankDotPrice.rank.id.eq(rankId)))
+                .join(rankDotPrice).on(tireDot.eq(rankDotPrice.tireDot).and(rankDotPrice.rank.id.eq(rankId)))
                 .groupBy(tireDot);
     }
 }
