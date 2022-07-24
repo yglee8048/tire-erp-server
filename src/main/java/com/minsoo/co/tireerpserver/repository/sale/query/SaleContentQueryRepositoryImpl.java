@@ -92,10 +92,11 @@ public class SaleContentQueryRepositoryImpl implements SaleContentQueryRepositor
                 .map(SaleContentGridResponse::getClientCompany)
                 .map(ClientCompanyResponse::getRankId)
                 .findAny()
-                .orElseThrow(() -> {
-                    log.error("The rank does not exist in client company of sale");
-                    return new InternalServerException();
-                });
+                .orElse(null);
+//                .orElseThrow(() -> {
+//                    log.error("The rank does not exist in client company of sale");
+//                    return new InternalServerException();
+//                });
     }
 
     private JPAQuery<SaleContentGridResponse> selectSaleContentGridsQuery() {
