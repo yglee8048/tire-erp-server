@@ -28,6 +28,7 @@ import static com.minsoo.co.tireerpserver.entity.management.QBrand.brand;
 import static com.minsoo.co.tireerpserver.entity.management.QPattern.pattern;
 import static com.minsoo.co.tireerpserver.entity.management.QWarehouse.warehouse;
 import static com.minsoo.co.tireerpserver.entity.rank.QRank.rank;
+import static com.minsoo.co.tireerpserver.entity.rank.QRankDotPrice.rankDotPrice;
 import static com.minsoo.co.tireerpserver.entity.sale.QDelivery.delivery;
 import static com.minsoo.co.tireerpserver.entity.sale.QSale.sale;
 import static com.minsoo.co.tireerpserver.entity.sale.QSaleContent.saleContent;
@@ -108,6 +109,7 @@ public class SaleContentQueryRepositoryImpl implements SaleContentQueryRepositor
                 .join(stock).on(saleContent.stock.eq(stock))
                 .join(warehouse).on(stock.warehouse.eq(warehouse))
                 .join(tireDot).on(saleContent.tireDot.eq(tireDot))
+                .leftJoin(rankDotPrice).on(rankDotPrice.rank.eq(rank), rankDotPrice.tireDot.eq(tireDot))
                 .join(tire).on(tireDot.tire.eq(tire))
                 .join(pattern).on(tire.pattern.eq(pattern))
                 .join(brand).on(pattern.brand.eq(brand))

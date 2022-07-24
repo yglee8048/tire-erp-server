@@ -34,10 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/favicon.ico", "/error", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**");
-    }
+//    @Override
+//    public void configure(WebSecurity web) {
+//        web.ignoring().antMatchers("/favicon.ico", "/error", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**");
+//    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {

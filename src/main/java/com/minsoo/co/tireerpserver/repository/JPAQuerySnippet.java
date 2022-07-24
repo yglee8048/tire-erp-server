@@ -118,7 +118,7 @@ public class JPAQuerySnippet {
         );
     }
 
-    public static QBean<TireDotGridResponse> tireDotGridResponseExceptRank(QTire tire, QTireDot tireDot, QStock stock, QPurchaseContent purchaseContent) {
+    public static QBean<TireDotGridResponse> tireDotGridResponseExceptRank(QTireDot tireDot, QStock stock, QPurchaseContent purchaseContent) {
 
         return Projections.fields(TireDotGridResponse.class,
                 tireDotResponse(tireDot).as("tireDot"),

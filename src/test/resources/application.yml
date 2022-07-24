@@ -1,14 +1,19 @@
-server:
-  servlet:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
-
 spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      true
+
   jpa:
     hibernate:
-      ddl-auto: none
+      dialect: org.hibernate.dialect.MariaDBDialect
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
         discriminator:
@@ -21,17 +26,6 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
 
-  config:
-    activate:
-      on-profile:
-        - dev
-        - local
-
 jwt:
   secret: Y29tLm1pbnNvby5jby50aXJlLWVycC1zZXJ2ZXIuc2VjcmV0LWtleS4yMDIxLTEyLTIwVDEwOjM0OjQxKzA5OjAw
   token-expired-in-milli-seconds: 3600000   # 60분
-
-springdoc:
-  swagger-ui:
-    operations-sorter: alpha
-    disable-swagger-default-url: true

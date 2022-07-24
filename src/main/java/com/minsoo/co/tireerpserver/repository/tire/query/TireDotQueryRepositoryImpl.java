@@ -46,7 +46,7 @@ public class TireDotQueryRepositoryImpl implements TireDotQueryRepository {
     private JPAQuery<TireDotGridResponse> selectTireDotInfoQueryByOptionalRankId(Long rankId) {
         if (rankId == null) {
             return queryFactory
-                    .select(JPAQuerySnippet.tireDotGridResponseExceptRank(tire, tireDot, stock, purchaseContent))
+                    .select(JPAQuerySnippet.tireDotGridResponseExceptRank(tireDot, stock, purchaseContent))
                     .from(tireDot)
                     .join(tire).on(tireDot.tire.eq(tire))
                     .leftJoin(stock).on(stock.tireDot.eq(tireDot))

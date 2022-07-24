@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
@@ -46,7 +47,9 @@ public class Client extends Account {
 
     public Client update(ClientRequest clientRequest, PasswordEncoder passwordEncoder) {
         this.username = clientRequest.getUserId();
-        this.password = passwordEncoder.encode(clientRequest.getPassword());
+        if (StringUtils.hasText(clientRequest.getPassword())) {
+            this.password = passwordEncoder.encode(clientRequest.getPassword());
+        }
         this.description = clientRequest.getDescription();
         this.name = clientRequest.getName();
         this.email = clientRequest.getEmail();

@@ -22,7 +22,6 @@ public class ClientRequest {
     private String userId;
 
     @Schema(name = "password", description = "계정 비밀번호")
-    @NotEmpty(message = "계정 비밀번호는 필수 값입니다.")
     private String password;
 
     @Schema(name = "role", description = "권한")
